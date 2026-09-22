@@ -1,0 +1,22 @@
+{
+  "name": "musical-showdown-desktop",
+  "version": "1.0.0",
+  "description": "Musical Showdown - versión de escritorio (Electron)",
+  "private": true,
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0",
+    "esbuild": "^0.28.2"
+  },
+  "build": {
+    "appId": "com.musicalshowdown.app",
+    "productName": "Musical Showdown",
+    "files": ["main.js", "build-icon.ico", "www/**/*"],
+    "directories": { "output": "../../dist/.desktop-raw" },
+    "win": {
+      "target": ["dir"],
+      "icon": "build-icon.ico"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "musical-showdown",
+  "version": "1.0.0",
+  "description": "Musical Showdown - juego de canciones para familia/amigos (web, escritorio y Android)",
+  "private": true,
+  "scripts": {
+    "build:desktop": "node build/build-desktop.js",
+    "build:android": "node build/build-android.js",
+    "build:all": "npm run build:desktop && npm run build:android",
+    "test": "node --test test/*.test.js",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.5"
+  }
+}

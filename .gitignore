@@ -1,0 +1,20 @@
+# Dependencias (se reinstalan con npm install)
+node_modules/
+
+# Salidas de build (se regeneran con npm run build:*)
+dist/
+platforms/desktop/www/
+platforms/android/www/
+platforms/android/android/app/build/
+platforms/android/android/.gradle/
+platforms/android/android/app/src/main/assets/public/
+platforms/android/android/capacitor-cordova-android-plugins/build/
+
+# Android Studio / Gradle locales
+platforms/android/android/local.properties
+platforms/android/android/.idea/
+platforms/android/android/**/build/
+
+# Sistema
+.DS_Store
+Thumbs.db
