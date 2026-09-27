@@ -13,6 +13,60 @@
 
 ---
 
+## 2026-09-27 — Sesión 2: revisión de código, dependencias y compilaciones
+
+**Estado encontrado al empezar**
+- El usuario ya había hecho el commit `a5fa0c3` con el trabajo de la sesión 1
+  y lo había subido a `origin/main`. La rama local ahora es `main`.
+- `core.fileMode=false` ya estaba en `.git/config`, así que git dejó de marcar
+  `gradlew` y los `.java` de Android.
+- Las dependencias de la raíz ya estaban instaladas. La instalación de la
+  sesión 1 se había cortado antes de llegar a las plataformas.
+
+**Qué se hizo**
+1. `npm run lint`: 0 errores y 0 advertencias en `src/`. Node muestra un aviso
+   aparte sobre el tipo de módulo de `eslint.config.js` (ver pendientes).
+2. Se instalaron las dependencias de `platforms/desktop` y `platforms/android`.
+   npm 11 bloquea por defecto los scripts de instalación de `esbuild` y
+   `electron`. esbuild funciona igual; ver pendientes para Electron.
+3. **Arreglo en `build/build-desktop.js` y `build/build-android.js`:** llamaban
+   a `node_modules/.bin/<herramienta>` con `execSync`, que en Windows corre en
+   `cmd.exe`, y fallaban con "'node_modules' no se reconoce como un comando…".
+   Se cambiaron a `npx esbuild`, `npx cap sync android` y
+   `npx electron-builder`, que funcionan en Windows y en Linux.
+4. **Compilación de Android:** `cap sync` falló porque `capacitor.config.ts`
+   necesita TypeScript, que no estaba en las dependencias. Se agregó
+   `typescript@^5` como dependencia de desarrollo en `platforms/android`.
+   TypeScript 7 no sirve porque Capacitor 6 usa una API que la versión 7 ya no
+   tiene (error "Cannot read properties of undefined (reading 'CommonJS')").
+   Con eso la compilación de Android terminó bien.
+5. **La compilación de Windows NO terminó.** electron-builder falla al
+   descomprimir `winCodeSign` con "Cannot create symbolic link: El cliente no
+   dispone de un privilegio requerido". Hace falta activar el Modo de
+   desarrollador de Windows o compilar como administrador. No se forzó nada.
+   `dist/windows/Musical Showdown.exe` sigue siendo el del 21-09-2026.
+6. Se agregó `platforms/desktop/package-lock.json`, que no existía, para fijar
+   las versiones de Electron y electron-builder.
+
+**Archivos tocados:** `build/build-desktop.js`, `build/build-android.js`,
+`platforms/android/package.json`, `platforms/android/package-lock.json`,
+`platforms/desktop/package-lock.json` (nuevo), `CLAUDE.md`,
+`AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- `npm run lint`: sin errores.
+- `npm test`: las 5 pruebas pasan.
+- Android: `capacitor-android/build.gradle` existe; `assets/public/bundle.js` es
+  del 27-09-2026 y su `sw.js` trae `musical-showdown-v3`;
+  `capacitor.settings.gradle` apunta a `./capacitor-android`; la copia
+  regenerada de `capacitor-android` no tiene diferencias con la versionada.
+- El APK no se generó. Eso se hace a mano en Android Studio.
+
+**Quedó abierto:** la compilación de Windows (requiere acción del usuario). No
+se subió a GitHub.
+
+---
+
 ## 2026-09-26 — Sesión 1: arranque con Claude Code
 
 **Qué se hizo**
@@ -44,4 +98,4 @@
 - **No** se corrieron `build:desktop` ni `build:android` (según la
   instrucción 3 habría que hacerlo antes de entregar). Ver `PENDIENTES.md`.
 
-**Quedó abierto:** nada de este cambio se ha commiteado todavía.
+**Quedó abierto:** el commit (lo hizo después el usuario: `a5fa0c3`).

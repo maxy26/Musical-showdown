@@ -41,6 +41,12 @@ npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # luego abrir platforms/android/android en Android Studio y generar el APK
 ```
 
+Particularidades al compilar en Windows:
+- Los scripts de `build/` llaman a las herramientas con `npx` y no con `node_modules/.bin/...`, porque `execSync` corre en `cmd.exe` y ahí esa ruta falla.
+- `build:desktop` requiere el Modo de desarrollador de Windows (o una consola de administrador), porque electron-builder crea enlaces simbólicos.
+- `build:android` requiere TypeScript **5** en `platforms/android` para leer `capacitor.config.ts`. TypeScript 7 no es compatible con Capacitor 6.
+- npm 11 muestra advertencias de "install-scripts" para esbuild y electron. Se pueden ignorar para compilar.
+
 En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"`, así que las pruebas ESM y los archivos de `src/` dependen de la detección automática de sintaxis ESM de Node.
 
 ## Arquitectura
