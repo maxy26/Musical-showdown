@@ -37,9 +37,13 @@ cd src && python3 -m http.server 8000
 npm install --prefix platforms/desktop     # solo la primera vez
 npm run build:desktop                      # -> dist/windows/Musical Showdown.exe (un solo archivo, destino "portable")
 
+npm run build:linux                        # -> dist/linux/Musical-Showdown.AppImage (compilar en Linux o en GitHub Actions)
+
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # luego abrir platforms/android/android en Android Studio y generar el APK
 ```
+
+**Compilación en la nube:** `.github/workflows/compilar.yml` corre lint y pruebas, y compila Windows (`.exe`), Linux (`.AppImage`) y Android (`.apk` de depuración) en cada envío a `main`. Los archivos quedan en la sección "Artifacts" de cada ejecución. Al subir una etiqueta `v*` (por ejemplo, `v1.1.0`), además publica una Release con los 3 archivos. Si se cambian los scripts de `build/` o las rutas de salida, actualizar también este archivo de flujo.
 
 Particularidades al compilar en Windows:
 - Los scripts de `build/` llaman a las herramientas con `npx` y no con `node_modules/.bin/...`, porque `execSync` corre en `cmd.exe` y ahí esa ruta falla.

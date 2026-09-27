@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 /**
- * Compila la versión de escritorio (Windows) a partir de src/.
- * Uso: npm run build:desktop   (desde la raíz del repo)
+ * Compila la versión de escritorio a partir de src/.
+ * Uso (desde la raíz del repo):
+ *   npm run build:desktop   -> Windows: dist/windows/Musical Showdown.exe
+ *   npm run build:linux     -> Linux:   dist/linux/Musical-Showdown.AppImage
+ *
+ * Ambas salidas son un solo archivo que se abre sin instalar. La versión de
+ * Linux conviene compilarla en Linux (por ejemplo, en GitHub Actions).
  */
 const { execSync } = require("child_process");
 const fs = require("fs");
@@ -11,10 +16,17 @@ const ROOT = path.join(__dirname, "..");
 const SRC = path.join(ROOT, "src");
 const DESKTOP = path.join(ROOT, "platforms", "desktop");
 const WWW = path.join(DESKTOP, "www");
-// Destino "portable": electron-builder genera un solo .exe que se abre con
-// doble clic, sin instalar y sin archivos sueltos al lado.
-const RAW_EXE = path.join(ROOT, "dist", ".desktop-raw", "Musical Showdown.exe");
-const FINAL_OUT = path.join(ROOT, "dist", "windows");
+const RAW_OUT = path.join(ROOT, "dist", ".desktop-raw");
+
+// Cada destino: bandera de electron-builder, archivo que genera (definido
+// en "artifactName" de platforms/desktop/package.json) y carpeta final.
+const TARGETS = {
+  windows: { flag: "--win", file: "Musical Showdown.exe" },
+  linux: { flag: "--linux", file: "Musical-Showdown.AppImage" },
+};
+const targetName = process.argv.includes("--linux") ? "linux" : "windows";
+const target = TARGETS[targetName];
+const FINAL_OUT = path.join(ROOT, "dist", targetName);
 
 function run(cmd, cwd) {
   console.log(`\n$ ${cmd}`);
@@ -34,14 +46,14 @@ let html = fs.readFileSync(indexPath, "utf8");
 html = html.replace('<script type="module" src="js/main.js"></script>', '<script src="bundle.js"></script>');
 fs.writeFileSync(indexPath, html);
 
-console.log("== 3/4: compilando con electron-builder ==");
-fs.rmSync(path.join(ROOT, "dist", ".desktop-raw"), { recursive: true, force: true });
-run(`npx electron-builder --win --x64`, DESKTOP);
+console.log(`== 3/4: compilando con electron-builder (${targetName}) ==`);
+fs.rmSync(RAW_OUT, { recursive: true, force: true });
+run(`npx electron-builder ${target.flag} --x64`, DESKTOP);
 
-console.log("== 4/4: copiando el resultado a dist/windows ==");
+console.log(`== 4/4: copiando el resultado a dist/${targetName} ==`);
 fs.rmSync(FINAL_OUT, { recursive: true, force: true });
 fs.mkdirSync(FINAL_OUT, { recursive: true });
-fs.copyFileSync(RAW_EXE, path.join(FINAL_OUT, "Musical Showdown.exe"));
-fs.rmSync(path.join(ROOT, "dist", ".desktop-raw"), { recursive: true, force: true });
+fs.copyFileSync(path.join(RAW_OUT, target.file), path.join(FINAL_OUT, target.file));
+fs.rmSync(RAW_OUT, { recursive: true, force: true });
 
-console.log(`\n✔ Listo: dist/windows/Musical Showdown.exe`);
+console.log(`\n✔ Listo: dist/${targetName}/${target.file}`);

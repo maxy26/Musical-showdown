@@ -13,7 +13,42 @@
 
 ---
 
-## 2026-09-27 — Sesión 2 (continuación): Windows en un solo `.exe`
+## 2026-09-27 — Sesión 2 (parte 3): compilación de Windows, Linux y GitHub Actions
+
+**Qué se hizo**
+1. El usuario activó el Modo de desarrollador. `npm run build:desktop` ya
+   funciona: `dist/windows/` quedó con un solo `Musical Showdown.exe` (75 MB).
+   Se abrió y mostró la ventana "Musical Showdown"; luego se cerró.
+2. **Versión de Linux:** `build/build-desktop.js` ahora acepta `--linux`
+   (script `npm run build:linux`) y genera
+   `dist/linux/Musical-Showdown.AppImage`. En `platforms/desktop/package.json`
+   se agregó la sección `linux` (destino AppImage, ícono
+   `www/icons/icon-512.png`, categoría "Game").
+3. **GitHub Actions** (`.github/workflows/compilar.yml`). Corre en cada envío
+   a `main`, en cada pull request y a mano. Trabajos:
+   - `pruebas`: lint y pruebas.
+   - `windows`: genera el `.exe`.
+   - `linux`: genera el `.AppImage`.
+   - `android`: corre `build:android` y `gradlew assembleDebug` con Java 21 y
+     genera `Musical-Showdown.apk` con firma de depuración.
+   - `release`: solo al subir etiquetas `v*`; publica una Release con los 3
+     archivos.
+
+**Archivos tocados:** `build/build-desktop.js`, `package.json`,
+`platforms/desktop/package.json`, `.github/workflows/compilar.yml` (nuevo),
+`CLAUDE.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- Compilación de Windows local con el script nuevo: bien.
+- `npm test`: 5/5. `npm run lint`: sin errores.
+- Los trabajos de Linux y Android no se pudieron probar localmente. Se
+  verifican en la primera ejecución de GitHub Actions (ver pendientes).
+
+**Quedó abierto:** revisar el resultado de la primera ejecución en GitHub.
+
+---
+
+## 2026-09-27 — Sesión 2 (parte 2): Windows en un solo `.exe`
 
 **Qué se hizo**
 1. Se subieron a GitHub los commits de la sesión 2 y uno con pendientes nuevos

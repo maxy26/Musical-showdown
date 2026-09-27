@@ -20,6 +20,12 @@
     },
     "portable": {
       "artifactName": "Musical Showdown.exe"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "www/icons/icon-512.png",
+      "category": "Game",
+      "artifactName": "Musical-Showdown.AppImage"
     }
   }
 }

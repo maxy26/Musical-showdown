@@ -17,15 +17,6 @@
 
 ## 🔧 Entorno / herramientas
 
-- [ ] 🔴 **La compilación de Windows falla por falta de permisos.**
-  electron-builder no puede crear enlaces simbólicos ("Cannot create
-  symbolic link: El cliente no dispone de un privilegio requerido").
-  Solución (acción del usuario): activar el **Modo de desarrollador** en
-  Configuración de Windows → Sistema → Para programadores, o correr
-  `npm run build:desktop` en una consola abierta como administrador.
-  Nota: el `.exe` actual (21-09-2026) no tiene el arreglo de `sw.js`, pero
-  en Electron eso no cambia nada, porque la app se abre con `file://`, donde
-  el service worker no se registra.
 - [ ] 🟢 **Electron no se puede ejecutar en modo desarrollo**
   (`npx electron .` en `platforms/desktop`). npm 11 bloqueó su script de
   instalación, que descarga el binario. No afecta la compilación. Si hace
@@ -42,24 +33,24 @@
 
 ## 📦 Distribución a otros equipos (objetivo: Windows, Linux y Android)
 
-- [ ] 🟡 **No hay versión para Linux.** `build/build-desktop.js` solo compila
-  `--win`. Habría que agregar un destino de Linux en electron-builder
-  (por ejemplo, un AppImage, que corre sin instalar). Compilarlo desde
-  Windows no es confiable; lo normal es hacerlo en Linux o en GitHub Actions.
-- [ ] 🔴 **Probar el `.exe` en un solo archivo (configurado el 27-09-2026,
-  todavía sin compilar).** Se cambió el destino de `dir` a `portable`. Falta:
-  activar el Modo de desarrollador, correr `npm run build:desktop`, confirmar
-  que `dist/windows/` queda con un solo `Musical Showdown.exe` y abrirlo con
-  doble clic, idealmente también en otra PC. Nota: el `.exe` portátil se
-  descomprime en una carpeta temporal cada vez que se abre, así que puede
-  tardar unos segundos más en arrancar que la versión en carpeta.
+- [ ] 🔴 **Revisar la primera ejecución de GitHub Actions** (configurado el
+  27-09-2026 en `.github/workflows/compilar.yml`). Los trabajos de Linux y
+  Android no se han probado nunca, porque no se pueden correr en esta PC.
+  Si alguno falla, revisar el registro en la pestaña "Actions" de GitHub.
+- [ ] 🟡 **Probar la versión de Linux en un equipo con Linux real.** El
+  `.AppImage` sale de GitHub Actions. Para abrirlo: darle permiso de
+  ejecución (`chmod +x Musical-Showdown.AppImage`) y hacer doble clic. En
+  algunas distribuciones hace falta instalar `libfuse2`.
+- [ ] 🟡 **Probar el `.exe` portátil en otra PC con Windows.** En esta PC ya
+  se comprobó que abre. El `.exe` se descomprime en una carpeta temporal cada
+  vez que se abre, así que puede tardar unos segundos en arrancar.
+- [ ] 🟢 **Publicar una versión descargable:** crear y subir una etiqueta
+  (por ejemplo, `git tag v1.0.0` y luego `git push origin v1.0.0`). GitHub
+  Actions creará una "Release" con los 3 archivos.
 - [ ] 🟢 **Windows SmartScreen en otros equipos.** El `.exe` no está firmado,
   así que en otra PC Windows mostrará "Windows protegió su PC" y habrá que
   hacer clic en "Más información → Ejecutar de todas formas". Para quitar el
   aviso hace falta un certificado de firma de código, que cuesta dinero.
-- [ ] 🟢 **Compilar en la nube (opcional).** Con GitHub Actions, el repositorio
-  podría compilar Windows, Linux y Android automáticamente, sin depender del
-  Modo de desarrollador ni de tener Linux a mano.
 
 ## ✨ Mejoras
 
@@ -91,6 +82,14 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-27: 🔴 Compilación de Windows: con el Modo de desarrollador
+  activado, `build:desktop` funciona.
+- [x] 2026-09-27: 🟡 Windows en un solo archivo: `dist/windows/` tiene solo
+  `Musical Showdown.exe` (75 MB), que abre bien con doble clic.
+- [x] 2026-09-27: 🟡 Versión de Linux configurada (`npm run build:linux`,
+  AppImage). Se compila en GitHub Actions; falta probarla en un equipo real.
+- [x] 2026-09-27: 🟢 GitHub Actions configurado: compila las 3 plataformas.
 
 - [x] 2026-09-27: 🔴 Los scripts de `build/` no funcionaban en Windows
   (`node_modules/.bin/...` en `cmd.exe`). Se cambiaron a `npx`.

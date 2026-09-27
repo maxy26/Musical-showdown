@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build:desktop": "node build/build-desktop.js",
+    "build:linux": "node build/build-desktop.js --linux",
     "build:android": "node build/build-android.js",
     "build:all": "npm run build:desktop && npm run build:android",
     "test": "node --test test/*.test.js",

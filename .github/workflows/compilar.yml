@@ -1,0 +1,121 @@
+# Compila Musical Showdown para Windows, Linux y Android en la nube.
+#
+# Cuándo corre:
+#   - Cada vez que se suben cambios a main (o se abre un pull request).
+#   - A mano, desde la pestaña "Actions" de GitHub (botón "Run workflow").
+#   - Al subir una etiqueta de versión (por ejemplo v1.1.0): además de
+#     compilar, crea una "Release" con los 3 archivos para descargar.
+#
+# Resultado: en la página de cada ejecución, sección "Artifacts", quedan
+# el .exe de Windows, el .AppImage de Linux y el .apk de Android.
+
+name: Compilar
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 22
+
+jobs:
+  pruebas:
+    name: Pruebas y lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+
+  windows:
+    name: Windows (.exe)
+    needs: pruebas
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci --prefix platforms/desktop
+      - run: npm run build:desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-windows
+          path: dist/windows/Musical Showdown.exe
+          if-no-files-found: error
+
+  linux:
+    name: Linux (.AppImage)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci --prefix platforms/desktop
+      - run: npm run build:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-linux
+          path: dist/linux/Musical-Showdown.AppImage
+          if-no-files-found: error
+
+  android:
+    name: Android (.apk)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Gradle 8.14 y el plugin de Android 8.13 requieren Java 17 o superior.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci --prefix platforms/android
+      - run: npm run build:android
+      # APK con firma de depuración: sirve para instalarlo directamente en
+      # un teléfono, no para publicarlo en la Play Store.
+      - name: Generar APK
+        working-directory: platforms/android/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+      - name: Renombrar APK
+        run: cp platforms/android/android/app/build/outputs/apk/debug/app-debug.apk Musical-Showdown.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-android
+          path: Musical-Showdown.apk
+          if-no-files-found: error
+
+  release:
+    name: Publicar versión
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, linux, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artefactos
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artefactos/*
+          generate_release_notes: true
