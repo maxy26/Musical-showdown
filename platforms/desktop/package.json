@@ -15,8 +15,11 @@
     "files": ["main.js", "build-icon.ico", "www/**/*"],
     "directories": { "output": "../../dist/.desktop-raw" },
     "win": {
-      "target": ["dir"],
+      "target": ["portable"],
       "icon": "build-icon.ico"
+    },
+    "portable": {
+      "artifactName": "Musical Showdown.exe"
     }
   }
 }

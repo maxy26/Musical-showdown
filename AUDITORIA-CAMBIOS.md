@@ -13,6 +13,35 @@
 
 ---
 
+## 2026-09-27 — Sesión 2 (continuación): Windows en un solo `.exe`
+
+**Qué se hizo**
+1. Se subieron a GitHub los commits de la sesión 2 y uno con pendientes nuevos
+   de distribución: Linux, formato de Windows, SmartScreen y GitHub Actions.
+2. Se aclaró con el usuario que el Modo de desarrollador solo hace falta para
+   **compilar**, no para **jugar**: el `.exe` corre en cualquier PC sin
+   configuración especial.
+3. **Windows en un solo archivo:** en `platforms/desktop/package.json` el
+   destino pasó de `dir` (una carpeta con el `.exe` y sus DLL) a `portable`
+   (un solo `.exe`), con `artifactName: "Musical Showdown.exe"`.
+   `build/build-desktop.js` ahora copia solo ese `.exe` a `dist/windows/`.
+
+**Archivos tocados:** `platforms/desktop/package.json`,
+`build/build-desktop.js`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- **No se pudo compilar:** falla en el mismo punto, porque el Modo de
+  desarrollador sigue desactivado. electron-builder alcanzó a empaquetar la
+  aplicación, así que la configuración se leyó bien, pero no llegó a generar
+  el `.exe` portátil.
+- `dist/windows/` quedó intacta (el script solo la borra si la compilación
+  sale bien).
+
+**Quedó abierto:** probar la compilación con el Modo de desarrollador activo
+(ver pendientes). Estos cambios no se han subido a GitHub.
+
+---
+
 ## 2026-09-27 — Sesión 2: revisión de código, dependencias y compilaciones
 
 **Estado encontrado al empezar**

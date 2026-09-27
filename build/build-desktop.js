@@ -11,7 +11,9 @@ const ROOT = path.join(__dirname, "..");
 const SRC = path.join(ROOT, "src");
 const DESKTOP = path.join(ROOT, "platforms", "desktop");
 const WWW = path.join(DESKTOP, "www");
-const RAW_OUT = path.join(ROOT, "dist", ".desktop-raw", "win-unpacked");
+// Destino "portable": electron-builder genera un solo .exe que se abre con
+// doble clic, sin instalar y sin archivos sueltos al lado.
+const RAW_EXE = path.join(ROOT, "dist", ".desktop-raw", "Musical Showdown.exe");
 const FINAL_OUT = path.join(ROOT, "dist", "windows");
 
 function run(cmd, cwd) {
@@ -38,7 +40,8 @@ run(`npx electron-builder --win --x64`, DESKTOP);
 
 console.log("== 4/4: copiando el resultado a dist/windows ==");
 fs.rmSync(FINAL_OUT, { recursive: true, force: true });
-fs.cpSync(RAW_OUT, FINAL_OUT, { recursive: true });
+fs.mkdirSync(FINAL_OUT, { recursive: true });
+fs.copyFileSync(RAW_EXE, path.join(FINAL_OUT, "Musical Showdown.exe"));
 fs.rmSync(path.join(ROOT, "dist", ".desktop-raw"), { recursive: true, force: true });
 
 console.log(`\n✔ Listo: dist/windows/Musical Showdown.exe`);

@@ -46,10 +46,13 @@
   `--win`. Habría que agregar un destino de Linux en electron-builder
   (por ejemplo, un AppImage, que corre sin instalar). Compilarlo desde
   Windows no es confiable; lo normal es hacerlo en Linux o en GitHub Actions.
-- [ ] 🟡 **La versión de Windows es una carpeta, no un solo archivo.**
-  Con el destino `dir`, `dist/windows/` tiene el `.exe` junto a varias DLL y
-  recursos, y hay que compartir la carpeta completa. Opciones: destino
-  `portable` (un solo `.exe`) o `nsis` (instalador).
+- [ ] 🔴 **Probar el `.exe` en un solo archivo (configurado el 27-09-2026,
+  todavía sin compilar).** Se cambió el destino de `dir` a `portable`. Falta:
+  activar el Modo de desarrollador, correr `npm run build:desktop`, confirmar
+  que `dist/windows/` queda con un solo `Musical Showdown.exe` y abrirlo con
+  doble clic, idealmente también en otra PC. Nota: el `.exe` portátil se
+  descomprime en una carpeta temporal cada vez que se abre, así que puede
+  tardar unos segundos más en arrancar que la versión en carpeta.
 - [ ] 🟢 **Windows SmartScreen en otros equipos.** El `.exe` no está firmado,
   así que en otra PC Windows mostrará "Windows protegió su PC" y habrá que
   hacer clic en "Más información → Ejecutar de todas formas". Para quitar el

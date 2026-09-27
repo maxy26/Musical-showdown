@@ -35,7 +35,7 @@ npm run lint                               # eslint src
 cd src && python3 -m http.server 8000
 
 npm install --prefix platforms/desktop     # solo la primera vez
-npm run build:desktop                      # -> dist/windows/Musical Showdown.exe
+npm run build:desktop                      # -> dist/windows/Musical Showdown.exe (un solo archivo, destino "portable")
 
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # luego abrir platforms/android/android en Android Studio y generar el APK
@@ -43,7 +43,7 @@ npm run build:android                      # luego abrir platforms/android/andro
 
 Particularidades al compilar en Windows:
 - Los scripts de `build/` llaman a las herramientas con `npx` y no con `node_modules/.bin/...`, porque `execSync` corre en `cmd.exe` y ahí esa ruta falla.
-- `build:desktop` requiere el Modo de desarrollador de Windows (o una consola de administrador), porque electron-builder crea enlaces simbólicos.
+- `build:desktop` requiere el Modo de desarrollador de Windows (o una consola de administrador), porque electron-builder crea enlaces simbólicos. Esto solo aplica al compilar; el `.exe` generado corre en cualquier PC sin configuración especial.
 - `build:android` requiere TypeScript **5** en `platforms/android` para leer `capacitor.config.ts`. TypeScript 7 no es compatible con Capacitor 6.
 - npm 11 muestra advertencias de "install-scripts" para esbuild y electron. Se pueden ignorar para compilar.
 
