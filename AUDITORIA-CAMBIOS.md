@@ -13,6 +13,31 @@
 
 ---
 
+## 2026-09-27 — Sesión 2 (parte 4): token de GitHub y primera compilación en la nube
+
+**Qué se hizo**
+1. El primer envío con `.github/workflows/compilar.yml` fue rechazado porque
+   el token guardado no tenía el permiso `workflow`. Se subió aparte el commit
+   del `.exe` portátil (`76821d1`), que no incluía ese archivo.
+2. El usuario creó un token clásico con permisos `repo` y `workflow`. Con su
+   autorización se borró la credencial vieja (`cmdkey /delete:git:https://github.com`)
+   y se hizo el envío; Windows guardó el token nuevo.
+3. Nueva regla de trabajo: yo hago los `git push`, pero pregunto antes de cada uno.
+
+**Verificación: primera ejecución de GitHub Actions**
+([run 36349478749](https://github.com/maxy26/Musical-showdown/actions/runs/36349478749)),
+commit `66b12d3`:
+- Pruebas y lint: bien.
+- Windows: bien; `musical-showdown-windows` (75 MB).
+- Linux: bien; `musical-showdown-linux` (108 MB).
+- Android: bien; `musical-showdown-android` (5 MB).
+- Publicar versión: omitido, como corresponde (solo corre con etiquetas `v*`).
+
+**Quedó abierto:** probar la versión de Linux en un equipo real y el APK en un
+teléfono (ver pendientes).
+
+---
+
 ## 2026-09-27 — Sesión 2 (parte 3): compilación de Windows, Linux y GitHub Actions
 
 **Qué se hizo**

@@ -33,15 +33,9 @@
 
 ## 📦 Distribución a otros equipos (objetivo: Windows, Linux y Android)
 
-- [ ] 🔴 **Subir el commit de GitHub Actions (bloqueado).** GitHub rechazó el
-  envío porque el token guardado en Windows no tiene el permiso `workflow`,
-  que es obligatorio para subir archivos de `.github/workflows/`. Acción del
-  usuario: crear un token nuevo con los permisos `repo` y `workflow`, o volver
-  a iniciar sesión con el navegador. Después, `git push origin main`.
-- [ ] 🔴 **Revisar la primera ejecución de GitHub Actions** (configurado el
-  27-09-2026 en `.github/workflows/compilar.yml`). Los trabajos de Linux y
-  Android no se han probado nunca, porque no se pueden correr en esta PC.
-  Si alguno falla, revisar el registro en la pestaña "Actions" de GitHub.
+- [ ] 🟡 **Probar el APK en un teléfono Android real.** Se descarga desde
+  GitHub Actions ("Artifacts" → `musical-showdown-android`). Para instalarlo
+  hay que permitir "instalar apps de origen desconocido".
 - [ ] 🟡 **Probar la versión de Linux en un equipo con Linux real.** El
   `.AppImage` sale de GitHub Actions. Para abrirlo: darle permiso de
   ejecución (`chmod +x Musical-Showdown.AppImage`) y hacer doble clic. En
@@ -87,6 +81,13 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-27: 🔴 Token de GitHub sin permiso `workflow`: el usuario creó
+  un token nuevo (`repo` + `workflow`) y se borró la credencial vieja.
+- [x] 2026-09-27: 🔴 Primera ejecución de GitHub Actions
+  ([run 36349478749](https://github.com/maxy26/Musical-showdown/actions/runs/36349478749)):
+  pruebas, Windows, Linux y Android terminaron bien. Archivos generados:
+  `.exe` (75 MB), `.AppImage` (108 MB) y `.apk` (5 MB).
 
 - [x] 2026-09-27: 🔴 Compilación de Windows: con el Modo de desarrollador
   activado, `build:desktop` funciona.
