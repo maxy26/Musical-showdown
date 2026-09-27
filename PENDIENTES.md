@@ -33,6 +33,11 @@
 
 ## 📦 Distribución a otros equipos (objetivo: Windows, Linux y Android)
 
+- [ ] 🔴 **Subir el commit de GitHub Actions (bloqueado).** GitHub rechazó el
+  envío porque el token guardado en Windows no tiene el permiso `workflow`,
+  que es obligatorio para subir archivos de `.github/workflows/`. Acción del
+  usuario: crear un token nuevo con los permisos `repo` y `workflow`, o volver
+  a iniciar sesión con el navegador. Después, `git push origin main`.
 - [ ] 🔴 **Revisar la primera ejecución de GitHub Actions** (configurado el
   27-09-2026 en `.github/workflows/compilar.yml`). Los trabajos de Linux y
   Android no se han probado nunca, porque no se pueden correr en esta PC.
