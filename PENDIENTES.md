@@ -40,6 +40,24 @@
   aplicar `npm audit fix --force`, porque este puede cambiar versiones
   mayores de Electron o electron-builder.
 
+## 📦 Distribución a otros equipos (objetivo: Windows, Linux y Android)
+
+- [ ] 🟡 **No hay versión para Linux.** `build/build-desktop.js` solo compila
+  `--win`. Habría que agregar un destino de Linux en electron-builder
+  (por ejemplo, un AppImage, que corre sin instalar). Compilarlo desde
+  Windows no es confiable; lo normal es hacerlo en Linux o en GitHub Actions.
+- [ ] 🟡 **La versión de Windows es una carpeta, no un solo archivo.**
+  Con el destino `dir`, `dist/windows/` tiene el `.exe` junto a varias DLL y
+  recursos, y hay que compartir la carpeta completa. Opciones: destino
+  `portable` (un solo `.exe`) o `nsis` (instalador).
+- [ ] 🟢 **Windows SmartScreen en otros equipos.** El `.exe` no está firmado,
+  así que en otra PC Windows mostrará "Windows protegió su PC" y habrá que
+  hacer clic en "Más información → Ejecutar de todas formas". Para quitar el
+  aviso hace falta un certificado de firma de código, que cuesta dinero.
+- [ ] 🟢 **Compilar en la nube (opcional).** Con GitHub Actions, el repositorio
+  podría compilar Windows, Linux y Android automáticamente, sin depender del
+  Modo de desarrollador ni de tener Linux a mano.
+
 ## ✨ Mejoras
 
 - [ ] 🟡 **Reemplazar los 2 `confirm()` nativos** por un modal propio,
