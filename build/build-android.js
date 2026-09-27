@@ -30,14 +30,16 @@ fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
-run(`node_modules/.bin/esbuild www/js/main.js --bundle --outfile=www/bundle.js --format=iife`, ANDROID_PROJ);
+// Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync
+// corre en cmd.exe, que no entiende la "/" de esa ruta.
+run(`npx esbuild www/js/main.js --bundle --outfile=www/bundle.js --format=iife`, ANDROID_PROJ);
 const indexPath = path.join(WWW, "index.html");
 let html = fs.readFileSync(indexPath, "utf8");
 html = html.replace('<script type="module" src="js/main.js"></script>', '<script src="bundle.js"></script>');
 fs.writeFileSync(indexPath, html);
 
 console.log("== 3/4: sincronizando con el proyecto Android nativo (npx cap sync) ==");
-run(`node_modules/.bin/cap sync android`, ANDROID_PROJ);
+run(`npx cap sync android`, ANDROID_PROJ);
 
 console.log("== 4/4: corrigiendo la referencia a capacitor-android (ver comentario arriba) ==");
 const capacitorAndroidSrc = path.join(ANDROID_PROJ, "node_modules", "@capacitor", "android", "capacitor");

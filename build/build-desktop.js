@@ -24,7 +24,9 @@ fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
-run(`node_modules/.bin/esbuild www/js/main.js --bundle --outfile=www/bundle.js --format=iife`, DESKTOP);
+// Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync
+// corre en cmd.exe, que no entiende la "/" de esa ruta.
+run(`npx esbuild www/js/main.js --bundle --outfile=www/bundle.js --format=iife`, DESKTOP);
 const indexPath = path.join(WWW, "index.html");
 let html = fs.readFileSync(indexPath, "utf8");
 html = html.replace('<script type="module" src="js/main.js"></script>', '<script src="bundle.js"></script>');
@@ -32,7 +34,7 @@ fs.writeFileSync(indexPath, html);
 
 console.log("== 3/4: compilando con electron-builder ==");
 fs.rmSync(path.join(ROOT, "dist", ".desktop-raw"), { recursive: true, force: true });
-run(`node_modules/.bin/electron-builder --win --x64`, DESKTOP);
+run(`npx electron-builder --win --x64`, DESKTOP);
 
 console.log("== 4/4: copiando el resultado a dist/windows ==");
 fs.rmSync(FINAL_OUT, { recursive: true, force: true });
