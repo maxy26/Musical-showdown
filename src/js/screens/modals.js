@@ -146,3 +146,30 @@ export function showWarning(message) {
   closeBtn.onclick = () => overlay.remove();
   closeBtn.focus();
 }
+
+/**
+ * Ventana de confirmación propia (reemplaza al confirm() nativo del
+ * navegador). Mismo diseño que "¿Salir de la partida?" en la pausa.
+ * `onYes` solo se llama si se elige la opción afirmativa; "No" cierra sin más.
+ */
+export function showConfirm({ title, message = "", yesText = "Sí", noText = "No", onYes }) {
+  const overlay = document.createElement("div");
+  overlay.className = "modal-backdrop";
+  overlay.innerHTML = `<div class="modal warning-modal" style="text-align:center;">
+    <h2>${title}</h2>
+    ${message ? `<p class="small-note">${message}</p>` : ""}
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-secondary btn-block" id="confirm-no">${noText}</button>
+      <button class="btn btn-primary btn-block" id="confirm-yes">${yesText}</button>
+    </div>
+  </div>`;
+  document.getElementById("app").appendChild(overlay);
+  const noBtn = overlay.querySelector("#confirm-no");
+  noBtn.onclick = () => overlay.remove();
+  overlay.querySelector("#confirm-yes").onclick = () => {
+    overlay.remove();
+    onYes();
+  };
+  // El foco va a "No" para que un Enter accidental no confirme.
+  noBtn.focus();
+}

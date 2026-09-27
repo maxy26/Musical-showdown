@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Reglas clave de las instrucciones:
 - Después de tocar `src/`, correr ambos builds.
-- No usar `alert()`/`confirm()` nativos nuevos; usar los modales de `modals.js`.
+- No usar `alert()`/`confirm()` nativos; usar `showWarning()` (avisos) y `showConfirm({ title, message, yesText, noText, onYes })` (preguntas sí/no) de `modals.js`.
 - No poner efectos secundarios en el nivel superior de un módulo (ver la inicialización perezosa de `sound.js`).
 - Reutilizar las clases de `css/styles.css` en vez de estilos inline.
 - Mantener el service worker en network-first.

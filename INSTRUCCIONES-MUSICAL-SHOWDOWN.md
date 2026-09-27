@@ -53,10 +53,10 @@
    Node para pruebas o herramientas de build. Ver `sound.js` como
    ejemplo del patrón (inicialización perezosa).
 10. Los diálogos de confirmación/aviso deben usar los componentes
-    propios del juego (`showWarning()` en `modals.js`, o un modal nuevo
-    del mismo estilo) en vez de `alert()`/`confirm()` nativos del
-    navegador — salvo los 2 casos legacy que quedan pendientes (ver
-    contexto, sección 5), no agregar más usos nativos nuevos.
+    propios del juego — `showWarning()` para avisos y `showConfirm()`
+    para preguntas sí/no, ambos en `modals.js` — en vez de
+    `alert()`/`confirm()` nativos del navegador. Ya no queda ningún uso
+    nativo; no agregar nuevos.
 11. Todo el HTML generado dinámicamente reutiliza las clases CSS ya
     definidas en `css/styles.css` (paleta, tipografías, componentes
     `.btn`, `.chip`, `.value-box`, `.modal`, etc.) en vez de crear

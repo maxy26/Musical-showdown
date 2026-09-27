@@ -191,10 +191,11 @@
   advertencia propia** (mismo estilo visual del juego: ícono ⚠️,
   mensaje, botón "Aceptar") para: jugadores insuficientes, género no
   seleccionado, equipo lleno, etc.
-- **Pendiente** (mencionado pero no pedido explícitamente): todavía
-  quedan 2 diálogos usando el `confirm()` nativo del navegador
-  ("¿Confirmar equipos?" y "¿Desean finalizar esta ronda?"). Se le avisó
-  al usuario y no ha pedido cambiarlos aún.
+- **Confirmaciones propias** (27-09-2026): los 2 diálogos que usaban el
+  `confirm()` nativo del navegador ("¿Confirmar equipos?" y "¿Desean
+  finalizar esta ronda?") ahora usan `showConfirm()` de `modals.js`, con
+  el mismo diseño que "¿Salir de la partida?". Ya no queda ningún
+  `alert()` ni `confirm()` nativo en el juego.
 
 ## 6. Estructura de carpetas (monorepo) — usar SIEMPRE esta forma
 
@@ -319,4 +320,3 @@ npm run build:android
   cantidades impares de jugadores.
 - Reemplazar la base de canciones local (mock) por una fuente/API real
   de letras, ya decidido el tema legal.
-- Los 2 diálogos `confirm()` nativos mencionados en la sección 5.

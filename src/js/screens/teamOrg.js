@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { el, shuffleArray } from "../utils.js";
 import { render } from "../router.js";
 import { startNextRound } from "../gameLogic.js";
-import { openHelp, showWarning } from "./modals.js";
+import { openHelp, showWarning, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 
 export function screenTeamOrg() {
@@ -77,12 +77,16 @@ export function screenTeamOrg() {
   root.querySelector("#back").onclick = () => { state.screen = "config"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
   bindMuteButtons(root);
-  root.querySelector("#confirm-teams").onclick = () => {
-    if (confirm("¿Confirmar equipos? Ya no se podrán mover jugadores durante la partida.")) {
+  root.querySelector("#confirm-teams").onclick = () => showConfirm({
+    title: "¿Confirmar equipos?",
+    message: "Ya no se podrán mover jugadores durante la partida.",
+    noText: "No, seguir editando",
+    yesText: "Sí, confirmar",
+    onYes: () => {
       startNextRound();
       render();
-    }
-  };
+    },
+  });
 
   renderTeams();
   return root;

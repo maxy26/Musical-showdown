@@ -13,6 +13,43 @@
 
 ---
 
+## 2026-09-27 — Sesión 2 (parte 5): ventanas de confirmación propias
+
+**Qué se hizo**
+1. Nueva función `showConfirm({ title, message, yesText, noText, onYes })`
+   en `src/js/screens/modals.js`, con el mismo diseño que "¿Salir de la
+   partida?": título, nota opcional y botones "No" (secundario) y "Sí"
+   (principal). El foco queda en "No" para que un Enter accidental no
+   confirme. Solo reutiliza clases existentes (`modal-backdrop`, `modal`,
+   `warning-modal`, `small-note`, `btn-row`, `btn-*`).
+2. Se reemplazaron los 2 `confirm()` nativos:
+   - `round.js`: "¿Desean finalizar esta ronda?" (No, seguir / Sí, finalizar).
+   - `teamOrg.js`: "¿Confirmar equipos?" + "Ya no se podrán mover jugadores
+     durante la partida." (No, seguir editando / Sí, confirmar).
+3. Se actualizaron `CONTEXTO-MUSICAL-SHOWDOWN.md` (secciones 5 y 8),
+   `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (regla 10) y `CLAUDE.md`.
+
+**Archivos tocados:** `src/js/screens/modals.js`, `src/js/screens/round.js`,
+`src/js/screens/teamOrg.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`,
+`PENDIENTES.md`.
+
+**Verificación**
+- Ya no queda ningún `confirm()` ni `alert()` nativo en `src/js` (solo aparecen
+  en comentarios).
+- `npm run lint`: sin errores. `npm test`: 5/5.
+- `build:android` y `build:desktop`: ambos bien.
+- **Prueba en el navegador real** (Edge sin interfaz, con una página de prueba
+  temporal fuera del repositorio que carga el juego y simula los clics): pasaron
+  16 de 16 comprobaciones. Se abre la ventana; "No" cierra sin hacer nada; "Sí"
+  confirma; en organizar equipos "Sí" inicia la ronda; en una ronda sin tiempo
+  "Sí" la finaliza; no se llama ningún `confirm()` nativo.
+- Captura de pantalla revisada: la ventana usa el estilo del juego.
+
+**Quedó abierto:** nada.
+
+---
+
 ## 2026-09-27 — Sesión 2 (parte 4): token de GitHub y primera compilación en la nube
 
 **Qué se hizo**

@@ -53,11 +53,6 @@
 
 ## ✨ Mejoras
 
-- [ ] 🟡 **Reemplazar los 2 `confirm()` nativos** por un modal propio,
-  del mismo estilo que `showWarning()` en `modals.js`:
-  - `src/js/screens/round.js:73`: "¿Desean finalizar esta ronda?"
-  - `src/js/screens/teamOrg.js:81`: "¿Confirmar equipos?"
-  (El usuario aún no lo pidió explícitamente; contexto, sección 5.)
 - [ ] 🟢 **Evitar que la lista `ASSETS` de `sw.js` vuelva a quedar
   desactualizada.** Idea: una prueba en `test/` que verifique que cada
   archivo listado existe y que todo `.js` de `src/js/` esté en la lista.
@@ -81,6 +76,10 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-27: 🟡 Los 2 `confirm()` nativos ("¿Confirmar equipos?" y
+  "¿Desean finalizar esta ronda?") se reemplazaron por `showConfirm()`
+  en `modals.js`, con el estilo del juego.
 
 - [x] 2026-09-27: 🔴 Token de GitHub sin permiso `workflow`: el usuario creó
   un token nuevo (`repo` + `workflow`) y se borró la credencial vieja.

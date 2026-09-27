@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { finishRoundManual } from "../gameLogic.js";
-import { openPause, openHelp } from "./modals.js";
+import { openPause, openHelp, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 
 export function screenRound() {
@@ -70,7 +70,12 @@ export function screenRound() {
   root.querySelector("#help").onclick = () => openHelp();
   bindMuteButtons(root);
   const fr = root.querySelector("#finish-round");
-  if (fr) fr.onclick = () => { if (confirm("¿Desean finalizar esta ronda?")) finishRoundManual(); };
+  if (fr) fr.onclick = () => showConfirm({
+    title: "¿Desean finalizar esta ronda?",
+    noText: "No, seguir",
+    yesText: "Sí, finalizar",
+    onYes: finishRoundManual,
+  });
 
   return root;
 }
