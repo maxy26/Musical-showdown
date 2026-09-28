@@ -53,7 +53,7 @@ export function screenConfig() {
 
       <div class="config-2col">
         <div class="field">
-          <label>Puntaje objetivo (lista desplegable)</label>
+          <label>Puntaje objetivo</label>
           <select id="target">
             ${TARGET_SCORE_PRESETS.map((v) => `<option value="${v}" ${c.targetScoreMode === "preset" && v === c.targetScore ? "selected" : ""}>${v} pts</option>`).join("")}
             <option value="custom" ${c.targetScoreMode === "custom" ? "selected" : ""}>Personalizado</option>
@@ -70,7 +70,7 @@ export function screenConfig() {
           </div>
         </div>
         <div class="field">
-          <label>Tiempo por ronda (lista desplegable)</label>
+          <label>Tiempo por ronda</label>
           <select id="roundtime">
             ${ROUND_TIME_PRESETS.map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
             <option value="custom" ${c.roundTimeMode === "custom" ? "selected" : ""}>Personalizado</option>

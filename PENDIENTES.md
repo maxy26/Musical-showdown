@@ -76,10 +76,6 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
-- [ ] 🟢 **Sugerencia: quitar "(lista desplegable)" de las etiquetas** de
-  configuración ("Puntaje objetivo (lista desplegable)", "Tiempo por ronda
-  (lista desplegable)"). Parece una nota de desarrollo que quedó visible.
-  Hay que preguntarle al usuario antes de cambiarlo.
 
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
 
@@ -95,6 +91,9 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🟢 Se quitó "(lista desplegable)" de las etiquetas
+  "Puntaje objetivo" y "Tiempo por ronda" en la configuración (lo pidió el usuario).
 
 - [x] 2026-09-28: 🟡 Tildes en pantalla: las palabras `corazón`, `razón` y
   `reír` en `data/songs.js`; el modo en la ronda ("CLASICO" → "CLÁSICO",

@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 5): etiquetas de la configuración
+
+**Qué se hizo:** a pedido del usuario, se quitó "(lista desplegable)" de las
+etiquetas "Puntaje objetivo" y "Tiempo por ronda" en
+`src/js/screens/config/index.js`.
+
+**Archivos tocados:** `src/js/screens/config/index.js`, `AUDITORIA-CAMBIOS.md`,
+`PENDIENTES.md`.
+
+**Verificación**
+- "lista desplegable" ya no aparece en `src/`. `npm test`: código de salida 0.
+  `npm run lint`: sin errores.
+- Captura de la configuración revisada.
+- `build:android` y `build:desktop`: ambos bien.
+- La compilación en GitHub del commit anterior (`c027fd9`, run 36496215192)
+  terminó bien.
+
+**Quedó abierto:** nada.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 4): tildes y nombres visibles
 
 **Qué se hizo**
