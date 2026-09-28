@@ -13,6 +13,46 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 3): buscador y resaltado de la letra
+
+**Decisión del usuario:** la parte legal de las letras queda para después; no
+bloquea los demás pendientes (queda registrado en `PENDIENTES.md`).
+
+**Qué se hizo**
+1. Funciones puras nuevas en `src/js/utils.js`:
+   - `normalizeText(s)`: pasa a minúsculas y quita tildes y diéresis, pero
+     conserva la ñ ("año" ≠ "ano").
+   - `normalizeForSearch(s)`: además cambia los signos de puntuación y los
+     saltos de línea por espacios.
+   - `escapeHtml(s)`.
+   - `highlightWord(text, word)`: devuelve la letra como HTML seguro, con
+     `<mark>` solo en palabras completas y sin distinguir mayúsculas ni tildes.
+2. `src/js/screens/verify.js`:
+   - `searchSongs` (ahora exportada) usa `normalizeForSearch`: "corazon"
+     encuentra "corazón", y un fragmento con comas o que ocupa dos líneas de
+     la letra se encuentra igual.
+   - Los 2 sitios que resaltaban con `new RegExp(r.word)` (la búsqueda y la
+     decisión del moderador) usan `highlightWord`. Antes marcaban "amor"
+     dentro de "amores", no toleraban tildes y podían fallar con caracteres
+     especiales.
+3. Nuevo `test/texto.test.js` con 15 pruebas.
+
+**Archivos tocados:** `src/js/utils.js`, `src/js/screens/verify.js`,
+`test/texto.test.js` (nuevo), `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- `npm test`: 32/32. `npm run lint`: sin errores.
+- Prueba en el juego real (Edge sin ventana, con una página temporal fuera del
+  repositorio): 7 de 7. La búsqueda "que estas cansado, de andar" encuentra
+  "Color Esperanza"; se resalta "abrir" una sola vez; se conservan los saltos
+  de línea; la decisión del moderador también resalta; una búsqueda sin
+  resultados muestra el aviso. Captura revisada.
+- `build:android` y `build:desktop`: ambos bien.
+
+**Quedó abierto:** nada.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 2): pruebas de elección de palabra y enfrentamiento
 
 **Decisión del usuario:** la publicación queda en pausa. Antes de publicar se

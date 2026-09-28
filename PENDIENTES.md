@@ -15,10 +15,12 @@
 
 ## 🎵 Canciones y letras (antes de publicar)
 
-- [ ] 🔴 **Resolver la parte legal de las letras** (sin audio): qué fuente se
+- [ ] 🟡 **Resolver la parte legal de las letras** (sin audio): qué fuente se
   puede usar, qué se puede guardar dentro de la app (fragmentos o letra
   completa), si hace falta licencia y cuál. Hasta entonces, `data/songs.js`
-  sigue siendo de ejemplo (instrucción 22).
+  sigue siendo de ejemplo (instrucción 22). **El usuario decidió dejarlo para
+  después (28-09-2026)**: no bloquea los demás pendientes, solo el siguiente
+  (palabras que no están en la letra) y la publicación.
 - [ ] 🟡 **Las palabras que se piden no siempre están en la letra guardada.**
   De 25 palabras que el juego puede pedir en `data/songs.js`, solo 11
   aparecen en el fragmento de letra de su canción. Ejemplo: puede pedir
@@ -28,10 +30,6 @@
   por ejemplo, calcular `words` a partir de la letra en vez de escribirlo a mano.
 - [ ] 🟡 **Palabras sin tilde.** En `data/songs.js`, `corazon`, `razon` y `reir`
   se muestran en pantalla como "CORAZON", "RAZON" y "REIR".
-- [ ] 🟡 **El buscador y el resaltado no toleran tildes y el resaltado no
-  respeta palabras completas** (`screens/verify.js`). Buscar "corazon" no
-  encuentra "corazón"; y el resaltado de "amor" marcaría también "amor" dentro
-  de "amores".
 
 ## 🐛 Bugs e inconsistencias
 
@@ -94,6 +92,10 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🟡 Buscador y resaltado (`screens/verify.js`): ahora no
+  distinguen mayúsculas, tildes ni signos de puntuación, y el resaltado marca
+  solo palabras completas ("amor" ya no marca "amores").
 
 - [x] 2026-09-28: 🟢 Pruebas ampliadas: `test/seleccion.test.js` cubre
   `pickWeightedWord` y `pickIndividualPair` (9 pruebas nuevas).

@@ -1,15 +1,21 @@
 import { state } from "../state.js";
 import { SONG_DB } from "../data/songs.js";
-import { el } from "../utils.js";
+import { el, normalizeForSearch, highlightWord } from "../utils.js";
 import { render } from "../router.js";
 import { isSongUsed, resolveAnswer } from "../gameLogic.js";
 
-function searchSongs(q) {
+/**
+ * Busca por nombre o por fragmento de letra en los géneros elegidos. No
+ * distingue mayúsculas, tildes ni signos de puntuación ("corazon" encuentra
+ * "corazón"; "hay en tus ojos con solo mirar" ignora comas y saltos de línea).
+ */
+export function searchSongs(q) {
   const c = state.config;
-  q = q.trim().toLowerCase();
+  q = normalizeForSearch(q);
   if (!q) return [];
   return SONG_DB.filter(
-    (s) => c.genres.includes(s.genre) && (s.title.toLowerCase().includes(q) || s.lyric.toLowerCase().includes(q))
+    (s) => c.genres.includes(s.genre) &&
+      (normalizeForSearch(s.title).includes(q) || normalizeForSearch(s.lyric).includes(q))
   );
 }
 
@@ -66,9 +72,7 @@ export function screenVerify() {
     const box = root.querySelector("#lyric-area");
     box.innerHTML = "";
     if (!v.selectedSong) return;
-    const re = new RegExp("(" + r.word + ")", "ig");
-    const highlighted = v.selectedSong.lyric.replace(re, "<mark>$1</mark>");
-    box.appendChild(el(`<div class="lyric-box">${highlighted}</div>`));
+    box.appendChild(el(`<div class="lyric-box">${highlightWord(v.selectedSong.lyric, r.word)}</div>`));
   }
 
   root.querySelector("#search").onclick = () => {
@@ -107,7 +111,7 @@ function openJudgeDecision() {
   overlay.innerHTML = `<div class="modal">
     <h2>¿La respuesta es correcta?</h2>
     <p class="panel-title">🎵 ${v.selectedSong.title} — 👤 ${who}</p>
-    <div class="lyric-box">${v.selectedSong.lyric.replace(new RegExp("(" + r.word + ")", "ig"), "<mark>$1</mark>")}</div>
+    <div class="lyric-box">${highlightWord(v.selectedSong.lyric, r.word)}</div>
     <div class="btn-row" style="margin-top:18px;">
       <button class="btn btn-danger btn-block" id="no">❌ Incorrecta</button>
       <button class="btn btn-primary btn-block" id="yes">✅ Correcta</button>
