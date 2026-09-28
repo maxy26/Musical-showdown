@@ -28,8 +28,6 @@
   en la letra ni queda resaltada. Pasa porque las letras guardadas son
   fragmentos cortos. Hay que resolverlo junto con la fuente real de letras:
   por ejemplo, calcular `words` a partir de la letra en vez de escribirlo a mano.
-- [ ] 🟡 **Palabras sin tilde.** En `data/songs.js`, `corazon`, `razon` y `reir`
-  se muestran en pantalla como "CORAZON", "RAZON" y "REIR".
 
 ## 🐛 Bugs e inconsistencias
 
@@ -78,6 +76,11 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🟢 **Sugerencia: quitar "(lista desplegable)" de las etiquetas** de
+  configuración ("Puntaje objetivo (lista desplegable)", "Tiempo por ronda
+  (lista desplegable)"). Parece una nota de desarrollo que quedó visible.
+  Hay que preguntarle al usuario antes de cambiarlo.
+
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
 
 > No inventar reglas: preguntar antes (instrucción 21).
@@ -92,6 +95,12 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🟡 Tildes en pantalla: las palabras `corazón`, `razón` y
+  `reír` en `data/songs.js`; el modo en la ronda ("CLASICO" → "CLÁSICO",
+  "ALTERNATIVO1" → "ALTERNATIVO 1") con `modeName()`; y los géneros en la
+  configuración ("reggaeton" → "Reggaetón", con mayúscula inicial) con
+  `genreName()`.
 
 - [x] 2026-09-28: 🟡 Buscador y resaltado (`screens/verify.js`): ahora no
   distinguen mayúsculas, tildes ni signos de puntuación, y el resaltado marca

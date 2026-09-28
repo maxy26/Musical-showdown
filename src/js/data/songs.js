@@ -22,8 +22,8 @@ export const SONG_DB = [
   },
   {
     title: "Amor Eterno", artist: "Rocío Dúrcal", genre: "balada",
-    chorusWords: ["amor", "corazon", "olvido"],
-    words: { amor: true, corazon: true, olvido: true },
+    chorusWords: ["amor", "corazón", "olvido"],
+    words: { amor: true, "corazón": true, olvido: true },
     famous: true,
     lyric: "Tú eres la tristeza de mis ojos\nque lloran en silencio por tu amor\nme miro en el espejo y veo en mi rostro\nel tiempo que he sufrido por tu adiós",
   },
@@ -57,15 +57,15 @@ export const SONG_DB = [
   },
   {
     title: "Vivir Mi Vida", artist: "Marc Anthony", genre: "salsa",
-    chorusWords: ["vivir", "reir", "cantar"],
-    words: { vivir: true, reir: true, cantar: true },
+    chorusWords: ["vivir", "reír", "cantar"],
+    words: { vivir: true, "reír": true, cantar: true },
     famous: true,
     lyric: "Voy a reír, voy a bailar\nVivir mi vida, la la la la\nVoy a reír, voy a gozar\nVivir mi vida, la la la la",
   },
   {
     title: "Entre Dos Tierras", artist: "Héroes del Silencio", genre: "rock",
-    chorusWords: ["tierra", "razon", "olvido"],
-    words: { tierra: true, razon: true, olvido: true },
+    chorusWords: ["tierra", "razón", "olvido"],
+    words: { tierra: true, "razón": true, olvido: true },
     famous: false,
     lyric: "No pidas más razón que sinrazón\nde algo que nunca la tuvo\nCuando decidas venirte a por mí\nsabrás que aquí me tuvo",
   },
@@ -74,3 +74,17 @@ export const SONG_DB = [
 // Los 5 géneros musicales más famosos/reconocidos (asunción: mezcla de
 // géneros globales y latinos, ya que el juego está en español).
 export const GENRES = ["pop", "rock", "reggaeton", "salsa", "balada"];
+
+// Nombre visible de cada género (el id es interno, sin tildes).
+const GENRE_NAMES = {
+  pop: "Pop",
+  rock: "Rock",
+  reggaeton: "Reggaetón",
+  salsa: "Salsa",
+  balada: "Balada",
+};
+
+/** Nombre visible de un género a partir de su id ("reggaeton" -> "Reggaetón"). */
+export function genreName(id) {
+  return GENRE_NAMES[id] || id;
+}

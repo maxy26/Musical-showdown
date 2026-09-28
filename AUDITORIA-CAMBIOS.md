@@ -13,6 +13,47 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 4): tildes y nombres visibles
+
+**Qué se hizo**
+1. `src/js/data/songs.js`: `corazon`, `razon` y `reir` pasan a `corazón`,
+   `razón` y `reír`, cambiados a la vez en `chorusWords` y en `words` (gameLogic
+   los compara de forma exacta).
+2. Al revisar capturas aparecieron dos casos más de identificadores internos
+   mostrados en pantalla:
+   - En la ronda, el modo salía como "CLASICO" y "ALTERNATIVO1". Nueva función
+     `modeName(id)` en `screens/config/modes.js`: la usan las etiquetas de
+     configuración y la ronda (`round.js`).
+   - En la configuración, los géneros salían como "pop" o "reggaeton". Nueva
+     función `genreName(id)` junto a `GENRES` en `data/songs.js`: "Pop", "Rock",
+     "Reggaetón", "Salsa", "Balada".
+3. Nuevo `test/canciones.test.js` (9 pruebas: datos completos y géneros
+   válidos; coro coherente con `words`; palabras en minúsculas; lista de
+   palabras que deben llevar tilde; `modeName`; `genreName`). Incluye una
+   prueba marcada como pendiente (`todo`), que no hace fallar la compilación:
+   "cada palabra aparece en su letra" (ver pendientes).
+4. Pendiente nuevo (sugerencia, sin cambiar): las etiquetas "(lista
+   desplegable)" en la configuración.
+
+**Archivos tocados:** `src/js/data/songs.js`, `src/js/screens/config/modes.js`,
+`src/js/screens/config/index.js`, `src/js/screens/round.js`,
+`test/canciones.test.js` (nuevo), `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- `npm test`: 40 pasan y 1 pendiente, con código de salida 0. `npm run lint`:
+  sin errores.
+- Capturas en Edge sin ventana: la configuración muestra "Clásico", "Alternativo
+  1" y los géneros con mayúscula y tilde; la ronda muestra "MODO INDIVIDUAL ·
+  ALTERNATIVO 1" y las palabras "CORAZÓN" y "REÍR" con tilde, bien dibujadas en
+  la tipografía Unbounded.
+- `build:android` y `build:desktop`: ambos bien.
+- La compilación en GitHub del commit anterior (`9b2f1bc`, run 36495434938)
+  terminó bien.
+
+**Quedó abierto:** nada.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 3): buscador y resaltado de la letra
 
 **Decisión del usuario:** la parte legal de las letras queda para después; no

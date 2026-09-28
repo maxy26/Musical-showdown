@@ -4,6 +4,7 @@ import { render } from "../router.js";
 import { finishRoundManual } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
+import { modeName } from "./config/modes.js";
 
 export function screenRound() {
   const r = state.round;
@@ -15,7 +16,7 @@ export function screenRound() {
 
   const root = el(`<div class="screen">
     <div class="top-bar">
-      <span class="panel-title">${c.battleType === "grupal" ? "MODO GRUPAL" : "MODO INDIVIDUAL"} · ${c.mode.toUpperCase()}</span>
+      <span class="panel-title">${c.battleType === "grupal" ? "MODO GRUPAL" : "MODO INDIVIDUAL"} · ${modeName(c.mode).toUpperCase()}</span>
       <div class="top-bar-actions">
         <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>

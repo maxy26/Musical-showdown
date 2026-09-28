@@ -1,5 +1,5 @@
 import { state } from "../../state.js";
-import { GENRES } from "../../data/songs.js";
+import { GENRES, genreName } from "../../data/songs.js";
 import { el } from "../../utils.js";
 import { render } from "../../router.js";
 import { startNextRound } from "../../gameLogic.js";
@@ -47,7 +47,7 @@ export function screenConfig() {
       <div class="field">
         <label>Géneros musicales</label>
         <div class="chip-group" id="genres">
-          ${GENRES.map((g) => `<button class="chip ${c.genres.includes(g) ? "active" : ""}" data-genre="${g}">${g}</button>`).join("")}
+          ${GENRES.map((g) => `<button class="chip ${c.genres.includes(g) ? "active" : ""}" data-genre="${g}">${genreName(g)}</button>`).join("")}
         </div>
       </div>
 
