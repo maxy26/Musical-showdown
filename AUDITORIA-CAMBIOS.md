@@ -13,6 +13,37 @@
 
 ---
 
+## 2026-09-28 — Sesión 3: prueba automática para la lista de `sw.js`
+
+**Qué se hizo**
+- Nuevo archivo `test/sw.test.js` con 3 pruebas sobre la lista `ASSETS`
+  de `src/sw.js`:
+  1. Cada ruta listada existe en `src/`.
+  2. Todo archivo de `src/` (excepto `sw.js`) está en la lista, para que el
+     juego funcione completo sin conexión.
+  3. No hay rutas repetidas.
+- Como `npm test` corre todos los `test/*.test.js`, la prueba también se
+  ejecuta en GitHub Actions en cada envío.
+- `CLAUDE.md`: se explica qué hace la prueba nueva.
+- Nota de la sesión anterior: la revisión en segundo plano de la compilación 3
+  de GitHub no encontró la ejecución por un error en su búsqueda y se detuvo
+  sin avisar. La compilación sí terminó bien.
+
+**Archivos tocados:** `test/sw.test.js` (nuevo), `CLAUDE.md`,
+`AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`. No se tocó `src/`, así que no se
+recompiló.
+
+**Verificación**
+- `npm test`: 8/8 (5 anteriores + 3 nuevas).
+- Se reintrodujo por un momento el bug original en `sw.js` (`config.js` en
+  lugar de `config/index.js`): las pruebas fallaron con el mensaje "sw.js lista
+  archivos que no existen: js/screens/config.js". Después se restauró
+  `sw.js` con `git checkout`.
+
+**Quedó abierto:** nada.
+
+---
+
 ## 2026-09-27 — Sesión 2 (parte 5): ventanas de confirmación propias
 
 **Qué se hizo**

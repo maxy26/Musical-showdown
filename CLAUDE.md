@@ -79,6 +79,6 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 
 **Service worker (`src/sw.js`):** usa "network-first", con una lista fija de precaché (`ASSETS`) y un `CACHE_NAME` versionado. Al agregar, mover o renombrar archivos en `src/`, actualizar `ASSETS` y subir la versión de `CACHE_NAME`. Si un solo archivo de la lista no existe, `cache.addAll` falla y el SW no se instala: la web deja de funcionar sin conexión, y no aparece ningún error visible. ESLint revisa `sw.js` aparte, como script clásico.
 
-**Pruebas:** importan directamente desde `src/` y solo cubren funciones puras. Los módulos que importan no deben tocar el DOM al cargarse.
+**Pruebas:** `test/gameLogic.test.js` importa directamente desde `src/` y solo cubre funciones puras; los módulos que importa no deben tocar el DOM al cargarse. `test/sw.test.js` falla si la lista `ASSETS` de `sw.js` no coincide con los archivos reales de `src/`, así que al agregar, mover o borrar un archivo en `src/` hay que actualizar esa lista.
 
 Las decisiones de diseño pendientes están en `PENDIENTES.md`.

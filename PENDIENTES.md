@@ -53,9 +53,6 @@
 
 ## ✨ Mejoras
 
-- [ ] 🟢 **Evitar que la lista `ASSETS` de `sw.js` vuelva a quedar
-  desactualizada.** Idea: una prueba en `test/` que verifique que cada
-  archivo listado existe y que todo `.js` de `src/js/` esté en la lista.
 - [ ] 🟢 **Ampliar las pruebas**: hoy solo cubren 4 funciones puras.
   Candidatas: `pickWeightedWord` y `pickIndividualPair` (requieren
   preparar `state` y `SONG_DB`).
@@ -76,6 +73,9 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🟢 Prueba `test/sw.test.js`: falla si `ASSETS` de `sw.js`
+  lista un archivo inexistente, omite un archivo de `src/` o repite rutas.
 
 - [x] 2026-09-27: 🟡 Los 2 `confirm()` nativos ("¿Confirmar equipos?" y
   "¿Desean finalizar esta ronda?") se reemplazaron por `showConfirm()`
