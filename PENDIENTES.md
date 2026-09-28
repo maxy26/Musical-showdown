@@ -92,6 +92,12 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-09-28: 🟡 Puntaje y tiempo personalizados: al terminar ("✓ Listo"
+  o Enter) la caja se cierra y el valor ocupa el lugar de los predeterminados
+  en la lista (pedido del usuario). Se corrigieron además dos errores: no se
+  podía escribir 0 en las cajas, y 0:00 personalizado terminaba en "Sin tiempo"
+  (ahora el mínimo es 5 seg).
+
 - [x] 2026-09-28: 🟢 Se quitó "(lista desplegable)" de las etiquetas
   "Puntaje objetivo" y "Tiempo por ronda" en la configuración (lo pidió el usuario).
 

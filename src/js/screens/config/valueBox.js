@@ -13,10 +13,11 @@
  * @param {number} opts.step - cuánto suma/resta cada flecha.
  * @param {(v: number) => number} opts.clamp - normaliza/limita un valor.
  * @param {() => void} [opts.onCommit] - se llama después de cada cambio
- *        confirmado (flecha, Enter o blur) — típico para refrescar una
- *        etiqueta relacionada (ej. la opción "Personalizado" del select).
+ *        confirmado (flecha, Enter o blur).
+ * @param {() => void} [opts.onEnter] - se llama al presionar Enter, después
+ *        de confirmar el valor (típico: cerrar la caja personalizada).
  */
-export function bindValueBox(root, inputId, { get, set, step, clamp, onCommit }) {
+export function bindValueBox(root, inputId, { get, set, step, clamp, onCommit, onEnter }) {
   const input = root.querySelector(`#${inputId}`);
   if (!input) return null;
   const box = input.closest(".value-box");
@@ -34,13 +35,21 @@ export function bindValueBox(root, inputId, { get, set, step, clamp, onCommit })
   box.querySelector('[data-dir="up"]').onclick = () => commit(get() + step);
   box.querySelector('[data-dir="down"]').onclick = () => commit(get() - step);
 
+  // Lee lo escrito; si no hay ningún número, conserva el valor actual.
+  // (Antes se usaba "|| get()", que descartaba el 0 como si fuera vacío.)
+  function typedValue() {
+    const n = parseInt(input.value.replace(/\D/g, ""), 10);
+    return Number.isNaN(n) ? get() : n;
+  }
+
   input.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
-    commit(parseInt(input.value.replace(/\D/g, "")) || get());
+    commit(typedValue());
     input.blur();
+    if (onEnter) onEnter();
   });
   input.addEventListener("blur", () => {
-    commit(parseInt(input.value.replace(/\D/g, "")) || get());
+    commit(typedValue());
   });
 
   refresh();

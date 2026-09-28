@@ -19,6 +19,26 @@ export const ROUND_TIME_PRESETS = [
   { value: 60, label: "1 min" },
 ];
 
+/** ¿El puntaje coincide con uno predeterminado? (entonces no hace falta "Personalizado"). */
+export function isPresetTarget(score) {
+  return TARGET_SCORE_PRESETS.includes(score);
+}
+
+/** ¿El tiempo coincide con uno predeterminado? */
+export function isPresetTime(seconds) {
+  return ROUND_TIME_PRESETS.some((o) => o.value === seconds);
+}
+
+/**
+ * Tiempo personalizado a partir de minutos y segundos: máximo 2 minutos (con
+ * 2 min los segundos quedan en 0) y mínimo 5 segundos, porque 0:00 sería
+ * "Sin tiempo", que ya es otra opción de la lista.
+ */
+export function customTimeSeconds(minutes, seconds) {
+  const total = Math.min(120, minutes * 60 + seconds);
+  return Math.max(5, total);
+}
+
 /** Formatea segundos totales como "1 min 30 seg", "45 seg", "2 min (máximo)", etc. */
 export function formatCustomTime(totalSeconds) {
   if (totalSeconds === 0) return "Sin tiempo";

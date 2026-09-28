@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
 import { countTypedPlayers } from "../src/js/screens/config/players.js";
-import { formatCustomTime } from "../src/js/screens/config/presets.js";
+import { formatCustomTime, isPresetTarget, isPresetTime, customTimeSeconds } from "../src/js/screens/config/presets.js";
 import { songKey } from "../src/js/gameLogic.js";
 
 test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
@@ -18,6 +18,21 @@ test("formatCustomTime da el texto esperado en cada caso", () => {
   assert.equal(formatCustomTime(60), "1 min");
   assert.equal(formatCustomTime(90), "1 min 30 seg");
   assert.equal(formatCustomTime(120), "2 min (máximo)");
+});
+
+test("isPresetTarget e isPresetTime reconocen los valores predeterminados", () => {
+  assert.equal(isPresetTarget(2000), true);
+  assert.equal(isPresetTarget(2100), false);
+  assert.equal(isPresetTime(30), true);
+  assert.equal(isPresetTime(60), true);
+  assert.equal(isPresetTime(95), false);
+});
+
+test("customTimeSeconds limita el tiempo personalizado entre 5 seg y 2 min", () => {
+  assert.equal(customTimeSeconds(1, 25), 85);
+  assert.equal(customTimeSeconds(0, 0), 5); // 0:00 sería "Sin tiempo"
+  assert.equal(customTimeSeconds(2, 30), 120); // con 2 min los segundos no suman
+  assert.equal(customTimeSeconds(0, 45), 45);
 });
 
 test("weightedPick siempre devuelve un elemento válido de la lista", () => {

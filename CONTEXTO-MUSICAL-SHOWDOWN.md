@@ -89,14 +89,20 @@
   **una sola caja editable** (no por dígito) con flechas ▲▼ que suben o
   bajan de 100 en 100; también se puede escribir el número directo y
   confirmar con **Enter** (se redondea al múltiplo de 100 más cercano,
-  entre 100 y 9900). Al confirmar, la opción "Personalizado" del select
-  cambia su texto para mostrar el valor real (ej. "2100 pts").
+  entre 100 y 9900).
+- **Al terminar un valor personalizado** (28-09-2026, pedido por el
+  usuario): con el botón **"✓ Listo"** o con **Enter**, la caja se cierra
+  y el valor elegido ocupa el lugar de los predeterminados en la lista
+  (ej. "3500 pts" o "1 min 40 seg"). Para cambiarlo se vuelve a elegir
+  "Personalizado…", que queda al final de la lista. Si el valor coincide con
+  uno predeterminado, se selecciona ese.
 - **Tiempo por ronda**: lista desplegable de 5 en 5 segundos hasta 60
   ("1 min"), más "Sin tiempo", más "Personalizado". En personalizado
   hay dos cajas (minutos 0–2, segundos 0–55 de 5 en 5), mismo patrón de
   flechas + escribir + Enter. Al llegar a 2 minutos, los segundos se
   bloquean en 0 con un aviso ("el tiempo máximo por ronda es de 2
-  minutos"); por debajo de 2 min quedan libres.
+  minutos"); por debajo de 2 min quedan libres. El mínimo es 5 segundos
+  (0:00 sería "Sin tiempo", que ya es otra opción).
 - **Multiplicadores**: son exactamente 4, fijos (×2, ×3, ×4, ×5), y se
   activan/desactivan **todos juntos** con un único interruptor maestro
   (no hay interruptores individuales por multiplicador).

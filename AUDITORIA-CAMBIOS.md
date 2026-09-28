@@ -13,6 +13,57 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 6): valor personalizado en la lista
+
+**Pedido del usuario:** al personalizar el puntaje o el tiempo y terminar de
+elegir, que el valor personalizado ocupe el lugar donde normalmente se ve el
+valor predeterminado. Antes se le recomendaron rediseños (botones + deslizador,
+contador −/+); el usuario prefirió este ajuste.
+
+**Qué se hizo**
+1. `screens/config/index.js`:
+   - Las listas tienen "Personalizado…" al final. Al elegirlo se abre la caja
+     (▲▼ + botón nuevo "✓ Listo").
+   - Al terminar ("✓ Listo" o Enter) la caja se cierra y se agrega a la lista
+     una opción seleccionada con el valor elegido ("3500 pts", "1 min 40 seg").
+   - Si el valor coincide con uno predeterminado, se selecciona ese.
+   - Qué caja está abierta se guarda en `state.configEditing` (nuevo campo en
+     `state.js`), así no se pierde cuando la pantalla se vuelve a dibujar (por
+     ejemplo, al tocar un género). "Confirmar configuración" cierra la caja
+     que haya quedado abierta.
+   - Se quitaron las notas "(Enter para confirmar)" / "Enter para confirmar el
+     valor escrito."; ahora está el botón "✓ Listo".
+2. **Errores corregidos:**
+   - `valueBox.js`: `parseInt(...) || get()` descartaba el 0, así que no se
+     podía escribir "0" en minutos ni segundos. Ahora solo se conserva el
+     valor anterior si no hay ningún número. Nueva opción `onEnter`.
+   - Un tiempo personalizado de 0:00 terminaba en "Sin tiempo". Ahora el
+     mínimo es 5 seg (`customTimeSeconds` en `presets.js`).
+3. `presets.js`: nuevas funciones `isPresetTarget`, `isPresetTime` y
+   `customTimeSeconds`, con 2 pruebas en `test/gameLogic.test.js`.
+4. Se actualizaron `CONTEXTO-MUSICAL-SHOWDOWN.md` (configuración) e
+   `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (regla 20).
+
+**Archivos tocados:** `src/js/state.js`, `src/js/screens/config/index.js`,
+`src/js/screens/config/valueBox.js`, `src/js/screens/config/presets.js`,
+`test/gameLogic.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- Antes del cambio, una prueba en Edge confirmó el error de no poder escribir 0.
+- `npm test`: 42 pasan y 1 pendiente. `npm run lint`: sin errores.
+- Recorrido completo en Edge sin ventana: 14 de 14 comprobaciones (abrir y
+  cerrar la caja, que las flechas no la cierren, la lista muestra el valor,
+  que Enter también cierre, que se use el valor predeterminado si coincide,
+  que se pueda escribir 0, el mínimo de 5 seg y que tocar un género no pierda
+  los valores). Capturas revisadas con la caja abierta y cerrada.
+- `build:android` y `build:desktop`: ambos bien. La compilación en GitHub de
+  `3fadd19` (run 36498418003) terminó bien.
+
+**Quedó abierto:** nada. Lo siguiente: reglas de Alternativo 1.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 5): etiquetas de la configuración
 
 **Qué se hizo:** a pedido del usuario, se quitó "(lista desplegable)" de las

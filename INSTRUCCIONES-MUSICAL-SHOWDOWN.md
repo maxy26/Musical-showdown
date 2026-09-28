@@ -98,8 +98,10 @@
     en versiones viejas).
 20. Multiplicadores: exactamente 4 (×2, ×3, ×4, ×5), con un único
     interruptor maestro. Puntaje objetivo y tiempo por ronda: una sola
-    caja editable con flechas + Enter (no cajas por dígito). No volver
-    a los diseños anteriores de estos controles salvo pedido explícito.
+    caja editable con flechas + Enter (no cajas por dígito); al terminar
+    ("✓ Listo" o Enter) la caja se cierra y el valor personalizado ocupa
+    el lugar de los predeterminados en la lista. No volver a los diseños
+    anteriores de estos controles salvo pedido explícito.
 
 ## Cuando falte información
 
