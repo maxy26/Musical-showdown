@@ -7,6 +7,31 @@
 > se mueven a la sección final.
 >
 > Prioridad: 🔴 alta · 🟡 media · 🟢 baja
+>
+> **Plan acordado (28-09-2026):** la publicación queda **en pausa**. Antes de
+> publicar se harán los pendientes que falten, mejoras visuales y de lógica
+> (las que pida el usuario o se le recomienden) y la parte legal de agregar
+> canciones (solo letras, sin audio).
+
+## 🎵 Canciones y letras (antes de publicar)
+
+- [ ] 🔴 **Resolver la parte legal de las letras** (sin audio): qué fuente se
+  puede usar, qué se puede guardar dentro de la app (fragmentos o letra
+  completa), si hace falta licencia y cuál. Hasta entonces, `data/songs.js`
+  sigue siendo de ejemplo (instrucción 22).
+- [ ] 🟡 **Las palabras que se piden no siempre están en la letra guardada.**
+  De 25 palabras que el juego puede pedir en `data/songs.js`, solo 11
+  aparecen en el fragmento de letra de su canción. Ejemplo: puede pedir
+  "CIELO" diciendo que está en "Color Esperanza", pero el moderador no la ve
+  en la letra ni queda resaltada. Pasa porque las letras guardadas son
+  fragmentos cortos. Hay que resolverlo junto con la fuente real de letras:
+  por ejemplo, calcular `words` a partir de la letra en vez de escribirlo a mano.
+- [ ] 🟡 **Palabras sin tilde.** En `data/songs.js`, `corazon`, `razon` y `reir`
+  se muestran en pantalla como "CORAZON", "RAZON" y "REIR".
+- [ ] 🟡 **El buscador y el resaltado no toleran tildes y el resaltado no
+  respeta palabras completas** (`screens/verify.js`). Buscar "corazon" no
+  encuentra "corazón"; y el resaltado de "amor" marcaría también "amor" dentro
+  de "amores".
 
 ## 🐛 Bugs e inconsistencias
 
@@ -31,7 +56,7 @@
   aplicar `npm audit fix --force`, porque este puede cambiar versiones
   mayores de Electron o electron-builder.
 
-## 📦 Distribución a otros equipos (objetivo: Windows, Linux y Android)
+## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
 - [ ] 🟡 **Probar el APK en un teléfono Android real.** Se descarga desde
   GitHub Actions ("Artifacts" → `musical-showdown-android`). Para instalarlo
@@ -51,11 +76,9 @@
   hacer clic en "Más información → Ejecutar de todas formas". Para quitar el
   aviso hace falta un certificado de firma de código, que cuesta dinero.
 
-## ✨ Mejoras
+## ✨ Mejoras visuales y de lógica
 
-- [ ] 🟢 **Ampliar las pruebas**: hoy solo cubren 4 funciones puras.
-  Candidatas: `pickWeightedWord` y `pickIndividualPair` (requieren
-  preparar `state` y `SONG_DB`).
+> Se irán agregando las que pida el usuario o se le recomienden.
 
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
 
@@ -67,12 +90,13 @@
   `gameLogic.js` solo manda al participante mostrado al final de su fila.
 - [ ] **Cantidad de equipos.** Hoy es fijo en 2, sin manejo especial
   cuando el número de jugadores es impar.
-- [ ] **Fuente real de letras** en lugar del mock `data/songs.js`.
-  Primero hay que resolver el tema legal (instrucción 22).
 
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🟢 Pruebas ampliadas: `test/seleccion.test.js` cubre
+  `pickWeightedWord` y `pickIndividualPair` (9 pruebas nuevas).
 
 - [x] 2026-09-28: 🟢 Prueba `test/sw.test.js`: falla si `ASSETS` de `sw.js`
   lista un archivo inexistente, omite un archivo de `src/` o repite rutas.

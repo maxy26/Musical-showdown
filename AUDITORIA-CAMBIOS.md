@@ -13,6 +13,50 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 2): pruebas de elección de palabra y enfrentamiento
+
+**Decisión del usuario:** la publicación queda en pausa. Antes de publicar se
+harán los pendientes que falten, mejoras visuales y de lógica, y la parte legal
+de agregar canciones (solo letras, sin audio). Quedó registrado al inicio de
+`PENDIENTES.md`.
+
+**Qué se hizo**
+1. Nuevo archivo `test/seleccion.test.js` con 9 pruebas que usan la base de
+   ejemplo real y reinician `state` en cada prueba:
+   - `pickWeightedWord`: solo elige palabras de los géneros elegidos; nunca
+     elige palabras marcadas `false`; no elige palabras que solo están en
+     canciones ya usadas; devuelve `null` si no quedan canciones o si el género
+     no tiene canciones; da más peso a una palabra que está en más canciones.
+   - `pickIndividualPair`: con 2 jugadores siempre enfrenta a esos dos; con
+     más, elige dos distintos de la lista; favorece al que va perdiendo.
+2. **Hallazgos en `data/songs.js`**, registrados en pendientes y sin corregir
+   (dependen de la parte legal de las letras):
+   - Solo 11 de las 25 palabras que se pueden pedir aparecen en el fragmento de
+     letra de su canción.
+   - `corazon`, `razon` y `reir` no tienen tilde.
+   - En `verify.js`, el buscador y el resaltado no toleran tildes y el
+     resaltado no respeta palabras completas.
+   - No se puede probar aparte el peso del coro, porque en la base de ejemplo
+     todas las palabras que se pueden pedir están en el coro.
+3. `PENDIENTES.md` reorganizado: nueva sección "Canciones y letras", la
+   distribución marcada como en pausa, y una sección para mejoras visuales y de
+   lógica.
+
+**Archivos tocados:** `test/seleccion.test.js` (nuevo), `CLAUDE.md`,
+`AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`. No se tocó `src/`, así que no se
+recompiló.
+
+**Verificación**
+- `npm test`: 17/17, en tres corridas seguidas (algunas pruebas dependen del
+  azar y tienen márgenes amplios).
+- Se rompió a propósito `gameLogic.js` por un momento (se ignoraron las
+  canciones usadas y se quitó el favorecer al que va perdiendo): fallaron las 3
+  pruebas correspondientes. Después se restauró con `git checkout`.
+
+**Quedó abierto:** la parte legal de las letras.
+
+---
+
 ## 2026-09-28 — Sesión 3: prueba automática para la lista de `sw.js`
 
 **Qué se hizo**
