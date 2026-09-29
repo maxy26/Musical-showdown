@@ -52,25 +52,86 @@
 ## 3. Reglas de diseño (resumen de las 39 originales + cambios posteriores)
 
 ### Tipos de batalla
-- **Individual**: selección de próximo enfrentamiento ponderada por
-  puntaje (los que van perdiendo tienen más probabilidad de salir), para
-  mantener el equilibrio. El primer enfrentamiento es aleatorio.
-- **Grupal**: los jugadores se reparten en 2 equipos (tarjetas). El
-  puntaje es del equipo, no del participante mostrado (que es solo
-  estético/rotativo). Requiere **4 o más jugadores escritos** para
-  poder elegirse (si hay menos, el botón "Grupal" queda deshabilitado
-  con un aviso).
+- **Individual**: duelos 1 vs 1 entre jugadores.
+- **Grupal**: los jugadores se reparten en **2 o más grupos** y los duelos
+  son 1 vs 1 entre representantes de **grupos distintos** (nunca del mismo
+  grupo). El puntaje es **del grupo**. Requiere **4 o más jugadores
+  escritos** para poder elegirse (si hay menos, el botón "Grupal" queda
+  deshabilitado con un aviso).
 
 ### Modos de juego
-- **Clásico**: el único con reglas completamente definidas e
-  implementadas.
-- **Alternativo 1** y **Alternativo 2**: reglas exactas **aún
-  pendientes de definir** (son placeholders en el código, marcados con
-  `TODO`).
 - Disponibilidad: si el tipo de batalla es **Individual**, solo se
   muestran Clásico y Alternativo 1 (Alternativo 2 no aparece). Si es
   **Grupal**, se muestran los tres modos, todos libres de seleccionar
   (sin candado).
+- **Alternativo 2**: reglas **aún pendientes de definir** (el usuario lo
+  dejó para después).
+
+### Emparejamientos de Clásico y Alternativo 1 (definidos por el usuario el 28-09-2026; por implementar)
+
+**Comunes a los dos modos**
+- Cada **ronda es un duelo** 1 vs 1, con su propia palabra.
+- Gana quien llega primero al **puntaje objetivo**. Si se completa el orden
+  de duelos sin ganador, **el ciclo se repite**.
+- **Equilibrio de partidos**, como en una tabla de fútbol: siempre tienen
+  prioridad los que llevan menos duelos, para que todos terminen con la
+  misma cantidad de partidos o casi. Esta regla **manda sobre todas las demás**.
+
+**Clásico – Individual** (sorteo por fases)
+1. Los **3 primeros duelos: al azar**.
+2. Si hay **desequilibrio** de puntos: **3 duelos con ventaja → 3 al azar →
+   3 con ventaja → …**
+3. En cuanto hay **equilibrio**, se corta la fase en ese momento y queda
+   **solo al azar**. Si reaparece el desequilibrio, empieza **de inmediato**
+   la ventaja.
+- **Equilibrio:** todos los jugadores tienen al menos el **60 % del
+  promedio** de puntos (como "aprobar" con 3.0 sobre 5.0). Ejemplo: si el
+  promedio es 1000, hay equilibrio cuando nadie tiene menos de 600.
+- **Duelo con ventaja:** uno de los dos sale de entre los que están **por
+  debajo del promedio**, con más probabilidad **cuanto más lejos del
+  promedio** estén (no está garantizado). Su rival sale **al azar** entre
+  los que están en el promedio o por encima.
+- La ventaja y el azar solo eligen entre los que llevan **menos duelos**.
+- **No se repite el mismo duelo dos veces seguidas**, salvo que esos
+  jugadores ya se hayan enfrentado con todos los demás.
+
+**Clásico – Grupal**
+- Igual que Clásico Individual, pero **entre grupos**: mismas fases,
+  ventaja para los grupos por debajo del promedio y equilibrio de
+  partidos entre grupos.
+- El **jugador que representa al grupo** sale **al azar** entre los
+  compañeros que **menos han participado**.
+
+**Alternativo 1 – Individual** (orden fijo, sin ventaja)
+- **Primero contra último**, y luego rota: el jugador 1 queda fijo y los
+  demás giran una posición en cada tanda, como en los torneos. Con 10
+  jugadores:
+  - Tanda 1: 1v10, 2v9, 3v8, 4v7, 5v6
+  - Tanda 2: 1v9, 10v8, 2v7, 3v6, 4v5
+  - …hasta que todos se enfrentan con todos (con 10 jugadores: 9 tandas
+    y 45 duelos). Después el ciclo se repite.
+- Con número **impar**, descansa uno distinto en cada tanda (con 9
+  jugadores, en la tanda 1 descansa el 5).
+- **Sin ventaja** para los que van perdiendo.
+- El número de cada jugador es el orden en que se escribió su nombre en
+  la configuración.
+
+**Alternativo 1 – Grupal** (orden fijo, sin ventaja)
+- **Orden de los grupos:**
+  - **2 grupos:** siempre G1 vs G2.
+  - **3 grupos:** G1 vs G3 → G1 vs G2 → G2 vs G3, y se repite.
+  - **4 o más grupos:** primero contra último y luego rota, igual que en
+    Alternativo 1 Individual. Con 4 grupos: G1vG4, G2vG3 · G1vG3, G4vG2 ·
+    G1vG2, G3vG4.
+- **Jugadores:** dentro de cada grupo se turnan en orden (sale el que menos
+  ha jugado), y el rival es el siguiente del otro grupo **con quien todavía
+  no se haya enfrentado**. Con el tiempo, cada jugador se enfrenta a todos
+  los de los otros grupos.
+  - Ejemplo con G1 = A, B, C; G2 = D, E, F; G3 = G, H, I, J: A–G, B–D, E–H,
+    C–I, A–F, D–J, B–G, C–E…
+  - Las 33 parejas posibles se completan en el duelo 45.
+- El número de cada jugador es su orden dentro de la tarjeta de su grupo;
+  el de cada grupo, el orden de las tarjetas.
 
 ### Configuración de partida
 - Todo en una sola pantalla: jugadores, tipo de batalla, modo, géneros,
@@ -120,9 +181,22 @@
 - Sin multiplicador, cada acierto suma **100 puntos** (ese es el valor
   base; con multiplicador se multiplica por él).
 
-### Organización de equipos (modo Grupal)
-- Pantalla aparte tras confirmar la configuración. Tarjetas por equipo,
-  numeración desde 1 en cada equipo.
+### Organización de grupos (modo Grupal)
+- Pantalla aparte tras confirmar la configuración. Una tarjeta por grupo,
+  numeración desde 1 en cada grupo.
+- **Cantidad de grupos** (definido el 28-09-2026; por implementar): una
+  **lista desplegable en esta misma pantalla**, que solo ofrece opciones
+  válidas: de **2** hasta **la mitad de los jugadores**, porque cada grupo
+  necesita 2 o más (10 jugadores → de 2 a 5; 7 jugadores → de 2 a 3). La
+  lista empieza en **2**.
+- **Reparto inicial al azar**, con los jugadores que sobran en los
+  **últimos** grupos (10 jugadores en 3 grupos → 3, 3 y 4).
+- **Nombres** (definido el 28-09-2026; por implementar): al lado de la lista
+  de cantidad hay otra lista desplegable para elegir si se llaman
+  **"Grupos"** o **"Equipos"** (nombre predeterminado: "Grupo 1", "Grupo 2"…
+  o "Equipo 1", "Equipo 2"…). Cada nombre se puede **editar** (ej.
+  "Grupo 1" → "Los Fantasmas"). Detalles por confirmar con el usuario: ver
+  `PENDIENTES.md`.
 - **Volver a organizar**: redistribuye aleatoriamente sin pedir
   confirmación, manteniendo los tamaños de equipo.
 - **Mover jugadores**: tocar un jugador y luego el equipo destino; si
@@ -329,11 +403,9 @@ npm run build:android
 
 ## 8. Pendientes conocidos (no son errores, son diseño sin terminar)
 
-- Reglas exactas de **Alternativo 1** y **Alternativo 2**.
-- Reglas exactas de **rotación grupal** por modo (hoy es simple: el
-  participante mostrado pasa al final de la fila de su equipo tras un
-  acierto).
-- Cantidad de equipos: hoy fijo en **2**; sin manejo especial de
-  cantidades impares de jugadores.
+- Reglas de **Alternativo 2** (el usuario lo dejó para después).
+- **Implementar** los emparejamientos de Clásico y Alternativo 1, la
+  cantidad de grupos y sus nombres (reglas ya definidas en la sección 3;
+  hoy el juego todavía tiene 2 equipos fijos y un solo sorteo ponderado).
 - Reemplazar la base de canciones local (mock) por una fuente/API real
   de letras, ya decidido el tema legal.

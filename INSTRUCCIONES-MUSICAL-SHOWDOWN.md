@@ -108,11 +108,12 @@
 
 ## Cuando falte información
 
-21. Si hace falta decidir algo de las reglas de **Alternativo 1**,
-    **Alternativo 2** o la **rotación grupal exacta**, son puntos que el
-    usuario dejó pendientes a propósito — preguntar antes de inventar
-    una regla definitiva, o implementarlo como variante claramente
-    marcada y reversible.
+21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**
+    (Individual y Grupal), la cantidad de grupos y sus nombres las
+    definió el usuario el 28-09-2026 (contexto, sección 3). Se programan
+    **tal cual**: ante cualquier caso que no cubran, **preguntar**; el
+    usuario pidió expresamente que no se asuma nada. **Alternativo 2**
+    sigue sin reglas: preguntar antes de inventar cualquier cosa.
 22. Si se toca la base de canciones (`src/js/data/songs.js`), recordar
     que es un mock temporal — no asumir que se pueden agregar letras
     reales completas de canciones con derechos de autor sin antes

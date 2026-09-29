@@ -13,6 +13,42 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 10): reglas de Clásico y Alternativo 1 definidas
+
+**Qué se hizo:** en varias rondas de preguntas, el usuario definió las reglas
+de emparejamiento de **Clásico** y **Alternativo 1** (Individual y Grupal). Se
+le señalaron inconsistencias de su ejemplo inicial y se resolvieron:
+- "1 vs 10, 2 vs 9…" era solo la primera tanda.
+- Contradicción entre "jugar hasta el puntaje objetivo" y "jugar el todos
+  contra todos completo": vale lo primero, con el ciclo repitiéndose.
+- Con el orden de grupos propuesto, cada jugador siempre enfrentaba al mismo
+  rival: se eligió que cada jugador enfrente a todos los de los otros grupos.
+- Ventaja para los que van perdiendo frente a equilibrio de partidos: manda
+  el equilibrio de partidos.
+
+Para mostrarle casos concretos se usaron dos pequeños programas de simulación
+(fuera del repositorio): la rotación de jugadores entre grupos (33 parejas
+completas en el duelo 45) y el orden por tandas con 3, 4 y 5 grupos y 9
+jugadores.
+
+**Reglas guardadas en:**
+- `CONTEXTO-MUSICAL-SHOWDOWN.md`, sección 3: tipos de batalla, modos, la
+  sección nueva "Emparejamientos de Clásico y Alternativo 1" y "Organización
+  de grupos" (cantidad con lista desplegable, reparto al azar, nombres
+  "Grupos"/"Equipos" editables).
+- `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, regla 21: programar las reglas tal cual
+  y preguntar ante cualquier caso no cubierto.
+- `PENDIENTES.md`: plan de implementación en 3 partes y las preguntas que
+  faltan sobre los nombres de grupos.
+
+**Archivos tocados:** `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+No se tocó código.
+
+**Quedó abierto:** los detalles de los nombres de grupos y la implementación.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 9): `.exe` y `.apk` listos en la PC
 
 **Pedido del usuario:** dejar actualizados y listos el `.exe` y el `.apk`.

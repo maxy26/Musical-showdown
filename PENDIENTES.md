@@ -88,16 +88,36 @@
 
 > No inventar reglas: preguntar antes (instrucción 21).
 
-- [ ] **Reglas de Alternativo 1** (`state.config.mode`, `screens/config/modes.js`).
-- [ ] **Reglas de Alternativo 2.**
-- [ ] **Rotación grupal exacta por modo.** Hoy `rotateTeamShown` en
-  `gameLogic.js` solo manda al participante mostrado al final de su fila.
-- [ ] **Cantidad de equipos.** Hoy es fijo en 2, sin manejo especial
-  cuando el número de jugadores es impar.
+- [ ] 🔴 **Implementar los emparejamientos de Clásico y Alternativo 1** y los
+  grupos múltiples. Las reglas están definidas en `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+  sección 3 (28-09-2026). Plan por partes, cada una con pruebas, compilación
+  y el juego abierto para el usuario:
+  1. **Grupos múltiples:** cantidad de grupos (lista de 2 a la mitad de los
+     jugadores), reparto al azar con los que sobran al final, "Grupos"/"Equipos",
+     nombres editables; puntos por grupo; ronda y resultados con N grupos.
+     Reemplaza `state.teams` (hoy fijo `a`/`b`) y `rotateTeamShown`.
+  2. **Alternativo 1:** orden fijo "primero contra último" que rota
+     (Individual) y orden de grupos y jugadores (Grupal). Módulo puro con pruebas.
+  3. **Clásico:** fases al azar/ventaja, equilibrio del 60 % del promedio,
+     equilibrio de partidos y sin repetir el mismo duelo seguido (Individual
+     y Grupal). Reemplaza `pickIndividualPair`.
+- [ ] 🔴 **Detalles de los nombres de grupos, por confirmar con el usuario**
+  (preguntados el 28-09-2026):
+  - ¿Cuál viene elegido, "Grupos" o "Equipos"?
+  - ¿Cómo se edita un nombre?
+  - ¿Largo máximo? ¿Mayúsculas automáticas, como los jugadores?
+  - ¿Qué pasa con los nombres editados si se cambia de "Grupos" a "Equipos"?
+  - ¿Se permiten nombres repetidos? ¿Y un nombre vacío?
+- [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después).
 
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: Reglas de emparejamiento de **Clásico** y **Alternativo 1**
+  (Individual y Grupal), cantidad de grupos, "rotación grupal" y reparto en
+  grupos: **definidas por el usuario** y guardadas en el contexto (sección 3).
+  Falta implementarlas (ver arriba).
 
 - [x] 2026-09-28: 🟡 Nuevo diseño del valor personalizado (puntaje y tiempo):
   **selector de rueda** (`valuePicker.js`), táctil en Android y con flechas
