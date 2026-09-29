@@ -76,6 +76,11 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El
+  deslizamiento y el "lanzamiento" solo se probaron con eventos simulados.
+  Puede que haya que ajustar la sensibilidad (`MIN_FLING`, `MOMENTUM_MS` en
+  `valuePicker.js`).
+
 
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
 
@@ -93,9 +98,9 @@
 ## ✅ Resueltos
 
 - [x] 2026-09-28: 🟡 Nuevo diseño del valor personalizado (puntaje y tiempo):
-  ventana con deslizamiento táctil, botones ▲ / ▼, rueda del mouse y teclado
-  (`valuePicker.js`), elegido por el usuario después de ver una maqueta
-  interactiva con 3 diseños.
+  **selector de rueda** (`valuePicker.js`), táctil en Android y con flechas
+  ↑ ↓ en PC; se confirma con Enter o "Listo". Se eligió después de una
+  maqueta interactiva y de una primera versión con botones ▲ / ▼.
 
 - [x] 2026-09-28: 🟡 Puntaje y tiempo personalizados: al terminar ("✓ Listo"
   o Enter) la caja se cierra y el valor ocupa el lugar de los predeterminados

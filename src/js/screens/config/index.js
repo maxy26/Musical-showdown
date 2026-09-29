@@ -119,10 +119,10 @@ export function screenConfig() {
   bindMuteButtons(root);
 
   // ---------- Puntaje objetivo y tiempo: predeterminado vs. personalizado ----------
-  // "Personalizado…" abre una ventana (valuePicker.js) que se maneja con el
-  // dedo, con ▲▼, con la rueda del mouse o con el teclado. Al aceptar, el
-  // valor ocupa el lugar de los predeterminados en la lista (si coincide con
-  // uno de ellos, se usa ese). "Cancelar" deja todo como estaba.
+  // "Personalizado…" abre un selector de rueda (valuePicker.js): se desliza
+  // con el dedo o con las flechas ↑ ↓, y se confirma con Enter o "Listo".
+  // El valor ocupa el lugar de los predeterminados en la lista (si coincide
+  // con uno de ellos, se usa ese). "Cancelar" deja todo como estaba.
   root.querySelector("#target").onchange = (e) => {
     const v = e.target.value;
     if (v === "custom-value") return;
@@ -131,14 +131,9 @@ export function screenConfig() {
         title: "Puntaje objetivo",
         value: c.targetScore,
         min: 100, max: 9900, step: 100,
-        format: (s) => `${s}<small>pts</small>`,
-        rangeText: "de 100 a 9900 pts",
-        quick: [
-          { label: "−1000", apply: (s) => s - 1000 },
-          { label: "−500", apply: (s) => s - 500 },
-          { label: "+500", apply: (s) => s + 500 },
-          { label: "+1000", apply: (s) => s + 1000 },
-        ],
+        formatItem: (s) => String(s),
+        unit: "pts",
+        describe: (s) => `${s} puntos`,
         onAccept: (s) => {
           c.targetScore = s;
           c.targetScoreMode = isPresetTarget(s) ? "preset" : "custom";
@@ -157,16 +152,12 @@ export function screenConfig() {
     const v = e.target.value;
     if (v === "custom-value") return;
     if (v === "custom") {
-      const at = (m, s) => ({ label: `${m}:${String(s).padStart(2, "0")}`, apply: () => m * 60 + s });
       openValuePicker({
         title: "Tiempo por ronda",
         value: c.roundTime > 0 ? c.roundTime : 90, // "Sin tiempo" no tiene valor: se parte de 1:30
         min: 5, max: 120, step: 5, // máximo 2 minutos; 0:00 sería "Sin tiempo"
-        format: (t) => (t >= 60
-          ? `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}<small>min</small>`
-          : `${t}<small>seg</small>`),
-        rangeText: "de 5 seg a 2 min",
-        quick: [at(1, 15), at(1, 30), at(1, 45), at(2, 0)],
+        formatItem: (t) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`,
+        describe: formatCustomTime,
         onAccept: (t) => {
           c.roundTime = t;
           c.roundTimeMode = isPresetTime(t) ? "preset" : "custom";

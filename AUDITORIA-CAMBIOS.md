@@ -13,6 +13,62 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 8): selector de rueda
+
+**Pedido del usuario:** que la ventana del valor personalizado sea más como un
+selector de rueda: que se edite con las flechas ↑ ↓ del teclado (PC) y
+deslizando con el dedo (Android), y que el valor se confirme con Enter
+(Windows) o con un botón "Listo" en la misma ventana.
+
+**Qué se hizo**
+1. `valuePicker.js` reescrito como **rueda**:
+   - Columna de valores con el elegido al centro, en una franja resaltada; los
+     vecinos se ven más tenues y pequeños y se desvanecen arriba y abajo.
+     Debajo se lee el valor completo ("2300 puntos", "1 min 25 seg").
+   - Táctil: deslizar mueve la rueda. Al soltar rápido, sigue girando (impulso)
+     y se detiene justo en un valor; al soltar despacio, se queda en la fila
+     más cercana. Tocar un valor visible lo lleva al centro.
+   - PC: ↑ ↓ (una fila), RePág/AvPág (10 filas), Inicio/Fin, rueda del mouse y
+     arrastrar. Las pulsaciones seguidas se suman al destino y no se pierden.
+   - Enter o "Listo" confirman (aunque la rueda siga girando: se toma el valor
+     donde va a parar); Esc o "Cancelar" salen sin cambios. Enter con el foco
+     en "Cancelar" no confirma.
+   - Se quitaron los botones ▲ / ▼ y los atajos de la versión anterior.
+   - Funciones puras: `clampStep`, `wheelValues` y `snapIndex`, con pruebas.
+   - Respaldo con `setTimeout`: si el navegador no dibuja cuadros de
+     animación, la rueda igual queda en su destino.
+2. `screens/config/index.js`: la rueda del puntaje muestra "2300" con "pts" y
+   la del tiempo muestra "1:25".
+3. `styles.css`: estilos `.wheel*`, en lugar de `.picker-arrow`,
+   `.picker-value` y `.picker-quick`.
+4. Documentación actualizada: contexto, instrucciones (regla 20) y pendientes.
+
+**Errores encontrados al probar y corregidos**
+- Al saltar muchas filas de golpe, la fila anterior conservaba la marca de
+  "seleccionada", porque se salía del bucle antes de quitársela.
+- Al deslizar despacio, la rueda también seguía girando al soltar. Ahora el
+  impulso solo se aplica por encima de una velocidad mínima (`MIN_FLING`).
+
+**Archivos tocados:** `src/js/screens/config/valuePicker.js`,
+`src/js/screens/config/index.js`, `src/css/styles.css`, `test/gameLogic.test.js`,
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`,
+`AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- `npm test`: 44 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge sin ventana, con eventos táctiles simulados: 23 de 23 comprobaciones
+  (deslizar despacio y rápido, tocar una fila, ↑ ↓ seguidas, RePág, Inicio/Fin,
+  límites 100/9900 y 0:05/2:00, Enter durante el giro, "Listo", Esc, Cancelar,
+  Enter sobre "Cancelar").
+- Capturas en PC y en un marco de teléfono de 360 px revisadas.
+- `build:android` y `build:desktop`: ambos bien. Se abrió el `.exe` para el
+  usuario.
+
+**Quedó abierto:** probar la rueda en un teléfono real (pendientes).
+Después: Alternativo 1.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 7): ventana táctil para el valor personalizado
 
 **Pedido del usuario:** un diseño más profesional para el modo personalizado.

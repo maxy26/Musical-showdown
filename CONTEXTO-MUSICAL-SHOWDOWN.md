@@ -90,18 +90,23 @@
   bajan de 100 en 100; también se puede escribir el número directo y
   confirmar con **Enter** (se redondea al múltiplo de 100 más cercano,
   entre 100 y 9900).
-- **Ventana de valor personalizado** (28-09-2026, pedido por el usuario;
-  reemplaza a las cajas con flechas descritas arriba): al elegir
-  "Personalizado…" en el puntaje o en el tiempo se abre una ventana con el
-  valor en grande. Se cambia **deslizando el dedo** hacia arriba o abajo
-  sobre el valor (Android), con los botones **▲ / ▼** (mantenerlos
-  presionados avanza rápido), con la **rueda del mouse** o con las **flechas
-  del teclado** (Windows). Tiene atajos (puntaje: −1000, −500, +500, +1000;
-  tiempo: 1:15, 1:30, 1:45, 2:00). **Cancelar** (o Esc) no cambia nada;
-  **Aceptar** (o Enter) deja el valor en la lista, en el lugar de los
-  predeterminados (ej. "3500 pts" o "1 min 40 seg"). Si coincide con uno
-  predeterminado, se selecciona ese. Reglas: puntaje de 100 a 9900 de 100 en
-  100; tiempo de 5 seg a 2 min de 5 en 5.
+- **Selector de rueda para el valor personalizado** (28-09-2026, pedido por
+  el usuario; reemplaza a las cajas con flechas descritas arriba): al elegir
+  "Personalizado…" en el puntaje o en el tiempo se abre una ventana con una
+  **rueda** de valores, como las de los relojes y alarmas del teléfono. El
+  valor elegido queda al centro, resaltado, y los vecinos se ven tenues.
+  - **Android:** se desliza con el dedo; si se lanza rápido, sigue girando
+    y se detiene justo en un valor. Tocar un valor visible lo lleva al centro.
+  - **PC:** flechas ↑ ↓ del teclado (también RePág/AvPág, Inicio/Fin, la
+    rueda del mouse o arrastrar).
+  - Bajo la rueda se lee el valor completo ("2300 puntos", "1 min 25 seg").
+  - **Enter** o **"Listo"** confirman; **Esc** o **"Cancelar"** salen sin
+    cambios.
+  - Al confirmar, el valor ocupa el lugar de los predeterminados en la lista
+    (ej. "3500 pts" o "1 min 40 seg"). Si coincide con uno predeterminado,
+    se selecciona ese.
+  - Reglas: puntaje de 100 a 9900, de 100 en 100; tiempo de 5 seg a 2 min, de
+    5 en 5.
 - **Tiempo por ronda**: lista desplegable de 5 en 5 segundos hasta 60
   ("1 min"), más "Sin tiempo", más "Personalizado". En personalizado
   hay dos cajas (minutos 0–2, segundos 0–55 de 5 en 5), mismo patrón de

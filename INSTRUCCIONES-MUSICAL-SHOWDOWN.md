@@ -98,12 +98,13 @@
     en versiones viejas).
 20. Multiplicadores: exactamente 4 (×2, ×3, ×4, ×5), con un único
     interruptor maestro. Puntaje objetivo y tiempo por ronda: el valor
-    personalizado se elige en una ventana (`valuePicker.js`) que funciona
-    deslizando el dedo sobre el valor y con botones ▲ / ▼ (también rueda
-    del mouse y teclado), igual para puntaje y tiempo; al aceptar, el
-    valor ocupa el lugar de los predeterminados en la lista. No volver a
-    los diseños anteriores de estos controles (cajas por dígito, cajas con
-    flechas en la pantalla) salvo pedido explícito.
+    personalizado se elige en un **selector de rueda** (`valuePicker.js`),
+    igual para puntaje y tiempo: se desliza con el dedo (Android) o con las
+    flechas ↑ ↓ del teclado (PC), y se confirma con Enter o con "Listo". Al
+    confirmar, el valor ocupa el lugar de los predeterminados en la lista.
+    No volver a los diseños anteriores de estos controles (cajas por
+    dígito, cajas con flechas, ventana con botones ▲ / ▼) salvo pedido
+    explícito.
 
 ## Cuando falte información
 

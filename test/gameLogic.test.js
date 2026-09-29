@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { weightedPick } from "../src/js/utils.js";
 import { countTypedPlayers } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
-import { clampStep } from "../src/js/screens/config/valuePicker.js";
+import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
 import { songKey } from "../src/js/gameLogic.js";
 
 test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
@@ -38,6 +38,25 @@ test("clampStep respeta los límites y el paso del puntaje y del tiempo", () => 
   assert.equal(clampStep(0, 5, 120, 5), 5);
   assert.equal(clampStep(150, 5, 120, 5), 120);
   assert.equal(clampStep(87, 5, 120, 5), 85);
+});
+
+test("wheelValues arma las filas de la rueda con las reglas de puntaje y tiempo", () => {
+  const puntaje = wheelValues(100, 9900, 100);
+  assert.equal(puntaje.length, 99);
+  assert.equal(puntaje[0], 100);
+  assert.equal(puntaje.at(-1), 9900);
+  const tiempo = wheelValues(5, 120, 5);
+  assert.equal(tiempo.length, 24);
+  assert.deepEqual([tiempo[0], tiempo.at(-1)], [5, 120]);
+});
+
+test("snapIndex detiene la rueda en una fila entera, con impulso y sin salirse", () => {
+  assert.equal(snapIndex(10.3, 0, 99), 10); // sin impulso: la fila más cercana
+  assert.equal(snapIndex(10.3, 0.005, 99), 10); // arrastre lento: tampoco sigue girando
+  assert.ok(snapIndex(10, 0.05, 99) > 10); // lanzada hacia arriba: sigue girando
+  assert.ok(snapIndex(10, -0.05, 99) < 10); // lanzada hacia abajo
+  assert.equal(snapIndex(97, 0.06, 99), 98); // no pasa de la última fila
+  assert.equal(snapIndex(1, -0.06, 99), 0); // ni de la primera
 });
 
 test("weightedPick siempre devuelve un elemento válido de la lista", () => {
