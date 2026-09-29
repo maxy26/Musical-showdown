@@ -75,12 +75,6 @@
 
 ## ✨ Mejoras visuales y de lógica
 
-- [ ] 🔴 **Verificar en el juego (no se alcanzó a probar, 28-09-2026):** mover e
-  intercambiar jugadores en "Organizar". Tocar un jugador y luego otro de otro
-  grupo los **intercambia**; tocar un jugador y luego el grupo (fuera de los
-  nombres) lo **mueve** sin intercambiar, si su grupo queda con 2 o más. Solo
-  pasaron las pruebas y ESLint; faltan la prueba en Edge, las capturas, compilar
-  el `.exe`/`.apk` y abrírselo al usuario.
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
@@ -115,6 +109,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-29: Mover e intercambiar jugadores en "Organizar" (pedido del
+  usuario): tocar un jugador y luego otro de otro grupo los **intercambia**;
+  tocar un jugador y luego el grupo (fuera de los nombres) lo **mueve** sin
+  intercambiar, si su grupo queda con 2 o más. Verificado en Edge y compilado.
 
 - [x] 2026-09-28: Al cambiar la cantidad de grupos **se reinicia todo**: nuevo
   reparto al azar y nombres predeterminados, manteniendo "Equipos"/"Grupos"

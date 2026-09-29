@@ -220,10 +220,14 @@
     resultados.
 - **Volver a organizar**: redistribuye aleatoriamente sin pedir
   confirmación, manteniendo los tamaños de equipo.
-- **Mover jugadores**: tocar un jugador y luego el equipo destino; si
-  los equipos tienen igual tamaño se intercambian posiciones, si no,
-  simplemente se mueve (respetando que no puede quedar un equipo más
-  lleno que el otro permite).
+- **Mover e intercambiar jugadores** (definido por el usuario el 28-09-2026):
+  - **Intercambiar:** tocar un jugador y luego **a un jugador** de otro
+    grupo; esos dos cambian de lugar, sin importar el tamaño de los grupos.
+  - **Mover sin intercambiar:** tocar un jugador y luego **el grupo** (la
+    tarjeta, fuera de los nombres); el jugador pasa a ese grupo, siempre que
+    su grupo quede con **2 o más** jugadores (si no, aparece un aviso).
+  - Tocar dos veces al mismo jugador lo desmarca. Tocar el título de un grupo
+    siempre abre la edición del nombre (no mueve a nadie).
 - **Confirmar equipos**: pide confirmación (sí/no) y bloquea la
   posibilidad de mover jugadores durante la partida.
 

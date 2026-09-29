@@ -13,6 +13,34 @@
 
 ---
 
+## 2026-09-29 — Sesión 4: verificación de mover e intercambiar jugadores
+
+**Estado encontrado al empezar:** el commit `3c346f6` (mover e intercambiar)
+estaba solo en la PC y sin verificar, porque la sesión anterior se cortó por el
+límite de uso. La compilación en GitHub de `75626f1` había terminado bien.
+
+**Qué se hizo:** se terminó la verificación pendiente del cambio de la parte 15.
+- En Edge sin ventana, con 7 jugadores en 3 equipos (2/2/3): 12 de 12
+  comprobaciones. Tocar dos jugadores de equipos distintos los intercambia,
+  también entre equipos de distinto tamaño. Tocar el equipo mueve sin
+  intercambiar y luego no queda nadie elegido. No deja un equipo con menos de
+  2 y avisa "Cada equipo necesita al menos 2 jugadores". Tocar un equipo sin
+  nadie elegido, o el mismo equipo del elegido, no hace nada. Tocar el título
+  edita el nombre sin mover a nadie. Tocar dos veces a un jugador lo desmarca.
+  El texto de ayuda explica las dos formas.
+- Captura revisada. `npm test`: 55/55. `build:apk` y `build:desktop`: ambos
+  bien. Se abrió el `.exe` para el usuario.
+- `CONTEXTO-MUSICAL-SHOWDOWN.md`: la regla de mover jugadores quedó con lo que
+  definió el usuario.
+
+**Archivos tocados:** `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md` (el código ya estaba en `3c346f6`).
+
+**Quedó abierto:** subir los commits a GitHub; partes 2 (Alternativo 1) y 3
+(Clásico) del plan.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 15): mover e intercambiar jugadores (sin verificar)
 
 **Pedido del usuario:** intercambiar solo si se tocan dos jugadores de grupos
