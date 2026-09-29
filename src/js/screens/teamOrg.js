@@ -48,7 +48,7 @@ export function screenTeamOrg() {
       </div>
       <div class="teams-grid" id="groups"></div>
       <p class="field-error" id="group-names-error" hidden></p>
-      <p class="small-note">Toca un jugador y luego a alguien de otro ${singular} para moverlo. Toca el nombre de un ${singular} para cambiarlo.</p>
+      <p class="small-note">Toca un jugador y luego a alguien de otro ${singular} para intercambiarlos, o toca el ${singular} (fuera de los nombres) para moverlo ahí. Toca el nombre de un ${singular} para cambiarlo.</p>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn btn-secondary" id="reshuffle">🎲 Volver a organizar</button>
         <button class="btn btn-primary" id="confirm-teams" style="margin-left:auto;">🔒 Confirmar ${plural}</button>
@@ -76,7 +76,15 @@ export function screenTeamOrg() {
         <h3 class="group-title" title="Toca para cambiar el nombre">${escapeHtml(groupName(group, gi, c.groupTerm))} <span class="edit-hint">✏️</span></h3>
         <div class="members"></div>
       </div>`);
-      card.querySelector("h3").onclick = () => editName(card, gi);
+      card.querySelector("h3").onclick = (e) => { e.stopPropagation(); editName(card, gi); };
+      // Tocar el grupo (fuera de los nombres) mueve ahí al jugador elegido, sin intercambiar.
+      card.onclick = () => {
+        const current = state.teamSelectedPlayer;
+        if (!current || current.group === gi) return;
+        movePlayer(current.name, current.group, gi);
+        state.teamSelectedPlayer = null;
+        renderGroups();
+      };
 
       const members = card.querySelector(".members");
       group.players.forEach((name, pi) => {
@@ -85,12 +93,13 @@ export function screenTeamOrg() {
         const item = el(`<div class="team-member ${selected ? "selected" : ""}">
           <span class="num">${pi + 1}.</span> ${escapeHtml(name)}
         </div>`);
-        item.onclick = () => {
+        item.onclick = (e) => {
+          e.stopPropagation(); // no cuenta como tocar el grupo
           const current = state.teamSelectedPlayer;
           if (selected) state.teamSelectedPlayer = null;
           else if (!current || current.group === gi) state.teamSelectedPlayer = { name, group: gi };
           else {
-            movePlayer(current.name, current.group, gi, name);
+            swapPlayers(current.name, current.group, gi, name);
             state.teamSelectedPlayer = null;
           }
           renderGroups();
@@ -131,20 +140,24 @@ export function screenTeamOrg() {
     };
   }
 
-  // Mover a `name` de su grupo al grupo `to`. Si el grupo destino tiene menos
-  // jugadores, se mueve; si tiene los mismos, se intercambia con `target`.
-  function movePlayer(name, from, to, target) {
+  // Tocar un jugador y luego a otro de otro grupo: se intercambian esos dos.
+  function swapPlayers(name, from, to, target) {
     const src = state.groups[from].players;
     const dst = state.groups[to].players;
-    if (dst.length < src.length) {
-      src.splice(src.indexOf(name), 1);
-      dst.push(name);
-    } else if (dst.length === src.length) {
-      src[src.indexOf(name)] = target;
-      dst[dst.indexOf(target)] = name;
-    } else {
-      showWarning(`Ese ${singular} ya está lleno.`);
+    src[src.indexOf(name)] = target;
+    dst[dst.indexOf(target)] = name;
+  }
+
+  // Tocar un jugador y luego el grupo (fuera de los nombres): se mueve sin
+  // intercambiar, siempre que su grupo quede con al menos 2 jugadores.
+  function movePlayer(name, from, to) {
+    const src = state.groups[from].players;
+    if (src.length <= 2) {
+      showWarning(`Cada ${singular} necesita al menos 2 jugadores.`);
+      return;
     }
+    src.splice(src.indexOf(name), 1);
+    state.groups[to].players.push(name);
   }
 
   // ---------- Listas de cantidad y nombre ----------

@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 15): mover e intercambiar jugadores (sin verificar)
+
+**Pedido del usuario:** intercambiar solo si se tocan dos jugadores de grupos
+distintos; para mover sin intercambiar, tocar el jugador y luego el grupo
+(fuera de los nombres).
+
+**Qué se hizo:** `teamOrg.js` separa `swapPlayers` (jugador + jugador de otro
+grupo) y `movePlayer` (jugador + tarjeta del grupo; exige que el grupo de origen
+quede con 2 o más). El texto de ayuda de la pantalla quedó actualizado. Subidos a GitHub
+`1151d5b` y `75626f1`.
+
+**Verificación:** `npm test` 55/55 y `npm run lint` sin errores. **No** se probó
+en Edge, **no** se compiló el `.exe`/`.apk` ni se abrió el juego: se alcanzó
+el límite de uso de la sesión (ver pendientes).
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 14): reinicio al cambiar la cantidad y colores de grupo en la ronda
 
 **Decisiones del usuario:**

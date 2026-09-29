@@ -75,13 +75,15 @@
 
 ## ✨ Mejoras visuales y de lógica
 
+- [ ] 🔴 **Verificar en el juego (no se alcanzó a probar, 28-09-2026):** mover e
+  intercambiar jugadores en "Organizar". Tocar un jugador y luego otro de otro
+  grupo los **intercambia**; tocar un jugador y luego el grupo (fuera de los
+  nombres) lo **mueve** sin intercambiar, si su grupo queda con 2 o más. Solo
+  pasaron las pruebas y ESLint; faltan la prueba en Edge, las capturas, compilar
+  el `.exe`/`.apk` y abrírselo al usuario.
+
 > Se irán agregando las que pida el usuario o se le recomienden.
 
-- [ ] ❓ **Confirmar con el usuario** (se lo volvió a explicar con un ejemplo el
-  28-09-2026): al mover jugadores entre dos grupos del
-  mismo tamaño, ahora **se intercambian los dos jugadores tocados**. Antes se
-  intercambiaba siempre con el primero del otro grupo, sin importar a quién se
-  tocara.
 
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
