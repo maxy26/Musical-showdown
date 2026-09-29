@@ -13,6 +13,74 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 13): grupos múltiples (parte 1 del plan)
+
+**Decisión del usuario:** hacer la parte 1 sola, con una **regla temporal** para
+elegir qué grupos se enfrentan, que se reemplaza en las partes 2 y 3.
+
+**Qué se hizo**
+1. Nuevo `src/js/groups.js` (funciones puras):
+   - `groupCountOptions` y `maxGroups`: de 2 a la mitad de los jugadores.
+   - `groupSizes` y `distributeRandom`: reparto parejo al azar, con los que
+     sobran en los últimos grupos.
+   - `defaultGroupName` y `groupName`: "Equipo N"/"Grupo N" o el nombre editado.
+   - `pickGroupPairTemporary`: **REGLA TEMPORAL**, al azar con equilibrio de
+     partidos.
+   - `pickRepresentative`: al azar entre los que menos han cantado; es la
+     regla definitiva de Clásico Grupal.
+2. `state.js`:
+   - `teams: {a, b}` → `groups: [{ players, customName }]`.
+   - Nuevos `config.groupCount` (2) y `config.groupTerm` ("equipo").
+   - Nuevos contadores `matchCounts` (duelos jugados) y `singCounts` (veces que
+     cantó cada jugador).
+   - **Corrección:** `multipliers` empezaba en `[2, 3]`; ahora `[2, 3, 4, 5]`,
+     como pide la instrucción 20.
+3. `gameLogic.js`: en Grupal, los grupos se eligen con la regla temporal y
+   quién canta con `pickRepresentative`; se cuentan los duelos. Se eliminó
+   `rotateTeamShown`.
+4. `screens/teamOrg.js` reescrito:
+   - Listas "Cantidad de equipos" (con el mínimo y el máximo indicados) y "Se
+     llaman" (Equipos/Grupos; cambiarla devuelve los nombres a los
+     predeterminados).
+   - Una tarjeta por grupo, con su color.
+   - Nombre editable tocando el título (máximo 20 letras, primera letra de cada
+     palabra en mayúscula, vacío = predeterminado). Los repetidos se subrayan
+     en rojo con un mensaje, y no deja confirmar.
+   - Mover jugadores entre cualquier par de grupos.
+   - "Confirmar" crea los puntos con los nombres finales.
+5. `config/index.js`: el reparto inicial se hace con `distributeRandom`, y se
+   reinician los contadores. `results.js` también los reinicia en "Jugar de
+   nuevo".
+6. `styles.css`: grilla adaptable, 5 colores de grupo, título editable y el
+   error. `sw.js`: se agrega `groups.js` y `CACHE_NAME` pasa a v5.
+7. Nuevo `test/grupos.test.js` con 7 pruebas.
+8. Subido a GitHub `5c4a888`; su compilación (run 36517272722) terminó bien.
+
+**Decisiones tomadas sin definición del usuario** (anotadas como "confirmar" en
+pendientes): al cambiar la cantidad de grupos, los que siguen existiendo
+conservan su nombre; al mover entre grupos del mismo tamaño, se intercambian
+los dos jugadores tocados.
+
+**Archivos tocados:** `src/js/groups.js` (nuevo), `src/js/state.js`,
+`src/js/gameLogic.js`, `src/js/screens/teamOrg.js`, `src/js/screens/config/index.js`,
+`src/js/screens/results.js`, `src/css/styles.css`, `src/sw.js`,
+`test/grupos.test.js` (nuevo), `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 55 pasan y 1 pendiente. `npm run lint`: sin errores.
+- Recorrido completo en Edge sin ventana, con 10 jugadores: 20 de 20
+  comprobaciones (cantidad de 2 a 5 con su aviso, 3 grupos de 3/3/4, nadie se
+  pierde, renombrar, repetido en rojo que bloquea, vacío vuelve al
+  predeterminado, "Grupos" reinicia los nombres, mover e intercambiar, puntos
+  con los nombres finales, ronda entre dos grupos distintos con un jugador de
+  cada uno). Capturas de "Organizar equipos" y de la ronda revisadas.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** las partes 2 (Alternativo 1) y 3 (Clásico), que reemplazan
+la regla temporal; las 2 confirmaciones y la sugerencia de color en pendientes.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 12): nombres repetidos no permitidos
 
 **Decisión del usuario:** no permitir nombres repetidos, ni de jugadores ni de

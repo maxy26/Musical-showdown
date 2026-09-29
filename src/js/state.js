@@ -9,21 +9,25 @@ function freshState() {
     config: {
       players: ["", ""],
       battleType: "individual", // individual | grupal
-      mode: "clasico", // TODO: alternativo1 y alternativo2 pendientes de reglas
+      mode: "clasico", // clasico | alternativo1 | alternativo2 (reglas: CONTEXTO, sección 3)
       genres: ["pop"],
       targetScore: 2000,
       targetScoreMode: "preset", // "preset" | "custom"
       roundTime: 30, // 0 = sin tiempo
       roundTimeMode: "preset", // "preset" | "custom"
-      multipliers: [2, 3],
+      multipliers: [2, 3, 4, 5], // los 4 fijos, con un solo interruptor (instrucción 20)
+      groupCount: 2, // modo Grupal: cantidad de grupos
+      groupTerm: "equipo", // modo Grupal: "equipo" | "grupo" (ver groups.js)
     },
-    teams: { a: [], b: [] },
-    scores: {}, // nombre/equipo -> puntaje
+    groups: [], // modo Grupal: [{ players: [...], customName: "" }] (ver groups.js)
+    scores: {}, // nombre del jugador o del grupo -> puntaje
+    matchCounts: {}, // nombre del jugador o del grupo -> duelos jugados (equilibrio de partidos)
+    singCounts: {}, // modo Grupal: nombre del jugador -> veces que representó a su grupo
     usedSongs: [], // claves "titulo|letra" bloqueadas durante la partida
     round: {
-      participantA: null,
+      participantA: null, // jugador (Individual) o nombre del grupo (Grupal)
       participantB: null,
-      showA: null, // participante mostrado por el equipo A (solo grupal)
+      showA: null, // jugador que representa al grupo A en este duelo (solo Grupal)
       showB: null,
       word: null,
       multiplier: null,

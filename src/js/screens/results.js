@@ -34,6 +34,8 @@ export function screenResults() {
   root.querySelector("#again").onclick = () => {
     Object.keys(state.scores).forEach((k) => (state.scores[k] = 0));
     state.usedSongs = [];
+    state.matchCounts = {};
+    state.singCounts = {};
     if (c.battleType === "grupal") {
       state.screen = "team-org";
     } else {

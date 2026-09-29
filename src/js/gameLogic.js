@@ -1,6 +1,7 @@
 import { state } from "./state.js";
 import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
+import { groupName, pickGroupPairTemporary, pickRepresentative } from "./groups.js";
 import { render } from "./router.js";
 import { playTick } from "./sound.js";
 
@@ -63,11 +64,20 @@ export function startNextRound() {
   if (c.battleType === "individual") {
     [A, B] = pickIndividualPair();
   } else {
-    A = "Equipo 1";
-    B = "Equipo 2";
-    showA = state.teams.a[0] || "—";
-    showB = state.teams.b[0] || "—";
+    // Qué grupos se enfrentan: REGLA TEMPORAL (al azar con equilibrio de
+    // partidos) hasta programar las reglas de Clásico y Alternativo 1.
+    const names = state.groups.map((g, i) => groupName(g, i, c.groupTerm));
+    const [ia, ib] = pickGroupPairTemporary(names.map((n) => state.matchCounts[n] || 0));
+    A = names[ia];
+    B = names[ib];
+    // Quién canta por cada grupo: al azar entre los que menos han participado.
+    showA = pickRepresentative(state.groups[ia].players, state.singCounts);
+    showB = pickRepresentative(state.groups[ib].players, state.singCounts);
+    state.singCounts[showA] = (state.singCounts[showA] || 0) + 1;
+    state.singCounts[showB] = (state.singCounts[showB] || 0) + 1;
   }
+  state.matchCounts[A] = (state.matchCounts[A] || 0) + 1;
+  state.matchCounts[B] = (state.matchCounts[B] || 0) + 1;
 
   state.round = {
     participantA: A, participantB: B, showA, showB,
@@ -124,20 +134,9 @@ export function finishRoundManual() {
   render();
 }
 
-/** Rotación simple del participante mostrado en un equipo tras un acierto. */
-function rotateTeamShown(side) {
-  const teamKey = side === "A" ? "a" : "b";
-  const arr = state.teams[teamKey];
-  if (arr.length <= 1) return;
-  // TODO: reglas exactas de rotación grupal por modo aún pendientes (ver diseño, punto 3).
-  arr.push(arr.shift());
-}
-
 export function resolveAnswer(correct) {
   const r = state.round;
-  const c = state.config;
-  const side = r.selected;
-  const who = side === "A" ? r.participantA : r.participantB;
+  const who = r.selected === "A" ? r.participantA : r.participantB;
 
   if (correct) {
     const base = 100; // sin multiplicador, la ronda suma de 100 en 100
@@ -145,8 +144,6 @@ export function resolveAnswer(correct) {
     state.scores[who] += pts;
     state.usedSongs.push(songKey(state.verify.selectedSong));
     r.lastResult = { type: "correct", who, pts, newScore: state.scores[who] };
-
-    if (c.battleType === "grupal") rotateTeamShown(side);
     state.screen = "round-result";
   } else {
     r.lastResult = { type: "incorrect" };

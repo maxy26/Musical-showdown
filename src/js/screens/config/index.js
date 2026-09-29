@@ -12,6 +12,7 @@ import {
 import { modesFor } from "./modes.js";
 import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
+import { distributeRandom, maxGroups } from "../../groups.js";
 
 /**
  * Opción de la lista con el valor personalizado ya elegido (ej. "3500 pts").
@@ -212,13 +213,16 @@ export function screenConfig() {
     if (c.genres.length === 0) { showWarning("Selecciona al menos un género."); return; }
 
     state.scores = {};
+    state.matchCounts = {};
+    state.singCounts = {};
     if (c.battleType === "individual") {
       c.players.forEach((p) => (state.scores[p] = 0));
       startNextRound();
     } else {
-      state.teams = { a: [], b: [] };
-      c.players.forEach((p, i) => (i % 2 === 0 ? state.teams.a : state.teams.b).push(p));
-      state.scores = { "Equipo 1": 0, "Equipo 2": 0 };
+      // Reparto al azar, con los que sobran en los últimos grupos. Los puntos
+      // de cada grupo se crean al confirmar los grupos (ya con sus nombres).
+      c.groupCount = Math.min(c.groupCount, maxGroups(c.players.length));
+      state.groups = distributeRandom(c.players, c.groupCount);
       state.screen = "team-org";
     }
     render();

@@ -77,6 +77,20 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🟢 **Sugerencia: el color de cada grupo en la ronda.** En "Organizar"
+  cada grupo tiene su color (rosa, verde, dorado, azul, naranja), pero en la
+  ronda el lado izquierdo siempre es rosa y el derecho verde, sin importar el
+  grupo. Se podría usar el color del grupo también en la ronda. Preguntarle
+  al usuario.
+- [ ] ❓ **Confirmar con el usuario:** al cambiar la cantidad de grupos, los
+  jugadores se vuelven a repartir al azar y los grupos que siguen existiendo
+  conservan su nombre editado (ej. de 3 a 2 grupos, "Los Fantasmas" sigue
+  siendo el grupo 1). Se hizo así porque no estaba definido.
+- [ ] ❓ **Confirmar con el usuario:** al mover jugadores entre dos grupos del
+  mismo tamaño, ahora **se intercambian los dos jugadores tocados**. Antes se
+  intercambiaba siempre con el primero del otro grupo, sin importar a quién se
+  tocara.
+
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
   `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
@@ -93,10 +107,10 @@
   grupos múltiples. Las reglas están definidas en `CONTEXTO-MUSICAL-SHOWDOWN.md`,
   sección 3 (28-09-2026). Plan por partes, cada una con pruebas, compilación
   y el juego abierto para el usuario:
-  1. **Grupos múltiples:** cantidad de grupos (lista de 2 a la mitad de los
-     jugadores), reparto al azar con los que sobran al final, "Grupos"/"Equipos",
-     nombres editables; puntos por grupo; ronda y resultados con N grupos.
-     Reemplaza `state.teams` (hoy fijo `a`/`b`) y `rotateTeamShown`.
+  1. ~~**Grupos múltiples**~~ ✅ hecho el 28-09-2026 (ver auditoría). Usa una
+     **regla temporal** para elegir qué grupos se enfrentan
+     (`pickGroupPairTemporary` en `groups.js`: al azar, con equilibrio de
+     partidos), que **se debe reemplazar** en las partes 2 y 3.
   2. **Alternativo 1:** orden fijo "primero contra último" que rota
      (Individual) y orden de grupos y jugadores (Grupal). Módulo puro con pruebas.
   3. **Clásico:** fases al azar/ventaja, equilibrio del 60 % del promedio,
@@ -107,6 +121,13 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🔴 Parte 1 del plan, **grupos múltiples**: cantidad (de 2 a la
+  mitad de los jugadores), "Equipos"/"Grupos", nombres editables tocando el
+  título, sin repetidos, reparto al azar con los que sobran al final, puntos
+  por grupo y el representante al azar entre los que menos han cantado.
+- [x] 2026-09-28: 🟡 Los multiplicadores empezaban como ×2 y ×3 en lugar de los 4
+  (×2 a ×5) que pide la instrucción 20. Corregido en `state.js`.
 
 - [x] 2026-09-28: 🔴 Dos jugadores con el mismo nombre se fundían en uno (los
   puntos usan el nombre como clave). Ahora **no se permiten nombres
