@@ -99,8 +99,7 @@
      **regla temporal** para elegir qué grupos se enfrentan
      (`pickGroupPairTemporary` en `groups.js`: al azar, con equilibrio de
      partidos), que **se debe reemplazar** en las partes 2 y 3.
-  2. **Alternativo 1:** orden fijo "primero contra último" que rota
-     (Individual) y orden de grupos y jugadores (Grupal). Módulo puro con pruebas.
+  2. ~~**Alternativo 1**~~ ✅ hecho el 29-09-2026 (`pairing.js`, ver auditoría).
   3. **Clásico:** fases al azar/ventaja, equilibrio del 60 % del promedio,
      equilibrio de partidos y sin repetir el mismo duelo seguido (Individual
      y Grupal). Reemplaza `pickIndividualPair`.
@@ -109,6 +108,12 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-29: 🔴 Parte 2 del plan, **Alternativo 1** (Individual y Grupal),
+  programado según las reglas del usuario: orden fijo "primero contra último"
+  que rota, y orden de grupos G1vG3 → G1vG2 → G2vG3 (o rotación con 4 o más),
+  con jugadores en orden y rivales nuevos; el ciclo se repite hasta el puntaje
+  objetivo.
 
 - [x] 2026-09-29: Mover e intercambiar jugadores en "Organizar" (pedido del
   usuario): tocar un jugador y luego otro de otro grupo los **intercambia**;

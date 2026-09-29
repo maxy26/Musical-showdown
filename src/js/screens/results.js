@@ -1,7 +1,7 @@
 import { state, resetState } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
-import { startNextRound } from "../gameLogic.js";
+import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 
 export function screenResults() {
   const c = state.config;
@@ -34,8 +34,7 @@ export function screenResults() {
   root.querySelector("#again").onclick = () => {
     Object.keys(state.scores).forEach((k) => (state.scores[k] = 0));
     state.usedSongs = [];
-    state.matchCounts = {};
-    state.singCounts = {};
+    resetMatchTracking();
     if (c.battleType === "grupal") {
       state.screen = "team-org";
     } else {

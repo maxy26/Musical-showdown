@@ -2,6 +2,7 @@ import { state } from "./state.js";
 import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
 import { groupName, pickGroupPairTemporary, pickRepresentative } from "./groups.js";
+import { roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers } from "./pairing.js";
 import { render } from "./router.js";
 import { playTick } from "./sound.js";
 
@@ -52,6 +53,17 @@ export function pickIndividualPair() {
   return [a, b];
 }
 
+/**
+ * Reinicia lo que se lleva de la partida para elegir los duelos: cuántos
+ * jugó cada uno, cuántas veces cantó cada jugador (Grupal) y el avance del
+ * orden de Alternativo 1. Se llama al empezar cada partida.
+ */
+export function resetMatchTracking() {
+  state.matchCounts = {};
+  state.singCounts = {};
+  state.alt1 = { step: 0, memory: newGroupMemory() };
+}
+
 export function startNextRound() {
   const c = state.config;
   const word = pickWeightedWord();
@@ -60,23 +72,45 @@ export function startNextRound() {
       ? c.multipliers[Math.floor(Math.random() * c.multipliers.length)]
       : null;
 
+  const alt1 = c.mode === "alternativo1";
   let A, B, showA = null, showB = null, groupA = null, groupB = null;
   if (c.battleType === "individual") {
-    [A, B] = pickIndividualPair();
+    if (alt1) {
+      // Alternativo 1: orden fijo "primero contra último" que rota; al
+      // terminar el ciclo vuelve a empezar (sin ventaja para nadie).
+      const seq = roundRobinSequence(c.players.length);
+      const [i, j] = seq[state.alt1.step % seq.length];
+      state.alt1.step++;
+      A = c.players[i];
+      B = c.players[j];
+    } else {
+      [A, B] = pickIndividualPair();
+    }
   } else {
-    // Qué grupos se enfrentan: REGLA TEMPORAL (al azar con equilibrio de
-    // partidos) hasta programar las reglas de Clásico y Alternativo 1.
     const names = state.groups.map((g, i) => groupName(g, i, c.groupTerm));
-    const [ia, ib] = pickGroupPairTemporary(names.map((n) => state.matchCounts[n] || 0));
+    let ia, ib;
+    if (alt1) {
+      // Alternativo 1: orden fijo de grupos y jugadores (ver pairing.js).
+      const seq = groupOrderSequence(state.groups.length);
+      [ia, ib] = seq[state.alt1.step % seq.length];
+      state.alt1.step++;
+      [showA, showB] = pickGroupDuelPlayers(
+        state.groups.map((g) => g.players), ia, ib, state.singCounts, state.alt1.memory
+      );
+    } else {
+      // Qué grupos se enfrentan: REGLA TEMPORAL (al azar con equilibrio de
+      // partidos) hasta programar las reglas de Clásico (parte 3 del plan).
+      [ia, ib] = pickGroupPairTemporary(names.map((n) => state.matchCounts[n] || 0));
+      // Quién canta por cada grupo: al azar entre los que menos han participado.
+      showA = pickRepresentative(state.groups[ia].players, state.singCounts);
+      showB = pickRepresentative(state.groups[ib].players, state.singCounts);
+      state.singCounts[showA] = (state.singCounts[showA] || 0) + 1;
+      state.singCounts[showB] = (state.singCounts[showB] || 0) + 1;
+    }
     A = names[ia];
     B = names[ib];
     groupA = ia; // posición del grupo, para usar su color en la ronda
     groupB = ib;
-    // Quién canta por cada grupo: al azar entre los que menos han participado.
-    showA = pickRepresentative(state.groups[ia].players, state.singCounts);
-    showB = pickRepresentative(state.groups[ib].players, state.singCounts);
-    state.singCounts[showA] = (state.singCounts[showA] || 0) + 1;
-    state.singCounts[showB] = (state.singCounts[showB] || 0) + 1;
   }
   state.matchCounts[A] = (state.matchCounts[A] || 0) + 1;
   state.matchCounts[B] = (state.matchCounts[B] || 0) + 1;

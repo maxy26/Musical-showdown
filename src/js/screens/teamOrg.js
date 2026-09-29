@@ -1,7 +1,7 @@
 import { state } from "../state.js";
 import { el, escapeHtml, titleCaseName } from "../utils.js";
 import { render } from "../router.js";
-import { startNextRound } from "../gameLogic.js";
+import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 import { openHelp, showWarning, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 import { GROUP_TERMS, groupCountOptions, distributeRandom, groupName, defaultGroupName } from "../groups.js";
@@ -198,8 +198,7 @@ export function screenTeamOrg() {
       onYes: () => {
         state.scores = {};
         names().forEach((n) => { state.scores[n] = 0; });
-        state.matchCounts = {};
-        state.singCounts = {};
+        resetMatchTracking();
         startNextRound();
         render();
       },

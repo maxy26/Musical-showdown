@@ -13,6 +13,55 @@
 
 ---
 
+## 2026-09-29 — Sesión 4 (parte 2): Alternativo 1 (parte 2 del plan)
+
+**Qué se hizo:** se programó **Alternativo 1**, Individual y Grupal, tal como
+lo definió el usuario (contexto, sección 3).
+1. Nuevo `src/js/pairing.js` (funciones puras):
+   - `roundRobinRounds` y `roundRobinSequence`: todos contra todos "primero
+     contra último". El primero queda fijo y los demás rotan; con cantidad
+     impar descansa el del medio en la tanda 1 y uno distinto en cada tanda.
+   - `groupOrderSequence`: 2 grupos → G1vG2; 3 → G1vG3, G1vG2, G2vG3; 4 o más →
+     rotación.
+   - `pickGroupDuelPlayers` con `newGroupMemory`: dentro de cada grupo se
+     turnan en orden (el que menos jugó) y el rival es el siguiente del otro
+     grupo con quien aún no se enfrentó. Al completarse todas las parejas, el
+     ciclo se reinicia.
+2. `gameLogic.js`: con el modo `alternativo1`, `startNextRound` sigue el orden
+   (avanza `state.alt1.step` y usa el módulo del ítem 1; el ciclo se repite).
+   Clásico sigue igual hasta la parte 3. Nueva `resetMatchTracking()`, que
+   reemplaza los reinicios que estaban repetidos en `config/index.js`,
+   `teamOrg.js` y `results.js`.
+3. `state.js`: nuevo `alt1: { step, memory }`. `sw.js`: se agrega `pairing.js`
+   y `CACHE_NAME` pasa a v6.
+4. Nuevo `test/alternativo1.test.js` con 7 pruebas, comparadas con los ejemplos
+   del usuario: 1v10…5v6 y 1v9, 10v8…; con 9 descansa el 5; A–G, B–D, E–H,
+   C–I, A–F, D–J, B–G, C–E, F–H, A–I; las 33 parejas en el duelo 45.
+5. Subidos a GitHub `3c346f6` y `9aa565b`; su compilación (run 36630262440)
+   terminó bien.
+
+**Archivos tocados:** `src/js/pairing.js` (nuevo), `src/js/gameLogic.js`,
+`src/js/state.js`, `src/js/screens/config/index.js`, `src/js/screens/teamOrg.js`,
+`src/js/screens/results.js`, `src/sw.js`, `test/alternativo1.test.js` (nuevo),
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 62 pasan y 1 pendiente. `npm run lint`: sin errores.
+- Jugando rondas en Edge sin ventana (con "Siguiente enfrentamiento"): 9 de 9.
+  - Individual con 10: Ana-Juan, Beto-Ines, Caro-Hugo, Dani-Gabi, Eva-Fito,
+    Ana-Ines, Juan-Hugo. En 45 duelos cada uno juega 9 veces y luego el ciclo
+    vuelve a Ana-Juan.
+  - Grupal con 3 equipos: G1vG3, G1vG2, G2vG3 repetido; los jugadores salen en
+    orden; nunca dos del mismo equipo.
+  - Clásico sigue funcionando.
+- Capturas de ambas rondas revisadas. `build:apk` y `build:desktop`: ambos bien.
+  Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** parte 3 (Clásico), que reemplaza la regla temporal de grupos
+y el sorteo ponderado de Individual.
+
+---
+
 ## 2026-09-29 — Sesión 4: verificación de mover e intercambiar jugadores
 
 **Estado encontrado al empezar:** el commit `3c346f6` (mover e intercambiar)

@@ -73,7 +73,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 - Cada archivo de `screens/` exporta una función `screenXxx()` que devuelve un nodo DOM. El nodo se crea con `el(cadenaHtml)` de `utils.js`, y los eventos se conectan con `root.querySelector(...).onclick`. La pantalla de configuración está dividida en submódulos dentro de `screens/config/`, coordinados por `index.js`.
 - `gameLogic.js` contiene las reglas:
   - La palabra se elige ponderada por las canciones disponibles y aún no usadas, con más peso si está en el coro o si la canción es famosa.
-  - En modo individual, el enfrentamiento favorece a los jugadores con menos puntaje.
+  - Emparejamientos: en Clásico Individual, el enfrentamiento favorece a los jugadores con menos puntaje (se reemplazará por las fases de la parte 3); en Alternativo 1 se sigue el orden fijo de `pairing.js`. Los grupos del modo Grupal están en `groups.js`.
   - El temporizador avanza con `setInterval`. `updateClockOnly()` actualiza `.clock` directamente en lugar de volver a renderizar.
   - El puntaje es 100 × multiplicador.
   - Las canciones usadas se registran por `songKey` (`titulo|letra`).

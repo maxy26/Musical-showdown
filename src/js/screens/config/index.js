@@ -2,7 +2,7 @@ import { state } from "../../state.js";
 import { GENRES, genreName } from "../../data/songs.js";
 import { el } from "../../utils.js";
 import { render } from "../../router.js";
-import { startNextRound } from "../../gameLogic.js";
+import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
 import { openHelp, showWarning } from "../modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../../sound.js";
 import {
@@ -213,8 +213,7 @@ export function screenConfig() {
     if (c.genres.length === 0) { showWarning("Selecciona al menos un género."); return; }
 
     state.scores = {};
-    state.matchCounts = {};
-    state.singCounts = {};
+    resetMatchTracking();
     if (c.battleType === "individual") {
       c.players.forEach((p) => (state.scores[p] = 0));
       startNextRound();
