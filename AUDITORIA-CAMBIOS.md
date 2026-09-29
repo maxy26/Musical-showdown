@@ -13,6 +13,36 @@
 
 ---
 
+## 2026-09-29 — Sesión 4 (parte 5): decisiones sobre Alternativo 1 y 2 (sin código)
+
+**Decisiones del usuario:**
+- **Alternativo 2** será una combinación llamativa de Alternativo 1 y Clásico.
+- **Opción A:** las ideas nuevas que le interesaron (cambiar la forma de jugar,
+  los puntos, el tiempo o el fin de la partida, y el relevo) se agregan a
+  **Alternativo 1**; Alternativo 2 combina ese Alternativo 1 nuevo con Clásico.
+- El **relevo** es **solo para Alternativo 1 Grupal**.
+- Pidió ir con calma, paso a paso y a fondo, definiendo cada idea antes de
+  programarla.
+- Pendientes nuevos:
+  - Navegar la lista de jugadores con las flechas y confirmar con Enter.
+  - Que "Salir de la partida" vuelva a "Configurar partida".
+  - Actualizar la ayuda "Cómo se juega".
+
+**Qué se hizo:** solo documentación.
+- `CONTEXTO-MUSICAL-SHOWDOWN.md` (modos de juego): las decisiones de arriba.
+- `PENDIENTES.md`: los pendientes nuevos, las preguntas pendientes sobre el
+  relevo, los puntos y el tiempo, y las opciones para combinar en
+  Alternativo 2.
+- Subido a GitHub `5d9b820`; su compilación (run 36634050758) terminó bien.
+
+**Archivos tocados:** `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Quedó abierto:** que el usuario defina el relevo, los puntos y el tiempo de
+Alternativo 1, y la combinación de Alternativo 2.
+
+---
+
 ## 2026-09-29 — Sesión 4 (parte 4): repeticiones en Clásico, por vuelta
 
 **Decisión del usuario:** opción b. En la regla "no se repite el mismo duelo dos

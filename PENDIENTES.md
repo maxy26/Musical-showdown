@@ -102,8 +102,28 @@
 
 > No inventar reglas: preguntar antes (instrucción 21).
 
-- [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después). Mientras
-  tanto, Alternativo 2 usa las reglas de Clásico.
+> El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
+> por completo con preguntas antes de programarla.
+
+- [ ] 🔴 **Ideas nuevas de Alternativo 1** (decididas el 29-09-2026, opción A;
+  detalles por definir con el usuario, en este orden):
+  1. **Relevo (solo Alternativo 1 Grupal):** ¿en una misma ronda cantan varios
+     del equipo, uno tras otro? ¿Cada uno con su tiempo o comparten el de la
+     ronda? ¿Qué pasa si uno falla?
+  2. **Puntos:** ¿restar al fallar? ¿Cuánto? ¿Bonos? ¿Por qué?
+  3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
+     ganando al llegar al puntaje objetivo?
+  4. ¿Qué de esto aplica también a Alternativo 1 Individual (salvo el relevo)?
+- [ ] 🔴 **Reglas de Alternativo 2:** combinación llamativa de Alternativo 1
+  (con sus ideas nuevas) y Clásico. Falta definir cómo se combinan. Opciones
+  que se le mostraron: alternar por bloques, orden con ayuda de la ventaja,
+  por mitades de la partida, u otra. Mientras tanto usa las reglas de Clásico.
+- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
+  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
+  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
+  sus reglas cuando estén definidas), el selector de rueda del valor
+  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
+  terminar de definir Alternativo 1 y 2.
 
 ---
 

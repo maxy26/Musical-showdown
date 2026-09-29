@@ -64,8 +64,16 @@
   muestran Clásico y Alternativo 1 (Alternativo 2 no aparece). Si es
   **Grupal**, se muestran los tres modos, todos libres de seleccionar
   (sin candado).
-- **Alternativo 2**: reglas **aún pendientes de definir** (el usuario lo
-  dejó para después).
+- **Alternativo 2** (idea del usuario, 29-09-2026; reglas en definición):
+  será una **combinación llamativa de Alternativo 1 y Clásico**. Mientras no
+  tenga reglas, usa las de Clásico.
+- **Ideas nuevas para Alternativo 1** (decisión del usuario, 29-09-2026,
+  opción A): los cambios en la **forma de jugar**, los **puntos** (ej. restar
+  al fallar, bonos), el **tiempo / fin de la partida** y el **relevo** se
+  agregan a **Alternativo 1**, y Alternativo 2 combina ese Alternativo 1 nuevo
+  con Clásico. El **relevo** es **solo para Alternativo 1 Grupal** (en
+  Individual no hay con quién turnarse). Los detalles de cada idea se definen
+  con el usuario paso a paso, a fondo y sin asumir nada (ver `PENDIENTES.md`).
 
 ### Emparejamientos de Clásico y Alternativo 1 (definidos por el usuario el 28-09-2026)
 
