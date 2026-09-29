@@ -13,6 +13,41 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 12): nombres repetidos no permitidos
+
+**Decisión del usuario:** no permitir nombres repetidos, ni de jugadores ni de
+grupos. El campo repetido se marca en rojo, aparece un mensaje de error antes
+del botón "Añadir jugador" y no deja continuar hasta cambiarlo. Máximo 20 letras
+por nombre (jugadores y grupos).
+
+**Qué se hizo**
+- `players.js`: `MAX_NAME_LENGTH = 20` (atributo `maxlength` en los campos),
+  `cleanName()` (quita espacios sobrantes) y `duplicateNameIndexes()` (posiciones
+  de los nombres repetidos, sin contar los vacíos). Al escribir, borrar o
+  agregar un jugador, los repetidos se marcan con `.input-error` y se muestra
+  `#players-error`.
+- `config/index.js`: el mensaje va entre la lista y "Añadir jugador".
+  "Confirmar configuración" no avanza mientras haya repetidos (lleva la vista
+  al mensaje); los nombres se guardan limpios con `cleanName`.
+- `styles.css`: `.input-error` y `.field-error`.
+- 2 pruebas nuevas en `test/gameLogic.test.js`.
+- Subido a GitHub `56da846`; su compilación (run 36516440412) terminó bien.
+
+**Archivos tocados:** `src/js/screens/config/players.js`,
+`src/js/screens/config/index.js`, `src/css/styles.css`, `test/gameLogic.test.js`,
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 48 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 7 de 7 (máximo 20 letras; "ana" y "ANA" en rojo y "Beto" no; mensaje
+  antes de "Añadir jugador"; no deja confirmar; al corregir desaparece el
+  error; la partida empieza con los 3 jugadores). Captura revisada.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** parte 1 del plan (grupos múltiples).
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 11): formato de nombres y detalles de grupos
 
 **Respuestas del usuario sobre los grupos** (guardadas en el contexto,

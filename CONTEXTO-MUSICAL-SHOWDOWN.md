@@ -142,7 +142,12 @@
   de cada palabra pasa a mayúscula y el resto a minúscula**, sin importar
   cómo se escriba ("mIKE rUIZ" → "Mike Ruiz"). Así lo pidió el usuario el
   28-09-2026, en lugar de las MAYÚSCULAS de antes, y es igual para los
-  nombres de grupos. Los primeros 2
+  nombres de grupos. Máximo **20 letras**.
+- **Nombres repetidos no permitidos** (28-09-2026): los campos repetidos se
+  marcan en rojo, aparece un mensaje de error antes del botón "Añadir
+  jugador" y no se puede confirmar la configuración hasta corregirlo. Se
+  comparan sin espacios sobrantes; con y sin tilde cuentan como distintos
+  ("Ángel" ≠ "Angel"). Los primeros 2
   jugadores no tienen botón de eliminar (✕); desde el tercero en
   adelante sí. **Validación**: no se puede iniciar partida sin al menos
   2 nombres realmente escritos (no se autocompletan vacíos).
@@ -201,8 +206,9 @@
   - **Editar un nombre:** se toca el título de la tarjeta, que se convierte en
     un campo para escribir (ej. "Equipo 1" → "Los Fantasmas"). Primera letra
     de cada palabra en mayúscula, igual que los jugadores.
-  - **No se permiten nombres repetidos.** Si se deja vacío, vuelve al
-    predeterminado. Cada grupo sin editar conserva su predeterminado (ej. si
+  - Máximo **20 letras**. **No se permiten nombres repetidos**: igual que
+    con los jugadores, el campo se marca en rojo con un mensaje y no deja
+    continuar hasta cambiarlo. Si se deja vacío, vuelve al predeterminado. Cada grupo sin editar conserva su predeterminado (ej. si
     se renombran 3 de 4, el cuarto sigue siendo "Equipo 4").
   - Cambiar entre "Equipos" y "Grupos" **devuelve todos los nombres** a los
     predeterminados.

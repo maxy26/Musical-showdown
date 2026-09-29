@@ -31,12 +31,6 @@
 
 ## 🐛 Bugs e inconsistencias
 
-- [ ] 🔴 **Dos jugadores con el mismo nombre se funden en uno.** Los puntos se
-  guardan con el nombre como clave (`state.scores[nombre]`). Con "Ana", "Ana" y
-  "Beto", el juego empieza con solo 2 jugadores (`{"Ana":0,"Beto":0}`) y una Ana
-  desaparece (comprobado en Edge el 28-09-2026). Con el formato automático de
-  nombres, "ana" y "ANA" también quedan iguales. Falta que el usuario decida
-  cómo resolverlo (por ejemplo, no permitir nombres repetidos, como en los grupos).
 
 - [ ] 🟢 **El nombre técnico de Android sigue siendo `com.palabracantada.app`**
   (nombre anterior del juego). Renombrarlo es delicado porque afecta
@@ -108,17 +102,17 @@
   3. **Clásico:** fases al azar/ventaja, equilibrio del 60 % del promedio,
      equilibrio de partidos y sin repetir el mismo duelo seguido (Individual
      y Grupal). Reemplaza `pickIndividualPair`.
-- [ ] 🔴 **Nombres de grupos: por confirmar con el usuario** (lo demás ya
-  está definido en el contexto):
-  - ¿Largo máximo del nombre?
-  - Nombres repetidos: ¿"Los Fantasmas" y "los fantasmas" cuentan como iguales?
-    (Con el formato automático quedan idénticos.) ¿Qué pasa si se intenta
-    repetir uno: aviso y vuelve al nombre anterior?
 - [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después).
 
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: 🔴 Dos jugadores con el mismo nombre se fundían en uno (los
+  puntos usan el nombre como clave). Ahora **no se permiten nombres
+  repetidos**: los campos se marcan en rojo, aparece un mensaje antes de
+  "Añadir jugador" y no se puede confirmar la configuración hasta corregirlo
+  (lo decidió el usuario). Máximo 20 letras por nombre.
 
 - [x] 2026-09-28: Nombres de jugadores con la primera letra de cada palabra en
   mayúscula ("Mike Ruiz"), en lugar de todo en MAYÚSCULAS (pedido del usuario).

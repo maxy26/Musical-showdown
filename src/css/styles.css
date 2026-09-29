@@ -192,6 +192,10 @@ body{-webkit-tap-highlight-color:transparent;}
 /* ---------- Players list ---------- */
 .player-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
 .player-row input{flex:1;}
+/* Campo con un error (ej. nombre repetido) y su mensaje */
+input.input-error{border-color:var(--red);background:rgba(255,71,71,0.08);}
+input.input-error:focus{outline-color:var(--red);}
+.field-error{font-size:13px;color:#FFB3B3;margin:2px 0 8px;line-height:1.5;}
 .remove-btn{background:transparent;color:var(--text-dim);font-size:18px;padding:6px 10px;border-radius:8px;}
 .remove-btn:hover{color:var(--red);}
 

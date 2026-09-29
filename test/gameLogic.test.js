@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
-import { countTypedPlayers } from "../src/js/screens/config/players.js";
+import { countTypedPlayers, duplicateNameIndexes, cleanName } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
 import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
 import { songKey } from "../src/js/gameLogic.js";
@@ -11,6 +11,17 @@ test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
   assert.equal(countTypedPlayers(["", "  ", "Ana", "Beto", ""]), 2);
   assert.equal(countTypedPlayers([]), 0);
   assert.equal(countTypedPlayers(["Ana", "Beto", "Caro", "Deni"]), 4);
+});
+
+test("duplicateNameIndexes marca todos los nombres repetidos y no cuenta los vacíos", () => {
+  assert.deepEqual([...duplicateNameIndexes(["Ana", "Beto", "Ana"])].sort(), [0, 2]);
+  assert.deepEqual([...duplicateNameIndexes(["Ana ", " Ana", "Ana  Ruiz", "Ana Ruiz"])].sort(), [0, 1, 2, 3]);
+  assert.equal(duplicateNameIndexes(["", "", "Ana", "Beto"]).size, 0);
+  assert.equal(duplicateNameIndexes(["Ángel", "Angel"]).size, 0); // con y sin tilde son distintos
+});
+
+test("cleanName quita espacios sobrantes", () => {
+  assert.equal(cleanName("  Mike   Ruiz "), "Mike Ruiz");
 });
 
 test("formatCustomTime da el texto esperado en cada caso", () => {

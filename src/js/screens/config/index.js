@@ -10,7 +10,7 @@ import {
   isPresetTarget, isPresetTime,
 } from "./presets.js";
 import { modesFor } from "./modes.js";
-import { countTypedPlayers, initPlayersSection } from "./players.js";
+import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 
 /**
@@ -39,6 +39,7 @@ export function screenConfig() {
       <div class="field">
         <label>Jugadores</label>
         <div id="players-list"></div>
+        <p class="field-error" id="players-error" hidden></p>
         <button class="btn btn-secondary" id="add-player" style="margin-top:6px;">+ Añadir jugador</button>
       </div>
 
@@ -96,7 +97,7 @@ export function screenConfig() {
   </div>`);
 
   // ---------- Jugadores (alta/baja, mayúsculas, disponibilidad de Grupal) ----------
-  initPlayersSection(root, c, () => render());
+  const playersSection = initPlayersSection(root, c, () => render());
 
   // ---------- Modos (dependen del tipo de batalla) ----------
   function renderModes() {
@@ -194,7 +195,13 @@ export function screenConfig() {
 
   // ---------- Confirmar y arrancar la partida ----------
   root.querySelector("#confirm-config").onclick = () => {
-    c.players = c.players.map((p) => p.trim()).filter((p) => p.length > 0);
+    // Con nombres repetidos no se puede continuar: los campos ya están en rojo
+    // y el mensaje aparece antes de "Añadir jugador".
+    if (playersSection.refreshDuplicates()) {
+      root.querySelector("#players-error").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    c.players = c.players.map(cleanName).filter((p) => p.length > 0);
     if (c.players.length < 2) { showWarning("Escribe al menos 2 nombres de jugador para poder iniciar la partida."); return; }
     if (c.battleType === "grupal" && c.players.length < 4) {
       showWarning("Se necesitan al menos 4 jugadores escritos para jugar en grupo.");
