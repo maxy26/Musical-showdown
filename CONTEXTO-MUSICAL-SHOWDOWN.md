@@ -69,9 +69,9 @@
 
 ### Emparejamientos de Clásico y Alternativo 1 (definidos por el usuario el 28-09-2026)
 
-> Estado: **Alternativo 1 implementado** el 29-09-2026 (`src/js/pairing.js`).
-> **Clásico por implementar** (hoy usa el sorteo ponderado anterior en
-> Individual y una regla temporal en Grupal).
+> Estado: **Alternativo 1 y Clásico implementados** el 29-09-2026
+> (`src/js/pairing.js`). Alternativo 2, mientras no tenga reglas, usa las de
+> Clásico.
 
 **Comunes a los dos modos**
 - Cada **ronda es un duelo** 1 vs 1, con su propia palabra.

@@ -1,8 +1,11 @@
 import { state } from "./state.js";
 import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
-import { groupName, pickGroupPairTemporary, pickRepresentative } from "./groups.js";
-import { roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers } from "./pairing.js";
+import { groupName, pickRepresentative } from "./groups.js";
+import {
+  roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
+  newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel,
+} from "./pairing.js";
 import { render } from "./router.js";
 import { playTick } from "./sound.js";
 
@@ -37,20 +40,18 @@ export function pickWeightedWord() {
 }
 
 /**
- * Elige el enfrentamiento individual. Los jugadores con menos puntaje
- * tienen mayor probabilidad de ser elegidos, para mantener el equilibrio
- * (diseño, sección 2).
+ * Duelo de Clásico entre `participants` (jugadores en Individual, nombres de
+ * grupos en Grupal): avanza las fases al azar / con ventaja según el
+ * equilibrio de puntos y elige con equilibrio de partidos (ver pairing.js).
  */
-export function pickIndividualPair() {
-  const players = state.config.players;
-  if (players.length === 2) return [players[0], players[1]];
-  const maxScore = Math.max(...players.map((p) => state.scores[p]));
-  const weights = players.map((p) => Math.max(1, maxScore - state.scores[p] + 5));
-  const a = weightedPick(players, weights);
-  const bCandidates = players.filter((p) => p !== a);
-  const bWeights = bCandidates.map((p) => Math.max(1, maxScore - state.scores[p] + 5));
-  const b = weightedPick(bCandidates, bWeights);
-  return [a, b];
+export function pickClassicDuel(participants) {
+  const memory = state.classic;
+  const mode = nextClassicMode(memory, isBalanced(participants.map((p) => state.scores[p] || 0)));
+  const pair = pickClassicPair({
+    participants, scores: state.scores, matches: state.matchCounts, memory, mode,
+  });
+  recordClassicDuel(memory, pair[0], pair[1]);
+  return pair;
 }
 
 /**
@@ -62,6 +63,7 @@ export function resetMatchTracking() {
   state.matchCounts = {};
   state.singCounts = {};
   state.alt1 = { step: 0, memory: newGroupMemory() };
+  state.classic = newClassicMemory();
 }
 
 export function startNextRound() {
@@ -84,7 +86,7 @@ export function startNextRound() {
       A = c.players[i];
       B = c.players[j];
     } else {
-      [A, B] = pickIndividualPair();
+      [A, B] = pickClassicDuel(c.players);
     }
   } else {
     const names = state.groups.map((g, i) => groupName(g, i, c.groupTerm));
@@ -98,9 +100,11 @@ export function startNextRound() {
         state.groups.map((g) => g.players), ia, ib, state.singCounts, state.alt1.memory
       );
     } else {
-      // Qué grupos se enfrentan: REGLA TEMPORAL (al azar con equilibrio de
-      // partidos) hasta programar las reglas de Clásico (parte 3 del plan).
-      [ia, ib] = pickGroupPairTemporary(names.map((n) => state.matchCounts[n] || 0));
+      // Clásico (y, por ahora, Alternativo 2, que aún no tiene reglas):
+      // qué grupos se enfrentan, con las mismas fases que en Individual.
+      const [na, nb] = pickClassicDuel(names);
+      ia = names.indexOf(na);
+      ib = names.indexOf(nb);
       // Quién canta por cada grupo: al azar entre los que menos han participado.
       showA = pickRepresentative(state.groups[ia].players, state.singCounts);
       showB = pickRepresentative(state.groups[ib].players, state.singCounts);

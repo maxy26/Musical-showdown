@@ -61,24 +61,6 @@ export function groupName(group, index, term) {
 }
 
 /**
- * REGLA TEMPORAL (se reemplaza en la parte 3 del plan por las reglas de
- * Clásico): elige qué dos grupos se enfrentan, al azar pero cuidando que
- * todos jueguen la misma cantidad de veces. `played[i]` = duelos jugados por
- * el grupo i. Devuelve los índices [a, b].
- */
-export function pickGroupPairTemporary(played, random = Math.random) {
-  const pickLeast = (candidates) => {
-    const min = Math.min(...candidates.map((i) => played[i]));
-    const least = candidates.filter((i) => played[i] === min);
-    return least[Math.floor(random() * least.length)];
-  };
-  const all = played.map((_, i) => i);
-  const a = pickLeast(all);
-  const b = pickLeast(all.filter((i) => i !== a));
-  return [a, b];
-}
-
-/**
  * Jugador que representa al grupo en un duelo: al azar entre los que menos
  * han participado, para que todos canten una cantidad parecida de veces.
  * `sang[nombre]` = veces que ya participó.

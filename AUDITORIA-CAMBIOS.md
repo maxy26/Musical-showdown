@@ -13,6 +13,60 @@
 
 ---
 
+## 2026-09-29 — Sesión 4 (parte 3): Clásico (parte 3 del plan; plan completo)
+
+**Qué se hizo:** se programó **Clásico**, Individual y Grupal, según las reglas
+del usuario (contexto, sección 3).
+1. `pairing.js`:
+   - `newClassicMemory`.
+   - `isBalanced`: todos con el 60 % del promedio o más; promedio 0 cuenta como
+     equilibrio.
+   - `nextClassicMode`: 3 al azar; con desequilibrio, 3 con ventaja ↔ 3 al
+     azar; con equilibrio se corta y queda al azar; al volver el
+     desequilibrio, ventaja de inmediato.
+   - `pickClassicPair`:
+     - Equilibrio de partidos: los dos salen de los que menos duelos llevan
+       (el rival, del siguiente nivel si hace falta).
+     - Ventaja: uno por debajo del promedio, ponderado por la distancia; el
+       rival, al azar entre los que están en el promedio o por encima.
+     - Evita repetir el duelo anterior solo si hay otro rival con los mismos
+       duelos, porque el equilibrio de partidos manda.
+   - `recordClassicDuel`.
+2. `gameLogic.js`: nueva `pickClassicDuel()`, usada en Individual (jugadores) y
+   en Grupal (grupos) para Clásico, y por ahora para Alternativo 2. El
+   representante sigue saliendo con `pickRepresentative`.
+   - Se eliminó `pickIndividualPair` (sorteo ponderado viejo) y, de
+     `groups.js`, la regla temporal `pickGroupPairTemporary`, con sus pruebas.
+   - `resetMatchTracking` reinicia también `state.classic`.
+3. Nuevo `test/clasico.test.js` con 10 pruebas.
+4. Subido a GitHub `4e8e120`; su compilación (run 36631506624) terminó bien.
+
+**Hallazgo (anotado para confirmar):** la excepción de la regla "salvo que ya se
+hayan enfrentado con todos los demás", aplicada literalmente, permite repetir
+duelos seguidos para siempre una vez que todos se cruzaron. Con 4 equipos se vio
+en la prueba.
+
+**Archivos tocados:** `src/js/pairing.js`, `src/js/gameLogic.js`,
+`src/js/groups.js`, `src/js/state.js`, `test/clasico.test.js` (nuevo),
+`test/grupos.test.js`, `test/seleccion.test.js`, `CLAUDE.md`,
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 67 pasan y 1 pendiente, también en 3 corridas seguidas de
+  `clasico.test.js`. `npm run lint`: sin errores.
+- Jugando 60 duelos en Edge con puntos al azar:
+  - Individual con 6 jugadores: equilibrio de partidos (20/20/21/20/20/21), sin
+    repeticiones seguidas, las fases inicio → ventaja → azar → libre.
+  - Grupal con 4 equipos: equilibrio de partidos (30/31/31/30) y todos cantan
+    parejo dentro de cada equipo. Hubo repeticiones seguidas, permitidas por la
+    excepción de la regla (ver hallazgo).
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** confirmar la excepción de las repeticiones; reglas de
+Alternativo 2.
+
+---
+
 ## 2026-09-29 — Sesión 4 (parte 2): Alternativo 1 (parte 2 del plan)
 
 **Qué se hizo:** se programó **Alternativo 1**, Individual y Grupal, tal como

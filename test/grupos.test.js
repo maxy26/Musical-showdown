@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   maxGroups, groupCountOptions, groupSizes, distributeRandom,
-  defaultGroupName, groupName, pickGroupPairTemporary, pickRepresentative,
+  defaultGroupName, groupName, pickRepresentative,
 } from "../src/js/groups.js";
 
 // Pruebas de los grupos del modo Grupal (reglas: CONTEXTO, sección 3).
@@ -43,23 +43,6 @@ test("nombres: predeterminado según Equipos/Grupos, o el editado", () => {
   assert.equal(defaultGroupName("grupo", 3), "Grupo 4");
   assert.equal(groupName({ players: [], customName: "" }, 1, "equipo"), "Equipo 2");
   assert.equal(groupName({ players: [], customName: "Los Fantasmas" }, 0, "equipo"), "Los Fantasmas");
-});
-
-test("regla temporal: siempre dos grupos distintos, y primero los que menos han jugado", () => {
-  for (let i = 0; i < 100; i++) {
-    const [a, b] = pickGroupPairTemporary([0, 0, 0]);
-    assert.notEqual(a, b);
-  }
-  // El grupo 2 lleva menos partidos: siempre juega.
-  for (let i = 0; i < 50; i++) {
-    assert.ok(pickGroupPairTemporary([3, 3, 1, 3]).includes(2));
-  }
-});
-
-test("regla temporal: en muchas rondas todos los grupos juegan casi lo mismo", () => {
-  const played = [0, 0, 0, 0, 0];
-  for (let i = 0; i < 100; i++) pickGroupPairTemporary(played).forEach((g) => played[g]++);
-  assert.ok(Math.max(...played) - Math.min(...played) <= 1, `partidos por grupo: ${played}`);
 });
 
 test("el representante sale entre los que menos han cantado", () => {

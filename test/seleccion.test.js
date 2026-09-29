@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import { state, resetState } from "../src/js/state.js";
 import { SONG_DB } from "../src/js/data/songs.js";
-import { pickWeightedWord, pickIndividualPair, songKey } from "../src/js/gameLogic.js";
+import { pickWeightedWord, songKey } from "../src/js/gameLogic.js";
 
 // Pruebas de la elección de palabra y de enfrentamiento (gameLogic.js).
 // Usan la base de ejemplo real (SONG_DB) y reinician el estado global en
@@ -87,35 +87,3 @@ test("pickWeightedWord da más peso a una palabra que está en más canciones", 
   assert.ok(saber > sol, `se esperaba "saber" (${saber}) más veces que "sol" (${sol})`);
 });
 
-// ---------- pickIndividualPair ----------
-
-test("pickIndividualPair con 2 jugadores siempre enfrenta a esos dos, en orden", () => {
-  resetState();
-  state.config.players = ["ANA", "BETO"];
-  state.scores = { ANA: 500, BETO: 0 };
-  assert.deepEqual(pickIndividualPair(), ["ANA", "BETO"]);
-});
-
-test("pickIndividualPair con más jugadores elige dos distintos de la lista", () => {
-  resetState();
-  state.config.players = ["ANA", "BETO", "CARO", "DENI"];
-  state.scores = { ANA: 0, BETO: 0, CARO: 0, DENI: 0 };
-  for (let i = 0; i < 200; i++) {
-    const [a, b] = pickIndividualPair();
-    assert.notEqual(a, b);
-    assert.ok(state.config.players.includes(a) && state.config.players.includes(b));
-  }
-});
-
-test("pickIndividualPair favorece al jugador que va perdiendo", () => {
-  resetState();
-  state.config.players = ["ANA", "BETO", "CARO", "DENI"];
-  // ANA va muy atrás: su peso es 1005 frente a 5 de los demás.
-  state.scores = { ANA: 0, BETO: 1000, CARO: 1000, DENI: 1000 };
-  let conAna = 0;
-  const veces = 300;
-  for (let i = 0; i < veces; i++) {
-    if (pickIndividualPair().includes("ANA")) conAna++;
-  }
-  assert.ok(conAna / veces > 0.9, `ANA salió solo en ${conAna} de ${veces} enfrentamientos`);
-});

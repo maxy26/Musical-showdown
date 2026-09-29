@@ -91,23 +91,27 @@
 
 > No inventar reglas: preguntar antes (instrucción 21).
 
-- [ ] 🔴 **Implementar los emparejamientos de Clásico y Alternativo 1** y los
-  grupos múltiples. Las reglas están definidas en `CONTEXTO-MUSICAL-SHOWDOWN.md`,
-  sección 3 (28-09-2026). Plan por partes, cada una con pruebas, compilación
-  y el juego abierto para el usuario:
-  1. ~~**Grupos múltiples**~~ ✅ hecho el 28-09-2026 (ver auditoría). Usa una
-     **regla temporal** para elegir qué grupos se enfrentan
-     (`pickGroupPairTemporary` en `groups.js`: al azar, con equilibrio de
-     partidos), que **se debe reemplazar** en las partes 2 y 3.
-  2. ~~**Alternativo 1**~~ ✅ hecho el 29-09-2026 (`pairing.js`, ver auditoría).
-  3. **Clásico:** fases al azar/ventaja, equilibrio del 60 % del promedio,
-     equilibrio de partidos y sin repetir el mismo duelo seguido (Individual
-     y Grupal). Reemplaza `pickIndividualPair`.
-- [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después).
+- [ ] ❓ **Confirmar con el usuario: repeticiones seguidas en Clásico.** La regla
+  dice "no se repite el mismo duelo dos veces seguidas, salvo que esos jugadores
+  ya se hayan enfrentado con todos los demás". Aplicada al pie de la letra, una
+  vez que todos se enfrentaron con todos (pasa rápido con pocos grupos, como 4)
+  las repeticiones seguidas quedan permitidas para siempre: en una prueba de 60
+  duelos con 4 equipos hubo repeticiones. Alternativa: contar "enfrentarse con
+  todos" por ciclo (al completarse, se reinicia) para que se sigan evitando.
+- [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después). Mientras
+  tanto, Alternativo 2 usa las reglas de Clásico.
 
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-29: 🔴 Parte 3 del plan, **Clásico** (Individual y Grupal): fases
+  (3 al azar; con desequilibrio 3 con ventaja ↔ 3 al azar; con equilibrio solo
+  al azar), equilibrio = todos con el 60 % del promedio, ventaja ponderada por
+  la distancia al promedio, equilibrio de partidos por encima de todo, y sin
+  repetir el duelo anterior (con la excepción de la regla). Reemplazó el sorteo
+  ponderado viejo (`pickIndividualPair`) y la regla temporal de grupos
+  (`pickGroupPairTemporary`). **Con esto el plan de 3 partes está completo.**
 
 - [x] 2026-09-29: 🔴 Parte 2 del plan, **Alternativo 1** (Individual y Grupal),
   programado según las reglas del usuario: orden fijo "primero contra último"

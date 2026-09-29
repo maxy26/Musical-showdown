@@ -1,9 +1,140 @@
 /**
- * Orden de los duelos de Alternativo 1 (reglas definidas por el usuario en
- * CONTEXTO-MUSICAL-SHOWDOWN.md, sección 3). Sin ventaja para nadie: se sigue
- * un orden fijo y, al terminarlo, el ciclo se repite hasta que alguien llegue
- * al puntaje objetivo. Funciones puras (sin DOM) para poder probarlas.
+ * Cómo se eligen los duelos (reglas definidas por el usuario en
+ * CONTEXTO-MUSICAL-SHOWDOWN.md, sección 3). Funciones puras (sin DOM) para
+ * poder probarlas.
+ *
+ *   - Alternativo 1: orden fijo, sin ventaja; al terminarlo, el ciclo se
+ *     repite hasta que alguien llegue al puntaje objetivo.
+ *   - Clásico: sorteo por fases (al azar / con ventaja para los que van por
+ *     debajo del promedio), siempre con equilibrio de partidos. Sirve igual
+ *     para jugadores (Individual) y para grupos (Grupal).
  */
+
+// ===================== Clásico =====================
+
+const CLASSIC_FIRST_RANDOM = 3; // los 3 primeros duelos, al azar
+const CLASSIC_PHASE_LENGTH = 3; // luego: 3 con ventaja → 3 al azar → …
+const BALANCE_RATIO = 0.6; // equilibrio: todos con al menos el 60 % del promedio
+
+/** Memoria de Clásico: fases, último duelo y quién se enfrentó con quién. */
+export function newClassicMemory() {
+  return { played: 0, phase: "inicio", left: 0, lastPair: null, faced: {} };
+}
+
+const average = (values) => values.reduce((a, b) => a + b, 0) / (values.length || 1);
+
+/**
+ * ¿Hay equilibrio de puntos? Sí, si todos tienen al menos el 60 % del
+ * promedio (como "aprobar" con 3.0 sobre 5.0). Con promedio 0, sí.
+ */
+export function isBalanced(scores) {
+  const avg = average(scores);
+  return avg === 0 || scores.every((s) => s >= BALANCE_RATIO * avg);
+}
+
+/**
+ * Tipo del próximo duelo de Clásico ("azar" o "ventaja"), y avanza las fases:
+ *   1. Los 3 primeros: al azar.
+ *   2. Con desequilibrio: 3 con ventaja → 3 al azar → 3 con ventaja → …
+ *   3. En cuanto hay equilibrio se corta la fase y queda solo al azar; si
+ *      reaparece el desequilibrio, empieza de inmediato la ventaja.
+ */
+export function nextClassicMode(memory, balanced) {
+  memory.played++;
+  if (memory.played <= CLASSIC_FIRST_RANDOM) return "azar";
+  if (balanced) {
+    memory.phase = "libre";
+    memory.left = 0;
+    return "azar";
+  }
+  if (memory.phase !== "ventaja" && memory.phase !== "azar") {
+    memory.phase = "ventaja"; // viene del inicio o del equilibrio: ventaja de inmediato
+    memory.left = CLASSIC_PHASE_LENGTH;
+  } else if (memory.left === 0) {
+    memory.phase = memory.phase === "ventaja" ? "azar" : "ventaja";
+    memory.left = CLASSIC_PHASE_LENGTH;
+  }
+  memory.left--;
+  return memory.phase;
+}
+
+function pickRandom(list, random) {
+  return list[Math.floor(random() * list.length)];
+}
+
+function pickWeighted(list, weights, random) {
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = random() * total;
+  for (let i = 0; i < list.length; i++) {
+    r -= weights[i];
+    if (r < 0) return list[i];
+  }
+  return list[list.length - 1];
+}
+
+/**
+ * Elige el duelo de Clásico entre `participants` (jugadores o grupos).
+ *   - Equilibrio de partidos: los dos salen de los que llevan menos duelos
+ *     (si en el nivel más bajo hay uno solo, el rival sale del siguiente).
+ *   - "ventaja": uno sale de los que están por debajo del promedio, con más
+ *     probabilidad cuanto más lejos del promedio; su rival, al azar entre los
+ *     que están en el promedio o por encima.
+ *   - No repite el duelo anterior, salvo que esos dos ya se hayan enfrentado
+ *     con todos los demás (o no haya otra opción).
+ *
+ * @param {object} o
+ * @param {string[]} o.participants
+ * @param {Object<string, number>} o.scores
+ * @param {Object<string, number>} o.matches - duelos jugados por cada uno
+ * @param {object} o.memory - ver newClassicMemory (usa lastPair y faced)
+ * @param {"azar"|"ventaja"} o.mode
+ * @returns {[string, string]}
+ */
+export function pickClassicPair({ participants, scores, matches, memory, mode, random = Math.random }) {
+  const played = (p) => matches[p] || 0;
+  const score = (p) => scores[p] || 0;
+  const avg = average(participants.map(score));
+
+  // Los que llevan menos duelos, sin contar a `exclude`.
+  function leastPlayed(exclude) {
+    const rest = participants.filter((p) => !exclude.includes(p));
+    const min = Math.min(...rest.map(played));
+    return rest.filter((p) => played(p) === min);
+  }
+
+  // Primero: en "ventaja", uno de los que van por debajo del promedio.
+  const pool1 = leastPlayed([]);
+  const below = pool1.filter((p) => score(p) < avg);
+  const a = mode === "ventaja" && below.length
+    ? pickWeighted(below, below.map((p) => avg - score(p)), random)
+    : pickRandom(pool1, random);
+
+  // Rival: entre los que menos duelos llevan. Se evita repetir el duelo
+  // anterior solo si hay otro con los mismos duelos (el equilibrio de
+  // partidos manda) y si esos dos no se enfrentaron ya con todos los demás.
+  const facedAll = (p) => participants.every((q) => q === p || (memory.faced[p] || []).includes(q));
+  let pool2 = leastPlayed([a]);
+  const last = memory.lastPair;
+  if (last && last.includes(a)) {
+    const other = last[0] === a ? last[1] : last[0];
+    const others = pool2.filter((p) => p !== other);
+    if (others.length && !(facedAll(a) && facedAll(other))) pool2 = others;
+  }
+  const atOrAbove = pool2.filter((p) => score(p) >= avg);
+  const b = mode === "ventaja" && atOrAbove.length ? pickRandom(atOrAbove, random) : pickRandom(pool2, random);
+  return [a, b];
+}
+
+/** Anota el duelo en la memoria de Clásico (último duelo y quién enfrentó a quién). */
+export function recordClassicDuel(memory, a, b) {
+  memory.lastPair = [a, b];
+  for (const [x, y] of [[a, b], [b, a]]) {
+    memory.faced[x] = memory.faced[x] || [];
+    if (!memory.faced[x].includes(y)) memory.faced[x].push(y);
+  }
+}
+
+// ===================== Alternativo 1 =====================
 
 const BYE = -1; // "descansa" cuando la cantidad es impar
 
