@@ -80,7 +80,7 @@ function pickWeighted(list, weights, random) {
  *     probabilidad cuanto más lejos del promedio; su rival, al azar entre los
  *     que están en el promedio o por encima.
  *   - No repite el duelo anterior, salvo que esos dos ya se hayan enfrentado
- *     con todos los demás (o no haya otra opción).
+ *     con todos los demás en esta vuelta (o no haya otra opción).
  *
  * @param {object} o
  * @param {string[]} o.participants
@@ -125,13 +125,20 @@ export function pickClassicPair({ participants, scores, matches, memory, mode, r
   return [a, b];
 }
 
-/** Anota el duelo en la memoria de Clásico (último duelo y quién enfrentó a quién). */
-export function recordClassicDuel(memory, a, b) {
+/**
+ * Anota el duelo en la memoria de Clásico (último duelo y quién enfrentó a
+ * quién). "Enfrentarse con todos" se cuenta por vuelta (decisión del usuario,
+ * 29-09-2026): cuando todos ya se enfrentaron con todos, la cuenta empieza de
+ * nuevo, para que se sigan evitando las repeticiones seguidas.
+ */
+export function recordClassicDuel(memory, a, b, participants) {
   memory.lastPair = [a, b];
   for (const [x, y] of [[a, b], [b, a]]) {
     memory.faced[x] = memory.faced[x] || [];
     if (!memory.faced[x].includes(y)) memory.faced[x].push(y);
   }
+  const everyoneFacedAll = participants.every((p) => (memory.faced[p] || []).length >= participants.length - 1);
+  if (everyoneFacedAll) memory.faced = {}; // nueva vuelta
 }
 
 // ===================== Alternativo 1 =====================

@@ -97,7 +97,10 @@
   los que están en el promedio o por encima.
 - La ventaja y el azar solo eligen entre los que llevan **menos duelos**.
 - **No se repite el mismo duelo dos veces seguidas**, salvo que esos
-  jugadores ya se hayan enfrentado con todos los demás.
+  jugadores ya se hayan enfrentado con todos los demás. "Con todos" se cuenta
+  **por vuelta** (decisión del usuario, 29-09-2026): cuando todos se
+  enfrentaron con todos, la cuenta empieza de nuevo. Si no hay otra opción
+  (por ejemplo, solo 2 participantes), sí se repite.
 
 **Clásico – Grupal**
 - Igual que Clásico Individual, pero **entre grupos**: mismas fases,

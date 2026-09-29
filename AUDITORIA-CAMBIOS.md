@@ -13,6 +13,37 @@
 
 ---
 
+## 2026-09-29 — Sesión 4 (parte 4): repeticiones en Clásico, por vuelta
+
+**Decisión del usuario:** opción b. En la regla "no se repite el mismo duelo dos
+veces seguidas, salvo que ya se hayan enfrentado con todos los demás", el
+"con todos" se cuenta **por vuelta**.
+
+**Qué se hizo**
+- `pairing.js`: `recordClassicDuel(memory, a, b, participants)` reinicia
+  `memory.faced` cuando todos se enfrentaron con todos (nueva vuelta).
+  `gameLogic.js` le pasa los participantes.
+- `test/clasico.test.js`: la prueba de la excepción se reescribió y hay 2
+  nuevas: la cuenta se reinicia al completar la vuelta, y 20 partidas de 60
+  duelos con 4 equipos sin ninguna repetición seguida.
+- Subido a GitHub `1296e14`.
+
+**Archivos tocados:** `src/js/pairing.js`, `src/js/gameLogic.js`,
+`test/clasico.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 69 pasan y 1 pendiente, también en 3 corridas seguidas de
+  `clasico.test.js`. `npm run lint`: sin errores.
+- Partida de 60 duelos en Edge, repetida 3 veces: sin repeticiones seguidas en
+  Individual (6 jugadores) ni en Grupal (4 equipos), y las demás
+  comprobaciones siguen en OK.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** reglas de Alternativo 2 y los demás pendientes.
+
+---
+
 ## 2026-09-29 — Sesión 4 (parte 3): Clásico (parte 3 del plan; plan completo)
 
 **Qué se hizo:** se programó **Clásico**, Individual y Grupal, según las reglas

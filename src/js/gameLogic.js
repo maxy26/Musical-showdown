@@ -50,7 +50,7 @@ export function pickClassicDuel(participants) {
   const pair = pickClassicPair({
     participants, scores: state.scores, matches: state.matchCounts, memory, mode,
   });
-  recordClassicDuel(memory, pair[0], pair[1]);
+  recordClassicDuel(memory, pair[0], pair[1], participants);
   return pair;
 }
 

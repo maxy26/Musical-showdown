@@ -91,19 +91,16 @@
 
 > No inventar reglas: preguntar antes (instrucción 21).
 
-- [ ] ❓ **Confirmar con el usuario: repeticiones seguidas en Clásico.** La regla
-  dice "no se repite el mismo duelo dos veces seguidas, salvo que esos jugadores
-  ya se hayan enfrentado con todos los demás". Aplicada al pie de la letra, una
-  vez que todos se enfrentaron con todos (pasa rápido con pocos grupos, como 4)
-  las repeticiones seguidas quedan permitidas para siempre: en una prueba de 60
-  duelos con 4 equipos hubo repeticiones. Alternativa: contar "enfrentarse con
-  todos" por ciclo (al completarse, se reinicia) para que se sigan evitando.
 - [ ] **Reglas de Alternativo 2** (el usuario lo dejó para después). Mientras
   tanto, Alternativo 2 usa las reglas de Clásico.
 
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-29: Repeticiones seguidas en Clásico: "enfrentarse con todos" se
+  cuenta **por vuelta** (opción b del usuario). Al completarse, la cuenta empieza
+  de nuevo, así se siguen evitando las repeticiones seguidas.
 
 - [x] 2026-09-29: 🔴 Parte 3 del plan, **Clásico** (Individual y Grupal): fases
   (3 al azar; con desequilibrio 3 con ventaja ↔ 3 al azar; con equilibrio solo
