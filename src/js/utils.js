@@ -38,6 +38,16 @@ export function normalizeForSearch(s) {
   return normalizeText(s).replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 }
 
+/**
+ * Formato de nombres (jugadores y grupos): la primera letra de cada palabra
+ * en mayúscula y el resto en minúscula, sin importar cómo se escribió
+ * ("mIKE rUIZ" -> "Mike Ruiz"). Las palabras se separan por espacios, y los
+ * espacios se dejan como están para no molestar mientras se escribe.
+ */
+export function titleCaseName(s) {
+  return s.toLowerCase().replace(/(^|\s)(\p{L})/gu, (_, space, letter) => space + letter.toUpperCase());
+}
+
 /** Escapa los caracteres especiales de HTML. */
 export function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);

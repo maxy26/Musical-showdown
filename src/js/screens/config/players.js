@@ -1,4 +1,4 @@
-import { el } from "../../utils.js";
+import { el, titleCaseName } from "../../utils.js";
 
 /** Cuenta cuántos campos de jugador tienen texto realmente escrito (no vacíos). */
 export function countTypedPlayers(players) {
@@ -6,8 +6,9 @@ export function countTypedPlayers(players) {
 }
 
 /**
- * Wire completo de la sección "Jugadores": alta/baja de filas, mayúsculas
- * automáticas al escribir, y habilitar/deshabilitar el modo Grupal en vivo
+ * Wire completo de la sección "Jugadores": alta/baja de filas, primera letra
+ * de cada palabra en mayúscula al escribir (titleCaseName), y
+ * habilitar/deshabilitar el modo Grupal en vivo
  * (se necesitan 4+ jugadores escritos). `onBattleTypeForcedIndividual` se
  * llama si había Grupal seleccionado y dejó de alcanzar para 4 jugadores,
  * para que quien llama pueda re-renderizar la pantalla completa.
@@ -43,7 +44,7 @@ export function initPlayersSection(root, c, onBattleTypeForcedIndividual) {
       </div>`);
       row.querySelector("input").oninput = (e) => {
         const pos = e.target.selectionStart;
-        e.target.value = e.target.value.toUpperCase();
+        e.target.value = titleCaseName(e.target.value);
         e.target.setSelectionRange(pos, pos);
         c.players[i] = e.target.value;
         refreshGroupAvailability();

@@ -138,8 +138,11 @@
   puntaje objetivo, tiempo por ronda, multiplicadores. Se bloquea al
   iniciar la partida.
 - **Jugadores**: campos con placeholder "Jugador N" (no un valor
-  precargado que haya que borrar). El texto se convierte a
-  **MAYÚSCULAS automáticamente** mientras se escribe. Los primeros 2
+  precargado que haya que borrar). Mientras se escribe, **la primera letra
+  de cada palabra pasa a mayúscula y el resto a minúscula**, sin importar
+  cómo se escriba ("mIKE rUIZ" → "Mike Ruiz"). Así lo pidió el usuario el
+  28-09-2026, en lugar de las MAYÚSCULAS de antes, y es igual para los
+  nombres de grupos. Los primeros 2
   jugadores no tienen botón de eliminar (✕); desde el tercero en
   adelante sí. **Validación**: no se puede iniciar partida sin al menos
   2 nombres realmente escritos (no se autocompletan vacíos).
@@ -191,12 +194,20 @@
   lista empieza en **2**.
 - **Reparto inicial al azar**, con los jugadores que sobran en los
   **últimos** grupos (10 jugadores en 3 grupos → 3, 3 y 4).
-- **Nombres** (definido el 28-09-2026; por implementar): al lado de la lista
-  de cantidad hay otra lista desplegable para elegir si se llaman
-  **"Grupos"** o **"Equipos"** (nombre predeterminado: "Grupo 1", "Grupo 2"…
-  o "Equipo 1", "Equipo 2"…). Cada nombre se puede **editar** (ej.
-  "Grupo 1" → "Los Fantasmas"). Detalles por confirmar con el usuario: ver
-  `PENDIENTES.md`.
+- **Nombres** (definido el 28-09-2026; por implementar):
+  - Al lado de la lista de cantidad hay otra lista desplegable para elegir
+    si se llaman **"Equipos"** (viene elegida) o **"Grupos"**. Nombres
+    predeterminados: "Equipo 1", "Equipo 2"… o "Grupo 1", "Grupo 2"…
+  - **Editar un nombre:** se toca el título de la tarjeta, que se convierte en
+    un campo para escribir (ej. "Equipo 1" → "Los Fantasmas"). Primera letra
+    de cada palabra en mayúscula, igual que los jugadores.
+  - **No se permiten nombres repetidos.** Si se deja vacío, vuelve al
+    predeterminado. Cada grupo sin editar conserva su predeterminado (ej. si
+    se renombran 3 de 4, el cuarto sigue siendo "Equipo 4").
+  - Cambiar entre "Equipos" y "Grupos" **devuelve todos los nombres** a los
+    predeterminados.
+  - El nombre elegido se muestra en la ronda, en el marcador y en los
+    resultados.
 - **Volver a organizar**: redistribuye aleatoriamente sin pedir
   confirmación, manteniendo los tamaños de equipo.
 - **Mover jugadores**: tocar un jugador y luego el equipo destino; si

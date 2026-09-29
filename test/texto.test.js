@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { normalizeText, normalizeForSearch, escapeHtml, highlightWord } from "../src/js/utils.js";
+import { normalizeText, normalizeForSearch, escapeHtml, highlightWord, titleCaseName } from "../src/js/utils.js";
 import { state, resetState } from "../src/js/state.js";
 import { searchSongs } from "../src/js/screens/verify.js";
 
@@ -24,6 +24,21 @@ test("normalizeText conserva la ñ (año y ano son palabras distintas)", () => {
 
 test("normalizeForSearch ignora signos de puntuación y espacios de más", () => {
   assert.equal(normalizeForSearch("  ¡Hola,   mundo!\n¿Qué tal?  "), "hola mundo que tal");
+});
+
+// ---------- titleCaseName ----------
+
+test("titleCaseName pone en mayúscula la primera letra de cada palabra, sin importar cómo se escriba", () => {
+  assert.equal(titleCaseName("mike ruiz"), "Mike Ruiz");
+  assert.equal(titleCaseName("MIKE RUIZ"), "Mike Ruiz");
+  assert.equal(titleCaseName("mIKE"), "Mike");
+  assert.equal(titleCaseName("los fantasmas"), "Los Fantasmas");
+});
+
+test("titleCaseName respeta tildes y ñ, y deja los espacios como están", () => {
+  assert.equal(titleCaseName("ÁNGEL ñÚÑEZ"), "Ángel Ñúñez");
+  assert.equal(titleCaseName("ana "), "Ana "); // el espacio final sigue, para escribir la siguiente palabra
+  assert.equal(titleCaseName(""), "");
 });
 
 // ---------- escapeHtml ----------

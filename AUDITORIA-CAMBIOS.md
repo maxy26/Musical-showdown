@@ -13,6 +13,45 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 11): formato de nombres y detalles de grupos
+
+**Respuestas del usuario sobre los grupos** (guardadas en el contexto,
+"Organización de grupos"): viene elegido "Equipos"; el nombre se edita tocando
+el título de la tarjeta; no se permiten nombres repetidos; vacío = nombre
+predeterminado; cambiar entre "Equipos" y "Grupos" devuelve todos los nombres
+a los predeterminados; el nombre se muestra en la ronda, el marcador y los
+resultados.
+
+**Qué se hizo**
+1. Subidos a GitHub `8a0f301` y `8eb98f6`. Su compilación (run 36515336443)
+   terminó bien, lo que confirma que `npm run build:apk` también funciona en
+   GitHub Actions.
+2. **Formato de nombres** (pedido del usuario): nueva función
+   `titleCaseName()` en `utils.js`, que pone la primera letra de cada palabra
+   en mayúscula y el resto en minúscula ("mIKE rUIZ" → "Mike Ruiz"). Se usa al
+   escribir los nombres de jugadores (`players.js`), en lugar de
+   `toUpperCase()`. Se usará también para los nombres de grupos. 2 pruebas
+   nuevas en `test/texto.test.js`.
+3. **Bug encontrado:** dos jugadores con el mismo nombre se funden en uno
+   (los puntos usan el nombre como clave). Se comprobó en Edge ("Ana", "Ana",
+   "Beto" → la partida empieza con 2 jugadores). Anotado en pendientes; falta
+   que el usuario decida la solución.
+
+**Archivos tocados:** `src/js/utils.js`, `src/js/screens/config/players.js`,
+`test/texto.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 46 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: escribir "mIKE rUIZ" deja "Mike Ruiz"; "ÁNGEL" deja "Ángel".
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** largo máximo y reglas de repetidos en los nombres de grupos;
+qué hacer con los jugadores de nombre repetido; la parte 1 del plan (grupos
+múltiples).
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 10): reglas de Clásico y Alternativo 1 definidas
 
 **Qué se hizo:** en varias rondas de preguntas, el usuario definió las reglas
