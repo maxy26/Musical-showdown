@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
 import { countTypedPlayers } from "../src/js/screens/config/players.js";
-import { formatCustomTime, isPresetTarget, isPresetTime, customTimeSeconds } from "../src/js/screens/config/presets.js";
+import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
+import { clampStep } from "../src/js/screens/config/valuePicker.js";
 import { songKey } from "../src/js/gameLogic.js";
 
 test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
@@ -28,11 +29,15 @@ test("isPresetTarget e isPresetTime reconocen los valores predeterminados", () =
   assert.equal(isPresetTime(95), false);
 });
 
-test("customTimeSeconds limita el tiempo personalizado entre 5 seg y 2 min", () => {
-  assert.equal(customTimeSeconds(1, 25), 85);
-  assert.equal(customTimeSeconds(0, 0), 5); // 0:00 sería "Sin tiempo"
-  assert.equal(customTimeSeconds(2, 30), 120); // con 2 min los segundos no suman
-  assert.equal(customTimeSeconds(0, 45), 45);
+test("clampStep respeta los límites y el paso del puntaje y del tiempo", () => {
+  // Puntaje: de 100 a 9900, de 100 en 100.
+  assert.equal(clampStep(3450, 100, 9900, 100), 3500);
+  assert.equal(clampStep(0, 100, 9900, 100), 100);
+  assert.equal(clampStep(12000, 100, 9900, 100), 9900);
+  // Tiempo: de 5 seg a 2 min, de 5 en 5 (0:00 sería "Sin tiempo").
+  assert.equal(clampStep(0, 5, 120, 5), 5);
+  assert.equal(clampStep(150, 5, 120, 5), 120);
+  assert.equal(clampStep(87, 5, 120, 5), 85);
 });
 
 test("weightedPick siempre devuelve un elemento válido de la lista", () => {

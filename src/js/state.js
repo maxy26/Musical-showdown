@@ -36,8 +36,6 @@ function freshState() {
     },
     verify: { query: "", results: [], selectedSong: null },
     teamSelectedPlayer: null,
-    configEditing: null, // "target" | "time": caja personalizada abierta en la configuración
-
     winner: null,
   };
 }

@@ -2,7 +2,7 @@
 export const TARGET_SCORE_PRESETS = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000];
 
 // Tiempo por ronda predeterminado: de 5 en 5 hasta 60 segundos ("1 min"), más "Sin tiempo".
-// La personalización (1 a 2 minutos + segundos libres) se maneja aparte, igual que el puntaje.
+// El valor personalizado (5 seg a 2 min) se elige en la ventana de valuePicker.js, igual que el puntaje.
 export const ROUND_TIME_PRESETS = [
   { value: 0, label: "Sin tiempo" },
   { value: 5, label: "5 seg" },
@@ -27,16 +27,6 @@ export function isPresetTarget(score) {
 /** ¿El tiempo coincide con uno predeterminado? */
 export function isPresetTime(seconds) {
   return ROUND_TIME_PRESETS.some((o) => o.value === seconds);
-}
-
-/**
- * Tiempo personalizado a partir de minutos y segundos: máximo 2 minutos (con
- * 2 min los segundos quedan en 0) y mínimo 5 segundos, porque 0:00 sería
- * "Sin tiempo", que ya es otra opción de la lista.
- */
-export function customTimeSeconds(minutes, seconds) {
-  const total = Math.min(120, minutes * 60 + seconds);
-  return Math.max(5, total);
 }
 
 /** Formatea segundos totales como "1 min 30 seg", "45 seg", "2 min (máximo)", etc. */

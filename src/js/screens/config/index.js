@@ -7,16 +7,16 @@ import { openHelp, showWarning } from "../modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../../sound.js";
 import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
-  isPresetTarget, isPresetTime, customTimeSeconds,
+  isPresetTarget, isPresetTime,
 } from "./presets.js";
 import { modesFor } from "./modes.js";
 import { countTypedPlayers, initPlayersSection } from "./players.js";
-import { bindValueBox } from "./valueBox.js";
+import { openValuePicker } from "./valuePicker.js";
 
 /**
  * Opción de la lista con el valor personalizado ya elegido (ej. "3500 pts").
  * Ocupa el lugar de los valores predeterminados en la lista; para cambiarlo
- * se vuelve a elegir "Personalizado…".
+ * se vuelve a elegir "Personalizado…", que abre la ventana de valor.
  */
 function customValueOption(show, label) {
   return show ? `<option value="custom-value" selected>${label}</option>` : "";
@@ -24,7 +24,6 @@ function customValueOption(show, label) {
 
 export function screenConfig() {
   const c = state.config;
-  const editing = state.configEditing; // caja personalizada abierta: "target" | "time" | null
 
   // Si el modo actual ya no está disponible para el tipo de batalla elegido, se reinicia a Clásico.
   const available = modesFor(c.battleType);
@@ -69,48 +68,17 @@ export function screenConfig() {
           <label>Puntaje objetivo</label>
           <select id="target">
             ${TARGET_SCORE_PRESETS.map((v) => `<option value="${v}" ${c.targetScoreMode === "preset" && v === c.targetScore ? "selected" : ""}>${v} pts</option>`).join("")}
-            ${customValueOption(c.targetScoreMode === "custom" && editing !== "target", `${c.targetScore} pts`)}
-            <option value="custom" ${editing === "target" ? "selected" : ""}>Personalizado…</option>
+            ${customValueOption(c.targetScoreMode === "custom", `${c.targetScore} pts`)}
+            <option value="custom">Personalizado…</option>
           </select>
-          <div id="target-custom-row" class="${editing === "target" ? "" : "hidden"}" style="margin-top:10px;">
-            <div class="value-box-row">
-              <div class="value-box">
-                <button type="button" class="value-arrow" data-dir="up">▲</button>
-                <input type="text" inputmode="numeric" id="target-value-input" class="value-display" value="${c.targetScore}">
-                <button type="button" class="value-arrow" data-dir="down">▼</button>
-              </div>
-              <span class="small-note" style="margin:0;">pts</span>
-              <button type="button" class="btn btn-secondary" id="target-done">✓ Listo</button>
-            </div>
-          </div>
         </div>
         <div class="field">
           <label>Tiempo por ronda</label>
           <select id="roundtime">
             ${ROUND_TIME_PRESETS.map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
-            ${customValueOption(c.roundTimeMode === "custom" && editing !== "time", formatCustomTime(c.roundTime))}
-            <option value="custom" ${editing === "time" ? "selected" : ""}>Personalizado…</option>
+            ${customValueOption(c.roundTimeMode === "custom", formatCustomTime(c.roundTime))}
+            <option value="custom">Personalizado…</option>
           </select>
-          <div id="time-custom-row" class="${editing === "time" ? "" : "hidden"}" style="margin-top:10px;">
-            <div class="value-box-row">
-              <div class="value-box">
-                <button type="button" class="value-arrow" data-dir="up">▲</button>
-                <input type="text" inputmode="numeric" id="min-value-input" class="value-display" value="0">
-                <button type="button" class="value-arrow" data-dir="down">▼</button>
-              </div>
-              <span style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;">min</span>
-              <div class="value-box">
-                <button type="button" class="value-arrow" data-dir="up">▲</button>
-                <input type="text" inputmode="numeric" id="sec-value-input" class="value-display" value="0">
-                <button type="button" class="value-arrow" data-dir="down">▼</button>
-              </div>
-              <span style="font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;">seg</span>
-              <button type="button" class="btn btn-secondary" id="time-done">✓ Listo</button>
-            </div>
-            <p class="small-note" id="time-max-warning" style="color:var(--red);margin-top:6px;display:none;">
-              ⚠ El tiempo máximo por ronda es de 2 minutos.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -151,100 +119,67 @@ export function screenConfig() {
   bindMuteButtons(root);
 
   // ---------- Puntaje objetivo y tiempo: predeterminado vs. personalizado ----------
-  // Al elegir "Personalizado…" se abre su caja. Al terminar ("✓ Listo" o
-  // Enter) la caja se cierra y el valor elegido ocupa el lugar de los
-  // predeterminados en la lista. Si coincide con uno de ellos, se usa ese.
-  function finishEditing() {
-    if (state.configEditing === "target" && isPresetTarget(c.targetScore)) c.targetScoreMode = "preset";
-    if (state.configEditing === "time" && isPresetTime(c.roundTime)) c.roundTimeMode = "preset";
-    state.configEditing = null;
-  }
-  function closeEditor() {
-    finishEditing();
-    render();
-  }
-
+  // "Personalizado…" abre una ventana (valuePicker.js) que se maneja con el
+  // dedo, con ▲▼, con la rueda del mouse o con el teclado. Al aceptar, el
+  // valor ocupa el lugar de los predeterminados en la lista (si coincide con
+  // uno de ellos, se usa ese). "Cancelar" deja todo como estaba.
   root.querySelector("#target").onchange = (e) => {
     const v = e.target.value;
     if (v === "custom-value") return;
-    finishEditing();
     if (v === "custom") {
-      c.targetScoreMode = "custom";
-      c.targetScore = Math.round(c.targetScore / 100) * 100 || 2000; // por si no era múltiplo de 100
-      state.configEditing = "target";
-    } else {
-      c.targetScoreMode = "preset";
-      c.targetScore = parseInt(v);
+      openValuePicker({
+        title: "Puntaje objetivo",
+        value: c.targetScore,
+        min: 100, max: 9900, step: 100,
+        format: (s) => `${s}<small>pts</small>`,
+        rangeText: "de 100 a 9900 pts",
+        quick: [
+          { label: "−1000", apply: (s) => s - 1000 },
+          { label: "−500", apply: (s) => s - 500 },
+          { label: "+500", apply: (s) => s + 500 },
+          { label: "+1000", apply: (s) => s + 1000 },
+        ],
+        onAccept: (s) => {
+          c.targetScore = s;
+          c.targetScoreMode = isPresetTarget(s) ? "preset" : "custom";
+          render();
+        },
+        onCancel: render, // la lista vuelve a mostrar el valor anterior
+      });
+      return;
     }
+    c.targetScoreMode = "preset";
+    c.targetScore = parseInt(v);
     render();
   };
-
-  bindValueBox(root, "target-value-input", {
-    get: () => c.targetScore,
-    set: (v) => { c.targetScore = v; },
-    step: 100,
-    clamp: (v) => Math.min(9900, Math.max(100, Math.round(v / 100) * 100)),
-    onEnter: closeEditor,
-  });
-  root.querySelector("#target-done").onclick = closeEditor;
 
   root.querySelector("#roundtime").onchange = (e) => {
     const v = e.target.value;
     if (v === "custom-value") return;
-    finishEditing();
     if (v === "custom") {
-      c.roundTimeMode = "custom";
-      if (c.roundTime === 0 || c.roundTime > 120) c.roundTime = 90; // valor inicial razonable
-      state.configEditing = "time";
-    } else {
-      c.roundTimeMode = "preset";
-      c.roundTime = parseInt(v);
+      const at = (m, s) => ({ label: `${m}:${String(s).padStart(2, "0")}`, apply: () => m * 60 + s });
+      openValuePicker({
+        title: "Tiempo por ronda",
+        value: c.roundTime > 0 ? c.roundTime : 90, // "Sin tiempo" no tiene valor: se parte de 1:30
+        min: 5, max: 120, step: 5, // máximo 2 minutos; 0:00 sería "Sin tiempo"
+        format: (t) => (t >= 60
+          ? `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}<small>min</small>`
+          : `${t}<small>seg</small>`),
+        rangeText: "de 5 seg a 2 min",
+        quick: [at(1, 15), at(1, 30), at(1, 45), at(2, 0)],
+        onAccept: (t) => {
+          c.roundTime = t;
+          c.roundTimeMode = isPresetTime(t) ? "preset" : "custom";
+          render();
+        },
+        onCancel: render,
+      });
+      return;
     }
+    c.roundTimeMode = "preset";
+    c.roundTime = parseInt(v);
     render();
   };
-
-  let minutes = Math.min(2, Math.floor(c.roundTime / 60));
-  let seconds = minutes >= 2 ? 0 : c.roundTime % 60;
-  const timeMaxWarning = root.querySelector("#time-max-warning");
-
-  function showMaxWarning() {
-    if (!timeMaxWarning) return;
-    timeMaxWarning.style.display = "block";
-    clearTimeout(showMaxWarning._t);
-    showMaxWarning._t = setTimeout(() => { timeMaxWarning.style.display = "none"; }, 2500);
-  }
-  // Aplica minutos y segundos respetando los límites (5 seg a 2 min) y
-  // vuelve a leerlos del resultado, para que las cajas muestren lo real.
-  function applyTime() {
-    c.roundTime = customTimeSeconds(minutes, seconds);
-    minutes = Math.floor(c.roundTime / 60);
-    seconds = c.roundTime % 60;
-  }
-
-  const secBox = bindValueBox(root, "sec-value-input", {
-    get: () => seconds,
-    set: (v) => {
-      if (minutes >= 2) { showMaxWarning(); return; } // bloqueado a 2 min: no cambia
-      seconds = v;
-      applyTime();
-    },
-    step: 5,
-    clamp: (v) => Math.min(55, Math.max(0, Math.round(v / 5) * 5)),
-    onEnter: closeEditor,
-  });
-  bindValueBox(root, "min-value-input", {
-    get: () => minutes,
-    set: (v) => {
-      minutes = v;
-      if (minutes >= 2) showMaxWarning();
-      applyTime();
-    },
-    step: 1,
-    clamp: (v) => Math.min(2, Math.max(0, v)),
-    onCommit: () => { secBox && secBox.refresh(); },
-    onEnter: closeEditor,
-  });
-  root.querySelector("#time-done").onclick = closeEditor;
 
   // ---------- Tipo de batalla / géneros / multiplicadores ----------
   root.querySelectorAll("[data-battle]").forEach((b) => (b.onclick = () => {
@@ -268,7 +203,6 @@ export function screenConfig() {
 
   // ---------- Confirmar y arrancar la partida ----------
   root.querySelector("#confirm-config").onclick = () => {
-    finishEditing(); // si quedó una caja personalizada abierta, se da por terminada
     c.players = c.players.map((p) => p.trim()).filter((p) => p.length > 0);
     if (c.players.length < 2) { showWarning("Escribe al menos 2 nombres de jugador para poder iniciar la partida."); return; }
     if (c.battleType === "grupal" && c.players.length < 4) {

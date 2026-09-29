@@ -92,6 +92,11 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-09-28: 🟡 Nuevo diseño del valor personalizado (puntaje y tiempo):
+  ventana con deslizamiento táctil, botones ▲ / ▼, rueda del mouse y teclado
+  (`valuePicker.js`), elegido por el usuario después de ver una maqueta
+  interactiva con 3 diseños.
+
 - [x] 2026-09-28: 🟡 Puntaje y tiempo personalizados: al terminar ("✓ Listo"
   o Enter) la caja se cierra y el valor ocupa el lugar de los predeterminados
   en la lista (pedido del usuario). Se corrigieron además dos errores: no se

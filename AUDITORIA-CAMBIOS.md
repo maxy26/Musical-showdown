@@ -13,6 +13,64 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 7): ventana táctil para el valor personalizado
+
+**Pedido del usuario:** un diseño más profesional para el modo personalizado.
+Se le mostró una maqueta interactiva en Brave con 3 diseños (A: deslizador,
+B: ventana emergente, C: contador −/+). Eligió una ventana como la B, que
+permita subir y bajar el valor de forma táctil (Android) y también con botones
+arriba y abajo (Windows), igual para puntaje y tiempo y respetando sus reglas.
+
+**Qué se hizo**
+1. Nuevo `src/js/screens/config/valuePicker.js`:
+   - `openValuePicker(...)` abre una ventana con el valor en grande que se
+     cambia deslizando el dedo o arrastrando el mouse sobre el valor (22 px por
+     paso), con botones ▲ / ▼ (mantenerlos presionados repite), con la rueda
+     del mouse o con las flechas del teclado.
+   - Tiene atajos. Enter acepta (salvo con el foco en un botón) y Esc cancela.
+     Los botones ▲ / ▼ se desactivan en los límites.
+   - Función pura `clampStep(v, min, max, step)`.
+2. `screens/config/index.js`: "Personalizado…" abre la ventana.
+   - Puntaje: 100–9900 de 100 en 100; atajos −1000/−500/+500/+1000.
+   - Tiempo: 5 seg–2:00 de 5 en 5; atajos 1:15/1:30/1:45/2:00. Si se viene de
+     "Sin tiempo", parte de 1:30.
+   - Aceptar deja el valor en la lista (o selecciona el predeterminado si
+     coincide); Cancelar deja todo igual.
+3. Se eliminó lo que quedó sin uso:
+   - `valueBox.js` (borrado) y sus estilos `.value-*`.
+   - `state.configEditing`, las cajas de minutos y segundos, el aviso de
+     "máximo 2 minutos" (ya no hace falta: la ventana no deja pasar de 2:00) y
+     `customTimeSeconds` con su prueba.
+4. `styles.css`: estilos `.picker-*`, con ajuste para pantallas angostas.
+5. `sw.js`: `valueBox.js` → `valuePicker.js` en `ASSETS`, y `CACHE_NAME` v3 → v4.
+6. Se actualizaron `CONTEXTO-MUSICAL-SHOWDOWN.md` (configuración) e
+   `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (regla 20).
+
+**Archivos tocados:** `src/js/screens/config/valuePicker.js` (nuevo),
+`src/js/screens/config/valueBox.js` (borrado), `src/js/screens/config/index.js`,
+`src/js/screens/config/presets.js`, `src/js/state.js`, `src/css/styles.css`,
+`src/sw.js`, `test/gameLogic.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación**
+- `npm test`: 42 pasan y 1 pendiente, con código de salida 0 (incluye
+  `clampStep` y la prueba de `sw.js` con la lista actualizada). `npm run lint`:
+  sin errores.
+- En Edge sin ventana, con eventos táctiles simulados: 23 de 23 comprobaciones
+  (deslizar arriba y abajo, ▲▼, rueda, teclado, atajos, límites 9900, 2:00 y
+  5 seg, Cancelar/Esc, Aceptar/Enter, predeterminado si coincide, arranque
+  desde "Sin tiempo", Enter sobre "Cancelar" no acepta).
+- Capturas de escritorio y de teléfono (marco de 360 px): la ventana entra
+  completa. Una medición detectó que `.modal` pisaba el ancho máximo: se
+  corrigió con `.modal.picker-modal`.
+- `build:android` y `build:desktop`: ambos bien. Se abrió el `.exe` para el
+  usuario. La compilación en GitHub de `63ea23c` (run 36499694531) terminó bien.
+
+**Quedó abierto:** que el usuario lo pruebe en un teléfono real (táctil).
+Después: reglas de Alternativo 1 (ideas ya propuestas).
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 6): valor personalizado en la lista
 
 **Pedido del usuario:** al personalizar el puntaje o el tiempo y terminar de
