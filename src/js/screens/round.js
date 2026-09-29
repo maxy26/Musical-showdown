@@ -6,6 +6,11 @@ import { openPause, openHelp, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 import { modeName } from "./config/modes.js";
 
+/** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
+function groupColorClass(groupIndex) {
+  return groupIndex === null || groupIndex === undefined ? "" : `group-color-${groupIndex % 5}`;
+}
+
 export function screenRound() {
   const r = state.round;
   const c = state.config;
@@ -24,7 +29,7 @@ export function screenRound() {
       </div>
     </div>
     <div class="stage">
-      <div class="side a">
+      <div class="side a ${groupColorClass(r.groupA)}">
         <button class="name-btn" id="btn-a">
           ${r.participantA}${r.showA ? `<div class="sub">${r.showA}</div>` : ""}
           <span class="score">${scoreA} pts</span>
@@ -49,7 +54,7 @@ export function screenRound() {
         `}
       </div>
 
-      <div class="side b">
+      <div class="side b ${groupColorClass(r.groupB)}">
         <button class="name-btn" id="btn-b">
           ${r.participantB}${r.showB ? `<div class="sub">${r.showB}</div>` : ""}
           <span class="score">${scoreB} pts</span>

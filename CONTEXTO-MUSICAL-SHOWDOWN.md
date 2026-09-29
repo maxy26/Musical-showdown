@@ -196,7 +196,11 @@
   **lista desplegable en esta misma pantalla**, que solo ofrece opciones
   válidas: de **2** hasta **la mitad de los jugadores**, porque cada grupo
   necesita 2 o más (10 jugadores → de 2 a 5; 7 jugadores → de 2 a 3). La
-  lista empieza en **2**.
+  lista empieza en **2**. **Cambiar la cantidad reinicia todo:** nuevo reparto
+  al azar y nombres predeterminados, manteniendo "Equipos" o "Grupos" según
+  lo elegido.
+- **Colores:** cada grupo tiene su color (rosa, verde, dorado, azul, naranja;
+  se repiten desde el sexto), el mismo en "Organizar" y en la ronda.
 - **Reparto inicial al azar**, con los jugadores que sobran en los
   **últimos** grupos (10 jugadores en 3 grupos → 3, 3 y 4).
 - **Nombres** (definido el 28-09-2026; por implementar):

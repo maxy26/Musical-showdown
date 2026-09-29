@@ -13,6 +13,44 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 14): reinicio al cambiar la cantidad y colores de grupo en la ronda
+
+**Decisiones del usuario:**
+1. Al cambiar la cantidad de grupos se reinicia todo: nuevo reparto al azar y
+   nombres predeterminados, manteniendo "Equipos"/"Grupos". Reemplaza lo que se
+   había decidido provisionalmente (conservar los nombres).
+2. No entendió la pregunta sobre cómo mover jugadores entre grupos del mismo
+   tamaño: se le vuelve a explicar con un ejemplo (sigue en pendientes).
+3. Sí a usar el color de cada grupo en la ronda.
+
+**Qué se hizo**
+- `teamOrg.js`: el cambio de cantidad reparte con `distributeRandom`, sin
+  conservar los nombres.
+- `styles.css`: los colores de grupo pasan a variables (`--group-color`,
+  `--group-soft`, `--group-light`) en las clases `.group-color-N`, que usan
+  las tarjetas de "Organizar" y los lados de la ronda (borde y barra de
+  progreso).
+- `gameLogic.js` / `state.js`: la ronda guarda `groupA` y `groupB` (posición del
+  grupo). `round.js` agrega la clase de color a cada lado en Grupal. En
+  Individual todo sigue igual (rosa y verde).
+
+**Archivos tocados:** `src/js/screens/teamOrg.js`, `src/css/styles.css`,
+`src/js/gameLogic.js`, `src/js/state.js`, `src/js/screens/round.js`,
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 55 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 5 de 5 (cambiar de 4 a 3 grupos quita los nombres editados, sigue
+  elegido "Grupos", se reparte de nuevo en 3/3/4, los lados usan la clase de
+  color de su grupo). Capturas de la ronda: el equipo 3 en dorado y el 4 en
+  azul; el 1 y el 2 en rosa y verde.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** confirmar cómo mover jugadores entre grupos del mismo
+tamaño; partes 2 y 3 del plan.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 13): grupos múltiples (parte 1 del plan)
 
 **Decisión del usuario:** hacer la parte 1 sola, con una **regla temporal** para

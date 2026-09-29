@@ -29,6 +29,8 @@ function freshState() {
       participantB: null,
       showA: null, // jugador que representa al grupo A en este duelo (solo Grupal)
       showB: null,
+      groupA: null, // posición del grupo A en state.groups (solo Grupal; para su color)
+      groupB: null,
       word: null,
       multiplier: null,
       timeLeft: 0,

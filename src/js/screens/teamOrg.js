@@ -10,7 +10,8 @@ import { MAX_NAME_LENGTH, cleanName, duplicateNameIndexes } from "./config/playe
 /**
  * Organizar grupos (modo Grupal). Reglas en CONTEXTO-MUSICAL-SHOWDOWN.md,
  * sección 3 → "Organización de grupos":
- *   - Lista de cantidad (de 2 a la mitad de los jugadores) y lista
+ *   - Lista de cantidad (de 2 a la mitad de los jugadores; cambiarla reparte
+ *     de nuevo al azar y devuelve los nombres a los predeterminados) y lista
  *     "Equipos"/"Grupos" (cambiarla devuelve los nombres a los predeterminados).
  *   - Tocar el título de una tarjeta permite editar el nombre (máx. 20 letras,
  *     primera letra de cada palabra en mayúscula; vacío = predeterminado).
@@ -147,13 +148,11 @@ export function screenTeamOrg() {
   }
 
   // ---------- Listas de cantidad y nombre ----------
+  // Cambiar la cantidad reinicia todo: nuevo reparto al azar y nombres
+  // predeterminados (se mantiene "Equipos"/"Grupos" tal como está elegido).
   root.querySelector("#group-count").onchange = (e) => {
-    const count = parseInt(e.target.value, 10);
-    const oldNames = state.groups.map((g) => g.customName);
-    c.groupCount = count;
-    state.groups = distributeRandom(allPlayers(), count);
-    // Los grupos que siguen existiendo conservan su nombre editado.
-    state.groups.forEach((g, i) => { g.customName = oldNames[i] || ""; });
+    c.groupCount = parseInt(e.target.value, 10);
+    state.groups = distributeRandom(allPlayers(), c.groupCount); // customName vacío = predeterminado
     state.teamSelectedPlayer = null;
     render();
   };

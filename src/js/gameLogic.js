@@ -60,7 +60,7 @@ export function startNextRound() {
       ? c.multipliers[Math.floor(Math.random() * c.multipliers.length)]
       : null;
 
-  let A, B, showA = null, showB = null;
+  let A, B, showA = null, showB = null, groupA = null, groupB = null;
   if (c.battleType === "individual") {
     [A, B] = pickIndividualPair();
   } else {
@@ -70,6 +70,8 @@ export function startNextRound() {
     const [ia, ib] = pickGroupPairTemporary(names.map((n) => state.matchCounts[n] || 0));
     A = names[ia];
     B = names[ib];
+    groupA = ia; // posición del grupo, para usar su color en la ronda
+    groupB = ib;
     // Quién canta por cada grupo: al azar entre los que menos han participado.
     showA = pickRepresentative(state.groups[ia].players, state.singCounts);
     showB = pickRepresentative(state.groups[ib].players, state.singCounts);
@@ -80,7 +82,7 @@ export function startNextRound() {
   state.matchCounts[B] = (state.matchCounts[B] || 0) + 1;
 
   state.round = {
-    participantA: A, participantB: B, showA, showB,
+    participantA: A, participantB: B, showA, showB, groupA, groupB,
     word, multiplier: mult,
     timeLeft: c.roundTime, timerId: null, paused: false, phase: "intro",
     selected: null, lastResult: null,

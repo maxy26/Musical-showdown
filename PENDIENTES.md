@@ -77,16 +77,8 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
-- [ ] 🟢 **Sugerencia: el color de cada grupo en la ronda.** En "Organizar"
-  cada grupo tiene su color (rosa, verde, dorado, azul, naranja), pero en la
-  ronda el lado izquierdo siempre es rosa y el derecho verde, sin importar el
-  grupo. Se podría usar el color del grupo también en la ronda. Preguntarle
-  al usuario.
-- [ ] ❓ **Confirmar con el usuario:** al cambiar la cantidad de grupos, los
-  jugadores se vuelven a repartir al azar y los grupos que siguen existiendo
-  conservan su nombre editado (ej. de 3 a 2 grupos, "Los Fantasmas" sigue
-  siendo el grupo 1). Se hizo así porque no estaba definido.
-- [ ] ❓ **Confirmar con el usuario:** al mover jugadores entre dos grupos del
+- [ ] ❓ **Confirmar con el usuario** (se lo volvió a explicar con un ejemplo el
+  28-09-2026): al mover jugadores entre dos grupos del
   mismo tamaño, ahora **se intercambian los dos jugadores tocados**. Antes se
   intercambiaba siempre con el primero del otro grupo, sin importar a quién se
   tocara.
@@ -121,6 +113,12 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-28: Al cambiar la cantidad de grupos **se reinicia todo**: nuevo
+  reparto al azar y nombres predeterminados, manteniendo "Equipos"/"Grupos"
+  según lo elegido (lo decidió el usuario).
+- [x] 2026-09-28: En la ronda, cada lado usa **el color de su grupo**, el mismo
+  de "Organizar" (lo pidió el usuario).
 
 - [x] 2026-09-28: 🔴 Parte 1 del plan, **grupos múltiples**: cantidad (de 2 a la
   mitad de los jugadores), "Equipos"/"Grupos", nombres editables tocando el

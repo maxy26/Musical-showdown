@@ -204,12 +204,15 @@ input.input-error:focus{outline-color:var(--red);}
 .teams-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
 .team-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:18px;}
 .team-card h3{font-size:15px;margin-bottom:12px;}
-/* Un color por grupo (se repiten desde el sexto) */
-.team-card.group-color-0 h3{color:var(--pink);}
-.team-card.group-color-1 h3{color:var(--teal);}
-.team-card.group-color-2 h3{color:var(--gold);}
-.team-card.group-color-3 h3{color:#9DB4FF;}
-.team-card.group-color-4 h3{color:#FF8A65;}
+/* Un color por grupo (se repiten desde el sexto). Se usa en "Organizar" y en
+   la ronda: --group-color (principal), --group-soft (borde) y --group-light
+   (final del degradado de la barra de progreso). */
+.group-color-0{--group-color:var(--pink);--group-soft:rgba(255,92,122,0.4);--group-light:#FF8A65;}
+.group-color-1{--group-color:var(--teal);--group-soft:rgba(58,199,160,0.4);--group-light:#7EE8C6;}
+.group-color-2{--group-color:var(--gold);--group-soft:rgba(255,200,87,0.4);--group-light:#FFE29A;}
+.group-color-3{--group-color:#9DB4FF;--group-soft:rgba(157,180,255,0.4);--group-light:#C9D5FF;}
+.group-color-4{--group-color:#FF8A65;--group-soft:rgba(255,138,101,0.4);--group-light:#FFB59C;}
+.team-card h3{color:var(--group-color, var(--text));}
 /* Nombre editable: se toca el título y se convierte en un campo */
 .group-title{cursor:pointer;display:flex;align-items:center;gap:8px;border-radius:8px;}
 .group-title .edit-hint{font-size:12px;opacity:.45;}
@@ -241,6 +244,9 @@ input.input-error:focus{outline-color:var(--red);}
 .progress-fill{height:100%;border-radius:999px;transition:width .5s ease;}
 .side.a .progress-fill{background:linear-gradient(90deg,var(--pink),#FF8A65);}
 .side.b .progress-fill{background:linear-gradient(90deg,var(--teal),#7EE8C6);}
+/* Modo Grupal: cada lado toma el color de su grupo (el mismo de "Organizar") */
+.side[class*="group-color-"] .name-btn{border-color:var(--group-soft);}
+.side[class*="group-color-"] .progress-fill{background:linear-gradient(90deg,var(--group-color),var(--group-light));}
 
 .center-stage{text-align:center;padding-top:6px;}
 .clock{display:inline-flex;align-items:center;gap:8px;color:var(--text-dim);font-size:15px;margin-bottom:6px;font-variant-numeric:tabular-nums;}
