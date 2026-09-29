@@ -40,7 +40,8 @@ npm run build:desktop                      # -> dist/windows/Musical Showdown.ex
 npm run build:linux                        # -> dist/linux/Musical-Showdown.AppImage (compilar en Linux o en GitHub Actions)
 
 npm install --prefix platforms/android     # solo la primera vez
-npm run build:android                      # luego abrir platforms/android/android en Android Studio y generar el APK
+npm run build:android                      # deja el proyecto listo para Android Studio
+npm run build:apk                          # además genera dist/android/Musical-Showdown.apk (Java 17+ y SDK de Android)
 ```
 
 **Compilación en la nube:** `.github/workflows/compilar.yml` corre lint y pruebas, y compila Windows (`.exe`), Linux (`.AppImage`) y Android (`.apk` de depuración) en cada envío a `main`. Los archivos quedan en la sección "Artifacts" de cada ejecución. Al subir una etiqueta `v*` (por ejemplo, `v1.1.0`), además publica una Release con los 3 archivos. Si se cambian los scripts de `build/` o las rutas de salida, actualizar también este archivo de flujo.
@@ -50,6 +51,8 @@ Particularidades al compilar en Windows:
 - `build:desktop` requiere el Modo de desarrollador de Windows (o una consola de administrador), porque electron-builder crea enlaces simbólicos. Esto solo aplica al compilar; el `.exe` generado corre en cualquier PC sin configuración especial.
 - `build:android` requiere TypeScript **5** en `platforms/android` para leer `capacitor.config.ts`. TypeScript 7 no es compatible con Capacitor 6.
 - npm 11 muestra advertencias de "install-scripts" para esbuild y electron. Se pueden ignorar para compilar.
+- `build:apk` llama a `gradlew.bat` con su ruta completa, porque algunas consolas de Windows no buscan programas en la carpeta actual. En esta PC el SDK está en `%LOCALAPPDATA%\Android\Sdk` (`android/local.properties`) y Java 17 en `C:\Program Files\Java\jdk-17`.
+- Para que el usuario vea los cambios: después de cambios de lógica o visuales, compilar (`build:desktop` y `build:apk`) y abrirle el `.exe`. Para recompilar hay que cerrar el juego si está abierto, porque Windows no deja reemplazar un `.exe` en uso.
 
 En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"`, así que las pruebas ESM y los archivos de `src/` dependen de la detección automática de sintaxis ESM de Node.
 

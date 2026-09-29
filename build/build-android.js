@@ -2,7 +2,9 @@
 /**
  * Sincroniza src/ dentro del proyecto Android y lo deja listo para abrir
  * en Android Studio y generar el .apk.
- * Uso: npm run build:android   (desde la raíz del repo)
+ * Uso (desde la raíz del repo):
+ *   npm run build:android   -> deja el proyecto listo para Android Studio
+ *   npm run build:apk       -> además genera dist/android/Musical-Showdown.apk
  *
  * IMPORTANTE: "npx cap sync" regenera capacitor.settings.gradle apuntando
  * a node_modules/@capacitor/android/capacitor, una carpeta que NO viaja en
@@ -55,5 +57,26 @@ settings = settings.replace(
 );
 fs.writeFileSync(settingsPath, settings);
 
-console.log(`\n✔ Listo. Abre platforms/android/android en Android Studio y genera el APK`);
-console.log(`  (Build → Generate App Bundles or APKs → Generate APKs).`);
+if (!process.argv.includes("--apk")) {
+  console.log(`\n✔ Listo. Abre platforms/android/android en Android Studio y genera el APK`);
+  console.log(`  (Build → Generate App Bundles or APKs → Generate APKs),`);
+  console.log(`  o usa "npm run build:apk" para generarlo sin abrir Android Studio.`);
+  process.exit(0);
+}
+
+// --apk: genera el APK con Gradle y lo deja en dist/android. Requiere Java 17+
+// y el SDK de Android (el que instala Android Studio; su ruta va en
+// android/local.properties). Es un APK con firma de depuración: sirve para
+// instalarlo directamente en un teléfono, no para la Play Store.
+console.log("== 5/5: generando el APK con Gradle ==");
+// Ruta completa: algunas consolas de Windows no buscan programas en la carpeta actual.
+const gradlew = path.join(ANDROID_NATIVE, process.platform === "win32" ? "gradlew.bat" : "gradlew");
+run(`"${gradlew}" assembleDebug --no-daemon`, ANDROID_NATIVE);
+const apkOut = path.join(ROOT, "dist", "android");
+fs.rmSync(apkOut, { recursive: true, force: true });
+fs.mkdirSync(apkOut, { recursive: true });
+fs.copyFileSync(
+  path.join(ANDROID_NATIVE, "app", "build", "outputs", "apk", "debug", "app-debug.apk"),
+  path.join(apkOut, "Musical-Showdown.apk")
+);
+console.log(`\n✔ Listo: dist/android/Musical-Showdown.apk`);

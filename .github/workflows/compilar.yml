@@ -87,20 +87,14 @@ jobs:
           distribution: temurin
           java-version: 21
       - run: npm ci --prefix platforms/android
-      - run: npm run build:android
-      # APK con firma de depuración: sirve para instalarlo directamente en
-      # un teléfono, no para publicarlo en la Play Store.
-      - name: Generar APK
-        working-directory: platforms/android/android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
-      - name: Renombrar APK
-        run: cp platforms/android/android/app/build/outputs/apk/debug/app-debug.apk Musical-Showdown.apk
+      - run: chmod +x platforms/android/android/gradlew
+      # Mismo comando que en la PC: sincroniza y genera dist/android/Musical-Showdown.apk
+      # (firma de depuración: sirve para instalarlo en un teléfono, no para la Play Store).
+      - run: npm run build:apk
       - uses: actions/upload-artifact@v4
         with:
           name: musical-showdown-android
-          path: Musical-Showdown.apk
+          path: dist/android/Musical-Showdown.apk
           if-no-files-found: error
 
   release:

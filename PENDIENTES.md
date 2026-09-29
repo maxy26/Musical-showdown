@@ -76,8 +76,10 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
-- [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El
-  deslizamiento y el "lanzamiento" solo se probaron con eventos simulados.
+- [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
+  está en `dist/android/Musical-Showdown.apk` (se genera con
+  `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
+  con eventos simulados.
   Puede que haya que ajustar la sensibilidad (`MIN_FLING`, `MOMENTUM_MS` en
   `valuePicker.js`).
 

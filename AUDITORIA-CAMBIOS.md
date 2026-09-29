@@ -13,6 +13,44 @@
 
 ---
 
+## 2026-09-28 — Sesión 3 (parte 9): `.exe` y `.apk` listos en la PC
+
+**Pedido del usuario:** dejar actualizados y listos el `.exe` y el `.apk`.
+
+**Qué se hizo**
+1. Se subieron a GitHub `560ad66` y `71bd094` (el usuario respondió "listo" a la
+   pregunta de si subirlos).
+2. Se encontró que esta PC tiene lo necesario para generar el APK sin abrir
+   Android Studio: Java 17 y el SDK de Android en `%LOCALAPPDATA%\Android\Sdk`.
+3. **Nuevo comando `npm run build:apk`:** `build/build-android.js --apk` hace lo
+   mismo que `build:android` y además ejecuta `gradlew assembleDebug` y copia
+   el resultado a `dist/android/Musical-Showdown.apk`. Primero falló porque
+   `cmd.exe` no encontró `gradlew.bat` en la carpeta actual; se corrigió
+   llamándolo con la ruta completa.
+4. GitHub Actions: el trabajo de Android ahora usa el mismo `npm run build:apk`
+   y sube `dist/android/Musical-Showdown.apk`.
+5. `CLAUDE.md`: comando `build:apk`, rutas de Java y del SDK en esta PC, y la
+   rutina de compilar y abrirle el juego al usuario después de cambios
+   visuales o de lógica.
+
+**Archivos tocados:** `build/build-android.js`, `package.json`,
+`.github/workflows/compilar.yml`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`,
+`PENDIENTES.md`.
+
+**Verificación**
+- `npm run build:apk`: "BUILD SUCCESSFUL" y se generó
+  `dist/android/Musical-Showdown.apk` (5,6 MB). Por dentro, su `bundle.js`
+  trae el selector de rueda (`wheel-item`) y su `sw.js` tiene
+  `musical-showdown-v4`.
+- `dist/windows/Musical Showdown.exe` (75 MB) compilado después del último
+  cambio en `src/`.
+- El cambio en GitHub Actions se verifica en su próxima ejecución.
+
+**Quedó abierto:** que el usuario instale el APK en su teléfono y pruebe la
+rueda de forma táctil. Siguiente pendiente: reglas de Alternativo 1.
+
+---
+
 ## 2026-09-28 — Sesión 3 (parte 8): selector de rueda
 
 **Pedido del usuario:** que la ventana del valor personalizado sea más como un
