@@ -163,8 +163,12 @@
      - La penalización del relevo **no cambia** (−la mitad para el que lo usó
        sin tener, + el valor completo para el otro), porque el motivo es otro.
      - **No hay bonos.** Los **multiplicadores** son **solo para Alternativo 1**,
-       con un interruptor que el usuario activa o desactiva, con un **diseño
-       más profesional** (por definir). En Clásico el interruptor desaparece.
+       con un interruptor que el usuario activa o desactiva. **Diseño elegido
+       (30-09-2026, tras una maqueta con 3 opciones): B, selector de dos
+       opciones** — dos botones unidos "✨ Con multiplicadores | Sin
+       multiplicadores", con el elegido resaltado en dorado y una nota debajo
+       ("Pueden salir ×2, ×3, ×4 o ×5 en cualquier ronda" / "Todas las rondas
+       valen 100 puntos"). En Clásico el selector desaparece.
      - Igual en Individual y en Grupal.
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
