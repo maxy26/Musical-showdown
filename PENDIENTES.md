@@ -144,7 +144,7 @@
        quiera hasta que se acabe el tiempo; el relevo ya se gastó. El botón para
        quitar relevos no baja de **0**.
      - ✅ **El relevo quedó completamente definido** (30-09-2026); falta programarlo.
-  1b. **Intentos por ronda** (contradicción resuelta por el usuario, 30-09-2026):
+  1b. ✅ **Intentos por ronda — programado el 30-09-2026** (contradicción resuelta por el usuario):
      - **Clásico** (Individual y Grupal): **un solo intento** por jugador o
        equipo. Si los dos fallan, la ronda **termina de inmediato** con 0 para
        ambos.
@@ -171,6 +171,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-09-30: **Un solo intento por ronda en Clásico** (Individual y Grupal): el
+  lado que falla queda apagado ("Ya usó su intento") y si los dos fallan la ronda
+  termina de inmediato con 0 para ambos. Alternativo 1 sigue con intentos
+  ilimitados. Alternativo 2, sin reglas propias todavía, también sin límite.
 
 - [x] 2026-09-29: Repeticiones seguidas en Clásico: "enfrentarse con todos" se
   cuenta **por vuelta** (opción b del usuario). Al completarse, la cuenta empieza

@@ -13,6 +13,55 @@
 
 ---
 
+## 2026-09-30 — Sesión 5: reglas del relevo e intento único en Clásico
+
+**Decisiones del usuario** (en varias rondas de preguntas):
+- **Relevo**, solo para Alternativo 1 Grupal: comodín de 3 por equipo por
+  partida, 1 por ronda, se pide antes de responder, pausa sola, se elige al
+  compañero en una lista y se confirma; el que entra canta y sigue intentando;
+  penalización si lo usan sin tener; símbolos de relevos y un botón para
+  agregar o quitar; puntos negativos en rojo. Todo quedó en el contexto
+  (modos de juego).
+- Se le señaló una **contradicción**: "un solo intento para todos" frente a
+  "Alternativo 1 sin límite". Resolución: **un solo intento solo en Clásico**
+  (Individual y Grupal); en Alternativo 1, intentos ilimitados.
+- Pendiente nuevo: revisar y modificar Clásico, empezando por un resumen.
+
+**Qué se hizo**
+1. Documentación: contexto (intentos por ronda y relevo) y pendientes. Se
+   guardaron las respuestas en commits apenas se dieron, para no perderlas si
+   la sesión se cortaba. Subidos a GitHub los 5 commits de documentación.
+2. **Intento único en Clásico**:
+   - `gameLogic.js`: nueva `hasSingleAttempt(mode)` (true solo en "clasico").
+     `resolveAnswer(false)` marca `round.failed[lado]`; si fallan los dos,
+     detiene el reloj y termina con `both-failed`.
+   - `round.js`: el lado que ya falló queda apagado con "Ya usó su intento".
+   - `roundResult.js`: en Clásico, el aviso dice quién ya usó su intento y
+     quién puede intentarlo; nueva pantalla "❌ Nadie acertó · +0 puntos".
+   - `styles.css`: `.attempt-used` y `.attempt-badge`.
+   - Alternativo 2, sin reglas propias, queda sin límite (se le preguntará al
+     usuario al definirlo).
+
+**Archivos tocados:** `src/js/gameLogic.js`, `src/js/screens/round.js`,
+`src/js/screens/roundResult.js`, `src/css/styles.css`, `test/clasico.test.js`,
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 70 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 6 de 6.
+  - Clásico: al fallar uno, aviso correcto y su botón queda apagado; si fallan
+    los dos, "Nadie acertó" sin cambiar los puntos; en la ronda siguiente
+    vuelven a tener su intento.
+  - Alternativo 1: se puede fallar varias veces sin bloqueo.
+  - Captura revisada; una primera captura salió oscura por estar a mitad de la
+    animación de entrada, y se comprobó que no quedaba nada encima.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** programar el relevo; definir los puntos y el tiempo de
+Alternativo 1; Alternativo 2; revisar Clásico.
+
+---
+
 ## 2026-09-29 — Sesión 4 (parte 5): decisiones sobre Alternativo 1 y 2 (sin código)
 
 **Decisiones del usuario:**

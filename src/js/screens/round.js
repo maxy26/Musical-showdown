@@ -64,13 +64,20 @@ export function screenRound() {
     </div>
   </div>`);
 
-  if (r.phase === "counting") {
-    root.querySelector("#btn-a").onclick = () => openVerification("A");
-    root.querySelector("#btn-b").onclick = () => openVerification("B");
-  } else {
-    root.querySelector("#btn-a").disabled = true;
-    root.querySelector("#btn-b").disabled = true;
-  }
+  const failed = r.failed || {};
+  ["A", "B"].forEach((side) => {
+    const btn = root.querySelector(`#btn-${side.toLowerCase()}`);
+    if (r.phase !== "counting") {
+      btn.disabled = true;
+    } else if (failed[side]) {
+      // Clásico: ya usó su único intento en esta ronda.
+      btn.disabled = true;
+      btn.classList.add("attempt-used");
+      btn.appendChild(el(`<span class="attempt-badge">Ya usó su intento</span>`));
+    } else {
+      btn.onclick = () => openVerification(side);
+    }
+  });
 
   root.querySelector("#pause").onclick = () => openPause();
   root.querySelector("#help").onclick = () => openHelp();

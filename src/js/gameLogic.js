@@ -124,6 +124,7 @@ export function startNextRound() {
     word, multiplier: mult,
     timeLeft: c.roundTime, timerId: null, paused: false, phase: "intro",
     selected: null, lastResult: null,
+    failed: { A: false, B: false }, // Clásico: qué lado ya usó su único intento
   };
   state.screen = "round";
 
@@ -174,6 +175,15 @@ export function finishRoundManual() {
   render();
 }
 
+/**
+ * ¿Hay un solo intento por jugador o equipo en cada ronda? Solo en Clásico
+ * (definido por el usuario el 30-09-2026). En Alternativo 1 los intentos son
+ * ilimitados; Alternativo 2 todavía no tiene reglas y sigue sin límite.
+ */
+export function hasSingleAttempt(mode) {
+  return mode === "clasico";
+}
+
 export function resolveAnswer(correct) {
   const r = state.round;
   const who = r.selected === "A" ? r.participantA : r.participantB;
@@ -185,8 +195,20 @@ export function resolveAnswer(correct) {
     state.usedSongs.push(songKey(state.verify.selectedSong));
     r.lastResult = { type: "correct", who, pts, newScore: state.scores[who] };
     state.screen = "round-result";
+  } else if (hasSingleAttempt(state.config.mode)) {
+    // Clásico: ese lado ya usó su único intento. Si los dos fallaron, la
+    // ronda termina de inmediato con 0 para ambos.
+    r.failed = { ...r.failed, [r.selected]: true };
+    if (r.failed.A && r.failed.B) {
+      clearInterval(r.timerId);
+      r.lastResult = { type: "both-failed" };
+      state.screen = "round-result";
+    } else {
+      r.lastResult = { type: "incorrect", who };
+      state.screen = "round-result-incorrect";
+    }
   } else {
-    r.lastResult = { type: "incorrect" };
+    r.lastResult = { type: "incorrect", who };
     state.screen = "round-result-incorrect";
   }
   render();
