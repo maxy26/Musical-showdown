@@ -237,6 +237,11 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-10-01: 🔴 **El juego se rompía al acabarse las canciones.** Ya no
+  puede pasar: por decisión del usuario, **las canciones ya no se bloquean**
+  (se puede volver a cantar una canción ya dicha) y desaparece la marca "(ya
+  utilizada)" del buscador. Probado con 12 rondas seguidas con Pop (4 canciones).
+
 - [x] 2026-10-01: **Relevo** (parte 4, solo Alternativo 1 – Grupal): 3 símbolos
   con los relevos de cada equipo, botón "Relevo" (pausa sola, lista de
   compañeros, confirmar; 1 por equipo y por ronda, antes de responder), botón

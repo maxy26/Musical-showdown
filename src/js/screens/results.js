@@ -69,7 +69,6 @@ export function screenResults() {
   if (verMas) verMas.onclick = () => root.querySelector("#others").classList.toggle("hidden");
   root.querySelector("#again").onclick = () => {
     Object.keys(state.scores).forEach((k) => (state.scores[k] = 0));
-    state.usedSongs = [];
     resetMatchTracking();
     if (grupal) {
       state.screen = "team-org";

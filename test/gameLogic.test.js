@@ -5,7 +5,6 @@ import { weightedPick } from "../src/js/utils.js";
 import { countTypedPlayers, duplicateNameIndexes, cleanName } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
 import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
-import { songKey } from "../src/js/gameLogic.js";
 
 test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
   assert.equal(countTypedPlayers(["", "  ", "Ana", "Beto", ""]), 2);
@@ -84,10 +83,3 @@ test("weightedPick nunca elige un elemento con peso 0", () => {
   }
 });
 
-test("songKey identifica una canción por título + letra (el artista no importa)", () => {
-  const cancionA = { title: "Amor", artist: "Artista A", lyric: "letra de prueba" };
-  const cancionB = { title: "Amor", artist: "Artista B", lyric: "letra de prueba" };
-  const cancionDistinta = { title: "Amor", artist: "Artista A", lyric: "otra letra" };
-  assert.equal(songKey(cancionA), songKey(cancionB));
-  assert.notEqual(songKey(cancionA), songKey(cancionDistinta));
-});

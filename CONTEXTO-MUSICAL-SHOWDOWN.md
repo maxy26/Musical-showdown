@@ -300,10 +300,13 @@
   coro (más peso), si la canción es "famosa" (más peso), disponibilidad
   de canciones válidas restantes, manteniendo aleatoriedad (no
   determinista).
-- **Canciones usadas**: una canción correcta queda bloqueada el resto de
-  la partida. La identidad de una canción es **nombre + letra** (el
-  artista es opcional/no determinante) — así covers, versiones en vivo
-  o acústicas de la misma canción cuentan como "la misma".
+- **Canciones repetidas** (cambiado por el usuario el 01-10-2026): las
+  canciones **ya no se bloquean**. Se puede volver a cantar una canción
+  aunque ya se haya dicho antes en la partida, y en el buscador cualquier
+  canción se puede elegir siempre. (Antes, una canción acertada quedaba
+  bloqueada el resto de la partida.) Las palabras de la ronda pueden
+  repetirse, como siempre: el usuario decidió no agregar una regla de
+  "palabra no repetida".
 - **Interfaz de verificación**: una sola caja de búsqueda (por nombre o
   por fragmento cantado). Muestra resultados, letra con la palabra
   resaltada, y botones Correcta/Incorrecta que decide el moderador

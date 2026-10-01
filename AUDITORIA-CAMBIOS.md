@@ -13,6 +13,57 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 6): relevo con máximo 3 y canciones repetidas
+
+**Decisiones del usuario**
+- El relevo se puede gastar y restaurar con un **máximo estricto de 3** por
+  partida (antes se había acordado "sin máximo"). El aviso del 4.º relevo debe
+  decir exactamente a qué se someten antes de confirmar.
+- Confirmó los dos detalles del relevo: el aviso antes de la penalización y la
+  pausa mientras está abierto el "±".
+- **Las canciones ya no se bloquean:** se puede volver a cantar una canción ya
+  dicha. Se le señaló que no existe una regla de "palabra no repetida" en el
+  código; decidió **dejarlo como está** (las palabras pueden repetirse).
+
+**Qué se hizo**
+1. `relay.js`: `adjustRelays` limita a 0–3. `relayModals.js`: el "+" se apaga
+   en 3 y la ventana dice el máximo. El aviso del 4.º relevo ("🚫 Ya usaron sus
+   3 relevos") muestra los puntos exactos de esa ronda (con ×2: −100 para ellos y
+   +200 para el otro). Commit `3d92669`, subido a GitHub.
+2. Canciones repetidas:
+   - `gameLogic.js`: se eliminaron `songKey`, `isSongUsed` y el bloqueo al
+     acertar; la palabra se elige entre todas las canciones de los géneros.
+   - `verify.js`: sin "(ya utilizada)"; cualquier canción se puede elegir.
+   - `state.js` y `results.js`: se quitó `usedSongs`.
+   - Con esto desaparece el error de "se acaban las canciones".
+3. Pruebas:
+   - `test/seleccion.test.js`: las dos pruebas del bloqueo se reemplazaron por
+     una que comprueba que siempre se pueden pedir todas las palabras de los
+     géneros elegidos.
+   - `test/gameLogic.test.js`: se quitó la prueba de `songKey`.
+   - `test/relevo.test.js`: el límite 0–3.
+4. Documentación: contexto (regla de canciones repetidas y máximo de relevos),
+   `CLAUDE.md` y pendientes.
+
+**Archivos tocados:** `src/js/relay.js`, `src/js/screens/relayModals.js`,
+`src/js/gameLogic.js`, `src/js/screens/verify.js`, `src/js/screens/results.js`,
+`src/js/state.js`, `test/relevo.test.js`, `test/seleccion.test.js`,
+`test/gameLogic.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, `CLAUDE.md`,
+`PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 89 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge:
+  - El "±" no pasa de 3 y el aviso del 4.º relevo muestra −100 / +200 con ×2.
+  - 12 rondas seguidas acertando con Pop (4 canciones) sin romperse, y
+    "Color Esperanza" se puede elegir otra vez en la ronda 12.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** Alternativo 2; diseño general (crítico, el siguiente);
+ayuda "Cómo se juega".
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 5): relevo (paquete de Alternativo 1 completo)
 
 **Respuestas del usuario:** para cuando se acaban las canciones prefiere

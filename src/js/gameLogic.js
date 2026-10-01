@@ -12,13 +12,6 @@ import {
 import { render } from "./router.js";
 import { playTick } from "./sound.js";
 
-export function songKey(s) {
-  return (s.title + "|" + s.lyric).trim();
-}
-export function isSongUsed(s) {
-  return state.usedSongs.includes(songKey(s));
-}
-
 /**
  * Elige una palabra ponderando por: nº de canciones disponibles que la
  * contienen, si aparece en el coro (mayor peso) y si esas canciones son
@@ -26,7 +19,9 @@ export function isSongUsed(s) {
  */
 export function pickWeightedWord() {
   const c = state.config;
-  const available = SONG_DB.filter((s) => c.genres.includes(s.genre) && !isSongUsed(s));
+  // Las canciones no se bloquean: una ya cantada se puede volver a cantar
+  // (decisión del usuario, 01-10-2026).
+  const available = SONG_DB.filter((s) => c.genres.includes(s.genre));
   const wordScores = {};
   available.forEach((s) => {
     Object.keys(s.words).forEach((w) => {
@@ -264,7 +259,6 @@ export function resolveAnswer(correct) {
 
   if (correct) {
     clearInterval(r.timerId);
-    state.usedSongs.push(songKey(state.verify.selectedSong));
     // MVP: en qué segundo respondió el que acertó (para desempatar por velocidad).
     const singer = (r.selected === "A" ? r.showA : r.showB) || who;
     state.answerTimes[singer] = [...(state.answerTimes[singer] || []), r.answeredAt[r.selected] || 0];

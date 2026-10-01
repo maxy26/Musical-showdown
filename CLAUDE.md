@@ -76,7 +76,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
   - Emparejamientos (`pairing.js`, reglas en `CONTEXTO-MUSICAL-SHOWDOWN.md` sección 3): Clásico usa fases al azar / con ventaja según el equilibrio de puntos (60 % del promedio), siempre con equilibrio de partidos; Alternativo 1 sigue un orden fijo que se repite. Sirven para jugadores y para grupos. Los grupos del modo Grupal (cantidad, reparto, nombres, quién canta) están en `groups.js`. `resetMatchTracking()` reinicia todo al empezar cada partida.
   - El temporizador avanza con `setInterval`. `updateClockOnly()` actualiza `.clock` directamente en lugar de volver a renderizar.
   - El puntaje es 100 × multiplicador.
-  - Las canciones usadas se registran por `songKey` (`titulo|letra`).
+  - Las canciones no se bloquean: una ya cantada se puede volver a elegir (decisión del usuario, 01-10-2026).
 - `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.
 

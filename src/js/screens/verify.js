@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { SONG_DB } from "../data/songs.js";
 import { el, normalizeForSearch, highlightWord } from "../utils.js";
 import { render } from "../router.js";
-import { isSongUsed, resolveAnswer } from "../gameLogic.js";
+import { resolveAnswer } from "../gameLogic.js";
 
 /**
  * Busca por nombre o por fragmento de letra en los géneros elegidos. No
@@ -51,19 +51,17 @@ export function screenVerify() {
       return;
     }
     v.results.forEach((s) => {
-      const used = isSongUsed(s);
-      const item = el(`<div class="result-item ${v.selectedSong === s ? "selected" : ""}" style="${used ? "opacity:.45;" : ""}">
-        <div class="r-title">🎵 ${s.title} ${used ? "(ya utilizada)" : ""}</div>
+      // Cualquier canción se puede elegir siempre, aunque ya se haya cantado.
+      const item = el(`<div class="result-item ${v.selectedSong === s ? "selected" : ""}">
+        <div class="r-title">🎵 ${s.title}</div>
         <div class="r-artist">${s.artist}</div>
       </div>`);
-      if (!used) {
-        item.onclick = () => {
-          v.selectedSong = s;
-          renderResults();
-          renderLyric();
-          root.querySelector("#confirm").disabled = false;
-        };
-      }
+      item.onclick = () => {
+        v.selectedSong = s;
+        renderResults();
+        renderLyric();
+        root.querySelector("#confirm").disabled = false;
+      };
       box.appendChild(item);
     });
   }

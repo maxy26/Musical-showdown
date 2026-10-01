@@ -3,17 +3,17 @@ import assert from "node:assert/strict";
 
 import { state, resetState } from "../src/js/state.js";
 import { SONG_DB } from "../src/js/data/songs.js";
-import { pickWeightedWord, songKey } from "../src/js/gameLogic.js";
+import { pickWeightedWord } from "../src/js/gameLogic.js";
 
 // Pruebas de la elección de palabra y de enfrentamiento (gameLogic.js).
 // Usan la base de ejemplo real (SONG_DB) y reinician el estado global en
 // cada prueba, porque gameLogic lee y escribe `state` directamente.
 
-/** Palabras que se pueden pedir con los géneros y canciones usadas actuales. */
+/** Palabras que se pueden pedir con los géneros elegidos. */
 function palabrasPosibles() {
   const palabras = new Set();
   SONG_DB
-    .filter((s) => state.config.genres.includes(s.genre) && !state.usedSongs.includes(songKey(s)))
+    .filter((s) => state.config.genres.includes(s.genre))
     .forEach((s) => Object.keys(s.words).filter((w) => s.words[w]).forEach((w) => palabras.add(w)));
   return palabras;
 }
@@ -43,25 +43,12 @@ test("pickWeightedWord nunca elige una palabra marcada como false", () => {
   assert.ok(!muestrear(pickWeightedWord).has("cerrar"));
 });
 
-test("pickWeightedWord no elige palabras que solo están en canciones ya usadas", () => {
+test("las canciones no se bloquean: siempre se pueden pedir todas las palabras de los géneros elegidos (01-10-2026)", () => {
   resetState();
   state.config.genres = ["reggaeton"];
-  const despacito = SONG_DB.find((s) => s.title === "Despacito");
-  state.usedSongs.push(songKey(despacito));
-  // "despacito" y "piel" solo aparecen en Despacito; "cuerpo" también está en
-  // Bailando, pero esa canción es de pop, así que tampoco debe salir.
-  const vistas = muestrear(pickWeightedWord);
-  for (const palabra of ["despacito", "piel", "cuerpo"]) {
-    assert.ok(!vistas.has(palabra), `"${palabra}" salió aunque su canción ya se usó`);
-  }
-  assert.ok(vistas.size > 0);
-});
-
-test("pickWeightedWord devuelve null cuando no quedan canciones disponibles", () => {
-  resetState();
-  state.config.genres = ["rock"];
-  SONG_DB.filter((s) => s.genre === "rock").forEach((s) => state.usedSongs.push(songKey(s)));
-  assert.equal(pickWeightedWord(), null);
+  // Despacito y Gasolina: todas sus palabras siguen disponibles, aunque ya se hayan cantado.
+  assert.deepEqual([...muestrear(pickWeightedWord, 500)].sort(), [...palabrasPosibles()].sort());
+  assert.equal("usedSongs" in state, false, "ya no existe la lista de canciones usadas");
 });
 
 test("pickWeightedWord devuelve null con un género sin canciones", () => {
