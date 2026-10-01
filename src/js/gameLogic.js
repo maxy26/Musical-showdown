@@ -4,9 +4,10 @@ import { weightedPick } from "./utils.js";
 import { groupName, pickRepresentative } from "./groups.js";
 import { effectiveRoundTime, effectiveMultipliers } from "./screens/config/modes.js";
 import { roundScoreChanges, roundValue } from "./scoring.js";
+import { hasRelay, RELAYS_PER_TEAM, adjustRelays, relayPenaltyChanges } from "./relay.js";
 import {
   roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
-  newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel,
+  newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel, applyRelayToMemory,
 } from "./pairing.js";
 import { render } from "./router.js";
 import { playTick } from "./sound.js";
@@ -68,6 +69,38 @@ export function resetMatchTracking() {
   state.classic = newClassicMemory();
   state.contrib = {};
   state.answerTimes = {};
+  state.relays = {};
+}
+
+/**
+ * Relevo: el que canta por el lado `side` le pasa el turno a `substitute`, un
+ * compañero de su equipo. El duelo pasa a ser con el que entró, se gasta un
+ * relevo del equipo y la ronda sigue con el mismo tiempo.
+ */
+export function useRelay(side, substitute) {
+  const r = state.round;
+  const g = side === "A" ? r.groupA : r.groupB;
+  const requester = side === "A" ? r.showA : r.showB;
+  const rival = side === "A" ? r.showB : r.showA;
+  const team = side === "A" ? r.participantA : r.participantB;
+  applyRelayToMemory(state.groups.map((x) => x.players), g, requester, substitute, rival, state.singCounts, state.alt1.memory);
+  if (side === "A") r.showA = substitute; else r.showB = substitute;
+  state.relays[team] = adjustRelays(state.relays[team] || 0, -1);
+  r.relayUsed = { ...r.relayUsed, [side]: true };
+}
+
+/**
+ * Relevo sin tener relevos: el equipo de `side` resta la mitad del valor de la
+ * ronda, el otro suma el valor completo sin cantar y la ronda termina.
+ */
+export function applyRelayPenalty(side) {
+  const r = state.round;
+  clearInterval(r.timerId);
+  r.relayUsed = { ...r.relayUsed, [side]: true };
+  const changes = applyScoreChanges(relayPenaltyChanges(side, r.multiplier));
+  r.lastResult = { type: "relay-penalty", who: side === "A" ? r.participantA : r.participantB, changes };
+  state.screen = "round-result";
+  render();
 }
 
 export function startNextRound() {
@@ -123,6 +156,10 @@ export function startNextRound() {
     groupA = ia; // posición del grupo, para usar su color en la ronda
     groupB = ib;
   }
+  // Relevo (solo Alternativo 1 – Grupal): cada equipo empieza con 3.
+  if (hasRelay(c.mode, c.battleType)) {
+    [A, B].forEach((n) => { if (state.relays[n] === undefined) state.relays[n] = RELAYS_PER_TEAM; });
+  }
   state.matchCounts[A] = (state.matchCounts[A] || 0) + 1;
   state.matchCounts[B] = (state.matchCounts[B] || 0) + 1;
 
@@ -134,6 +171,8 @@ export function startNextRound() {
     failed: { A: false, B: false }, // Clásico: qué lado ya usó su único intento
     elapsed: 0, // segundos de la ronda sin contar pausas (ver startTimer)
     answeredAt: { A: null, B: null }, // segundo en que se tocó el botón de cada lado
+    attempted: { A: false, B: false }, // si el lado ya respondió en esta ronda
+    relayUsed: { A: false, B: false }, // relevo usado en esta ronda (máximo 1 por equipo)
   };
   state.screen = "round";
 
@@ -182,8 +221,12 @@ function updateClockOnly() {
  * `winnerSide`: "A", "B" o null si nadie acertó.
  */
 function applyRoundScores(winnerSide) {
+  return applyScoreChanges(roundScoreChanges(state.config.mode, winnerSide, state.round.multiplier));
+}
+
+/** Suma `changes` ({A, B}) a los puntajes y devuelve los cambios para mostrarlos. */
+function applyScoreChanges(changes) {
   const r = state.round;
-  const changes = roundScoreChanges(state.config.mode, winnerSide, r.multiplier);
   return [["A", r.participantA], ["B", r.participantB]].map(([side, who]) => {
     state.scores[who] = (state.scores[who] || 0) + changes[side];
     // MVP (Grupal): el cambio de puntos del grupo se le anota a quien cantó por él.

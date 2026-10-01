@@ -81,7 +81,7 @@
   - **Alternativo 1** (Individual y Grupal): **intentos ilimitados** hasta que
     alguien acierte o se acabe el tiempo; sin aciertos, 0 para ambos.
 - **Relevo** (solo Alternativo 1 Grupal; definido por el usuario el 29 y
-  30-09-2026; por implementar):
+  30-09-2026; programado el 01-10-2026 en `relay.js` y `screens/relayModals.js`):
   - Comodín: **3 por equipo para toda la partida**, sin recuperarse; como mucho
     **1 por ronda**.
   - Se pide **antes de responder**. Al presionar "Relevo" el reloj **se pausa

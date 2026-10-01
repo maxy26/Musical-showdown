@@ -44,6 +44,9 @@ export function screenRoundResult() {
       <p class="panel-title">Sin ganador · ${anyLoss ? "los dos restan la mitad del valor de la ronda" : "+0 puntos"}</p>${lines}`;
   } else if (result.type === "both-failed") {
     content = `<div class="big">❌ Nadie acertó</div><p class="panel-title">Los dos usaron su intento · +0 puntos</p>`;
+  } else if (result.type === "relay-penalty") {
+    content = `<div class="big">🚫 Relevo sin intentos</div>
+      <p class="panel-title">${result.who} usó un relevo que ya no tenía: resta la mitad y el otro equipo gana la ronda</p>${lines}`;
   } else if (result.type === "finished") {
     content = `<div class="big">⏹️ Ronda finalizada</div><p class="panel-title">Sin ganador · +0 puntos</p>`;
   } else {

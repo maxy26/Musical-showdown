@@ -25,6 +25,7 @@ function freshState() {
     singCounts: {}, // modo Grupal: nombre del jugador -> veces que representó a su grupo
     contrib: {}, // modo Grupal: nombre del jugador -> puntos que le aportó a su grupo (MVP)
     answerTimes: {}, // nombre del jugador -> segundos en que respondió cada acierto (desempate del MVP)
+    relays: {}, // Alternativo 1 – Grupal: nombre del grupo -> relevos que le quedan (ver relay.js)
     alt1: { step: 0, memory: { last: {}, faced: [] } }, // avance del orden de Alternativo 1 (ver pairing.js)
     classic: { played: 0, phase: "inicio", left: 0, lastPair: null, faced: {} }, // fases de Clásico (ver pairing.js)
     usedSongs: [], // claves "titulo|letra" bloqueadas durante la partida

@@ -236,3 +236,21 @@ export function pickGroupDuelPlayers(groups, ga, gb, played, memory) {
   if (new Set(memory.faced).size >= total) memory.faced = [];
   return [pa, pb];
 }
+
+/**
+ * Relevo (Alternativo 1 – Grupal): `requester` del grupo `g` le pasa el turno
+ * a `substitute`. Para los emparejamientos cuenta el que entró: el duelo pasa
+ * a ser substitute vs rival, y requester no cuenta como que cantó (definido por
+ * el usuario el 30-09-2026).
+ * @param {string[][]} groups - jugadores de cada grupo, en orden
+ * @param {Object<string, number>} played - veces que jugó cada jugador (se actualiza)
+ * @param {{last: Object, faced: string[]}} memory - ver newGroupMemory (se actualiza)
+ */
+export function applyRelayToMemory(groups, g, requester, substitute, rival, played, memory) {
+  played[requester] = Math.max(0, (played[requester] || 0) - 1);
+  played[substitute] = (played[substitute] || 0) + 1;
+  const i = memory.faced.lastIndexOf(pairKey(requester, rival));
+  if (i >= 0) memory.faced.splice(i, 1);
+  memory.faced.push(pairKey(substitute, rival));
+  memory.last[g] = groups[g].indexOf(substitute);
+}

@@ -13,6 +13,71 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 5): relevo (paquete de Alternativo 1 completo)
+
+**Respuestas del usuario:** para cuando se acaban las canciones prefiere
+liberarlas solo cuando se acaben, pero pidió otras recomendaciones antes de
+decidir (queda en pendientes). Confirmó los puestos con empate 1, 2, 2, 3 y que
+"Ver más" no aparece si todos están en el podio. Subido a GitHub `51ee95c`.
+
+**Qué se hizo (parte 4)**
+1. Nuevo `src/js/relay.js` (funciones puras): `hasRelay` (solo Alternativo 1
+   Grupal), `adjustRelays` (sin máximo, mínimo 0), `canRequestRelay` (sin
+   relevo usado en la ronda y antes de responder) y `relayPenaltyChanges`
+   (−la mitad y +el valor completo).
+2. `pairing.js`: `applyRelayToMemory`. Con relevo cuenta el que entró: el que
+   pidió no cuenta como que cantó, y la pareja vista pasa a ser la del que entró
+   con el rival.
+3. `gameLogic.js`:
+   - Cada equipo empieza con 3 relevos (`state.relays`).
+   - `useRelay(lado, compañero)` cambia quién canta y gasta un relevo.
+   - `applyRelayPenalty(lado)` termina la ronda con la penalización.
+   - La ronda guarda `attempted` y `relayUsed`.
+   - `applyScoreChanges` reúne la suma de puntos y la anotación del MVP.
+4. Nuevo `screens/relayModals.js`:
+   - Ventana para elegir al compañero: pausa sola y "Confirmar relevo" queda
+     apagado hasta elegir.
+   - Aviso antes de la penalización si no quedan relevos.
+   - Ventana "±" para agregar o quitar relevos, con confirmación.
+5. `round.js`: debajo de cada equipo, 3 símbolos 🔁 (encendidos según los
+   relevos que quedan, y "+N" si son más de 3), el botón "Relevo" y "±".
+   `roundResult.js`: pantalla "🚫 Relevo sin intentos".
+6. `styles.css`: estilos `.relay-*`. `sw.js`: `relay.js` y `relayModals.js`,
+   y `CACHE_NAME` pasa a v9.
+7. Nuevo `test/relevo.test.js` con 5 pruebas, incluido el ejemplo del usuario:
+   Ana releva a María → María vs Carlos.
+
+**Decisiones tomadas sin definición explícita** (a confirmar, en pendientes):
+- Antes de aplicar la penalización aparece un aviso para confirmar.
+- La ventana "±" también pausa la ronda.
+
+**Archivos tocados:** `src/js/relay.js` (nuevo),
+`src/js/screens/relayModals.js` (nuevo), `src/js/pairing.js`,
+`src/js/gameLogic.js`, `src/js/state.js`, `src/js/screens/round.js`,
+`src/js/screens/roundResult.js`, `src/css/styles.css`, `src/sw.js`,
+`test/relevo.test.js` (nuevo), `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 91 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 15 de 15.
+  - Símbolos y botones visibles. El relevo pausa, lista sin el que pidió,
+    confirma y cambia quién canta. Quedan 2. El que pidió no cuenta como que
+    cantó y el que entró sí.
+  - No se puede pedir un segundo relevo en la ronda, pero el otro equipo sí.
+    El acierto se le anota al que entró.
+  - "±" agrega y no baja de 0. La penalización suma y resta bien, con aviso.
+  - Clásico no tiene relevo.
+- Capturas de la ronda y de la ventana del relevo revisadas. Una primera captura
+  de la ventana no salió porque la prueba la abrió antes de que terminara la
+  presentación de la ronda; en el juego real el botón solo se activa después.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** confirmar los dos detalles; el error de las canciones;
+Alternativo 2; diseño general (crítico); actualizar la ayuda "Cómo se juega".
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 4): podio y MVP
 
 **El usuario confirmó** los 30 seg al pasar de "Sin tiempo" a Alternativo 1.

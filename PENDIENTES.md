@@ -164,7 +164,7 @@
      - Si el que entró **falla**, **sigue intentando él** todas las veces que
        quiera hasta que se acabe el tiempo; el relevo ya se gastó. El botón para
        quitar relevos no baja de **0**.
-     - ✅ **El relevo quedó completamente definido** (30-09-2026); falta programarlo.
+     - ✅ **El relevo quedó definido (30-09-2026) y programado (01-10-2026).**
   1b. ✅ **Intentos por ronda — programado el 30-09-2026** (contradicción resuelta por el usuario):
      - **Clásico** (Individual y Grupal): **un solo intento** por jugador o
        equipo. Si los dos fallan, la ronda **termina de inmediato** con 0 para
@@ -236,6 +236,16 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 2026-10-01: **Relevo** (parte 4, solo Alternativo 1 – Grupal): 3 símbolos
+  con los relevos de cada equipo, botón "Relevo" (pausa sola, lista de
+  compañeros, confirmar; 1 por equipo y por ronda, antes de responder), botón
+  "±" para agregar o quitar (sin máximo, mínimo 0) y penalización si lo usan
+  sin tener (−la mitad para ellos y el valor completo para el otro, con aviso
+  previo). Con esto **el paquete de Alternativo 1 quedó completo**. ❓ Confirmar
+  con el usuario dos detalles que se decidieron: el aviso antes de aplicar la
+  penalización ("No les quedan relevos… ¿Usarlo igual?") y que el botón "±"
+  también pausa la ronda mientras está abierto.
 
 - [x] 2026-10-01: **Podio y MVP** (parte 3), en todos los modos: ganador, podio
   de los 3 mejores puestos (empatados en el mismo puesto), MVP de cada equipo en

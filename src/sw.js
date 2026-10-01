@@ -1,7 +1,7 @@
 // "network-first": siempre intenta traer la versión más reciente del
 // servidor primero; solo usa la copia guardada en caché si no hay
 // conexión. Así el juego nunca se queda pegado en una versión vieja.
-const CACHE_NAME = "musical-showdown-v8";
+const CACHE_NAME = "musical-showdown-v9";
 const ASSETS = [
   "./",
   "./index.html",
@@ -15,6 +15,7 @@ const ASSETS = [
   "./js/groups.js",
   "./js/scoring.js",
   "./js/podium.js",
+  "./js/relay.js",
   "./js/pairing.js",
   "./js/utils.js",
   "./js/data/songs.js",
@@ -30,6 +31,7 @@ const ASSETS = [
   "./js/screens/roundResult.js",
   "./js/screens/results.js",
   "./js/screens/modals.js",
+  "./js/screens/relayModals.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./audio/click.wav",
