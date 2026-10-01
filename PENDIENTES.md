@@ -107,9 +107,35 @@
 
 - [ ] 🔴 **Ideas nuevas de Alternativo 1** (decididas el 29-09-2026, opción A;
   detalles por definir con el usuario, en este orden):
-  1. **Relevo (solo Alternativo 1 Grupal):** ¿en una misma ronda cantan varios
-     del equipo, uno tras otro? ¿Cada uno con su tiempo o comparten el de la
-     ronda? ¿Qué pasa si uno falla?
+  1. **Relevo (solo Alternativo 1 Grupal)**. Lo ya confirmado por el usuario
+     (29 y 30-09-2026), todavía sin programar:
+     - Es un **comodín**: **3 por equipo para toda la partida**, sin recuperarse,
+       y **como mucho 1 por ronda**.
+     - Se pide **antes de responder**. Al presionar "Relevo" el reloj **se pausa
+       solo**, se elige al compañero que entra, se **confirma** y la ronda
+       continúa con el **mismo tiempo** de la ronda.
+     - El duelo pasa a ser con el que entró ("Ana vs Carlos", Ana pide relevo a
+       María → "María vs Carlos"). Para los emparejamientos de Alternativo 1
+       cuenta María vs Carlos, **no** Ana vs Carlos.
+     - El que entró **gasta el único intento** del equipo. Si acierta, el equipo
+       suma normal (100 × multiplicador); si falla, no suma (ver "un solo
+       intento").
+     - **Sin relevos y lo usan igual:** el botón se puede presionar igual y
+       aplica la penalización: **la mitad del valor de la ronda en contra**, la
+       ronda se pierde y **el otro equipo gana la ronda** con sus puntos (con ×2:
+       −100 y el otro equipo +200).
+     - **3 símbolos visibles** con los relevos que le quedan a cada equipo, y un
+       botón para **agregar o quitar** relevos con confirmación (por ejemplo,
+       para devolver uno usado por error).
+     - **Puntos negativos** permitidos, mostrados en **rojo bien visible**.
+     - Dudas abiertas (30-09-2026): dónde va el botón de agregar o quitar y sus
+       límites; si el que pidió el relevo cuenta como que ya cantó; si se puede
+       elegir a cualquier compañero; cómo se elige (la frase "se escogerá por la
+       aplicación").
+  1b. **Un solo intento por equipo y por ronda, en TODOS los modos** (decisión
+     del usuario, 30-09-2026; cambia también Clásico). Si el Equipo 1 falla, el
+     Equipo 3 todavía puede intentarlo; si los dos fallan, **0 para ambos**. Hoy
+     una respuesta incorrecta permite volver a intentar sin límite.
   2. **Puntos:** ¿restar al fallar? ¿Cuánto? ¿Bonos? ¿Por qué?
   3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
      ganando al llegar al puntaje objetivo?
