@@ -182,8 +182,12 @@
        con la lista de **todos los demás** (del 4.º en adelante). Con solo 2
        participantes, el podio tiene 2 puestos. En caso de **empate**, los
        empatados **comparten el puesto**. (Confirmado el 30-09-2026.)
-     - Duda abierta: el MVP se calcula por puntos aportados o por canciones
-       acertadas (se le explicó la diferencia), y qué pasa si hay empate de MVP.
+     - **MVP** (usuario, 30-09-2026): opción a), **el que más puntos le aportó a
+       su grupo** (lo que ganó cuando cantó menos lo que perdió en sus rondas),
+       teniendo en cuenta además **la velocidad** con que respondió ("el que
+       adivinó en un segundo se lo merece más que el que respondió al final").
+       Dudas abiertas: cómo pesa la velocidad, cómo se mide y si afecta solo al
+       MVP o también a los puntos del juego.
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
        intento. Las rondas van **sin reloj**: duran hasta que alguien acierta,
