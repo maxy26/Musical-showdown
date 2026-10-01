@@ -153,19 +153,25 @@
        ambos.
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-  2. **Puntos de Alternativo 1** (respuestas del usuario, 30-09-2026; hay dudas abiertas):
-     - Los intentos fallidos **no restan durante la ronda**. Al final:
-       - el que acierta **suma** su valor (100 × multiplicador);
-       - el otro **resta** "sus puntos correspondientes" (duda: ¿siempre, aunque
-         no haya intentado? ¿el valor completo de la ronda?);
-       - si **nadie acierta**, **ambos restan la mitad** del valor. Esto
-         reemplaza el "0 para ambos" acordado antes para Alternativo 1.
-     - **No hay bonos.** Los **multiplicadores** quedan **solo para Alternativo 1**,
-       ya no en Clásico (cambia la instrucción 20; dudas: ¿el interruptor sigue
-       en Alternativo 1? ¿y en Alternativo 2?).
-     - **Alternativo 1 no permite "Sin tiempo"** (duda: qué tiempo poner si
-       estaba elegido "Sin tiempo" y se cambia a Alternativo 1).
+  2. **Puntos de Alternativo 1** (confirmado por el usuario, 30-09-2026):
+     - Los intentos fallidos **no restan durante la ronda**. Al terminar:
+       - el que acierta **suma** el valor de la ronda (100 × multiplicador);
+       - el que pierde la ronda **resta ese mismo valor**, **siempre**, aunque no
+         haya intentado (con ×2: +200 y −200);
+       - si **nadie acierta** (se acaba el tiempo), **ambos restan la mitad**
+         (con ×3: −150 cada uno). Reemplaza el "0 para ambos" de antes.
+     - La penalización del relevo **no cambia** (−la mitad para el que lo usó
+       sin tener, + el valor completo para el otro), porque el motivo es otro.
+     - **No hay bonos.** Los **multiplicadores** son **solo para Alternativo 1**,
+       con un interruptor que el usuario activa o desactiva, con un **diseño
+       más profesional** (por definir). En Clásico el interruptor desaparece.
      - Igual en Individual y en Grupal.
+  2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
+     - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
+       intento. Duda abierta: ¿las rondas de Clásico van sin reloj (como hoy
+       "Sin tiempo", con "Finalizar ronda") o con un tiempo fijo?
+     - **Alternativo 1 sí tiene selector de tiempo** (intentos ilimitados), pero
+       **no permite "Sin tiempo"**.
   3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
      ganando al llegar al puntaje objetivo?
   4. ¿Qué de esto aplica también a Alternativo 1 Individual (salvo el relevo)?
