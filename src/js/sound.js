@@ -2,6 +2,10 @@
  * Gestor de sonido del juego: clic de botones, música ambiental en loop,
  * y ticks del reloj (normal / últimos 5 segundos).
  *
+ * Dos niveles de control: el botón 🔊/🔇 de las pantallas silencia TODO, y en
+ * Ajustes (tuerca del inicio, settings.js) se apaga cada tipo por separado:
+ * música de fondo, efectos (clic de botones) y reloj.
+ *
  * Los navegadores bloquean el autoplay de audio hasta que hay una
  * interacción real del usuario, por eso el ambiente arranca recién en el
  * primer clic dentro de la app (ver initSound más abajo).
@@ -11,6 +15,8 @@
  * superior del módulo. Así este archivo se puede importar con seguridad
  * desde Node (tests, herramientas de build) sin necesitar un navegador.
  */
+
+import { loadSettings } from "./settings.js";
 
 const MUTE_KEY = "musical-showdown-muted";
 
@@ -40,8 +46,13 @@ function getSounds() {
   return sounds;
 }
 
-function playFresh(audioEl) {
-  if (isMuted()) return;
+/** ¿Está encendido este tipo de sonido en Ajustes? ("music" | "effects" | "clock") */
+function kindOn(kind) {
+  return loadSettings()[kind] !== false;
+}
+
+function playFresh(audioEl, kind) {
+  if (isMuted() || !kindOn(kind)) return;
   // clona el nodo para permitir sonidos superpuestos (clics rápidos seguidos)
   const node = audioEl.cloneNode();
   node.volume = audioEl.volume || 1;
@@ -49,20 +60,30 @@ function playFresh(audioEl) {
 }
 
 export function playClick() {
-  playFresh(getSounds().click);
+  playFresh(getSounds().click, "effects");
 }
 
 export function playTick(urgent) {
-  playFresh(urgent ? getSounds().tickUrgent : getSounds().tick);
+  playFresh(urgent ? getSounds().tickUrgent : getSounds().tick, "clock");
 }
 
 export function startAmbient() {
-  if (isMuted() || ambientStarted) return;
+  if (isMuted() || !kindOn("music") || ambientStarted) return;
   ambientStarted = true;
   getSounds().ambient.play().catch(() => {});
 }
 
 export { isMuted };
+
+/**
+ * Aplica un cambio de Ajustes a la música que ya está sonando: si se apagó, la
+ * pausa; si se encendió, vuelve a sonar (si el sonido general no está silenciado).
+ */
+export function refreshMusic() {
+  ambientStarted = false;
+  if (kindOn("music")) startAmbient();
+  else if (sounds) sounds.ambient.pause();
+}
 
 export function setMuted(value) {
   muted = value;

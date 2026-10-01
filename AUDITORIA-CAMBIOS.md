@@ -13,6 +13,39 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 10): estilo en todas las pantallas y ajustes de sonido
+
+**Decisiones del usuario**
+- Aprobó el estilo nuevo en todas las pantallas, después de ver una comparación
+  hecha en la carpeta temporal (hoy / nuevo en teléfono / nuevo en PC).
+- "Volver al menú" pasa a "Volver al inicio".
+- En Ajustes (tuerca) se pueden apagar la música de fondo, los efectos y los
+  demás sonidos.
+- Anotar en pendientes: sonidos nuevos más profesionales, con una melodía
+  parecida a la de los juegos de Nintendo.
+
+**Qué se hizo**
+- `styles.css`: colores base del rediseño en `:root` y una sección final con
+  letras, botones en píldora con sombra, campos, tarjetas, ventanas, ronda,
+  grupos y podio. El borde rojo del nombre repetido se mantiene.
+- `settings.js`: preferencias `music`, `effects` y `clock` (Sí por defecto).
+  `sound.js`: cada sonido revisa su tipo (`kindOn`) y `refreshMusic()` pausa o
+  reanuda la música al cambiar el ajuste. El botón 🔊 sigue silenciando todo.
+- `menu.js`: Ajustes con secciones "Pantalla" (Animaciones) y "Sonido"
+  (Música de fondo, Efectos de sonido, Sonido del reloj).
+- `results.js`: "Volver al inicio". Prueba nueva de los sonidos en
+  `test/inicio.test.js`.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 95 pasan + 1
+pendiente. Capturas con Edge sin ventana de configuración, grupos, ronda,
+pausa, resultados y ajustes (teléfono y PC). Se midió el borde de los campos
+repetidos (rojo `rgb(255, 71, 71)`). Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** sonidos nuevos (PENDIENTES); en la ronda en PC hay mucho
+espacio vacío (diseño anterior, sin cambios).
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 9): nueva pantalla de inicio integrada al juego
 
 **Decisiones del usuario**

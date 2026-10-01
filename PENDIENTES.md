@@ -100,11 +100,14 @@
     circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
     cuenta regresiva y accesos rápidos, según una especificación del usuario.
     **No se integra al juego hasta que el usuario elija el diseño final.**
+  - ✅ **Estilo aplicado a todas las pantallas** (01-10-2026, aprobado por el
+    usuario tras ver la comparación): colores, letras Fredoka/Nunito, botones
+    en píldora con sombra, tarjetas y ventanas redondeadas. La estructura de
+    cada pantalla no cambió. Sección final de `styles.css`.
   - ✅ **Pantalla de inicio integrada al juego** (01-10-2026, el usuario dio el
     estilo por finalizado): `screens/menu.js`, `modesManual.js`, `sheet.js`,
     `icons.js`, `settings.js`, luces en `index.html` y opción A en
-    `config/index.js`. **Siguiente paso:** llevar el estilo (colores, letras,
-    botones) a las demás pantallas, una por una, preguntando antes.
+    `config/index.js`.
   - **Decisiones del usuario sobre el inicio** (01-10-2026, ya aplicadas):
     - Estilo: "casual y divertido" con las luces de "show de TV" moviéndose en
       el **fondo**, detrás del contenido, sin estorbar la vista.
@@ -134,6 +137,14 @@
       "Efectos de animación"), con un interruptor **Ajustes → Animaciones: Sí /
       No** en la tuerca del inicio (opción C, 01-10-2026).
 
+- [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
+  usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,
+  tic-tac) por unos mejores y más acordes al juego. Por ahora le interesa una
+  **melodía muy parecida a la de los juegos de Nintendo** (alegre, tipo
+  chiptune/8 bits). Hoy no hay efectos especiales (acierto, fallo, victoria):
+  proponerlos también. Antes de hacerlo: preguntar si los sonidos deben ser
+  sintetizados (regla de INSTRUCCIONES) o archivos, mostrar opciones para que
+  elija y cuidar que sean de uso libre (no copiar melodías de Nintendo).
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las

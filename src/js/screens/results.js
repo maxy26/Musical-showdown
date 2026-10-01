@@ -60,7 +60,7 @@ export function screenResults() {
       </div>` : ""}
       <div class="btn-row" style="margin-top:22px;justify-content:center;">
         <button class="btn btn-primary" id="again">Jugar de nuevo</button>
-        <button class="btn btn-secondary" id="menu">Volver al menú</button>
+        <button class="btn btn-secondary" id="menu">Volver al inicio</button>
       </div>
     </div>
   </div>`);

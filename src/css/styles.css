@@ -1,16 +1,17 @@
 :root{
-  --bg:#150F22;
-  --bg-alt:#1F1733;
-  --card:#241B3C;
-  --card-2:#2C2148;
-  --border:rgba(245,240,255,0.09);
-  --text:#F5F0FF;
-  --text-dim:#B9AFD1;
+  /* Colores base del rediseño (aprobado para todas las pantallas el 01-10-2026) */
+  --bg:#141833;
+  --bg-alt:#1E2350;
+  --card:#252A55;
+  --card-2:#2E3466;
+  --border:rgba(255,255,255,0.08);
+  --text:#FFFFFF;
+  --text-dim:#C9CEF5;
   --pink:#FF5C7A;
-  --teal:#3AC7A0;
-  --gold:#FFC857;
+  --teal:#2EC4B6;
+  --gold:#FFD23F;
   --red:#FF4747;
-  --radius:18px;
+  --radius:28px;
   /* Rediseño "casual y divertido + luces de show" (elegido por el usuario el 01-10-2026) */
   --stage-bg:#141833;
   --stage-glow:#2C3270;
@@ -123,7 +124,7 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
 /* ---------- Pantalla de carga ---------- */
 #loader{
   position:fixed;inset:0;z-index:9999;
-  /* Fondo de escenario del rediseño (01-10-2026); las luces van encima (.lights) */
+  /* Mismo fondo de escenario que el resto del juego */
   background:radial-gradient(130% 75% at 50% 0%, var(--stage-glow), var(--stage-bg) 72%) fixed;
   background-color:var(--stage-bg);
   display:flex;align-items:center;justify-content:center;
@@ -520,6 +521,8 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .home-empty p{margin:6px 0;font-weight:700;}
 .home-empty-icon{font-size:40px;}
 .home-empty .home-empty-note{font-weight:600;font-size:14px;color:var(--fun-text-dim);}
+.home-settings{display:flex;flex-direction:column;gap:10px;}
+.home-settings-group{margin:6px 0 0;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--fun-accent);}
 .home-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
   background:var(--fun-surface-2);border-radius:20px;padding:16px;}
 .home-setting h3{font-family:var(--font-fun-title);font-size:18px;}
@@ -597,3 +600,59 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .is-on .fx-mix b:last-child{animation:join-right .6s cubic-bezier(.3,1.6,.5,1) both;}
 @keyframes join-left{from{transform:translateX(-20px);opacity:0;}}
 @keyframes join-right{from{transform:translateX(20px);opacity:0;}}
+
+/* =====================================================================
+   ESTILO DEL REDISEÑO EN TODAS LAS PANTALLAS (aprobado el 01-10-2026).
+   Solo cambia colores, letras y formas; la estructura de cada pantalla es
+   la de siempre. Va al final para ganarle a las reglas de arriba.
+   ===================================================================== */
+body,button,input,select{font-family:'Nunito','Inter',sans-serif;}
+h1,h2,h3{font-family:'Fredoka','Nunito',sans-serif;font-weight:700;}
+
+/* Botones: píldora con "sombra de juguete" que se hunde al tocar */
+.btn{border-radius:999px;font-weight:800;font-size:15.5px;box-shadow:0 5px 0 rgba(0,0,0,.3);}
+.btn:active{transform:translateY(3px) scale(.97);box-shadow:0 2px 0 rgba(0,0,0,.3);}
+.btn-primary{background:var(--gold);color:#141833;}
+.btn-secondary{background:var(--card-2);border:none;}
+.btn-secondary:hover{background:#383F78;}
+.btn-ghost{box-shadow:none;}
+.btn-danger{background:#FF4D6D;color:#fff;border:none;}
+
+/* Tarjetas y campos */
+.card{border:none;box-shadow:0 8px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.05);}
+.field label{font-weight:700;font-size:14px;}
+input[type=text],input[type=number],select{border-radius:16px;border:2px solid transparent;background:var(--bg-alt);font-weight:600;}
+input:focus,select:focus{outline:none;border-color:var(--gold);}
+/* El campo con error (nombre repetido) sigue marcado en rojo */
+input.input-error,input.input-error:focus{border-color:var(--red);}
+.chip{border:none;background:var(--card-2);font-weight:700;color:var(--text-dim);}
+.chip.active{background:linear-gradient(160deg,#FF8A3D,#FF4D6D);color:#fff;}
+.chip.active.alt{background:linear-gradient(160deg,#2EC4B6,#1B8EF2);}
+.segmented{border:none;background:var(--bg-alt);}
+.segmented button{font-weight:800;}
+.segmented button.active{color:#141833;}
+
+/* Barra superior y botones redondos */
+.icon-btn{border:none;background:var(--card-2);border-radius:999px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.3);}
+
+/* Ventanas */
+.modal{border:none;border-radius:28px;background:var(--bg);box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.06);}
+.modal-close{border:none;background:var(--card-2);}
+
+/* Piezas que tenían la letra Unbounded fija */
+.side .name-btn,.wheel-item,.round-loading-title,.loader-title,.multiplier,.help-section-title,.podium-name,.word{font-family:'Fredoka','Nunito',sans-serif;}
+.word{font-weight:700;}
+
+/* Organizar grupos */
+.team-card{border:none;border-radius:24px;box-shadow:0 6px 0 rgba(0,0,0,.25);}
+.team-member{border-radius:14px;font-weight:700;}
+
+/* Ronda */
+.side .name-btn{border-radius:24px;font-weight:700;font-size:17px;box-shadow:0 6px 0 rgba(0,0,0,.3);}
+.side .name-btn:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.3);}
+.progress-track{height:12px;background:rgba(0,0,0,.3);}
+.clock{font-weight:800;font-size:17px;}
+.result-item,.lyric-box{border:none;border-radius:16px;}
+
+/* Podio */
+.podium-block{border-radius:18px 18px 6px 6px;box-shadow:0 6px 0 rgba(0,0,0,.25);}

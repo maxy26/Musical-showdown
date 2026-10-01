@@ -7,6 +7,7 @@ import { openSheet } from "./sheet.js";
 import { buildModesManual, modeAllowed } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting } from "../settings.js";
+import { refreshMusic } from "../sound.js";
 
 /**
  * Pantalla de inicio (rediseño elegido por el usuario el 01-10-2026; detalles
@@ -28,27 +29,42 @@ function notificationsBody() {
   </div>`);
 }
 
-/** Ajustes (la tuerca): por ahora, encender o apagar las animaciones. */
+/**
+ * Ajustes (la tuerca): cada opción se enciende o apaga con "Sí / No" y se
+ * guarda en el dispositivo (settings.js). El botón 🔊 de las pantallas sigue
+ * silenciando todo de una vez.
+ */
+const SETTINGS = [
+  { key: "animations", title: "Animaciones", text: "Luces que se mueven, rebotes y transiciones." },
+  { key: "music", title: "Música de fondo", text: "La música que suena mientras se juega." },
+  { key: "effects", title: "Efectos de sonido", text: "El sonido al tocar los botones." },
+  { key: "clock", title: "Sonido del reloj", text: "El tic-tac de la ronda y el aviso de los últimos 5 segundos." },
+];
+
 function settingsBody() {
   const body = el(`<div class="home-settings">
-    <div class="home-setting">
-      <div><h3>Animaciones</h3><p>Luces que se mueven, rebotes y transiciones.</p></div>
-      <div class="segmented" role="radiogroup" aria-label="Animaciones">
-        <button type="button" role="radio" data-anim-choice="on">Sí</button>
-        <button type="button" role="radio" data-anim-choice="off">No</button>
-      </div>
-    </div>
+    <p class="home-settings-group">Pantalla</p>
+    ${SETTINGS.map((o) => `
+      ${o.key === "music" ? `<p class="home-settings-group">Sonido</p>` : ""}
+      <div class="home-setting">
+        <div><h3>${o.title}</h3><p>${o.text}</p></div>
+        <div class="segmented" role="radiogroup" aria-label="${o.title}">
+          <button type="button" role="radio" data-setting="${o.key}" data-value="on">Sí</button>
+          <button type="button" role="radio" data-setting="${o.key}" data-value="off">No</button>
+        </div>
+      </div>`).join("")}
   </div>`);
   const paint = () => {
-    const on = loadSettings().animations;
-    body.querySelectorAll("[data-anim-choice]").forEach((b) => {
-      const active = (b.dataset.animChoice === "on") === on;
+    const current = loadSettings();
+    body.querySelectorAll("[data-setting]").forEach((b) => {
+      const active = (b.dataset.value === "on") === current[b.dataset.setting];
       b.classList.toggle("active", active);
       b.setAttribute("aria-checked", String(active));
     });
   };
-  body.querySelectorAll("[data-anim-choice]").forEach((b) => (b.onclick = () => {
-    saveSetting({ animations: b.dataset.animChoice === "on" });
+  body.querySelectorAll("[data-setting]").forEach((b) => (b.onclick = () => {
+    saveSetting({ [b.dataset.setting]: b.dataset.value === "on" });
+    if (b.dataset.setting === "music") refreshMusic();
     paint();
   }));
   paint();

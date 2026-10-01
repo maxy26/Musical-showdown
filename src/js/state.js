@@ -1,7 +1,7 @@
 /**
  * Estado global de la partida. Se expone como un objeto mutable único
  * (`state`) para que todas las pantallas lean/escriban el mismo estado,
- * y `resetState()` para reiniciarlo (nueva partida / volver al menú).
+ * y `resetState()` para reiniciarlo (nueva partida / volver al inicio).
  */
 function freshState() {
   return {

@@ -31,6 +31,14 @@ test("si lo guardado está dañado o no hay almacenamiento, se usan las predeter
   assert.equal(loadSettings(broken).animations, true);
 });
 
+test("los tres tipos de sonido están encendidos por defecto y se apagan por separado", () => {
+  const d = loadSettings(fakeStorage());
+  assert.deepEqual([d.music, d.effects, d.clock], [true, true, true]);
+  const storage = fakeStorage({ "musical-showdown:ajustes": JSON.stringify({ music: false }) });
+  const s = loadSettings(storage);
+  assert.deepEqual([s.music, s.effects, s.clock, s.animations], [false, true, true, true]);
+});
+
 test("Alternativo 2 solo se puede elegir en Grupal", () => {
   assert.equal(modeAllowed("alternativo2", "individual"), false);
   assert.equal(modeAllowed("alternativo2", "grupal"), true);
