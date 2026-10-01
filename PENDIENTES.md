@@ -168,8 +168,9 @@
      - Igual en Individual y en Grupal.
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
-       intento. Duda abierta: ¿las rondas de Clásico van sin reloj (como hoy
-       "Sin tiempo", con "Finalizar ronda") o con un tiempo fijo?
+       intento. Las rondas van **sin reloj**: duran hasta que alguien acierta,
+       los dos fallan, o el moderador toca **"Finalizar ronda"** (como hoy con
+       "Sin tiempo"). Confirmado el 30-09-2026.
      - **Alternativo 1 sí tiene selector de tiempo** (intentos ilimitados), pero
        **no permite "Sin tiempo"**.
   3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
