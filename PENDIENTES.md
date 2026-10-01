@@ -170,6 +170,16 @@
        ("Pueden salir ×2, ×3, ×4 o ×5 en cualquier ronda" / "Todas las rondas
        valen 100 puntos"). En Clásico el selector desaparece.
      - Igual en Individual y en Grupal.
+  2c. **Fin de la partida y podio** (usuario, 30-09-2026):
+     - Gana el **primero que llega al puntaje objetivo** (positivo). Los puntajes
+       negativos **no tienen límite** y nadie queda eliminado.
+     - Ejemplo del usuario: objetivo 500; María 250 y Carlos 400; Carlos gana la
+       ronda (sin multiplicador): Carlos 500 → **gana**; María −100 → 150.
+     - Al final se muestra un **podio de los 3 mejores** con nombres y puntos
+       (Individual). En **Grupal**, el podio de los 3 mejores grupos muestra
+       además el **MVP de cada grupo**. Dudas abiertas: cómo se calcula el MVP,
+       si el podio es para todos los modos, empates, y qué pasa con los demás
+       participantes.
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
        intento. Las rondas van **sin reloj**: duran hasta que alguien acierta,
