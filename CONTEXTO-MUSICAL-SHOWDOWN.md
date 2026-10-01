@@ -74,6 +74,32 @@
   con Clásico. El **relevo** es **solo para Alternativo 1 Grupal** (en
   Individual no hay con quién turnarse). Los detalles de cada idea se definen
   con el usuario paso a paso, a fondo y sin asumir nada (ver `PENDIENTES.md`).
+- **Intentos por ronda** (definido por el usuario el 30-09-2026):
+  - **Clásico** (Individual y Grupal): **un solo intento** por jugador o equipo
+    en cada ronda. Si el primero falla, el otro todavía puede intentarlo. Si los
+    dos fallan, la ronda **termina de inmediato** con 0 para ambos.
+  - **Alternativo 1** (Individual y Grupal): **intentos ilimitados** hasta que
+    alguien acierte o se acabe el tiempo; sin aciertos, 0 para ambos.
+- **Relevo** (solo Alternativo 1 Grupal; definido por el usuario el 29 y
+  30-09-2026; por implementar):
+  - Comodín: **3 por equipo para toda la partida**, sin recuperarse; como mucho
+    **1 por ronda**.
+  - Se pide **antes de responder**. Al presionar "Relevo" el reloj **se pausa
+    solo**, el jugador **elige en una lista** a cualquier compañero de su equipo
+    y **confirma**; la ronda sigue con el **mismo tiempo**.
+  - El duelo pasa a ser con el que entró ("Ana vs Carlos" → "María vs Carlos").
+    Para los emparejamientos cuenta María vs Carlos. El que pidió el relevo
+    **no** cuenta como que cantó; el que entró, **sí**.
+  - Si el que entró falla, **sigue intentando él** hasta que se acabe el tiempo
+    (intentos ilimitados). Si acierta, el equipo suma normal (100 × multiplicador).
+  - Después de que un equipo falla, el otro **también** puede usar su relevo.
+  - **Usar un relevo que ya no tienen:** el botón se puede presionar igual. Se
+    resta **la mitad del valor de la ronda**, la ronda se pierde y el **otro
+    equipo suma el valor completo sin cantar** (con ×2: −100 y +200).
+  - En la pantalla de la ronda: **3 símbolos** con los relevos que le quedan a
+    cada equipo y, al lado, un botón para **agregar o quitar** relevos con
+    confirmación (sin máximo; no baja de 0).
+  - **Puntos negativos** permitidos, mostrados en **rojo bien visible**.
 
 ### Emparejamientos de Clásico y Alternativo 1 (definidos por el usuario el 28-09-2026)
 

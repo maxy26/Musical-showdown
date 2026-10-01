@@ -140,18 +140,17 @@
        - Penalización por usar un relevo que no tienen: el otro equipo suma el
          valor completo de la ronda **sin cantar**, y la ronda termina.
        - El relevo es **solo para Alternativo 1** (no para Clásico).
-     - ⚠️ **Contradicciones por resolver con el usuario** (30-09-2026): ver 1b.
-  1b. **Intentos por ronda** — ⚠️ hay una contradicción por resolver:
-     - El 30-09 el usuario dijo "un solo intento por equipo y por ronda, **para
-       todos** los modos".
-     - Después dijo que en **Alternativo 1 no hay límite de intentos**, y que,
-       si los dos fallan, la ronda **termina de inmediato con 0 para ambos en
-       Clásico, pero no en Alternativo 1**.
-     - Lectura probable: **un solo intento solo en Clásico** (Individual y
-       Grupal); en Alternativo 1, intentos ilimitados hasta que alguien acierte o
-       se acabe el tiempo. Falta confirmarlo, y definir qué pasa con el relevo si
-       el que entró falla en Alternativo 1 (¿sigue intentando él, vuelve el
-       original, o termina?).
+     - Si el que entró **falla**, **sigue intentando él** todas las veces que
+       quiera hasta que se acabe el tiempo; el relevo ya se gastó. El botón para
+       quitar relevos no baja de **0**.
+     - ✅ **El relevo quedó completamente definido** (30-09-2026); falta programarlo.
+  1b. **Intentos por ronda** (contradicción resuelta por el usuario, 30-09-2026):
+     - **Clásico** (Individual y Grupal): **un solo intento** por jugador o
+       equipo. Si los dos fallan, la ronda **termina de inmediato** con 0 para
+       ambos.
+     - **Alternativo 1** (Individual y Grupal): **intentos ilimitados**, como
+       hoy, hasta que alguien acierte o se acabe el tiempo; sin aciertos, 0 para
+       ambos.
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
   2. **Puntos:** ¿restar al fallar? ¿Cuánto? ¿Bonos? ¿Por qué?
