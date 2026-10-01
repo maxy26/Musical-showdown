@@ -153,7 +153,19 @@
        ambos.
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-  2. **Puntos:** ¿restar al fallar? ¿Cuánto? ¿Bonos? ¿Por qué?
+  2. **Puntos de Alternativo 1** (respuestas del usuario, 30-09-2026; hay dudas abiertas):
+     - Los intentos fallidos **no restan durante la ronda**. Al final:
+       - el que acierta **suma** su valor (100 × multiplicador);
+       - el otro **resta** "sus puntos correspondientes" (duda: ¿siempre, aunque
+         no haya intentado? ¿el valor completo de la ronda?);
+       - si **nadie acierta**, **ambos restan la mitad** del valor. Esto
+         reemplaza el "0 para ambos" acordado antes para Alternativo 1.
+     - **No hay bonos.** Los **multiplicadores** quedan **solo para Alternativo 1**,
+       ya no en Clásico (cambia la instrucción 20; dudas: ¿el interruptor sigue
+       en Alternativo 1? ¿y en Alternativo 2?).
+     - **Alternativo 1 no permite "Sin tiempo"** (duda: qué tiempo poner si
+       estaba elegido "Sin tiempo" y se cambia a Alternativo 1).
+     - Igual en Individual y en Grupal.
   3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
      ganando al llegar al puntaje objetivo?
   4. ¿Qué de esto aplica también a Alternativo 1 Individual (salvo el relevo)?
