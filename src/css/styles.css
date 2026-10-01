@@ -309,9 +309,6 @@ input.input-error:focus{outline-color:var(--red);}
 .warning-icon{font-size:38px;margin-bottom:10px;}
 .warning-text{font-size:14.5px;color:var(--text);line-height:1.5;margin-bottom:20px;}
 
-/* ---------- Botón flotante de sonido ---------- */
-/* El botón de silencio ahora reutiliza el estilo .icon-btn-round (ver arriba),
-   embebido junto al botón de ayuda en cada pantalla. */
 
 /* Versiones "mini" (no interactivas) de los componentes reales, para la ayuda */
 .name-btn.mini{padding:10px;font-size:11px;pointer-events:none;}

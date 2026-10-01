@@ -4,7 +4,6 @@ import { el } from "../../utils.js";
 import { render } from "../../router.js";
 import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
 import { openHelp, showWarning } from "../modals.js";
-import { muteButtonHTML, bindMuteButtons } from "../../sound.js";
 import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
@@ -38,7 +37,7 @@ export function screenConfig() {
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
 
   const root = el(`<div class="screen">
-    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
+    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button></div></div>
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
@@ -103,7 +102,6 @@ export function screenConfig() {
 
   root.querySelector("#back").onclick = () => { state.screen = "menu"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
-  bindMuteButtons(root);
 
   // ---------- Puntaje objetivo y tiempo: predeterminado vs. personalizado ----------
   // "Personalizado…" abre un selector de rueda (valuePicker.js): se desliza

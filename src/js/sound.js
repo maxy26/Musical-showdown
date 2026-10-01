@@ -2,9 +2,9 @@
  * Gestor de sonido del juego: clic de botones, música ambiental en loop,
  * y ticks del reloj (normal / últimos 5 segundos).
  *
- * Dos niveles de control: el botón 🔊/🔇 de las pantallas silencia TODO, y en
- * Ajustes (tuerca del inicio, settings.js) se apaga cada tipo por separado:
- * música de fondo, efectos (clic de botones) y reloj.
+ * Cada tipo de sonido se enciende o apaga en Ajustes (tuerca del inicio,
+ * settings.js): música de fondo, efectos (clic de botones) y reloj. El botón
+ * 🔊 de las pantallas se quitó el 01-10-2026 (pedido del usuario).
  *
  * Los navegadores bloquean el autoplay de audio hasta que hay una
  * interacción real del usuario, por eso el ambiente arranca recién en el
@@ -18,18 +18,8 @@
 
 import { loadSettings } from "./settings.js";
 
-const MUTE_KEY = "musical-showdown-muted";
-
-let muted = null; // null = todavía no se leyó localStorage
 let ambientStarted = false;
 let sounds = null; // objetos <audio>, creados la primera vez que hacen falta
-
-function isMuted() {
-  if (muted === null) {
-    muted = typeof localStorage !== "undefined" && localStorage.getItem(MUTE_KEY) === "1";
-  }
-  return muted;
-}
 
 function getSounds() {
   if (!sounds) {
@@ -52,7 +42,7 @@ function kindOn(kind) {
 }
 
 function playFresh(audioEl, kind) {
-  if (isMuted() || !kindOn(kind)) return;
+  if (!kindOn(kind)) return;
   // clona el nodo para permitir sonidos superpuestos (clics rápidos seguidos)
   const node = audioEl.cloneNode();
   node.volume = audioEl.volume || 1;
@@ -68,56 +58,19 @@ export function playTick(urgent) {
 }
 
 export function startAmbient() {
-  if (isMuted() || !kindOn("music") || ambientStarted) return;
+  if (!kindOn("music") || ambientStarted) return;
   ambientStarted = true;
   getSounds().ambient.play().catch(() => {});
 }
 
-export { isMuted };
-
 /**
  * Aplica un cambio de Ajustes a la música que ya está sonando: si se apagó, la
- * pausa; si se encendió, vuelve a sonar (si el sonido general no está silenciado).
+ * pausa; si se encendió, vuelve a sonar.
  */
 export function refreshMusic() {
   ambientStarted = false;
   if (kindOn("music")) startAmbient();
   else if (sounds) sounds.ambient.pause();
-}
-
-export function setMuted(value) {
-  muted = value;
-  localStorage.setItem(MUTE_KEY, muted ? "1" : "0");
-  if (muted) {
-    getSounds().ambient.pause();
-  } else {
-    ambientStarted = false; // se reintentará en el próximo clic
-    startAmbient();
-  }
-  updateMuteButtons();
-}
-
-function updateMuteButtons() {
-  document.querySelectorAll(".mute-btn").forEach((btn) => {
-    btn.textContent = muted ? "🔇" : "🔊";
-    btn.setAttribute("aria-label", muted ? "Activar sonido" : "Silenciar");
-  });
-}
-
-/** Markup del botón de silencio, mismo estilo que el botón de ayuda (❓). */
-export function muteButtonHTML() {
-  const m = isMuted();
-  return `<button type="button" class="icon-btn icon-btn-round mute-btn" aria-label="${m ? "Activar sonido" : "Silenciar"}">${m ? "🔇" : "🔊"}</button>`;
-}
-
-/** Engancha el/los botón(es) de silencio recién renderizados dentro de `root`. */
-export function bindMuteButtons(root) {
-  root.querySelectorAll(".mute-btn").forEach((btn) => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      setMuted(!isMuted());
-    };
-  });
 }
 
 /** Engancha los clics globales (sonido de botón + arranque del ambiente). */

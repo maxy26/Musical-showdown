@@ -348,9 +348,8 @@
   pantalla inicial, el botón de ayuda (❓, redondo) va **a la derecha**
   del botón de menú/volver (pantallas de configuración y organizar
   equipos) y, durante la partida, **a la derecha** del botón de pausa.
-  El botón de silencio (🔊/🔇) tiene el mismo estilo redondo y va
-  **justo al lado** del botón de ayuda en esos mismos lugares (ya no es
-  un botón flotante suelto).
+  Ya no hay botón de silencio (🔊/🔇): se quitó el 01-10-2026 y el
+  sonido se controla en Ajustes (tuerca del inicio).
 
 ### Resultados y "jugar de nuevo"
 - **Podio** (usuario, 30-09-2026; programado el 01-10-2026), en **todos los
@@ -380,7 +379,9 @@
 - Todos los sonidos son **sintetizados** (generados con Python/numpy),
   no son samples de terceros — para evitar cualquier problema de
   derechos de autor.
-- Botón de silencio (🔊/🔇) persistente entre sesiones (`localStorage`).
+- **Ajustes → Sonido** (01-10-2026): música de fondo, efectos de sonido y
+  sonido del reloj se encienden o apagan por separado y se recuerdan en el
+  dispositivo (`settings.js`). No hay botón de silencio en las pantallas.
 
 ## 5. Advertencias y diálogos propios
 

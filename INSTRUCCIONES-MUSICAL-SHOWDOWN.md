@@ -87,9 +87,11 @@
 16. El ícono es el de la nota musical con ecualizador, **recortado en
     forma circular** (sin el texto del logo original) — así se usa en
     todos los tamaños/plataformas.
-17. El botón de ayuda (❓) y el de silencio (🔊/🔇) van **juntos**, con
-    el mismo estilo redondo, a la derecha del botón de menú/pausa
-    correspondiente (ver contexto, sección 3 → "Pausa / Ayuda / Salir").
+17. El botón de ayuda (❓) va redondo, a la derecha del botón de
+    volver/pausa correspondiente (ver contexto, sección 3 → "Pausa / Ayuda /
+    Salir"). **No hay botón de silencio (🔊/🔇) en las pantallas**: el
+    usuario lo pidió quitar el 01-10-2026 porque el sonido se controla en
+    Ajustes (tuerca del inicio), por tipo: música, efectos y reloj.
 18. Los sonidos son sintetizados (no samples de terceros) — si se
     agregan sonidos nuevos, mantener ese enfoque para no introducir
     problemas de derechos de autor.

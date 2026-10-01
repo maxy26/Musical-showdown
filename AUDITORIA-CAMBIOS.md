@@ -13,6 +13,32 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 11): sin botón de silencio; pendientes ordenados
+
+**Decisión del usuario:** quitar el botón 🔊/🔇 de las pantallas, porque el
+sonido ya se controla en Ajustes.
+
+**Qué se hizo**
+- Se quitó el botón de Configurar partida, Organizar grupos y la ronda.
+- `sound.js`: se eliminó el silencio general (`isMuted`, `setMuted`, botones).
+  Si alguien había silenciado con el botón, ese valor guardado ya no se lee,
+  para que no quede sin sonido y sin forma de volver a activarlo. Ahora cada
+  sonido depende solo de Ajustes.
+- INSTRUCCIONES (regla 17) y CONTEXTO actualizados con la decisión.
+- PENDIENTES: pasaron a "Resueltos" tres entradas que ya estaban hechas y
+  seguían abiertas: "el juego se rompe cuando se acaban las canciones", el
+  rediseño crítico y las ideas nuevas de Alternativo 1 (sus preguntas 3 y 4
+  quedaron respondidas en 2b y 2c).
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 95 pasan + 1
+pendiente; captura de la ronda y la configuración sin el botón. Compilados
+`.exe` y `.apk`.
+
+**Qué quedó abierto:** siguiente pendiente propuesto: revisar Clásico y luego
+las reglas de Alternativo 2.
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 10): estilo en todas las pantallas y ajustes de sonido
 
 **Decisiones del usuario**

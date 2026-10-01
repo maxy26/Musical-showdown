@@ -3,7 +3,6 @@ import { el, escapeHtml, titleCaseName } from "../utils.js";
 import { render } from "../router.js";
 import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 import { openHelp, showWarning, showConfirm } from "./modals.js";
-import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 import { GROUP_TERMS, groupCountOptions, distributeRandom, groupName, defaultGroupName } from "../groups.js";
 import { MAX_NAME_LENGTH, cleanName, duplicateNameIndexes } from "./config/players.js";
 
@@ -29,7 +28,7 @@ export function screenTeamOrg() {
   const options = groupCountOptions(allPlayers().length);
 
   const root = el(`<div class="screen">
-    <div class="top-bar"><h2>Organizar ${plural}</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Configuración</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
+    <div class="top-bar"><h2>Organizar ${plural}</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Configuración</button><button class="icon-btn icon-btn-round" id="help">❓</button></div></div>
     <div class="card">
       <div class="config-2col">
         <div class="field">
@@ -184,7 +183,6 @@ export function screenTeamOrg() {
   };
   root.querySelector("#back").onclick = () => { state.screen = "config"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
-  bindMuteButtons(root);
   root.querySelector("#confirm-teams").onclick = () => {
     if (refreshNameErrors()) {
       root.querySelector("#group-names-error").scrollIntoView({ behavior: "smooth", block: "center" });

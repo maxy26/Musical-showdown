@@ -31,16 +31,6 @@
 
 ## 🐛 Bugs e inconsistencias
 
-- [ ] 🔴 **El juego se rompe cuando se acaban las canciones** (encontrado el
-  01-10-2026 al probar el podio). Cada canción acertada queda bloqueada para
-  toda la partida. Cuando ya no quedan canciones de los géneros elegidos, el
-  juego no tiene palabra para la siguiente ronda y la pantalla de la ronda se
-  rompe (`r.word` es `null`). Con la base de ejemplo pasa rápido: Pop tiene 4
-  canciones, así que se rompe después de 4 aciertos. Preguntarle al usuario qué
-  debe pasar: ¿terminar la partida, liberar las canciones ya usadas, avisar y
-  pedir más géneros…?
-
-
 - [ ] 🟢 **El nombre técnico de Android sigue siendo `com.palabracantada.app`**
   (nombre anterior del juego). Renombrarlo es delicado porque afecta
   las rutas de Java. Solo hacerlo si el usuario lo pide
@@ -85,57 +75,6 @@
 ## ✨ Mejoras visuales y de lógica
 
 > Se irán agregando las que pida el usuario o se le recomienden.
-
-- [ ] 🔴 **CRÍTICO — Experimentar con un diseño general nuevo de la aplicación**
-  (pedido del usuario, 01-10-2026). Quiere intentar modificar o experimentar el
-  diseño de toda la app. Antes de tocar nada: preguntarle qué le gustaría
-  cambiar o qué estilo busca, y proponerle maquetas interactivas para comparar,
-  como se hizo con la rueda y el selector de multiplicadores.
-  - 01-10-2026: le gustan los estilos "show de TV", "moderno y limpio" y "casual
-    y divertido". Se conservan el nombre, el ícono y estructuras como la lista
-    de nombres y la pausa; cambian colores y letras. Empezar por la **pantalla
-    de inicio**.
-  - **Experimento 1** (01-10-2026, fuera del proyecto, en la carpeta temporal
-    `scratchpad/diseno-inicio`): inicio en modo oscuro con encabezado de botones
-    circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
-    cuenta regresiva y accesos rápidos, según una especificación del usuario.
-    **No se integra al juego hasta que el usuario elija el diseño final.**
-  - ✅ **Estilo aplicado a todas las pantallas** (01-10-2026, aprobado por el
-    usuario tras ver la comparación): colores, letras Fredoka/Nunito, botones
-    en píldora con sombra, tarjetas y ventanas redondeadas. La estructura de
-    cada pantalla no cambió. Sección final de `styles.css`.
-  - ✅ **Pantalla de inicio integrada al juego** (01-10-2026, el usuario dio el
-    estilo por finalizado): `screens/menu.js`, `modesManual.js`, `sheet.js`,
-    `icons.js`, `settings.js`, luces en `index.html` y opción A en
-    `config/index.js`.
-  - **Decisiones del usuario sobre el inicio** (01-10-2026, ya aplicadas):
-    - Estilo: "casual y divertido" con las luces de "show de TV" moviéndose en
-      el **fondo**, detrás del contenido, sin estorbar la vista.
-    - Sin logo en el inicio: solo el nombre. Sin "Oferta Exclusiva" ni botones
-      "Juegos"/"Paquetes".
-    - Notificaciones (campana): avisos de actualizaciones, promoción del juego
-      y avisos en general.
-    - Individual/Grupal: **interruptor** grande con una tarjeta y un botón
-      "Jugar" grande (diseño D).
-    - Un solo botón **"Modos de juego"**: manual con historietas animadas
-      ("a prueba de todo"), datos rápidos, "Ver más" y "Elegir…". Debajo del
-      botón, un texto "Modo: Clásico" (Clásico por defecto), sin botón
-      "Cambiar".
-    - Alternativo 2 solo en Grupal: con Individual no se puede elegir; si se
-      cambia a Individual con Alternativo 2 elegido, vuelve a Clásico con un
-      aviso.
-    - **Opción A:** Individual/Grupal y el modo se eligen **solo en el
-      inicio**; se quitan de "Configurar partida". Si en Grupal escriben menos
-      de 4 jugadores, se les avisa, pero **no** se les devuelve al inicio.
-    - Toda ventana emergente con información lleva una **X para cerrar en la
-      esquina superior derecha**, también en el celular. De las ventanas con
-      decisión, **solo la pausa** (la X = "Continuar"). Ya está en el juego
-      actual desde el 01-10-2026 (ayuda, avisos y pausa); mantenerlo en el
-      rediseño.
-    - Animaciones **siempre encendidas** aunque Windows o el celular pidan
-      reducir el movimiento (en la PC del usuario, Windows tiene apagados los
-      "Efectos de animación"), con un interruptor **Ajustes → Animaciones: Sí /
-      No** en la tuerca del inicio (opción C, 01-10-2026).
 
 - [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,
@@ -189,7 +128,89 @@
 > El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
 > por completo con preguntas antes de programarla.
 
-- [ ] 🔴 **Ideas nuevas de Alternativo 1** (decididas el 29-09-2026, opción A;
+- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
+  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
+- [ ] 🔴 **Reglas de Alternativo 2:** combinación llamativa de Alternativo 1
+  (con sus ideas nuevas) y Clásico. Falta definir cómo se combinan. Opciones
+  que se le mostraron: alternar por bloques, orden con ayuda de la ventaja,
+  por mitades de la partida, u otra. Mientras tanto usa las reglas de Clásico.
+- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
+  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
+  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
+  sus reglas cuando estén definidas), el selector de rueda del valor
+  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
+  terminar de definir Alternativo 1 y 2.
+
+---
+
+## ✅ Resueltos
+
+- [x] 🔴 **(Resuelto 01-10-2026)** **El juego se rompe cuando se acaban las canciones** (encontrado el
+  01-10-2026 al probar el podio). Cada canción acertada queda bloqueada para
+  toda la partida. Cuando ya no quedan canciones de los géneros elegidos, el
+  juego no tiene palabra para la siguiente ronda y la pantalla de la ronda se
+  rompe (`r.word` es `null`). Con la base de ejemplo pasa rápido: Pop tiene 4
+  canciones, así que se rompe después de 4 aciertos. Preguntarle al usuario qué
+  debe pasar: ¿terminar la partida, liberar las canciones ya usadas, avisar y
+  pedir más géneros…?
+  → Decisión del usuario: las canciones ya no se bloquean; una ya cantada se
+    puede volver a elegir (commit 9771708).
+
+- [x] 🔴 **(Resuelto 01-10-2026)** **CRÍTICO — Experimentar con un diseño general nuevo de la aplicación**
+  (pedido del usuario, 01-10-2026). Quiere intentar modificar o experimentar el
+  diseño de toda la app. Antes de tocar nada: preguntarle qué le gustaría
+  cambiar o qué estilo busca, y proponerle maquetas interactivas para comparar,
+  como se hizo con la rueda y el selector de multiplicadores.
+  - 01-10-2026: le gustan los estilos "show de TV", "moderno y limpio" y "casual
+    y divertido". Se conservan el nombre, el ícono y estructuras como la lista
+    de nombres y la pausa; cambian colores y letras. Empezar por la **pantalla
+    de inicio**.
+  - **Experimento 1** (01-10-2026, fuera del proyecto, en la carpeta temporal
+    `scratchpad/diseno-inicio`): inicio en modo oscuro con encabezado de botones
+    circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
+    cuenta regresiva y accesos rápidos, según una especificación del usuario.
+    **No se integra al juego hasta que el usuario elija el diseño final.**
+  - ✅ **Estilo aplicado a todas las pantallas** (01-10-2026, aprobado por el
+    usuario tras ver la comparación): colores, letras Fredoka/Nunito, botones
+    en píldora con sombra, tarjetas y ventanas redondeadas. La estructura de
+    cada pantalla no cambió. Sección final de `styles.css`.
+  - ✅ **Pantalla de inicio integrada al juego** (01-10-2026, el usuario dio el
+    estilo por finalizado): `screens/menu.js`, `modesManual.js`, `sheet.js`,
+    `icons.js`, `settings.js`, luces en `index.html` y opción A en
+    `config/index.js`.
+  - **Decisiones del usuario sobre el inicio** (01-10-2026, ya aplicadas):
+    - Estilo: "casual y divertido" con las luces de "show de TV" moviéndose en
+      el **fondo**, detrás del contenido, sin estorbar la vista.
+    - Sin logo en el inicio: solo el nombre. Sin "Oferta Exclusiva" ni botones
+      "Juegos"/"Paquetes".
+    - Notificaciones (campana): avisos de actualizaciones, promoción del juego
+      y avisos en general.
+    - Individual/Grupal: **interruptor** grande con una tarjeta y un botón
+      "Jugar" grande (diseño D).
+    - Un solo botón **"Modos de juego"**: manual con historietas animadas
+      ("a prueba de todo"), datos rápidos, "Ver más" y "Elegir…". Debajo del
+      botón, un texto "Modo: Clásico" (Clásico por defecto), sin botón
+      "Cambiar".
+    - Alternativo 2 solo en Grupal: con Individual no se puede elegir; si se
+      cambia a Individual con Alternativo 2 elegido, vuelve a Clásico con un
+      aviso.
+    - **Opción A:** Individual/Grupal y el modo se eligen **solo en el
+      inicio**; se quitan de "Configurar partida". Si en Grupal escriben menos
+      de 4 jugadores, se les avisa, pero **no** se les devuelve al inicio.
+    - Toda ventana emergente con información lleva una **X para cerrar en la
+      esquina superior derecha**, también en el celular. De las ventanas con
+      decisión, **solo la pausa** (la X = "Continuar"). Ya está en el juego
+      actual desde el 01-10-2026 (ayuda, avisos y pausa); mantenerlo en el
+      rediseño.
+    - Animaciones **siempre encendidas** aunque Windows o el celular pidan
+      reducir el movimiento (en la PC del usuario, Windows tiene apagados los
+      "Efectos de animación"), con un interruptor **Ajustes → Animaciones: Sí /
+      No** en la tuerca del inicio (opción C, 01-10-2026).
+  → Inicio nuevo y estilo en todas las pantallas programados (commits
+    2e6f8ad y 9586816). Lo que sigue va en pendientes aparte: sonidos nuevos,
+    letras sin internet y fuente de las notificaciones.
+
+- [x] 🔴 **(Resuelto 01-10-2026)** **Ideas nuevas de Alternativo 1** (decididas el 29-09-2026, opción A;
   detalles por definir con el usuario, en este orden):
   1. **Relevo (solo Alternativo 1 Grupal)**. Lo ya confirmado por el usuario
      (29 y 30-09-2026), todavía sin programar:
@@ -235,8 +256,6 @@
      - **Alternativo 1** (Individual y Grupal): **intentos ilimitados**, como
        hoy, hasta que alguien acierte o se acabe el tiempo; sin aciertos, 0 para
        ambos.
-- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
-  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
   2. ✅ **Puntos de Alternativo 1 — programado el 01-10-2026** (confirmado por el usuario el 30-09-2026):
      - Los intentos fallidos **no restan durante la ronda**. Al terminar:
        - el que acierta **suma** el valor de la ronda (100 × multiplicador);
@@ -282,23 +301,9 @@
        "Sin tiempo"). Confirmado el 30-09-2026.
      - **Alternativo 1 sí tiene selector de tiempo** (intentos ilimitados), pero
        **no permite "Sin tiempo"**.
-  3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
-     ganando al llegar al puntaje objetivo?
-  4. ¿Qué de esto aplica también a Alternativo 1 Individual (salvo el relevo)?
-- [ ] 🔴 **Reglas de Alternativo 2:** combinación llamativa de Alternativo 1
-  (con sus ideas nuevas) y Clásico. Falta definir cómo se combinan. Opciones
-  que se le mostraron: alternar por bloques, orden con ayuda de la ventaja,
-  por mitades de la partida, u otra. Mientras tanto usa las reglas de Clásico.
-- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
-  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
-  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
-  sus reglas cuando estén definidas), el selector de rueda del valor
-  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
-  terminar de definir Alternativo 1 y 2.
-
----
-
-## ✅ Resueltos
+  3. ✅ **Tiempo / fin de la partida:** respondido en 2b (tiempo obligatorio,
+     sin "Sin tiempo") y 2c (gana el primero que llega al objetivo).
+  4. ✅ **Individual:** todo aplica igual salvo el relevo, que es solo Grupal.
 
 - [x] 2026-10-01: 🔴 **El juego se rompía al acabarse las canciones.** Ya no
   puede pasar: por decisión del usuario, **las canciones ya no se bloquean**

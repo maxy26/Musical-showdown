@@ -3,7 +3,6 @@ import { el } from "../utils.js";
 import { render } from "../router.js";
 import { finishRoundManual } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
-import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 import { modeName, effectiveRoundTime } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
 import { hasRelay, canRequestRelay } from "../relay.js";
@@ -46,7 +45,6 @@ export function screenRound() {
       <div class="top-bar-actions">
         <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>
-        ${muteButtonHTML()}
       </div>
     </div>
     <div class="stage">
@@ -113,7 +111,6 @@ export function screenRound() {
 
   root.querySelector("#pause").onclick = () => openPause();
   root.querySelector("#help").onclick = () => openHelp();
-  bindMuteButtons(root);
   const fr = root.querySelector("#finish-round");
   if (fr) fr.onclick = () => showConfirm({
     title: "¿Desean finalizar esta ronda?",
