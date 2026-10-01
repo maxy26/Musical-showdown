@@ -98,6 +98,9 @@ export function screenRound() {
 function openVerification(side) {
   state.round.paused = true;
   state.round.selected = side;
+  // Velocidad para el MVP: segundos desde que apareció la palabra hasta que
+  // se tocó el botón de este lado (hoy lo toca el moderador).
+  state.round.answeredAt = { ...state.round.answeredAt, [side]: state.round.elapsed || 0 };
   state.verify = { query: "", results: [], selectedSong: null };
   state.screen = "verify";
   render();

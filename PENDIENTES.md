@@ -31,6 +31,15 @@
 
 ## 🐛 Bugs e inconsistencias
 
+- [ ] 🔴 **El juego se rompe cuando se acaban las canciones** (encontrado el
+  01-10-2026 al probar el podio). Cada canción acertada queda bloqueada para
+  toda la partida. Cuando ya no quedan canciones de los géneros elegidos, el
+  juego no tiene palabra para la siguiente ronda y la pantalla de la ronda se
+  rompe (`r.word` es `null`). Con la base de ejemplo pasa rápido: Pop tiene 4
+  canciones, así que se rompe después de 4 aciertos. Preguntarle al usuario qué
+  debe pasar: ¿terminar la partida, liberar las canciones ya usadas, avisar y
+  pedir más géneros…?
+
 
 - [ ] 🟢 **El nombre técnico de Android sigue siendo `com.palabracantada.app`**
   (nombre anterior del juego). Renombrarlo es delicado porque afecta
@@ -182,7 +191,7 @@
        ("Pueden salir ×2, ×3, ×4 o ×5 en cualquier ronda" / "Todas las rondas
        valen 100 puntos"). En Clásico el selector desaparece.
      - Igual en Individual y en Grupal.
-  2c. **Fin de la partida y podio** (usuario, 30-09-2026):
+  2c. ✅ **Fin de la partida y podio — programado el 01-10-2026** (usuario, 30-09-2026):
      - Gana el **primero que llega al puntaje objetivo** (positivo). Los puntajes
        negativos **no tienen límite** y nadie queda eliminado.
      - Ejemplo del usuario: objetivo 500; María 250 y Carlos 400; Carlos gana la
@@ -228,6 +237,14 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-10-01: **Podio y MVP** (parte 3), en todos los modos: ganador, podio
+  de los 3 mejores puestos (empatados en el mismo puesto), MVP de cada equipo en
+  Grupal (más puntos aportados; si empatan, el más rápido en promedio) y "Ver
+  más" con el resto. ❓ Confirmar con el usuario la forma de numerar los puestos
+  con empate: se usó 1, 2, 2, **3** (el siguiente puntaje toma el puesto que
+  sigue), no 1, 2, 2, 4. También que "Ver más" no aparece cuando todos están
+  en el podio.
+
 - [x] 2026-10-01: **Puntos de Alternativo 1** (parte 2): el que acierta suma el
   valor de la ronda y el que pierde lo resta; si se acaba el tiempo sin aciertos,
   los dos restan la mitad. Puntajes negativos en rojo con brillo, en la ronda, en
@@ -239,8 +256,8 @@
   "Sin tiempo"; si estaba elegido queda en 30 seg) y el selector "Con / Sin
   multiplicadores" (diseño B). Alternativo 2, sin reglas propias, queda como
   antes. En Clásico el espacio del tiempo queda **vacío** (el usuario no quiso la
-  nota). ❓ Confirmar con el usuario los 30 seg al pasar de "Sin tiempo" a
-  Alternativo 1 (se le volvió a explicar con un ejemplo).
+  nota). El usuario confirmó los **30 seg** al pasar de "Sin tiempo" a
+  Alternativo 1.
 
 - [x] 2026-09-30: **Un solo intento por ronda en Clásico** (Individual y Grupal): el
   lado que falla queda apagado ("Ya usó su intento") y si los dos fallan la ronda

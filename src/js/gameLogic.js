@@ -66,6 +66,8 @@ export function resetMatchTracking() {
   state.singCounts = {};
   state.alt1 = { step: 0, memory: newGroupMemory() };
   state.classic = newClassicMemory();
+  state.contrib = {};
+  state.answerTimes = {};
 }
 
 export function startNextRound() {
@@ -130,6 +132,8 @@ export function startNextRound() {
     timeLeft: roundTime, timerId: null, paused: false, phase: "intro",
     selected: null, lastResult: null,
     failed: { A: false, B: false }, // Clásico: qué lado ya usó su único intento
+    elapsed: 0, // segundos de la ronda sin contar pausas (ver startTimer)
+    answeredAt: { A: null, B: null }, // segundo en que se tocó el botón de cada lado
   };
   state.screen = "round";
 
@@ -144,10 +148,15 @@ export function startNextRound() {
 
 export function startTimer() {
   const c = state.config;
-  if (effectiveRoundTime(c) === 0) return; // sin reloj (Clásico o "Sin tiempo")
+  const timed = effectiveRoundTime(c) > 0;
   clearInterval(state.round.timerId);
+  // El intervalo corre siempre para contar los segundos de la ronda (sin las
+  // pausas), que se usan para desempatar el MVP por velocidad. La cuenta
+  // regresiva solo existe en los modos con tiempo (no en Clásico).
   state.round.timerId = setInterval(() => {
     if (state.round.paused) return;
+    state.round.elapsed = (state.round.elapsed || 0) + 1;
+    if (!timed) return; // sin reloj (Clásico o "Sin tiempo")
     state.round.timeLeft--;
     if (state.round.timeLeft <= 0) {
       clearInterval(state.round.timerId);
@@ -177,6 +186,9 @@ function applyRoundScores(winnerSide) {
   const changes = roundScoreChanges(state.config.mode, winnerSide, r.multiplier);
   return [["A", r.participantA], ["B", r.participantB]].map(([side, who]) => {
     state.scores[who] = (state.scores[who] || 0) + changes[side];
+    // MVP (Grupal): el cambio de puntos del grupo se le anota a quien cantó por él.
+    const singer = side === "A" ? r.showA : r.showB;
+    if (singer) state.contrib[singer] = (state.contrib[singer] || 0) + changes[side];
     return { who, delta: changes[side], newScore: state.scores[who] };
   });
 }
@@ -210,6 +222,9 @@ export function resolveAnswer(correct) {
   if (correct) {
     clearInterval(r.timerId);
     state.usedSongs.push(songKey(state.verify.selectedSong));
+    // MVP: en qué segundo respondió el que acertó (para desempatar por velocidad).
+    const singer = (r.selected === "A" ? r.showA : r.showB) || who;
+    state.answerTimes[singer] = [...(state.answerTimes[singer] || []), r.answeredAt[r.selected] || 0];
     const changes = applyRoundScores(r.selected);
     r.lastResult = { type: "correct", who, pts: roundValue(r.multiplier), changes };
     state.screen = "round-result";

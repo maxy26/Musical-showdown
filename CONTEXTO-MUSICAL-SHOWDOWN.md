@@ -332,6 +332,15 @@
   un botón flotante suelto).
 
 ### Resultados y "jugar de nuevo"
+- **Podio** (usuario, 30-09-2026; programado el 01-10-2026), en **todos los
+  modos**: el ganador arriba, y debajo un podio con los **3 mejores puestos**
+  (2.º a la izquierda, 1.º al centro, 3.º a la derecha), con medallas, nombres
+  y puntos. Los **empatados comparten el puesto** (1, 2, 2, 3). En **Grupal**,
+  cada equipo del podio muestra su **MVP**: el jugador que más puntos le aportó
+  (lo que ganó menos lo que perdió cuando cantó); si empatan, el que respondió
+  más rápido en promedio (segundos desde que apareció la palabra hasta que se
+  tocó su botón, sin contar pausas). "Ver más" muestra a los demás con su
+  puesto, y no aparece si todos están en el podio.
 - Pantalla final: ganador + puntaje, botón "Ver más" con los puntajes
   del resto, "Jugar de nuevo" (mantiene configuración, reinicia
   puntajes; en grupal vuelve a la pantalla de organizar equipos) y

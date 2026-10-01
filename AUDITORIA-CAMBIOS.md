@@ -13,6 +13,60 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 4): podio y MVP
+
+**El usuario confirmó** los 30 seg al pasar de "Sin tiempo" a Alternativo 1.
+Subido a GitHub `4011e7b`.
+
+**Qué se hizo (parte 3 del paquete de Alternativo 1)**
+1. Nuevo `src/js/podium.js` (funciones puras):
+   - `ranking`: los empatados comparten el puesto (1, 2, 2, 3).
+   - `buildPodium`: los 3 primeros puestos, y el resto para "Ver más".
+   - `pickMvp`: el que más puntos aportó; si empatan, el más rápido en
+     promedio; si siguen empatados, todos.
+2. Datos para el MVP:
+   - `startTimer` ahora siempre corre y cuenta `round.elapsed` (segundos sin
+     pausas); la cuenta regresiva sigue solo en los modos con tiempo.
+   - `openVerification` guarda en qué segundo se tocó cada lado.
+   - `applyRoundScores` le anota a quien cantó el cambio de puntos de su grupo
+     (`state.contrib`).
+   - Al acertar se guarda el segundo de la respuesta (`state.answerTimes`).
+   - Todo se reinicia con `resetMatchTracking`.
+3. `screens/results.js` reescrito: ganador, podio con medallas y bloques de
+   distinta altura, MVP en Grupal, puntos negativos en rojo, y "Ver más" solo
+   si queda gente fuera del podio.
+4. `styles.css`: estilos `.podium*` y `.others-row`. `sw.js`: se agrega
+   `podium.js` y `CACHE_NAME` pasa a v8.
+5. Nuevo `test/podio.test.js` con 7 pruebas: empates, 2 participantes, el
+   ejemplo de MVP con ×5 y el desempate por velocidad.
+
+**Error encontrado (sin corregir, anotado como 🔴):** cuando se acaban las
+canciones de los géneros elegidos, el juego se rompe porque no hay palabra.
+Con Pop pasa después de 4 aciertos. Falta que el usuario decida qué debe pasar.
+
+**Archivos tocados:** `src/js/podium.js` (nuevo), `src/js/gameLogic.js`,
+`src/js/state.js`, `src/js/screens/round.js`, `src/js/screens/results.js`,
+`src/css/styles.css`, `src/sw.js`, `test/podio.test.js` (nuevo),
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 86 pasan y 1 pendiente. `npm run lint`: sin errores.
+- Partidas completas en Edge: 9 de 9.
+  - Grupal, Alternativo 1, 3 equipos: termina al llegar al objetivo; podio con
+    3 puestos y 3 MVP; cada MVP es el que más aportó; lo aportado por los
+    jugadores suma exactamente el puntaje del equipo; sin "Ver más".
+  - Individual, Clásico, 5 jugadores: podio sin MVP; "Ver más" muestra al
+    resto con su puesto.
+  - Para poder jugar partidas largas, la página de prueba libera las canciones
+    usadas (ver el error de arriba).
+- Capturas de los dos podios revisadas.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** el error de las canciones; confirmar la numeración con
+empates; parte 4 (relevo); diseño general (crítico).
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 3): puntos de Alternativo 1
 
 **Ajustes pedidos por el usuario:**
