@@ -96,20 +96,12 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
 .picker-actions{width:100%;margin-top:18px;}
 .picker-actions .btn{flex:1;}
 
-.switch-list{display:flex;gap:22px;flex-wrap:wrap;}
-.switch-row{display:flex;align-items:center;gap:10px;}
-.switch-label{font-family:'Unbounded',sans-serif;font-weight:700;font-size:15px;color:var(--text-dim);}
-.switch{
-  position:relative;width:46px;height:26px;border-radius:999px;background:var(--card-2);
-  border:1px solid var(--border);transition:background .18s ease;flex-shrink:0;
-}
-.switch .switch-thumb{
-  position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;
-  background:var(--text-dim);transition:transform .18s ease, background .18s ease;
-}
-.switch.on{background:var(--pink);border-color:var(--pink);}
-.switch.on .switch-thumb{transform:translateX(20px);background:#1A0E12;}
-.switch-row:has(.switch.on) .switch-label{color:var(--text);}
+/* Selector de dos opciones (ej. "Con / Sin multiplicadores", diseño B elegido por el usuario) */
+.segmented{display:inline-flex;flex-wrap:wrap;background:var(--bg-alt);border:1px solid var(--border);border-radius:999px;padding:4px;gap:4px;}
+.segmented button{border:none;background:transparent;color:var(--text-dim);font-weight:600;font-size:14px;
+  padding:10px 18px;border-radius:999px;cursor:pointer;transition:background .2s ease,color .2s ease;}
+.segmented button:hover:not(.active){color:var(--text);}
+.segmented button.active{background:var(--gold);color:#1A0E12;}
 
 /* ---------- Pantalla de carga ---------- */
 #loader{
@@ -165,7 +157,6 @@ body{-webkit-tap-highlight-color:transparent;}
 
   .wheel{width:210px;}
 
-  .switch-list{gap:14px;}
 }
 
 @media (max-width:380px){

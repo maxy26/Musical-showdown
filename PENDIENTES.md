@@ -222,6 +222,14 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-10-01: **Configuración por modo** (parte 1 del paquete de Alternativo 1):
+  Clásico sin reloj ni multiplicadores; Alternativo 1 con tiempo obligatorio (sin
+  "Sin tiempo"; si estaba elegido queda en 30 seg) y el selector "Con / Sin
+  multiplicadores" (diseño B). Alternativo 2, sin reglas propias, queda como
+  antes. ❓ Confirmar con el usuario que 30 seg está bien como valor al pasar de
+  "Sin tiempo" a Alternativo 1, y la nota que reemplaza a la lista de tiempo en
+  Clásico.
+
 - [x] 2026-09-30: **Un solo intento por ronda en Clásico** (Individual y Grupal): el
   lado que falla queda apagado ("Ya usó su intento") y si los dos fallan la ronda
   termina de inmediato con 0 para ambos. Alternativo 1 sigue con intentos

@@ -96,8 +96,13 @@
 19. El service worker usa **network-first**, nunca volver a
     "cache-first para siempre" (causaba que el juego se quedara pegado
     en versiones viejas).
-20. Multiplicadores: exactamente 4 (×2, ×3, ×4, ×5), con un único
-    interruptor maestro. Puntaje objetivo y tiempo por ronda: el valor
+20. Multiplicadores: exactamente 4 (×2, ×3, ×4, ×5), que se activan o
+    desactivan todos juntos con el selector de dos opciones "✨ Con
+    multiplicadores | Sin multiplicadores" (diseño B elegido por el usuario
+    el 30-09-2026). **Solo existen en Alternativo 1** (y en Alternativo 2
+    mientras no tenga reglas); en Clásico no hay multiplicadores ni reloj.
+    En Alternativo 1 el tiempo por ronda es obligatorio (no hay "Sin
+    tiempo"). Puntaje objetivo y tiempo por ronda: el valor
     personalizado se elige en un **selector de rueda** (`valuePicker.js`),
     igual para puntaje y tiempo: se desliza con el dedo (Android) o con las
     flechas ↑ ↓ del teclado (PC), y se confirma con Enter o con "Listo". Al

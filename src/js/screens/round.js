@@ -4,7 +4,7 @@ import { render } from "../router.js";
 import { finishRoundManual } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
-import { modeName } from "./config/modes.js";
+import { modeName, effectiveRoundTime } from "./config/modes.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -14,6 +14,7 @@ function groupColorClass(groupIndex) {
 export function screenRound() {
   const r = state.round;
   const c = state.config;
+  const roundTime = effectiveRoundTime(c); // Clásico: sin reloj
   const scoreA = state.scores[r.participantA];
   const scoreB = state.scores[r.participantB];
   const pctA = Math.min(100, Math.round((scoreA / c.targetScore) * 100));
@@ -45,12 +46,12 @@ export function screenRound() {
             <div class="loader-bar"><div class="loader-bar-fill round-loading-fill"></div></div>
           </div>
         ` : `
-          <div class="clock ${c.roundTime > 0 && r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${c.roundTime > 0 ? r.timeLeft + "s" : "Sin tiempo"}</span></div>
+          <div class="clock ${roundTime > 0 && r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${roundTime > 0 ? r.timeLeft + "s" : "Sin tiempo"}</span></div>
           <div class="word-wrap">
             <div class="word">${r.word.toUpperCase()}</div>
             ${r.multiplier ? `<div class="multiplier">×${r.multiplier}</div>` : ""}
           </div>
-          ${c.roundTime === 0 ? `<button class="btn btn-ghost" id="finish-round">⏹️ Finalizar ronda</button>` : ""}
+          ${roundTime === 0 ? `<button class="btn btn-ghost" id="finish-round">⏹️ Finalizar ronda</button>` : ""}
         `}
       </div>
 

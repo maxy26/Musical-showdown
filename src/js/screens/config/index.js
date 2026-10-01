@@ -9,7 +9,7 @@ import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
 } from "./presets.js";
-import { modesFor } from "./modes.js";
+import { modesFor, usesRoundTime, allowsNoTime, usesMultipliers, DEFAULT_ROUND_TIME } from "./modes.js";
 import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
@@ -76,22 +76,25 @@ export function screenConfig() {
         </div>
         <div class="field">
           <label>Tiempo por ronda</label>
+          ${usesRoundTime(c.mode) ? `
           <select id="roundtime">
-            ${ROUND_TIME_PRESETS.map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
+            ${ROUND_TIME_PRESETS.filter((o) => o.value !== 0 || allowsNoTime(c.mode)).map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
             ${customValueOption(c.roundTimeMode === "custom", formatCustomTime(c.roundTime))}
             <option value="custom">Personalizado…</option>
-          </select>
+          </select>` : `
+          <p class="field-hint">En Clásico no hay reloj: la ronda termina cuando alguien acierta, cuando los dos fallan o con "Finalizar ronda".</p>`}
         </div>
       </div>
 
+      ${usesMultipliers(c.mode) ? `
       <div class="field">
-        <div class="switch-row">
-          <button type="button" class="switch ${c.multipliers.length > 0 ? "on" : ""}" id="mult-toggle" role="switch" aria-checked="${c.multipliers.length > 0}">
-            <span class="switch-thumb"></span>
-          </button>
-          <span class="switch-label">Multiplicadores</span>
+        <label>Multiplicadores</label>
+        <div class="segmented" id="mult-segment" role="radiogroup" aria-label="Multiplicadores">
+          <button type="button" role="radio" data-mult="on" class="${c.multipliers.length > 0 ? "active" : ""}" aria-checked="${c.multipliers.length > 0}">✨ Con multiplicadores</button>
+          <button type="button" role="radio" data-mult="off" class="${c.multipliers.length > 0 ? "" : "active"}" aria-checked="${c.multipliers.length === 0}">Sin multiplicadores</button>
         </div>
-      </div>
+        <p class="field-hint">${c.multipliers.length > 0 ? "Pueden salir ×2, ×3, ×4 o ×5 en cualquier ronda." : "Todas las rondas valen 100 puntos."}</p>
+      </div>` : ""}
 
       <button class="btn btn-primary btn-block" id="confirm-config">Confirmar configuración</button>
     </div>
@@ -109,12 +112,26 @@ export function screenConfig() {
       const btn = el(`<button class="chip ${active ? "active" : ""}" ${m.enabled ? "" : 'style="opacity:.4;cursor:not-allowed;"'}>
         ${m.label}${m.enabled ? "" : " (próx.)"}
       </button>`);
-      if (m.enabled) btn.onclick = () => { c.mode = m.id; renderModes(); };
+      if (m.enabled) btn.onclick = () => selectMode(m.id);
       else btn.disabled = true;
       box.appendChild(btn);
     });
   }
   renderModes();
+
+  // Cambiar de modo cambia qué opciones se muestran (tiempo, multiplicadores).
+  // Si el modo nuevo no permite "Sin tiempo" y estaba elegido, se pone 30 seg.
+  function selectMode(id) {
+    c.mode = id;
+    fixRoundTimeForMode();
+    render();
+  }
+  function fixRoundTimeForMode() {
+    if (usesRoundTime(c.mode) && !allowsNoTime(c.mode) && c.roundTime === 0) {
+      c.roundTime = DEFAULT_ROUND_TIME;
+      c.roundTimeMode = "preset";
+    }
+  }
 
   root.querySelector("#back").onclick = () => { state.screen = "menu"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
@@ -150,7 +167,8 @@ export function screenConfig() {
     render();
   };
 
-  root.querySelector("#roundtime").onchange = (e) => {
+  const roundTimeSelect = root.querySelector("#roundtime");
+  if (roundTimeSelect) roundTimeSelect.onchange = (e) => {
     const v = e.target.value;
     if (v === "custom-value") return;
     if (v === "custom") {
@@ -189,13 +207,15 @@ export function screenConfig() {
     render();
   }));
 
-  root.querySelector("#mult-toggle").onclick = () => {
-    c.multipliers = c.multipliers.length > 0 ? [] : [2, 3, 4, 5];
+  // Selector "Con / Sin multiplicadores" (diseño B elegido por el usuario).
+  root.querySelectorAll("[data-mult]").forEach((b) => (b.onclick = () => {
+    c.multipliers = b.dataset.mult === "on" ? [2, 3, 4, 5] : [];
     render();
-  };
+  }));
 
   // ---------- Confirmar y arrancar la partida ----------
   root.querySelector("#confirm-config").onclick = () => {
+    fixRoundTimeForMode(); // por si se llegó a Alternativo 1 con "Sin tiempo" elegido
     // Con nombres repetidos no se puede continuar: los campos ya están en rojo
     // y el mensaje aparece antes de "Añadir jugador".
     if (playersSection.refreshDuplicates()) {

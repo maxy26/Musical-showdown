@@ -2,6 +2,7 @@ import { state } from "./state.js";
 import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
 import { groupName, pickRepresentative } from "./groups.js";
+import { effectiveRoundTime, effectiveMultipliers } from "./screens/config/modes.js";
 import {
   roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel,
@@ -69,9 +70,12 @@ export function resetMatchTracking() {
 export function startNextRound() {
   const c = state.config;
   const word = pickWeightedWord();
+  // Multiplicadores y reloj según el modo (Clásico: ninguno de los dos).
+  const multipliers = effectiveMultipliers(c);
+  const roundTime = effectiveRoundTime(c);
   const mult =
-    c.multipliers.length && Math.random() < 0.5
-      ? c.multipliers[Math.floor(Math.random() * c.multipliers.length)]
+    multipliers.length && Math.random() < 0.5
+      ? multipliers[Math.floor(Math.random() * multipliers.length)]
       : null;
 
   const alt1 = c.mode === "alternativo1";
@@ -122,7 +126,7 @@ export function startNextRound() {
   state.round = {
     participantA: A, participantB: B, showA, showB, groupA, groupB,
     word, multiplier: mult,
-    timeLeft: c.roundTime, timerId: null, paused: false, phase: "intro",
+    timeLeft: roundTime, timerId: null, paused: false, phase: "intro",
     selected: null, lastResult: null,
     failed: { A: false, B: false }, // Clásico: qué lado ya usó su único intento
   };
@@ -139,7 +143,7 @@ export function startNextRound() {
 
 export function startTimer() {
   const c = state.config;
-  if (c.roundTime === 0) return; // sin tiempo
+  if (effectiveRoundTime(c) === 0) return; // sin reloj (Clásico o "Sin tiempo")
   clearInterval(state.round.timerId);
   state.round.timerId = setInterval(() => {
     if (state.round.paused) return;

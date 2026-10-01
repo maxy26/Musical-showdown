@@ -225,8 +225,14 @@
   minutos"); por debajo de 2 min quedan libres. El mínimo es 5 segundos
   (0:00 sería "Sin tiempo", que ya es otra opción).
 - **Multiplicadores**: son exactamente 4, fijos (×2, ×3, ×4, ×5), y se
-  activan/desactivan **todos juntos** con un único interruptor maestro
-  (no hay interruptores individuales por multiplicador).
+  activan/desactivan **todos juntos** con el selector de dos opciones "✨ Con
+  multiplicadores | Sin multiplicadores" (diseño elegido por el usuario el
+  30-09-2026). **Solo aparecen en Alternativo 1** (y por ahora en
+  Alternativo 2); en **Clásico no hay multiplicadores**.
+- **Tiempo por ronda según el modo** (30-09-2026): en **Clásico no hay
+  reloj** (en su lugar, una nota lo explica); en **Alternativo 1** el tiempo
+  es obligatorio y no existe "Sin tiempo" (si estaba elegido, al pasar a
+  Alternativo 1 queda en 30 seg).
 - Sin multiplicador, cada acierto suma **100 puntos** (ese es el valor
   base; con multiplicador se multiplica por él).
 

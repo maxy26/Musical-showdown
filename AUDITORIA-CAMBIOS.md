@@ -13,6 +13,60 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 2): configuración por modo
+
+**Contexto:** el usuario terminó de definir Alternativo 1:
+- Puntos: el ganador suma, el perdedor resta, y si nadie acierta los dos
+  restan la mitad.
+- Fin de la partida al llegar al objetivo, con podio y MVP.
+- Multiplicadores solo en Alternativo 1, con el diseño B, elegido tras una
+  maqueta con 3 opciones.
+- Clásico sin reloj.
+Todo quedó en pendientes, guardado en commits a medida que respondía. Se
+acordó programarlo en 4 partes; esta es la 1.
+
+**Qué se hizo**
+1. `screens/config/modes.js`: nuevas reglas por modo, `usesRoundTime`,
+   `allowsNoTime`, `usesMultipliers`, `effectiveRoundTime`,
+   `effectiveMultipliers` y `DEFAULT_ROUND_TIME` (30).
+2. `screens/config/index.js`:
+   - **Clásico:** no muestra la lista de tiempo; en su lugar, una nota
+     explica que no hay reloj. Tampoco muestra multiplicadores.
+   - **Alternativo 1:** lista de tiempo sin "Sin tiempo" y el nuevo selector
+     "✨ Con multiplicadores | Sin multiplicadores" (`.segmented`).
+   - Al cambiar de modo se vuelve a dibujar la pantalla; si el modo no permite
+     "Sin tiempo" y estaba elegido, queda en 30 seg (también al confirmar).
+3. `gameLogic.js` y `round.js`: la ronda usa `effectiveRoundTime` y
+   `effectiveMultipliers`. Clásico juega sin reloj (con "Finalizar ronda") y
+   sin multiplicadores aunque la configuración guarde otros valores.
+4. `styles.css`: se quitó el interruptor viejo (`.switch*`) y se agregó
+   `.segmented`.
+5. Nuevo `test/modos.test.js` con 3 pruebas.
+6. Contexto (configuración) e instrucción 20 actualizados: multiplicadores
+   solo en Alternativo 1, con el selector B; Clásico sin reloj.
+
+**Archivos tocados:** `src/js/screens/config/modes.js`,
+`src/js/screens/config/index.js`, `src/js/gameLogic.js`, `src/js/screens/round.js`,
+`src/css/styles.css`, `test/modos.test.js` (nuevo),
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`,
+`PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 73 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 11 de 11.
+  - Clásico: sin lista de tiempo ni multiplicadores; en 40 rondas, ningún
+    multiplicador; la ronda dice "Sin tiempo" y tiene "Finalizar ronda".
+  - Alternativo 1: lista sin "Sin tiempo"; el selector cambia los
+    multiplicadores y la nota; de "Sin tiempo" pasa a 30 seg; en 40 rondas
+    salieron multiplicadores en 23; reloj de 30s.
+- Capturas de la configuración en los dos modos revisadas.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** confirmar los 30 seg y la nota de Clásico; partes 2 (puntos),
+3 (podio) y 4 (relevo).
+
+---
+
 ## 2026-09-30 — Sesión 5: reglas del relevo e intento único en Clásico
 
 **Decisiones del usuario** (en varias rondas de preguntas):
