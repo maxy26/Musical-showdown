@@ -77,6 +77,12 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
+  30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
+  pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
+  la velocidad del MVP se mide hasta que el moderador toca ese botón. Definir
+  con el usuario si quiere un "pulsador" para los jugadores y cómo funcionaría.
+
 - [ ] 🟡 **Lista de jugadores: navegar con las flechas del teclado y confirmar
   con Enter** (pedido del usuario, 29-09-2026). En "Configurar partida", poder
   moverse entre los campos de jugadores con ↑ ↓ y confirmar con Enter. Antes de
@@ -186,8 +192,11 @@
        su grupo** (lo que ganó cuando cantó menos lo que perdió en sus rondas),
        teniendo en cuenta además **la velocidad** con que respondió ("el que
        adivinó en un segundo se lo merece más que el que respondió al final").
-       Dudas abiertas: cómo pesa la velocidad, cómo se mide y si afecta solo al
-       MVP o también a los puntos del juego.
+       Confirmado: la velocidad **solo desempata** (primero los puntos aportados;
+       si empatan, el que respondió más rápido en promedio) y **afecta solo al
+       MVP**, no a los puntos del juego. Se mide **desde que aparece la palabra
+       hasta que se toca el botón del jugador o equipo para responder**; hoy ese
+       botón lo toca el moderador (ver el pendiente del "botón para pedir cantar").
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
        intento. Las rondas van **sin reloj**: duran hasta que alguien acierta,
