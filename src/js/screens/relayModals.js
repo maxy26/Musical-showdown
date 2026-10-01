@@ -2,7 +2,8 @@ import { state } from "../state.js";
 import { escapeHtml } from "../utils.js";
 import { render } from "../router.js";
 import { useRelay, applyRelayPenalty } from "../gameLogic.js";
-import { adjustRelays } from "../relay.js";
+import { adjustRelays, RELAYS_PER_TEAM, relayPenaltyChanges } from "../relay.js";
+import { formatDelta } from "../scoring.js";
 import { showConfirm } from "./modals.js";
 
 /**
@@ -30,9 +31,12 @@ export function openRelay(side) {
   const resume = () => { state.round.paused = false; render(); };
 
   if (left === 0) {
+    // Relevo prohibido (ya usaron los 3): se avisa a qué se someten antes de confirmar.
+    const other = side === "A" ? r.participantB : r.participantA;
+    const penalty = relayPenaltyChanges(side, r.multiplier);
     showConfirm({
-      title: "No les quedan relevos",
-      message: `Si ${escapeHtml(team.name)} usa el relevo igual, resta la mitad del valor de la ronda y el otro equipo gana la ronda.`,
+      title: "🚫 Ya usaron sus 3 relevos",
+      message: `Si ${escapeHtml(team.name)} usa un 4.º relevo, pierde la ronda: <b>${formatDelta(penalty[side])} puntos</b> para ${escapeHtml(team.name)} y <b>${formatDelta(penalty[side === "A" ? "B" : "A"])} puntos</b> para ${escapeHtml(other)}, sin cantar.`,
       noText: "Cancelar",
       yesText: "Usarlo igual",
       onYes: () => applyRelayPenalty(side),
@@ -72,7 +76,7 @@ export function openRelay(side) {
   };
 }
 
-/** Botón "±": agregar o quitar relevos de un equipo (sin máximo; no baja de 0). */
+/** Botón "±": agregar o quitar relevos de un equipo (entre 0 y 3, el máximo por partida). */
 export function openRelayAdjust(side) {
   const r = state.round;
   const team = teamOf(side);
@@ -87,7 +91,7 @@ export function openRelayAdjust(side) {
       <span class="relay-adjust-value" id="relay-value">${value}</span>
       <button type="button" class="step-btn" id="relay-plus" aria-label="Agregar un relevo">+</button>
     </div>
-    <p class="field-hint">Por ejemplo, para devolver un relevo usado por error.</p>
+    <p class="field-hint">Por ejemplo, para devolver un relevo usado por error. Máximo ${RELAYS_PER_TEAM} por partida.</p>
     <div class="btn-row" style="margin-top:16px;">
       <button class="btn btn-secondary btn-block" id="relay-cancel">Cancelar</button>
       <button class="btn btn-primary btn-block" id="relay-save">Confirmar</button>
@@ -97,6 +101,7 @@ export function openRelayAdjust(side) {
   const show = () => {
     overlay.querySelector("#relay-value").textContent = value;
     overlay.querySelector("#relay-minus").disabled = value === 0;
+    overlay.querySelector("#relay-plus").disabled = value === RELAYS_PER_TEAM;
   };
   overlay.querySelector("#relay-minus").onclick = () => { value = adjustRelays(value, -1); show(); };
   overlay.querySelector("#relay-plus").onclick = () => { value = adjustRelays(value, 1); show(); };

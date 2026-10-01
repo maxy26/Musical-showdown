@@ -13,9 +13,9 @@ test("el relevo existe solo en Alternativo 1 – Grupal, con 3 por equipo", () =
   assert.equal(RELAYS_PER_TEAM, 3);
 });
 
-test("agregar o quitar relevos: sin máximo y nunca menos de 0", () => {
-  assert.equal(adjustRelays(3, 1), 4);
-  assert.equal(adjustRelays(9, 1), 10);
+test("agregar o quitar relevos: entre 0 y 3 (3 es el máximo estricto por partida)", () => {
+  assert.equal(adjustRelays(2, 1), 3);
+  assert.equal(adjustRelays(3, 1), 3);
   assert.equal(adjustRelays(1, -1), 0);
   assert.equal(adjustRelays(0, -1), 0);
 });

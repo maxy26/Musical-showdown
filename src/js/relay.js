@@ -2,8 +2,9 @@
  * Relevo: comodín de Alternativo 1 – Grupal (reglas definidas por el usuario
  * el 29 y 30-09-2026, CONTEXTO-MUSICAL-SHOWDOWN.md sección 3). Funciones puras.
  *
- *   - 3 relevos por equipo para toda la partida, sin recuperarse. Se pueden
- *     agregar o quitar con un botón (sin máximo; no baja de 0).
+ *   - 3 relevos por equipo para toda la partida, sin recuperarse: es el
+ *     máximo estricto (decisión del usuario, 01-10-2026). Con el botón "±" se
+ *     pueden quitar o devolver (por ejemplo, uno usado por error), entre 0 y 3.
  *   - Como mucho 1 por equipo y por ronda, y se pide antes de responder.
  *   - Si se usa sin tener relevos: ese equipo resta la mitad del valor de la
  *     ronda y el otro suma el valor completo sin cantar; la ronda termina.
@@ -17,9 +18,9 @@ export function hasRelay(mode, battleType) {
   return mode === "alternativo1" && battleType === "grupal";
 }
 
-/** Relevos de un equipo después de agregar (+1) o quitar (−1): nunca menos de 0. */
+/** Relevos de un equipo después de agregar (+1) o quitar (−1): entre 0 y 3. */
 export function adjustRelays(current, delta) {
-  return Math.max(0, current + delta);
+  return Math.min(RELAYS_PER_TEAM, Math.max(0, current + delta));
 }
 
 /**

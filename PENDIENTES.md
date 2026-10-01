@@ -242,10 +242,10 @@
   compañeros, confirmar; 1 por equipo y por ronda, antes de responder), botón
   "±" para agregar o quitar (sin máximo, mínimo 0) y penalización si lo usan
   sin tener (−la mitad para ellos y el valor completo para el otro, con aviso
-  previo). Con esto **el paquete de Alternativo 1 quedó completo**. ❓ Confirmar
-  con el usuario dos detalles que se decidieron: el aviso antes de aplicar la
-  penalización ("No les quedan relevos… ¿Usarlo igual?") y que el botón "±"
-  también pausa la ronda mientras está abierto.
+  previo). Con esto **el paquete de Alternativo 1 quedó completo**. El usuario
+  confirmó el aviso y la pausa del "±". **Ajuste del 01-10-2026:** 3 relevos es el
+  **máximo estricto** por partida (el "±" no deja pasar de 3), y el aviso del
+  4.º relevo dice exactamente a qué se someten, con los puntos de esa ronda.
 
 - [x] 2026-10-01: **Podio y MVP** (parte 3), en todos los modos: ganador, podio
   de los 3 mejores puestos (empatados en el mismo puesto), MVP de cada equipo en

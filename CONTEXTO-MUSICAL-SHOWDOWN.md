@@ -97,8 +97,11 @@
     resta **la mitad del valor de la ronda**, la ronda se pierde y el **otro
     equipo suma el valor completo sin cantar** (con ×2: −100 y +200).
   - En la pantalla de la ronda: **3 símbolos** con los relevos que le quedan a
-    cada equipo y, al lado, un botón para **agregar o quitar** relevos con
-    confirmación (sin máximo; no baja de 0).
+    cada equipo y, al lado, un botón **"±"** para agregar o quitar relevos con
+    confirmación. **3 es el máximo estricto** por partida (decisión del usuario,
+    01-10-2026, en lugar de "sin máximo"); no baja de 0.
+  - **Relevo prohibido (el 4.º):** antes de confirmar aparece un aviso con lo
+    que pierden, con los puntos exactos de esa ronda.
   - **Puntos negativos** permitidos, mostrados en **rojo bien visible**.
 
 ### Emparejamientos de Clásico y Alternativo 1 (definidos por el usuario el 28-09-2026)
