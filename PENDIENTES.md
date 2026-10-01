@@ -77,6 +77,12 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🔴 **CRÍTICO — Experimentar con un diseño general nuevo de la aplicación**
+  (pedido del usuario, 01-10-2026). Quiere intentar modificar o experimentar el
+  diseño de toda la app. Antes de tocar nada: preguntarle qué le gustaría
+  cambiar o qué estilo busca, y proponerle maquetas interactivas para comparar,
+  como se hizo con la rueda y el selector de multiplicadores.
+
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -159,7 +165,7 @@
        ambos.
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-  2. **Puntos de Alternativo 1** (confirmado por el usuario, 30-09-2026):
+  2. ✅ **Puntos de Alternativo 1 — programado el 01-10-2026** (confirmado por el usuario el 30-09-2026):
      - Los intentos fallidos **no restan durante la ronda**. Al terminar:
        - el que acierta **suma** el valor de la ronda (100 × multiplicador);
        - el que pierde la ronda **resta ese mismo valor**, **siempre**, aunque no
@@ -222,13 +228,19 @@
 
 ## ✅ Resueltos
 
+- [x] 2026-10-01: **Puntos de Alternativo 1** (parte 2): el que acierta suma el
+  valor de la ronda y el que pierde lo resta; si se acaba el tiempo sin aciertos,
+  los dos restan la mitad. Puntajes negativos en rojo con brillo, en la ronda, en
+  el resultado y en la lista final. Clásico sigue igual: el que acierta suma y
+  nadie resta.
+
 - [x] 2026-10-01: **Configuración por modo** (parte 1 del paquete de Alternativo 1):
   Clásico sin reloj ni multiplicadores; Alternativo 1 con tiempo obligatorio (sin
   "Sin tiempo"; si estaba elegido queda en 30 seg) y el selector "Con / Sin
   multiplicadores" (diseño B). Alternativo 2, sin reglas propias, queda como
-  antes. ❓ Confirmar con el usuario que 30 seg está bien como valor al pasar de
-  "Sin tiempo" a Alternativo 1, y la nota que reemplaza a la lista de tiempo en
-  Clásico.
+  antes. En Clásico el espacio del tiempo queda **vacío** (el usuario no quiso la
+  nota). ❓ Confirmar con el usuario los 30 seg al pasar de "Sin tiempo" a
+  Alternativo 1 (se le volvió a explicar con un ejemplo).
 
 - [x] 2026-09-30: **Un solo intento por ronda en Clásico** (Individual y Grupal): el
   lado que falla queda apagado ("Ya usó su intento") y si los dos fallan la ronda

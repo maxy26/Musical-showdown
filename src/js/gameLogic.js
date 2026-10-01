@@ -3,6 +3,7 @@ import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
 import { groupName, pickRepresentative } from "./groups.js";
 import { effectiveRoundTime, effectiveMultipliers } from "./screens/config/modes.js";
+import { roundScoreChanges, roundValue } from "./scoring.js";
 import {
   roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel,
@@ -166,15 +167,29 @@ function updateClockOnly() {
   clockEl.querySelector("span").textContent = t + "s";
 }
 
+/**
+ * Aplica los puntos del final de la ronda según el modo (ver scoring.js) y
+ * devuelve los cambios para mostrarlos: [{ who, delta, newScore }, …].
+ * `winnerSide`: "A", "B" o null si nadie acertó.
+ */
+function applyRoundScores(winnerSide) {
+  const r = state.round;
+  const changes = roundScoreChanges(state.config.mode, winnerSide, r.multiplier);
+  return [["A", r.participantA], ["B", r.participantB]].map(([side, who]) => {
+    state.scores[who] = (state.scores[who] || 0) + changes[side];
+    return { who, delta: changes[side], newScore: state.scores[who] };
+  });
+}
+
 function timeOut() {
-  state.round.lastResult = { type: "timeout" };
+  state.round.lastResult = { type: "timeout", changes: applyRoundScores(null) };
   state.screen = "round-result";
   render();
 }
 
 export function finishRoundManual() {
   clearInterval(state.round.timerId);
-  state.round.lastResult = { type: "finished" };
+  state.round.lastResult = { type: "finished", changes: applyRoundScores(null) };
   state.screen = "round-result";
   render();
 }
@@ -193,11 +208,10 @@ export function resolveAnswer(correct) {
   const who = r.selected === "A" ? r.participantA : r.participantB;
 
   if (correct) {
-    const base = 100; // sin multiplicador, la ronda suma de 100 en 100
-    const pts = base * (r.multiplier || 1);
-    state.scores[who] += pts;
+    clearInterval(r.timerId);
     state.usedSongs.push(songKey(state.verify.selectedSong));
-    r.lastResult = { type: "correct", who, pts, newScore: state.scores[who] };
+    const changes = applyRoundScores(r.selected);
+    r.lastResult = { type: "correct", who, pts: roundValue(r.multiplier), changes };
     state.screen = "round-result";
   } else if (hasSingleAttempt(state.config.mode)) {
     // Clásico: ese lado ya usó su único intento. Si los dos fallaron, la
@@ -205,7 +219,7 @@ export function resolveAnswer(correct) {
     r.failed = { ...r.failed, [r.selected]: true };
     if (r.failed.A && r.failed.B) {
       clearInterval(r.timerId);
-      r.lastResult = { type: "both-failed" };
+      r.lastResult = { type: "both-failed", changes: applyRoundScores(null) };
       state.screen = "round-result";
     } else {
       r.lastResult = { type: "incorrect", who };

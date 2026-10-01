@@ -13,6 +13,59 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 3): puntos de Alternativo 1
+
+**Ajustes pedidos por el usuario:**
+- Dejar **vacío** el espacio del tiempo en Clásico: se quitó la nota y el campo
+  no se muestra.
+- Pendiente **crítico** nuevo: experimentar con un diseño general nuevo de la
+  app (preguntar primero qué busca y proponer maquetas).
+- No entendió la pregunta de los 30 seg al pasar de "Sin tiempo" a Alternativo
+  1: se le vuelve a explicar con un ejemplo (queda por confirmar).
+- Subido a GitHub `54144fc`.
+
+**Qué se hizo (parte 2 del paquete de Alternativo 1)**
+1. Nuevo `src/js/scoring.js` (funciones puras):
+   - `roundValue`: 100 × multiplicador.
+   - `roundScoreChanges(mode, ganador, multiplicador)`: en Alternativo 1, el
+     que acierta suma el valor y el que pierde lo resta; si nadie acierta, los
+     dos restan la mitad. En Clásico y en Alternativo 2, el que acierta suma y
+     nadie resta.
+   - `formatPoints` ("−200") y `formatDelta` ("+200", "−150", "±0").
+2. `gameLogic.js`: nueva `applyRoundScores()`, usada al acertar, al acabarse
+   el tiempo, con "Finalizar ronda" y cuando los dos fallan. Guarda en
+   `lastResult.changes` el cambio de cada lado. Al acertar ahora se detiene el
+   reloj (antes quedaba corriendo en pausa).
+3. `roundResult.js`: muestra una línea por lado ("Carlos 0 → −200 −200"), y si
+   se acaba el tiempo explica que los dos restan la mitad.
+4. Puntajes negativos en **rojo con brillo** (`.score-negative`) en la ronda,
+   en el resultado y en la lista final. La barra de progreso no baja de 0.
+5. `sw.js`: se agrega `scoring.js` y `CACHE_NAME` pasa a v7.
+6. Nuevo `test/puntos.test.js` con 6 pruebas, incluido el ejemplo del usuario:
+   objetivo 500; María 250 y Carlos 400; Carlos gana → 500, María 150.
+
+**Archivos tocados:** `src/js/scoring.js` (nuevo), `src/js/gameLogic.js`,
+`src/js/screens/roundResult.js`, `src/js/screens/round.js`,
+`src/js/screens/results.js`, `src/js/screens/config/index.js`,
+`src/css/styles.css`, `src/sw.js`, `test/puntos.test.js` (nuevo),
+`CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación**
+- `npm test`: 79 pasan y 1 pendiente. `npm run lint`: sin errores.
+- En Edge: 6 de 6.
+  - Alternativo 1 ×2: +200 y −200, con la línea negativa en rojo; en la ronda,
+    "−200 pts" en rojo.
+  - Fin por tiempo con el reloj real y ×3: los dos restan 150, con el aviso.
+  - Clásico: +100 y el otro no resta.
+- Capturas del resultado y de la ronda revisadas. Una primera versión de la
+  página de prueba quedó rota por una edición automática y se reescribió.
+- `build:apk` y `build:desktop`: ambos bien. Se abrió el `.exe` para el usuario.
+
+**Quedó abierto:** confirmar los 30 seg; partes 3 (podio y MVP) y 4 (relevo);
+diseño general (crítico).
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 2): configuración por modo
 
 **Contexto:** el usuario terminó de definir Alternativo 1:

@@ -2,6 +2,7 @@ import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { startNextRound, hasSingleAttempt } from "../gameLogic.js";
+import { formatPoints, formatDelta } from "../scoring.js";
 
 export function screenRoundResultIncorrect() {
   const r = state.round;
@@ -27,17 +28,27 @@ export function screenRoundResultIncorrect() {
 export function screenRoundResult() {
   const r = state.round;
   const c = state.config;
+  const result = r.lastResult;
+  const changes = result.changes || [];
+  const anyLoss = changes.some((ch) => ch.delta < 0);
+  // Una línea por lado con su cambio de puntos (solo si alguien ganó o perdió).
+  const lines = changes.some((ch) => ch.delta !== 0) ? `<div class="score-changes">${changes.map((ch) => `
+      <div class="score-change">
+        <span>${ch.who}</span>
+        <span>${formatPoints(ch.newScore - ch.delta)} → <b class="${ch.newScore < 0 ? "score-negative" : ""}">${formatPoints(ch.newScore)}</b>
+          <span class="delta ${ch.delta < 0 ? "delta-negative" : ch.delta > 0 ? "delta-positive" : ""}">${formatDelta(ch.delta)}</span></span>
+      </div>`).join("")}</div>` : "";
   let content;
-  if (r.lastResult.type === "timeout") {
-    content = `<div class="big">⏰ ¡Tiempo agotado!</div><p class="panel-title">Sin ganador · +0 puntos</p>`;
-  } else if (r.lastResult.type === "both-failed") {
+  if (result.type === "timeout") {
+    content = `<div class="big">⏰ ¡Tiempo agotado!</div>
+      <p class="panel-title">Sin ganador · ${anyLoss ? "los dos restan la mitad del valor de la ronda" : "+0 puntos"}</p>${lines}`;
+  } else if (result.type === "both-failed") {
     content = `<div class="big">❌ Nadie acertó</div><p class="panel-title">Los dos usaron su intento · +0 puntos</p>`;
-  } else if (r.lastResult.type === "finished") {
+  } else if (result.type === "finished") {
     content = `<div class="big">⏹️ Ronda finalizada</div><p class="panel-title">Sin ganador · +0 puntos</p>`;
   } else {
     content = `<div class="big">✅ ¡Correcto!</div>
-      <div class="pts" style="color:var(--gold);">+${r.lastResult.pts}</div>
-      <p class="panel-title">${r.lastResult.who}: ${r.lastResult.newScore - r.lastResult.pts} → ${r.lastResult.newScore}</p>`;
+      <div class="pts" style="color:var(--gold);">+${result.pts}</div>${lines}`;
   }
 
   const root = el(`<div class="screen"><div class="card result-banner">${content}

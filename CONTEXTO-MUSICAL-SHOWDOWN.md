@@ -233,6 +233,10 @@
   reloj** (en su lugar, una nota lo explica); en **Alternativo 1** el tiempo
   es obligatorio y no existe "Sin tiempo" (si estaba elegido, al pasar a
   Alternativo 1 queda en 30 seg).
+- **Puntos de Alternativo 1** (usuario, 30-09-2026; programado el 01-10-2026):
+  el que acierta suma el valor de la ronda y **el que pierde la ronda resta ese
+  mismo valor**, siempre; si nadie acierta, **los dos restan la mitad**. Los
+  puntajes pueden quedar negativos, sin límite, y se muestran en **rojo**.
 - Sin multiplicador, cada acierto suma **100 puntos** (ese es el valor
   base; con multiplicador se multiplica por él).
 

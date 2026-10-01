@@ -324,3 +324,14 @@ input.mini{width:100%;padding:8px 10px;font-size:12px;}
 .result-banner .pts{font-family:'Unbounded';font-size:42px;margin:8px 0;}
 .small-note{font-size:13px;color:var(--text-dim);text-align:center;margin-top:18px;}
 ol{color:var(--text-dim);font-size:14px;line-height:1.8;padding-left:20px;}
+
+/* ---------- Puntos (Alternativo 1 puede dejar puntajes negativos) ---------- */
+/* Negativos en rojo bien visible (pedido del usuario) */
+.score-negative{color:#FF6B6B !important;text-shadow:0 0 12px rgba(255,71,71,.45);}
+.score-changes{margin:14px auto 4px;max-width:360px;display:flex;flex-direction:column;gap:8px;}
+.score-change{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 12px;
+  border-radius:10px;background:rgba(245,240,255,0.04);font-size:14px;}
+.score-change b{font-family:'Unbounded',sans-serif;}
+.delta{font-weight:700;margin-left:8px;}
+.delta-positive{color:var(--teal);}
+.delta-negative{color:#FF6B6B;}

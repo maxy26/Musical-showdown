@@ -5,6 +5,7 @@ import { finishRoundManual } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
 import { muteButtonHTML, bindMuteButtons } from "../sound.js";
 import { modeName, effectiveRoundTime } from "./config/modes.js";
+import { formatPoints } from "../scoring.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -17,8 +18,8 @@ export function screenRound() {
   const roundTime = effectiveRoundTime(c); // Clásico: sin reloj
   const scoreA = state.scores[r.participantA];
   const scoreB = state.scores[r.participantB];
-  const pctA = Math.min(100, Math.round((scoreA / c.targetScore) * 100));
-  const pctB = Math.min(100, Math.round((scoreB / c.targetScore) * 100));
+  const pctA = Math.max(0, Math.min(100, Math.round((scoreA / c.targetScore) * 100)));
+  const pctB = Math.max(0, Math.min(100, Math.round((scoreB / c.targetScore) * 100)));
 
   const root = el(`<div class="screen">
     <div class="top-bar">
@@ -33,7 +34,7 @@ export function screenRound() {
       <div class="side a ${groupColorClass(r.groupA)}">
         <button class="name-btn" id="btn-a">
           ${r.participantA}${r.showA ? `<div class="sub">${r.showA}</div>` : ""}
-          <span class="score">${scoreA} pts</span>
+          <span class="score ${scoreA < 0 ? "score-negative" : ""}">${formatPoints(scoreA)} pts</span>
         </button>
         <div class="progress-track"><div class="progress-fill" style="width:${pctA}%;"></div></div>
       </div>
@@ -58,7 +59,7 @@ export function screenRound() {
       <div class="side b ${groupColorClass(r.groupB)}">
         <button class="name-btn" id="btn-b">
           ${r.participantB}${r.showB ? `<div class="sub">${r.showB}</div>` : ""}
-          <span class="score">${scoreB} pts</span>
+          <span class="score ${scoreB < 0 ? "score-negative" : ""}">${formatPoints(scoreB)} pts</span>
         </button>
         <div class="progress-track"><div class="progress-fill" style="width:${pctB}%;"></div></div>
       </div>

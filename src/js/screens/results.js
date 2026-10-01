@@ -2,6 +2,7 @@ import { state, resetState } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { startNextRound, resetMatchTracking } from "../gameLogic.js";
+import { formatPoints } from "../scoring.js";
 
 export function screenResults() {
   const c = state.config;
@@ -19,7 +20,7 @@ export function screenResults() {
         ${others
           .map(
             (o) => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
-          <span>${o}</span><span>${state.scores[o]} pts</span></div>`
+          <span>${o}</span><span class="${state.scores[o] < 0 ? "score-negative" : ""}">${formatPoints(state.scores[o])} pts</span></div>`
           )
           .join("")}
       </div>

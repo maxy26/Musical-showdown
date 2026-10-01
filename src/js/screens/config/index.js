@@ -74,16 +74,15 @@ export function screenConfig() {
             <option value="custom">Personalizado…</option>
           </select>
         </div>
+        ${usesRoundTime(c.mode) ? `
         <div class="field">
           <label>Tiempo por ronda</label>
-          ${usesRoundTime(c.mode) ? `
           <select id="roundtime">
             ${ROUND_TIME_PRESETS.filter((o) => o.value !== 0 || allowsNoTime(c.mode)).map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
             ${customValueOption(c.roundTimeMode === "custom", formatCustomTime(c.roundTime))}
             <option value="custom">Personalizado…</option>
-          </select>` : `
-          <p class="field-hint">En Clásico no hay reloj: la ronda termina cuando alguien acierta, cuando los dos fallan o con "Finalizar ronda".</p>`}
-        </div>
+          </select>
+        </div>` : ""}
       </div>
 
       ${usesMultipliers(c.mode) ? `
