@@ -91,6 +91,15 @@
   diseño de toda la app. Antes de tocar nada: preguntarle qué le gustaría
   cambiar o qué estilo busca, y proponerle maquetas interactivas para comparar,
   como se hizo con la rueda y el selector de multiplicadores.
+  - 01-10-2026: le gustan los estilos "show de TV", "moderno y limpio" y "casual
+    y divertido". Se conservan el nombre, el ícono y estructuras como la lista
+    de nombres y la pausa; cambian colores y letras. Empezar por la **pantalla
+    de inicio**.
+  - **Experimento 1** (01-10-2026, fuera del proyecto, en la carpeta temporal
+    `scratchpad/diseno-inicio`): inicio en modo oscuro con encabezado de botones
+    circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
+    cuenta regresiva y accesos rápidos, según una especificación del usuario.
+    **No se integra al juego hasta que el usuario elija el diseño final.**
 
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
