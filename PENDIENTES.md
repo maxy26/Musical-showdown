@@ -240,10 +240,9 @@
 - [x] 2026-10-01: **Podio y MVP** (parte 3), en todos los modos: ganador, podio
   de los 3 mejores puestos (empatados en el mismo puesto), MVP de cada equipo en
   Grupal (más puntos aportados; si empatan, el más rápido en promedio) y "Ver
-  más" con el resto. ❓ Confirmar con el usuario la forma de numerar los puestos
-  con empate: se usó 1, 2, 2, **3** (el siguiente puntaje toma el puesto que
-  sigue), no 1, 2, 2, 4. También que "Ver más" no aparece cuando todos están
-  en el podio.
+  más" con el resto. El usuario confirmó los puestos con empate **1, 2, 2, 3** y
+  que "Ver más" no aparece cuando todos están en el podio (también con menos de
+  3, en Individual y en Grupal).
 
 - [x] 2026-10-01: **Puntos de Alternativo 1** (parte 2): el que acierta suma el
   valor de la ronda y el que pierde lo resta; si se acaba el tiempo sin aciertos,
