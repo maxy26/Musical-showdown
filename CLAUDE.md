@@ -77,6 +77,8 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
   - El temporizador avanza con `setInterval`. `updateClockOnly()` actualiza `.clock` directamente en lugar de volver a renderizar.
   - El puntaje es 100 × multiplicador.
   - Las canciones no se bloquean: una ya cantada se puede volver a elegir (decisión del usuario, 01-10-2026).
+- Pantalla de inicio (`screens/menu.js`, rediseño del 01-10-2026): ahí se eligen el tipo de batalla y el modo (ya no en "Configurar partida"). Las hojas emergentes usan `screens/sheet.js`. Las luces de fondo están en `index.html`, fuera de `#app`, para que sigan en todas las pantallas.
+- `settings.js` guarda en el dispositivo la preferencia "Animaciones: Sí / No" y la aplica con `html[data-anim]`. Las animaciones van siempre encendidas por decisión del usuario: no usar `prefers-reduced-motion` (en la PC del usuario Windows tiene las animaciones apagadas).
 - `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.
 

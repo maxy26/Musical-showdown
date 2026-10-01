@@ -29,31 +29,17 @@ export function duplicateNameIndexes(names) {
 
 /**
  * Wire completo de la sección "Jugadores": alta/baja de filas, primera letra
- * de cada palabra en mayúscula al escribir (titleCaseName), y
- * habilitar/deshabilitar el modo Grupal en vivo
- * (se necesitan 4+ jugadores escritos). `onBattleTypeForcedIndividual` se
- * llama si había Grupal seleccionado y dejó de alcanzar para 4 jugadores,
- * para que quien llama pueda re-renderizar la pantalla completa.
+ * de cada palabra en mayúscula al escribir (titleCaseName), y la nota en vivo
+ * de Grupal (se necesitan 4+ jugadores escritos). El tipo de batalla se elige
+ * en el inicio y aquí nunca se cambia solo (opción A del usuario, 01-10-2026).
  */
-export function initPlayersSection(root, c, onBattleTypeForcedIndividual) {
+export function initPlayersSection(root, c) {
   function refreshGroupAvailability() {
     const typed = countTypedPlayers(c.players);
-    const ok = typed >= 4;
-    const groupChip = root.querySelector('[data-battle="grupal"]');
     const note = root.querySelector("#group-note");
-    if (groupChip) {
-      groupChip.disabled = !ok;
-      groupChip.style.opacity = ok ? "" : ".4";
-      groupChip.style.cursor = ok ? "" : "not-allowed";
-    }
-    if (note) {
-      note.style.display = ok ? "none" : "block";
-      note.textContent = `Necesitas al menos 4 jugadores escritos para jugar en grupo (llevas ${typed}).`;
-    }
-    if (!ok && c.battleType === "grupal") {
-      c.battleType = "individual";
-      onBattleTypeForcedIndividual();
-    }
+    if (!note) return;
+    note.hidden = !(c.battleType === "grupal" && typed < 4);
+    note.textContent = `Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typed}).`;
   }
 
   // Nombres repetidos: los campos se marcan en rojo y aparece un mensaje

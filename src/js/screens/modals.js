@@ -167,6 +167,21 @@ export function showWarning(message) {
 }
 
 /**
+ * Aviso corto abajo de la pantalla que se va solo (por ejemplo, "Modo
+ * elegido: Clásico"). Para avisos que el jugador debe leer y cerrar, usar
+ * showWarning().
+ */
+export function showToast(message) {
+  document.querySelectorAll(".toast").forEach((t) => t.remove());
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.setAttribute("role", "status");
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2400);
+}
+
+/**
  * Ventana de confirmación propia (reemplaza al confirm() nativo del
  * navegador). Mismo diseño que "¿Salir de la partida?" en la pausa.
  * `onYes` solo se llama si se elige la opción afirmativa; "No" cierra sin más.

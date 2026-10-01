@@ -13,6 +13,55 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 9): nueva pantalla de inicio integrada al juego
+
+**Decisiones del usuario**
+- El estilo del inicio queda **finalizado** y se programa en el juego.
+- Animaciones: **opción C**. Siempre encendidas, aunque el sistema pida reducir
+  el movimiento, con un interruptor en Ajustes. Se descubrió que en la PC del
+  usuario Windows tiene apagados los "Efectos de animación" y por eso el
+  experimento se veía quieto en su navegador.
+- Opción A con su cambio: con Grupal y menos de 4 jugadores se avisa y se queda
+  en "Configurar partida".
+
+**Qué se hizo**
+- `screens/menu.js` reescrito: encabezado (tuerca → Ajustes, campana →
+  Notificaciones sin avisos todavía, "?" → ayuda), escenario con el nombre,
+  interruptor Individual | Grupal con "Jugar", "Modos de juego" y "Modo: …"
+  debajo. Se quitó la nota "La búsqueda de canciones usa una base local de
+  ejemplo…" del menú viejo.
+- Nuevos: `screens/modesManual.js` (manual con historietas, "Ver más",
+  "Elegir…", `modeAllowed()`), `screens/sheet.js` (hoja con X, afuera o
+  Escape), `icons.js` (SVG), `settings.js` (Animaciones Sí/No guardadas en el
+  dispositivo, con try/catch). `showToast()` en `modals.js`.
+- `index.html`: luces de fondo para todas las pantallas, letras Fredoka y
+  Nunito, color de la barra del sistema. `main.js`: `applySettings()` antes del
+  primer render.
+- `config/index.js` y `players.js`: se quitaron "Tipo de batalla" y "Modo de
+  juego"; resumen "👤 Individual · Clásico"; nota en vivo y aviso de Grupal con
+  menos de 4 sin cambiar a Individual; botón "← Inicio".
+- `styles.css`: colores del rediseño en `:root`, fondo de escenario para todo
+  el juego, estilos del inicio, la hoja, el manual y
+  `html[data-anim="off"]`. Se quitaron los estilos `.hero` del menú viejo.
+- `sw.js`: 4 archivos nuevos en `ASSETS` y caché `v10`. Prueba nueva
+  `test/inicio.test.js` (preferencias y modos permitidos).
+- Documentos: CONTEXTO (pantalla de inicio y configuración), PENDIENTES.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 94 pasan + 1
+pendiente. Medición en tiempo real del ángulo de las luces (cambian de −28° a
+−8° en 6 s). Capturas con Edge sin ventana del juego real en 360 px y
+1280 × 800. Compilados `.exe` y `.apk` y se abrió el juego.
+- Al verificar con Electron, una ejecución fallida le mostró al usuario un
+  diálogo para guardar `electron.exe`. Se le explicó que puede borrarlo. Ya no
+  se usa Electron para verificar.
+
+**Qué quedó abierto:** llevar el estilo a las demás pantallas; letras sin
+internet; fuente de las notificaciones (ver `PENDIENTES.md`). No se revisaron
+con capturas el manual, los ajustes ni la configuración en el juego real
+(sí en el experimento); los revisa el usuario en el `.exe`.
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 8): X para cerrar en la pausa y en las ventanas informativas
 
 **Decisión del usuario:** las ventanas emergentes con información llevan una X

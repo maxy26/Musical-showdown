@@ -1,6 +1,8 @@
 import { render } from "./router.js";
 import { initSound } from "./sound.js";
+import { applySettings } from "./settings.js";
 
+applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
 initSound();
 

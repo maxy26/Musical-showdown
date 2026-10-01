@@ -11,15 +11,32 @@
   --gold:#FFC857;
   --red:#FF4747;
   --radius:18px;
+  /* Rediseño "casual y divertido + luces de show" (elegido por el usuario el 01-10-2026) */
+  --stage-bg:#141833;
+  --stage-glow:#2C3270;
+  --fun-surface:#2E3466;
+  --fun-surface-2:#252A55;
+  --fun-text-dim:#C9CEF5;
+  --fun-accent:#FFD23F;
+  --fun-badge:#FF4D6D;
+  --individual-from:#FF8A3D;
+  --individual-to:#FF4D6D;
+  --grupal-from:#2EC4B6;
+  --grupal-to:#1B8EF2;
+  --light-a:rgba(255,226,150,.30);
+  --light-b:rgba(255,120,190,.24);
+  --light-c:rgba(120,200,255,.22);
+  --font-fun-title:'Fredoka','Nunito',sans-serif;
+  --font-fun-body:'Nunito','Inter',sans-serif;
+  --radius-fun:32px;
 }
 *{box-sizing:border-box;}
 html,body{height:100%;overscroll-behavior:none;}
 body{
   margin:0;
-  background:
-    radial-gradient(60% 50% at 50% -10%, rgba(255,197,87,0.10), transparent 60%),
-    radial-gradient(70% 60% at 100% 100%, rgba(58,199,160,0.08), transparent 60%),
-    var(--bg);
+  /* Fondo de escenario del rediseño (01-10-2026); las luces van encima (.lights) */
+  background:radial-gradient(130% 75% at 50% 0%, var(--stage-glow), var(--stage-bg) 72%) fixed;
+  background-color:var(--stage-bg);
   color:var(--text);
   font-family:'Inter',sans-serif;
   min-height:100%;
@@ -31,7 +48,7 @@ body{
   -webkit-touch-callout:none;
 }
 input,textarea,.lyric-box{-webkit-user-select:text;user-select:text;} /* pero sí se puede seleccionar texto en campos y letras */
-#app{width:100%;max-width:980px;}
+#app{width:100%;max-width:980px;position:relative;z-index:1;} /* encima de las luces */
 h1,h2,h3{font-family:'Unbounded',sans-serif;margin:0;}
 button{font-family:'Inter',sans-serif;cursor:pointer;border:none;}
 .screen{animation:fadein .35s ease;}
@@ -106,10 +123,9 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
 /* ---------- Pantalla de carga ---------- */
 #loader{
   position:fixed;inset:0;z-index:9999;
-  background:
-    radial-gradient(60% 50% at 50% -10%, rgba(255,197,87,0.10), transparent 60%),
-    radial-gradient(70% 60% at 100% 100%, rgba(58,199,160,0.08), transparent 60%),
-    var(--bg);
+  /* Fondo de escenario del rediseño (01-10-2026); las luces van encima (.lights) */
+  background:radial-gradient(130% 75% at 50% 0%, var(--stage-glow), var(--stage-bg) 72%) fixed;
+  background-color:var(--stage-bg);
   display:flex;align-items:center;justify-content:center;
   transition:opacity .5s ease;
 }
@@ -135,9 +151,6 @@ body{-webkit-tap-highlight-color:transparent;}
 @media (max-width:640px){
   body{padding:20px 14px;}
   .card{padding:18px;}
-  .hero{margin-bottom:24px;}
-  .hero h1{font-size:32px;}
-  .hero p{font-size:14px;}
 
   .top-bar h2{font-size:18px;}
   .icon-btn{padding:8px 12px;font-size:13px;}
@@ -160,7 +173,6 @@ body{-webkit-tap-highlight-color:transparent;}
 }
 
 @media (max-width:380px){
-  .hero h1{font-size:26px;}
   .word{font-size:24px;}
   .side .score{font-size:15px;}
 }
@@ -172,13 +184,11 @@ body{-webkit-tap-highlight-color:transparent;}
 .chip.active{background:var(--pink);color:#1A0E12;border-color:var(--pink);font-weight:600;}
 .chip.active.alt{background:var(--teal);border-color:var(--teal);}
 .config-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+/* Resumen de lo elegido en el inicio (tipo de batalla y modo), que aquí ya no se cambia */
+.config-summary{display:inline-block;margin:0 0 18px;padding:6px 14px;border-radius:999px;background:var(--bg-alt);border:1px solid var(--border);font-weight:600;font-size:14px;}
+.config-group-note{margin:0 0 8px;text-align:left;color:var(--gold);}
 @media (max-width:480px){.config-2col{grid-template-columns:1fr;}}
 
-/* ---------- Menu ---------- */
-.hero{text-align:center;margin-bottom:34px;}
-.hero h1{font-size:44px;font-weight:900;letter-spacing:-0.01em;
-  background:linear-gradient(120deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;}
-.hero p{color:var(--text-dim);margin-top:10px;font-size:16px;}
 
 /* ---------- Players list ---------- */
 .player-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
@@ -376,3 +386,214 @@ ol{color:var(--text-dim);font-size:14px;line-height:1.8;padding-left:20px;}
   background:var(--card-2);color:var(--text);font-size:22px;font-weight:700;cursor:pointer;}
 .relay-adjust-row .step-btn:disabled{opacity:.3;cursor:not-allowed;}
 
+
+/* =====================================================================
+   REDISEÑO 01-10-2026: pantalla de inicio "casual y divertido + luces de
+   show". Decisiones del usuario en PENDIENTES.md ("diseño general").
+   ===================================================================== */
+
+/* ---------- Luces de show en el fondo de todas las pantallas ---------- */
+.lights{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;animation:lights-on 2s ease-out both;}
+.light{position:absolute;top:-12vh;width:46vmax;height:140vh;transform-origin:50% 0;filter:blur(6px);opacity:.9;
+  clip-path:polygon(46% 0, 54% 0, 100% 100%, 0 100%);}
+.light-a{left:-14vmax;background:linear-gradient(180deg, var(--light-a), transparent 85%);animation:sweep-a 7s ease-in-out infinite alternate;}
+.light-b{right:-14vmax;background:linear-gradient(180deg, var(--light-b), transparent 85%);animation:sweep-b 8s ease-in-out infinite alternate;}
+.light-c{left:calc(50% - 23vmax);background:linear-gradient(180deg, var(--light-c), transparent 70%);opacity:.6;
+  clip-path:polygon(47% 0, 53% 0, 85% 100%, 15% 100%);animation:sweep-c 9s ease-in-out infinite alternate;}
+@keyframes lights-on{from{opacity:0;}to{opacity:1;}}
+@keyframes sweep-a{from{transform:rotate(-28deg);}to{transform:rotate(-6deg);}}
+@keyframes sweep-b{from{transform:rotate(26deg);}to{transform:rotate(5deg);}}
+@keyframes sweep-c{from{transform:rotate(-10deg);}to{transform:rotate(10deg);}}
+
+/* Ajustes → Animaciones: No. Apaga TODAS las animaciones y transiciones del juego.
+   (No se usa prefers-reduced-motion: el usuario decidió animar siempre y dar este interruptor.) */
+html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *::after{
+  animation:none !important;transition:none !important;}
+
+/* ---------- Botones del rediseño ---------- */
+.pressable{transition:transform .12s ease, filter .12s ease, box-shadow .12s ease;touch-action:manipulation;}
+.pressable:active{transform:translateY(3px) scale(.97);filter:brightness(.95);}
+.pressable:focus-visible{outline:3px solid var(--fun-accent);outline-offset:3px;}
+.home-round-btn{position:relative;width:44px;height:44px;border-radius:50%;background:var(--fun-surface);color:var(--text);
+  display:grid;place-items:center;box-shadow:0 4px 0 rgba(0,0,0,.3);flex:none;}
+.home-wide-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px 12px;border-radius:999px;
+  background:var(--fun-surface);color:var(--text);font-family:var(--font-fun-body);font-weight:800;font-size:16px;
+  box-shadow:0 6px 0 rgba(0,0,0,.3);}
+.home-wide-icon{color:var(--fun-accent);display:grid;}
+.home-tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;background:rgba(255,255,255,.12);}
+.home-tag-chosen{background:var(--fun-accent);color:var(--stage-bg);}
+
+/* ---------- Pantalla de inicio ---------- */
+.home{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:20px;font-family:var(--font-fun-body);}
+.home-header{display:flex;justify-content:space-between;align-items:center;}
+.home-header-right{display:flex;gap:10px;}
+
+.home-stage{position:relative;border-radius:var(--radius-fun);overflow:hidden;min-height:170px;display:grid;place-items:center;
+  background:radial-gradient(80% 90% at 50% 100%, rgba(255,210,63,.18), transparent 70%),
+             linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.25));
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);}
+.home-title{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;
+  font-family:var(--font-fun-title);font-weight:700;line-height:.95;
+  text-shadow:0 0 22px rgba(255,210,63,.55), 0 4px 0 rgba(0,0,0,.35);animation:pop-in .7s cubic-bezier(.3,1.6,.5,1) .5s both;}
+.home-title span:first-child{font-size:clamp(34px, 11vw, 52px);}
+.home-title span:last-child{font-size:clamp(40px, 13vw, 62px);color:var(--fun-accent);}
+.home-floor{position:absolute;left:10%;right:10%;bottom:-30px;height:60px;border-radius:50%;
+  background:radial-gradient(closest-side, rgba(255,210,63,.45), transparent);}
+.home-notes i{position:absolute;font-style:normal;font-size:26px;color:rgba(255,255,255,.35);animation:float-note 4s ease-in-out infinite;}
+.home-notes i:nth-child(1){left:9%;top:18%;}
+.home-notes i:nth-child(2){right:11%;top:14%;animation-delay:-1s;font-size:30px;}
+.home-notes i:nth-child(3){left:16%;bottom:16%;animation-delay:-2s;font-size:20px;}
+.home-notes i:nth-child(4){right:15%;bottom:20%;animation-delay:-3s;}
+@keyframes float-note{50%{transform:translateY(-10px) rotate(-8deg);}}
+@keyframes pop-in{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes bounce-in{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+.home-subtitle{text-align:center;color:var(--fun-text-dim);font-size:16px;font-weight:700;margin:0 0 -6px;}
+
+/* Interruptor Individual | Grupal (diseño D) */
+.home-battle{display:flex;flex-direction:column;gap:14px;}
+.home-toggle{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:5px;border-radius:999px;
+  background:var(--fun-surface-2);box-shadow:inset 0 2px 6px rgba(0,0,0,.35);}
+.home-toggle-thumb{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:999px;
+  background:linear-gradient(160deg, var(--individual-from), var(--individual-to));
+  transition:transform .3s cubic-bezier(.3,1.4,.5,1), background .3s;}
+.home-toggle[data-sel="grupal"] .home-toggle-thumb{transform:translateX(100%);
+  background:linear-gradient(160deg, var(--grupal-from), var(--grupal-to));}
+.home-toggle-opt{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;
+  border-radius:999px;background:none;font-family:var(--font-fun-body);font-weight:800;font-size:15px;color:var(--fun-text-dim);}
+.home-toggle-opt[aria-selected="true"]{color:#fff;}
+.home-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:22px 18px;
+  border-radius:var(--radius-fun);box-shadow:0 6px 0 rgba(0,0,0,.3);animation:bounce-in .6s cubic-bezier(.3,1.6,.5,1) .7s both;}
+.home-card-individual{background:linear-gradient(160deg, var(--individual-from), var(--individual-to));}
+.home-card-grupal{background:linear-gradient(160deg, var(--grupal-from), var(--grupal-to));}
+.home-card-icon{width:60px;height:60px;border-radius:20px;background:rgba(255,255,255,.22);display:grid;place-items:center;}
+.home-card-title{font-family:var(--font-fun-title);font-weight:700;font-size:24px;line-height:1.1;}
+.home-card-text{font-size:14px;font-weight:600;line-height:1.4;color:rgba(255,255,255,.92);}
+.home-play{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;align-self:stretch;padding:16px 0;
+  border-radius:999px;background:#fff;color:var(--stage-bg);font-family:var(--font-fun-title);font-size:20px;font-weight:700;
+  box-shadow:0 5px 0 rgba(0,0,0,.25);}
+
+/* "Modos de juego" y el modo elegido debajo */
+.home-mode{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.home-mode .home-wide-btn{animation:bounce-in .6s cubic-bezier(.3,1.6,.5,1) .85s both;}
+.home-mode-label{margin:0;padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.25);font-size:15px;font-weight:600;color:var(--fun-text-dim);}
+.home-mode-label b{color:var(--fun-accent);font-weight:800;}
+
+/* PC: el escenario a la izquierda y las opciones a la derecha */
+@media (min-width:900px){
+  .home{max-width:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto 1fr;
+    grid-template-areas:"header header" "stage subtitle" "stage battle" "stage mode";column-gap:32px;row-gap:18px;}
+  .home-header{grid-area:header;}
+  .home-stage{grid-area:stage;min-height:440px;max-height:560px;}
+  .home-title span:first-child{font-size:64px;}
+  .home-title span:last-child{font-size:78px;}
+  .home-subtitle{grid-area:subtitle;align-self:end;text-align:left;font-size:18px;margin:0;}
+  .home-battle{grid-area:battle;}
+  .home-mode{grid-area:mode;align-self:start;}
+}
+
+/* ---------- Hoja emergente (sheet.js): sube desde abajo en el celular ---------- */
+.sheet-back{position:fixed;inset:0;z-index:50;background:rgba(5,6,20,.6);backdrop-filter:blur(4px);
+  display:flex;align-items:flex-end;justify-content:center;animation:fadein .2s ease both;}
+.sheet{width:100%;max-width:560px;max-height:86vh;display:flex;flex-direction:column;background:var(--stage-bg);
+  font-family:var(--font-fun-body);border-radius:var(--radius-fun) var(--radius-fun) 0 0;
+  box-shadow:0 -10px 40px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.06);
+  padding-bottom:env(safe-area-inset-bottom);animation:sheet-up .32s cubic-bezier(.3,1.3,.5,1) both;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px 10px;}
+.sheet-title{font-family:var(--font-fun-title);font-size:24px;font-weight:700;}
+.sheet-close{font-size:18px;}
+.sheet-body{overflow:auto;padding:4px 16px 20px;}
+.sheet-back.is-closing{opacity:0;transition:opacity .18s;}
+@keyframes sheet-up{from{transform:translateY(40%);}to{transform:translateY(0);}}
+@media (min-width:900px){
+  .sheet-back{align-items:center;}
+  .sheet{max-width:720px;max-height:80vh;border-radius:var(--radius-fun);animation-name:fadein;}
+}
+
+/* Aviso corto que se va solo (showToast) */
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;
+  max-width:calc(100% - 32px);background:var(--fun-surface);color:var(--text);padding:10px 16px;border-radius:999px;
+  font-family:var(--font-fun-body);font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.6);}
+
+/* Notificaciones (sin avisos todavía) y Ajustes */
+.home-empty{text-align:center;padding:18px 8px 8px;}
+.home-empty p{margin:6px 0;font-weight:700;}
+.home-empty-icon{font-size:40px;}
+.home-empty .home-empty-note{font-weight:600;font-size:14px;color:var(--fun-text-dim);}
+.home-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  background:var(--fun-surface-2);border-radius:20px;padding:16px;}
+.home-setting h3{font-family:var(--font-fun-title);font-size:18px;}
+.home-setting p{margin:4px 0 0;font-size:13.5px;color:var(--fun-text-dim);}
+
+/* ---------- Manual de modos de juego (modesManual.js) ---------- */
+.manual{display:flex;flex-direction:column;gap:12px;}
+.manual-item{background:var(--fun-surface-2);border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.manual-item.is-chosen{box-shadow:inset 0 0 0 2px var(--fun-accent);}
+.manual-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.manual-name{font-family:var(--font-fun-title);font-size:21px;font-weight:700;}
+.manual-facts{display:flex;gap:6px;flex-wrap:wrap;}
+.manual-fact{padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.08);font-size:13px;font-weight:700;}
+.manual-more{margin:0;display:flex;flex-direction:column;gap:6px;padding-left:18px;font-size:14px;line-height:1.45;color:var(--fun-text-dim);}
+.manual-more[hidden]{display:none;}
+.manual-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.manual-toggle{padding:9px 16px;border-radius:999px;background:var(--fun-surface);color:var(--fun-accent);font-weight:800;font-size:14px;
+  font-family:var(--font-fun-body);}
+.manual-choose{margin-left:auto;padding:9px 18px;border-radius:999px;background:var(--fun-accent);color:var(--stage-bg);
+  font-family:var(--font-fun-body);font-weight:800;font-size:14px;box-shadow:0 4px 0 rgba(0,0,0,.3);}
+.manual-choose:disabled{background:rgba(255,255,255,.1);color:var(--fun-text-dim);box-shadow:none;cursor:default;}
+.is-chosen .manual-choose:disabled{background:transparent;color:var(--fun-accent);}
+
+/* Historieta: viñetas que se encienden una tras otra */
+.story{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:8px;}
+.frame{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px 10px;
+  border-radius:18px;background:rgba(0,0,0,.22);opacity:.45;transform:scale(.96);
+  transition:opacity .35s, transform .35s cubic-bezier(.3,1.5,.5,1), box-shadow .35s;}
+.frame.is-on{opacity:1;transform:scale(1);box-shadow:inset 0 0 0 2px var(--fun-accent), 0 0 18px rgba(255,210,63,.25);}
+.frame-num{position:absolute;top:6px;left:8px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+  background:var(--fun-surface);font-size:11px;font-weight:800;}
+.is-on .frame-num{background:var(--fun-accent);color:var(--stage-bg);}
+.frame-art{height:64px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:36px;line-height:1;}
+.frame-text{font-size:13px;font-weight:700;text-align:center;line-height:1.3;}
+@media (min-width:900px){
+  .story{grid-template-columns:repeat(4, minmax(0,1fr));}
+  .story-2{grid-template-columns:repeat(2, minmax(0,1fr));}
+}
+/* Mini animaciones dentro de cada viñeta (arrancan cuando se enciende) */
+.fx-word{font-family:var(--font-fun-title);font-size:24px;font-weight:700;padding:8px 14px;border-radius:14px;
+  background:#fff;color:var(--stage-bg);letter-spacing:.06em;box-shadow:0 4px 0 rgba(0,0,0,.3);}
+.is-on .fx-word{animation:pop-in .5s cubic-bezier(.3,1.6,.5,1) both;}
+.is-on .fx-pop{animation:pop-in .45s cubic-bezier(.3,1.6,.5,1) both;}
+.is-on .fx-late{animation-delay:.6s;}
+.is-on .fx-mic{animation:sing .5s ease-in-out infinite alternate;}
+@keyframes sing{from{transform:rotate(-14deg) translateY(0);}to{transform:rotate(10deg) translateY(-6px);}}
+.fx-x{font-size:20px;margin-left:-14px;align-self:flex-start;}
+.is-on .fx-x{animation:pop-in .3s ease .3s both;}
+.fx-arrow{font-size:20px;color:var(--fun-accent);}
+.fx-points,.fx-plus{font-family:var(--font-fun-title);font-size:24px;font-weight:700;color:#5CF2A0;}
+.fx-minus{font-family:var(--font-fun-title);font-size:20px;font-weight:700;color:#FF6B81;display:block;}
+.fx-pair{display:flex;gap:12px;align-items:center;}
+.fx-pair > span{display:flex;flex-direction:column;align-items:center;font-size:30px;gap:2px;}
+.fx-pair .fx-plus{font-size:18px;}
+.is-on .fx-pair b{animation:pop-in .45s cubic-bezier(.3,1.6,.5,1) .4s both;}
+.fx-ring{position:relative;width:62px;height:62px;}
+.fx-ring i{position:absolute;font-style:normal;font-size:20px;}
+.fx-ring i:nth-child(1){left:21px;top:0;}
+.fx-ring i:nth-child(2){right:0;top:21px;}
+.fx-ring i:nth-child(3){left:21px;bottom:0;}
+.fx-ring i:nth-child(4){left:0;top:21px;}
+.is-on .fx-ring{animation:spin-once 2s cubic-bezier(.5,0,.3,1) both;}
+@keyframes spin-once{to{transform:rotate(360deg);}}
+.fx-clock{position:relative;width:60px;height:60px;display:grid;place-items:center;}
+.fx-clock svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.fx-clock circle{fill:none;stroke:rgba(255,255,255,.15);stroke-width:4;}
+.fx-clock .fx-clock-bar{stroke:var(--fun-accent);stroke-linecap:round;stroke-dasharray:100.5;stroke-dashoffset:0;}
+.is-on .fx-clock-bar{animation:clock-empty 2.1s linear both;}
+@keyframes clock-empty{to{stroke-dashoffset:100.5;}}
+.fx-clock b{font-family:var(--font-fun-title);font-size:18px;}
+.fx-mix{display:flex;align-items:center;gap:4px;font-size:13px;}
+.fx-mix b{padding:6px 8px;border-radius:12px;background:#fff;color:var(--stage-bg);font-weight:800;}
+.fx-mix i{font-style:normal;color:var(--fun-accent);font-size:20px;font-weight:800;}
+.is-on .fx-mix b:first-child{animation:join-left .6s cubic-bezier(.3,1.6,.5,1) both;}
+.is-on .fx-mix b:last-child{animation:join-right .6s cubic-bezier(.3,1.6,.5,1) both;}
+@keyframes join-left{from{transform:translateX(-20px);opacity:0;}}
+@keyframes join-right{from{transform:translateX(20px);opacity:0;}}

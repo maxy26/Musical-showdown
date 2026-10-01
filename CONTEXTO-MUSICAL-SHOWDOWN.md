@@ -56,8 +56,9 @@
 - **Grupal**: los jugadores se reparten en **2 o más grupos** y los duelos
   son 1 vs 1 entre representantes de **grupos distintos** (nunca del mismo
   grupo). El puntaje es **del grupo**. Requiere **4 o más jugadores
-  escritos** para poder elegirse (si hay menos, el botón "Grupal" queda
-  deshabilitado con un aviso).
+  escritos** para empezar. Desde el 01-10-2026 se elige en el inicio
+  (antes de escribir los nombres); si al confirmar hay menos de 4, se avisa
+  y no se puede empezar hasta agregar jugadores.
 
 ### Modos de juego
 - Disponibilidad: si el tipo de batalla es **Individual**, solo se
@@ -177,10 +178,24 @@
 - El número de cada jugador es su orden dentro de la tarjeta de su grupo;
   el de cada grupo, el orden de las tarjetas.
 
+### Pantalla de inicio (rediseño del 01-10-2026)
+- Estilo "casual y divertido" con **luces de show** moviéndose en el fondo de
+  todas las pantallas. Solo el nombre (sin logo).
+- Encabezado: tuerca (Ajustes → **Animaciones: Sí / No**, encendidas por
+  defecto aunque el sistema pida reducir el movimiento), campana
+  (notificaciones; todavía sin avisos) y "?" (ayuda).
+- **Tipo de batalla y modo se eligen aquí** (opción A del usuario):
+  interruptor Individual | Grupal con un botón "Jugar", y "Modos de juego"
+  (manual con historietas animadas, "Ver más" y "Elegir…"). Debajo, "Modo:
+  Clásico" (por defecto). Alternativo 2 solo en Grupal: al pasar a
+  Individual vuelve a Clásico con un aviso.
+
 ### Configuración de partida
-- Todo en una sola pantalla: jugadores, tipo de batalla, modo, géneros,
-  puntaje objetivo, tiempo por ronda, multiplicadores. Se bloquea al
-  iniciar la partida.
+- En una sola pantalla: jugadores, géneros, puntaje objetivo, tiempo por
+  ronda y multiplicadores. El tipo de batalla y el modo vienen del inicio y
+  aquí solo se muestran en un resumen. En Grupal con menos de 4 jugadores
+  se avisa al confirmar y se queda en esta pantalla (no se cambia a
+  Individual ni se vuelve al inicio). Se bloquea al iniciar la partida.
 - **Jugadores**: campos con placeholder "Jugador N" (no un valor
   precargado que haya que borrar). Mientras se escribe, **la primera letra
   de cada palabra pasa a mayúscula y el resto a minúscula**, sin importar

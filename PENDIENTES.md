@@ -100,8 +100,12 @@
     circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
     cuenta regresiva y accesos rápidos, según una especificación del usuario.
     **No se integra al juego hasta que el usuario elija el diseño final.**
-  - **Decisiones del usuario sobre el inicio** (01-10-2026, para cuando se
-    integre):
+  - ✅ **Pantalla de inicio integrada al juego** (01-10-2026, el usuario dio el
+    estilo por finalizado): `screens/menu.js`, `modesManual.js`, `sheet.js`,
+    `icons.js`, `settings.js`, luces en `index.html` y opción A en
+    `config/index.js`. **Siguiente paso:** llevar el estilo (colores, letras,
+    botones) a las demás pantallas, una por una, preguntando antes.
+  - **Decisiones del usuario sobre el inicio** (01-10-2026, ya aplicadas):
     - Estilo: "casual y divertido" con las luces de "show de TV" moviéndose en
       el **fondo**, detrás del contenido, sin estorbar la vista.
     - Sin logo en el inicio: solo el nombre. Sin "Oferta Exclusiva" ni botones
@@ -125,6 +129,20 @@
       decisión, **solo la pausa** (la X = "Continuar"). Ya está en el juego
       actual desde el 01-10-2026 (ayuda, avisos y pausa); mantenerlo en el
       rediseño.
+    - Animaciones **siempre encendidas** aunque Windows o el celular pidan
+      reducir el movimiento (en la PC del usuario, Windows tiene apagados los
+      "Efectos de animación"), con un interruptor **Ajustes → Animaciones: Sí /
+      No** en la tuerca del inicio (opción C, 01-10-2026).
+
+- [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
+  Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
+  conexión se ven con una letra genérica. Solución: incluir los archivos de las
+  letras en `src/` (son de licencia libre OFL) y agregarlos a `sw.js`.
+  Preguntar al usuario antes.
+- [ ] 🟡 **Notificaciones sin fuente de avisos.** La campana abre un panel que
+  por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
+  promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
+  la página de Releases de GitHub, etc.). Preguntar al usuario.
 
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para

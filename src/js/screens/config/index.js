@@ -9,7 +9,7 @@ import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
 } from "./presets.js";
-import { modesFor, usesRoundTime, allowsNoTime, usesMultipliers, DEFAULT_ROUND_TIME } from "./modes.js";
+import { modesFor, modeName, usesRoundTime, allowsNoTime, usesMultipliers, DEFAULT_ROUND_TIME } from "./modes.js";
 import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
@@ -30,32 +30,23 @@ export function screenConfig() {
   const available = modesFor(c.battleType);
   if (!available.find((m) => m.id === c.mode && m.enabled)) c.mode = "clasico";
 
+  // El tipo de batalla y el modo se eligen en la pantalla de inicio (opción A
+  // del usuario, 01-10-2026); aquí solo se muestran. En Grupal, si hay menos de
+  // 4 jugadores, se avisa al confirmar y no se cambia nada.
   const typedCount = countTypedPlayers(c.players);
-  const canGroup = typedCount >= 4;
-  if (c.battleType === "grupal" && !canGroup) c.battleType = "individual";
+  const isGroup = c.battleType === "grupal";
+  fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
 
   const root = el(`<div class="screen">
-    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Menú</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
+    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
     <div class="card">
+      <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
         <label>Jugadores</label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
+        <p class="small-note config-group-note" id="group-note" ${isGroup && typedCount < 4 ? "" : "hidden"}>Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typedCount}).</p>
         <button class="btn btn-secondary" id="add-player" style="margin-top:6px;">+ Añadir jugador</button>
-      </div>
-
-      <div class="field">
-        <label>Tipo de batalla</label>
-        <div class="chip-group">
-          <button class="chip ${c.battleType === "individual" ? "active" : ""}" data-battle="individual">👤 Individual</button>
-          <button class="chip ${c.battleType === "grupal" ? "active alt" : ""}" data-battle="grupal" ${canGroup ? "" : 'disabled style="opacity:.4;cursor:not-allowed;"'}>👥 Grupal</button>
-        </div>
-        <p class="small-note" id="group-note" style="margin-top:8px;${canGroup ? "display:none;" : ""}">Necesitas al menos 4 jugadores escritos para jugar en grupo (llevas ${typedCount}).</p>
-      </div>
-
-      <div class="field">
-        <label>Modo de juego</label>
-        <div class="chip-group" id="modes"></div>
       </div>
 
       <div class="field">
@@ -99,32 +90,10 @@ export function screenConfig() {
     </div>
   </div>`);
 
-  // ---------- Jugadores (alta/baja, mayúsculas, disponibilidad de Grupal) ----------
-  const playersSection = initPlayersSection(root, c, () => render());
+  // ---------- Jugadores (alta/baja, mayúsculas, aviso de Grupal) ----------
+  const playersSection = initPlayersSection(root, c);
 
-  // ---------- Modos (dependen del tipo de batalla) ----------
-  function renderModes() {
-    const box = root.querySelector("#modes");
-    box.innerHTML = "";
-    modesFor(c.battleType).forEach((m) => {
-      const active = c.mode === m.id;
-      const btn = el(`<button class="chip ${active ? "active" : ""}" ${m.enabled ? "" : 'style="opacity:.4;cursor:not-allowed;"'}>
-        ${m.label}${m.enabled ? "" : " (próx.)"}
-      </button>`);
-      if (m.enabled) btn.onclick = () => selectMode(m.id);
-      else btn.disabled = true;
-      box.appendChild(btn);
-    });
-  }
-  renderModes();
-
-  // Cambiar de modo cambia qué opciones se muestran (tiempo, multiplicadores).
-  // Si el modo nuevo no permite "Sin tiempo" y estaba elegido, se pone 30 seg.
-  function selectMode(id) {
-    c.mode = id;
-    fixRoundTimeForMode();
-    render();
-  }
+  // Si el modo no permite "Sin tiempo" y estaba elegido, se pone 30 seg.
   function fixRoundTimeForMode() {
     if (usesRoundTime(c.mode) && !allowsNoTime(c.mode) && c.roundTime === 0) {
       c.roundTime = DEFAULT_ROUND_TIME;
@@ -191,14 +160,7 @@ export function screenConfig() {
     render();
   };
 
-  // ---------- Tipo de batalla / géneros / multiplicadores ----------
-  root.querySelectorAll("[data-battle]").forEach((b) => (b.onclick = () => {
-    c.battleType = b.dataset.battle;
-    const avail = modesFor(c.battleType);
-    if (!avail.find((m) => m.id === c.mode && m.enabled)) c.mode = "clasico";
-    render();
-  }));
-
+  // ---------- Géneros / multiplicadores ----------
   root.querySelectorAll("[data-genre]").forEach((b) => (b.onclick = () => {
     const g = b.dataset.genre;
     if (c.genres.includes(g)) c.genres = c.genres.filter((x) => x !== g);
@@ -223,10 +185,10 @@ export function screenConfig() {
     }
     c.players = c.players.map(cleanName).filter((p) => p.length > 0);
     if (c.players.length < 2) { showWarning("Escribe al menos 2 nombres de jugador para poder iniciar la partida."); return; }
+    // Grupal con menos de 4: solo se avisa; se queda aquí para agregar jugadores
+    // (para jugar Individual, se vuelve al inicio con "← Inicio").
     if (c.battleType === "grupal" && c.players.length < 4) {
-      showWarning("Se necesitan al menos 4 jugadores escritos para jugar en grupo.");
-      c.battleType = "individual";
-      render();
+      showWarning(`Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${c.players.length}). Agrega más jugadores o vuelve al inicio para elegir Individual.`);
       return;
     }
     if (c.genres.length === 0) { showWarning("Selecciona al menos un género."); return; }
