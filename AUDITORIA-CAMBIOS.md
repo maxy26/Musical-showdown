@@ -13,6 +13,53 @@
 
 ---
 
+## 2026-10-01 — Sesión 5 (parte 8): X para cerrar en la pausa y en las ventanas informativas
+
+**Decisión del usuario:** las ventanas emergentes con información llevan una X
+para cerrar en la esquina superior derecha (también en el celular). Entre las
+ventanas que piden una decisión, **solo la pausa** la lleva; ahí la X equivale
+a "Continuar". "¿Acertó?", el relevo y las confirmaciones sí/no no la llevan.
+
+**Qué se hizo**
+- `modals.js`: nueva función `addCloseButton()`. Se agregó la X a la pausa
+  (reanuda el reloj igual que "Continuar"), a la ayuda "Cómo se juega" y a
+  `showWarning()`. La pantalla "¿Salir de la partida?" dentro de la pausa no
+  lleva X.
+- `styles.css`: clase `.modal-close`, fija arriba a la derecha aunque la
+  ventana tenga scroll (la ayuda es larga) y sin ocupar alto.
+
+**Cómo se verificó:** página de prueba con Edge sin ventana (copia de `src/` en
+la carpeta temporal): capturas de la pausa, la ayuda con scroll y un aviso; al
+presionar la X de la pausa queda 0 ventanas y `paused=false`. `npm run lint`
+sin errores, `npm test` 89 pasan + 1 pendiente. Compilados el `.exe` y el
+`.apk`.
+
+**Qué quedó abierto:** nada de este punto.
+
+---
+
+## 2026-10-01 — Sesión 5 (parte 7): experimentos de diseño de la pantalla de inicio
+
+**Qué se hizo (todo fuera del proyecto, en `scratchpad/diseno-inicio`)**
+- Se mostraron 3 estilos (moderno, show de TV, casual) en teléfono y PC. El
+  usuario eligió **casual + luces de show de fondo**.
+- Se probaron 4 diseños de Individual/Grupal; el usuario eligió el **D**
+  (interruptor + botón "Jugar" grande).
+- Se quitaron el logo, la oferta y "Juegos/Paquetes". Se agregó el manual de
+  modos con historietas animadas, la elección del modo y el texto "Modo:
+  Clásico" debajo del botón. Se agregó el panel de notificaciones de ejemplo.
+
+**Archivos del proyecto tocados:** solo `PENDIENTES.md` (decisiones del
+usuario sobre el inicio) y este archivo. El juego (`src/`) no se tocó.
+
+**Cómo se verificó:** capturas con Edge sin ventana en 360 px y 1280 × 800, y
+revisión en Brave.
+
+**Qué quedó abierto:** seguir con las demás pantallas del rediseño. (La X de
+las ventanas se resolvió en la parte 8.)
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 6): relevo con máximo 3 y canciones repetidas
 
 **Decisiones del usuario**

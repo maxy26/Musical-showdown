@@ -2,6 +2,21 @@ import { state, resetState } from "../state.js";
 import { render } from "../router.js";
 import { startTimer } from "../gameLogic.js";
 
+/**
+ * X para cerrar en la esquina superior derecha. Va solo en las ventanas que
+ * informan y en la pausa (decisión del usuario, 01-10-2026); las ventanas que
+ * piden una decisión (¿acertó?, relevo, confirmaciones) no la llevan.
+ */
+function addCloseButton(overlay, onClose) {
+  const x = document.createElement("button");
+  x.type = "button";
+  x.className = "modal-close";
+  x.setAttribute("aria-label", "Cerrar");
+  x.textContent = "✕";
+  x.onclick = onClose;
+  overlay.querySelector(".modal").prepend(x);
+}
+
 export function openPause() {
   clearInterval(state.round.timerId);
   state.round.paused = true;
@@ -18,11 +33,13 @@ export function openPause() {
   </div>`;
   document.getElementById("app").appendChild(overlay);
 
-  overlay.querySelector("#continue").onclick = () => {
+  const resume = () => {
     overlay.remove();
     state.round.paused = false;
     if (state.round.phase === "counting") startTimer();
   };
+  overlay.querySelector("#continue").onclick = resume;
+  addCloseButton(overlay, resume); // en la pausa, la X es lo mismo que "Continuar"
   overlay.querySelector("#help").onclick = () => openHelp();
   overlay.querySelector("#exit").onclick = () => {
     overlay.innerHTML = `<div class="modal" style="text-align:center;">
@@ -127,6 +144,7 @@ export function openHelp() {
   </div>`;
   document.getElementById("app").appendChild(overlay);
   overlay.querySelector("#close").onclick = () => overlay.remove();
+  addCloseButton(overlay, () => overlay.remove());
 }
 
 /**
@@ -144,6 +162,7 @@ export function showWarning(message) {
   document.getElementById("app").appendChild(overlay);
   const closeBtn = overlay.querySelector("#warning-ok");
   closeBtn.onclick = () => overlay.remove();
+  addCloseButton(overlay, () => overlay.remove());
   closeBtn.focus();
 }
 

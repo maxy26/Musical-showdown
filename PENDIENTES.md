@@ -100,6 +100,31 @@
     circulares, imagen con el nombre, tarjetas Individual/Grupal, banner con
     cuenta regresiva y accesos rápidos, según una especificación del usuario.
     **No se integra al juego hasta que el usuario elija el diseño final.**
+  - **Decisiones del usuario sobre el inicio** (01-10-2026, para cuando se
+    integre):
+    - Estilo: "casual y divertido" con las luces de "show de TV" moviéndose en
+      el **fondo**, detrás del contenido, sin estorbar la vista.
+    - Sin logo en el inicio: solo el nombre. Sin "Oferta Exclusiva" ni botones
+      "Juegos"/"Paquetes".
+    - Notificaciones (campana): avisos de actualizaciones, promoción del juego
+      y avisos en general.
+    - Individual/Grupal: **interruptor** grande con una tarjeta y un botón
+      "Jugar" grande (diseño D).
+    - Un solo botón **"Modos de juego"**: manual con historietas animadas
+      ("a prueba de todo"), datos rápidos, "Ver más" y "Elegir…". Debajo del
+      botón, un texto "Modo: Clásico" (Clásico por defecto), sin botón
+      "Cambiar".
+    - Alternativo 2 solo en Grupal: con Individual no se puede elegir; si se
+      cambia a Individual con Alternativo 2 elegido, vuelve a Clásico con un
+      aviso.
+    - **Opción A:** Individual/Grupal y el modo se eligen **solo en el
+      inicio**; se quitan de "Configurar partida". Si en Grupal escriben menos
+      de 4 jugadores, se les avisa, pero **no** se les devuelve al inicio.
+    - Toda ventana emergente con información lleva una **X para cerrar en la
+      esquina superior derecha**, también en el celular. De las ventanas con
+      decisión, **solo la pausa** (la X = "Continuar"). Ya está en el juego
+      actual desde el 01-10-2026 (ayuda, avisos y pausa); mantenerlo en el
+      rediseño.
 
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
