@@ -177,9 +177,13 @@
        ronda (sin multiplicador): Carlos 500 → **gana**; María −100 → 150.
      - Al final se muestra un **podio de los 3 mejores** con nombres y puntos
        (Individual). En **Grupal**, el podio de los 3 mejores grupos muestra
-       además el **MVP de cada grupo**. Dudas abiertas: cómo se calcula el MVP,
-       si el podio es para todos los modos, empates, y qué pasa con los demás
-       participantes.
+       además el **MVP de cada grupo**.
+     - El podio va en **todos los modos**, y se mantiene el botón **"Ver más"**
+       con la lista de **todos los demás** (del 4.º en adelante). Con solo 2
+       participantes, el podio tiene 2 puestos. En caso de **empate**, los
+       empatados **comparten el puesto**. (Confirmado el 30-09-2026.)
+     - Duda abierta: el MVP se calcula por puntos aportados o por canciones
+       acertadas (se le explicó la diferencia), y qué pasa si hay empate de MVP.
   2b. **Tiempo** (aclarado por el usuario, 30-09-2026):
      - **Clásico no tiene selector de tiempo por ronda**, porque es a un solo
        intento. Las rondas van **sin reloj**: duran hasta que alguien acierta,
