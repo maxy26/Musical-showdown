@@ -128,14 +128,32 @@
        botón para **agregar o quitar** relevos con confirmación (por ejemplo,
        para devolver uno usado por error).
      - **Puntos negativos** permitidos, mostrados en **rojo bien visible**.
-     - Dudas abiertas (30-09-2026): dónde va el botón de agregar o quitar y sus
-       límites; si el que pidió el relevo cuenta como que ya cantó; si se puede
-       elegir a cualquier compañero; cómo se elige (la frase "se escogerá por la
-       aplicación").
-  1b. **Un solo intento por equipo y por ronda, en TODOS los modos** (decisión
-     del usuario, 30-09-2026; cambia también Clásico). Si el Equipo 1 falla, el
-     Equipo 3 todavía puede intentarlo; si los dos fallan, **0 para ambos**. Hoy
-     una respuesta incorrecta permite volver a intentar sin límite.
+     - Confirmado el 30-09-2026:
+       - El botón de agregar o quitar relevos va en la **pantalla de la ronda**,
+         junto a los 3 símbolos de cada equipo. **Sin límite** de máximo.
+       - El **jugador elige** a su compañero en una lista que muestra la
+         aplicación, y luego confirma. Puede elegir a **cualquiera de su
+         equipo**, aunque ya haya cantado.
+       - El que **pide** el relevo **no cuenta** como que cantó; el que
+         **entra**, sí.
+       - Después de que un equipo falla, el otro **sí puede** usar su relevo.
+       - Penalización por usar un relevo que no tienen: el otro equipo suma el
+         valor completo de la ronda **sin cantar**, y la ronda termina.
+       - El relevo es **solo para Alternativo 1** (no para Clásico).
+     - ⚠️ **Contradicciones por resolver con el usuario** (30-09-2026): ver 1b.
+  1b. **Intentos por ronda** — ⚠️ hay una contradicción por resolver:
+     - El 30-09 el usuario dijo "un solo intento por equipo y por ronda, **para
+       todos** los modos".
+     - Después dijo que en **Alternativo 1 no hay límite de intentos**, y que,
+       si los dos fallan, la ronda **termina de inmediato con 0 para ambos en
+       Clásico, pero no en Alternativo 1**.
+     - Lectura probable: **un solo intento solo en Clásico** (Individual y
+       Grupal); en Alternativo 1, intentos ilimitados hasta que alguien acierte o
+       se acabe el tiempo. Falta confirmarlo, y definir qué pasa con el relevo si
+       el que entró falla en Alternativo 1 (¿sigue intentando él, vuelve el
+       original, o termina?).
+- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
+  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
   2. **Puntos:** ¿restar al fallar? ¿Cuánto? ¿Bonos? ¿Por qué?
   3. **Tiempo / fin de la partida:** ¿cambia el tiempo por ronda? ¿Se sigue
      ganando al llegar al puntaje objetivo?
