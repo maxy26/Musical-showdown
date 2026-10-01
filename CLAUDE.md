@@ -72,7 +72,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 - Para navegar: asignar `state.screen = "<clave>"` y luego llamar a `render()`. Para agregar una pantalla, registrarla en `SCREENS` dentro de `router.js`.
 - Cada archivo de `screens/` exporta una función `screenXxx()` que devuelve un nodo DOM. El nodo se crea con `el(cadenaHtml)` de `utils.js`, y los eventos se conectan con `root.querySelector(...).onclick`. La pantalla de configuración está dividida en submódulos dentro de `screens/config/`, coordinados por `index.js`.
 - `gameLogic.js` contiene las reglas:
-  - La palabra se elige ponderada por las canciones disponibles y aún no usadas, con más peso si está en el coro o si la canción es famosa.
+  - La palabra se elige ponderada por las canciones de los géneros elegidos, con más peso si está en el coro o si la canción es famosa.
   - Emparejamientos (`pairing.js`, reglas en `CONTEXTO-MUSICAL-SHOWDOWN.md` sección 3): Clásico usa fases al azar / con ventaja según el equilibrio de puntos (60 % del promedio), siempre con equilibrio de partidos; Alternativo 1 sigue un orden fijo que se repite. Sirven para jugadores y para grupos. Los grupos del modo Grupal (cantidad, reparto, nombres, quién canta) están en `groups.js`. `resetMatchTracking()` reinicia todo al empezar cada partida.
   - El temporizador avanza con `setInterval`. `updateClockOnly()` actualiza `.clock` directamente en lugar de volver a renderizar.
   - El puntaje es 100 × multiplicador.
