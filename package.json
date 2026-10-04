@@ -8,6 +8,7 @@
     "build:linux": "node build/build-desktop.js --linux",
     "build:android": "node build/build-android.js",
     "build:apk": "node build/build-android.js --apk",
+    "android:release": "node build/android-release.js",
     "build:all": "npm run build:desktop && npm run build:android",
     "test": "node --test test/*.test.js",
     "lint": "eslint src"

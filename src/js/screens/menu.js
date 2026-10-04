@@ -8,6 +8,7 @@ import { buildModesManual, modeAllowed } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting } from "../settings.js";
 import { refreshMusic } from "../sound.js";
+import { APP_VERSION, BUILD_INFO } from "../version.js";
 
 /**
  * Pantalla de inicio (rediseño elegido por el usuario el 01-10-2026; detalles
@@ -28,13 +29,6 @@ function notificationsBody() {
     <p class="home-empty-note">Aquí aparecerán las novedades del juego, las actualizaciones y otros avisos.</p>
   </div>`);
 }
-
-/**
- * Versión del juego que se muestra en Ajustes, para saber qué versión está
- * instalada. Al cambiarla, cambiar también versionName (y subir versionCode) en
- * platforms/android/android/app/build.gradle.
- */
-export const APP_VERSION = "1.2 · 04-10-2026";
 
 /**
  * Ajustes (la tuerca): cada opción se enciende o apaga con "Sí / No" y se
@@ -60,7 +54,7 @@ function settingsBody() {
           <button type="button" role="radio" data-setting="${o.key}" data-value="off">No</button>
         </div>
       </div>`).join("")}
-    <p class="home-version">Musical Showdown · Versión ${APP_VERSION}</p>
+    <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
   const paint = () => {
     const current = loadSettings();

@@ -13,6 +13,53 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 16): el APK no se actualizaba — diagnóstico y `android:release`
+
+**Pedido del usuario:** diagnosticar y arreglar sin pedir confirmación; crear
+`npm run android:release`; caché del service worker por compilación; versión
+visible; ejecutarlo y confirmar el versionCode.
+
+**Diagnóstico**
+- versionCode 3 / versionName 1.2: correcto.
+- Archivos de la app contra `src/`: iguales (solo `index.html` cambia a
+  propósito, por el `bundle.js`).
+- `capacitor.settings.gradle`: apunta a `./capacitor-android` (correcto).
+- Service worker: caché con nombre manual (v13); Capacitor no atiende sus
+  peticiones.
+- Firma: clave de depuración de esta PC; GitHub Actions firma con otra.
+- **Causa:** `android:allowBackup="true"`. Al reinstalar, Android restauraba
+  los datos de la app desde la copia de seguridad, incluidos el service worker
+  y la caché de una versión vieja, que seguían sirviendo los archivos viejos.
+
+**Qué se hizo**
+- `AndroidManifest.xml`: `allowBackup="false"`. `capacitor.config.ts`:
+  `server.hostname = "musicalshowdown.app"` (origen nuevo, sin la caché vieja).
+- `src/js/version.js` (versión visible en Ajustes) y `build/stamp.js`: en cada
+  compilación escribe la versión (de `build.gradle`), la plataforma, fecha y
+  hora, y un `CACHE_NAME` único en `www/sw.js` (su "activate" borra las demás).
+  Lo usan `build-android.js` y `build-desktop.js`.
+- `build/android-release.js` + `npm run android:release`: limpia todo (nunca la
+  clave ni `src/`), sube versionCode, sync y corrección de capacitor-android,
+  crea la clave la primera vez (`platforms/android/keystore/`, en
+  `.gitignore`), `gradlew clean assembleRelease` firmado, copia a
+  `dist/MusicalShowdown-v<versión>.apk` y verifica versionCode y firma.
+- `app/build.gradle`: firma de la versión de publicación con esa clave.
+- CLAUDE.md, PENDIENTES (resuelto; nuevo: copia de seguridad de la clave).
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente. `npm run android:release` corrió completo: versionCode 3 → 4,
+versionName 1.3, `aapt` confirma versionCode 4; firma SHA-256
+e0e0a02f…ef5d730. Dentro del APK: `allowBackup` = 0, hostname
+`musicalshowdown.app`, versión "1.3 · Android · 04-10-2026 11:43 · compilación
+4", caché `musical-showdown-1.3-20261004114318`. `.exe` recompilado (versión
+"PC Windows").
+
+**Qué quedó abierto:** que el usuario instale `dist/MusicalShowdown-v1.3.apk`
+(una vez desinstalando la anterior, por el cambio de firma) y confirme; copia
+de seguridad de la clave.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 15): logo nuevo "3D premium" y versión 1.2
 
 **Decisión del usuario:** de las 3 mejoras del logo de hoy, la tercera ("3D

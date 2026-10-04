@@ -15,6 +15,7 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const { stampBuild } = require("./stamp");
 
 const ROOT = path.join(__dirname, "..");
 const SRC = path.join(ROOT, "src");
@@ -30,6 +31,9 @@ function run(cmd, cwd) {
 console.log("== 1/4: copiando src/ -> platforms/android/www ==");
 fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
+// Versión visible y caché del service worker únicos por compilación (build/stamp.js).
+// android-release.js pone MS_BUILD_LABEL="Android"; build:apk es un APK de prueba.
+stampBuild(WWW, process.env.MS_BUILD_LABEL || "Android (prueba)");
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
 // Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync

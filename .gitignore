@@ -10,6 +10,9 @@ platforms/android/android/.gradle/
 platforms/android/android/app/src/main/assets/public/
 platforms/android/android/capacitor-cordova-android-plugins/build/
 
+# Clave de firma de Android (secreta; hacer copia de seguridad fuera del repo)
+platforms/android/keystore/
+
 # Android Studio / Gradle locales
 platforms/android/android/local.properties
 platforms/android/android/.idea/

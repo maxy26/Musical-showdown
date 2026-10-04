@@ -54,12 +54,11 @@
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
-- [ ] 🟡 **El usuario ve la versión vieja al instalar el APK** (04-10-2026). Lo
-  pasa por WhatsApp (arrastrando el APK al chat) y, aun desinstalando la app,
-  al abrir ve la versión anterior. El APK de `dist/android` sí trae todo. Se
-  agregó la versión visible en Ajustes y el APK con la versión en el nombre
-  (`Musical-Showdown-v1.2.apk`); confirmar con el usuario si con eso se ve la
-  1.2. Si no, probar pasarlo por cable o Drive.
+- [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
+  `platforms/android/keystore/` (archivo `.jks` y `keystore.properties`). No está
+  en git. Si se pierde, las versiones nuevas no se podrán instalar encima de
+  las anteriores (habrá que desinstalar). Pedirle al usuario que la guarde en un
+  lugar seguro (Drive, memoria USB).
 - [ ] 🟡 **Probar el APK en un teléfono Android real.** Se descarga desde
   GitHub Actions ("Artifacts" → `musical-showdown-android`). Para instalarlo
   hay que permitir "instalar apps de origen desconocido".
@@ -189,6 +188,18 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 04-10-2026)** **El usuario ve la versión vieja al instalar el APK**. Lo
+  pasa por WhatsApp (arrastrando el APK al chat) y, aun desinstalando la app,
+  al abrir ve la versión anterior. El APK de `dist/android` sí trae todo. Se
+  agregó la versión visible en Ajustes y el APK con la versión en el nombre
+  (`Musical-Showdown-v1.2.apk`); confirmar con el usuario si con eso se ve la
+  1.2. Si no, probar pasarlo por cable o Drive.
+  → Causa: `android:allowBackup="true"`: Android restauraba al reinstalar el
+    service worker y la caché de la versión vieja (Capacitor no atiende las
+    peticiones del service worker, así que servía la copia guardada). Arreglo:
+    `allowBackup="false"`, origen nuevo `musicalshowdown.app`, caché única por
+    compilación, versión visible y `npm run android:release` con firma fija.
 
 - [x] 🟡 **(Resuelto 04-10-2026)** **Recomendar logos nuevos** (pedido del usuario, 04-10-2026). Proponerle
   distintos logos basados en el logo actual (`src/icons/icon-512.png`) que

@@ -41,7 +41,8 @@ npm run build:linux                        # -> dist/linux/Musical-Showdown.AppI
 
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # deja el proyecto listo para Android Studio
-npm run build:apk                          # además genera dist/android/Musical-Showdown.apk y una copia Musical-Showdown-v<versión>.apk (Java 17+ y SDK de Android)
+npm run build:apk                          # APK de prueba (firma de depuración): dist/android/Musical-Showdown.apk y Musical-Showdown-v<versión>.apk
+npm run android:release                    # APK para instalar en el celular: limpia todo, sube versionCode en 1, firma con la clave del proyecto -> dist/MusicalShowdown-v<versión>.apk
 ```
 
 **Compilación en la nube:** `.github/workflows/compilar.yml` corre lint y pruebas, y compila Windows (`.exe`), Linux (`.AppImage`) y Android (`.apk` de depuración) en cada envío a `main`. Los archivos quedan en la sección "Artifacts" de cada ejecución. Al subir una etiqueta `v*` (por ejemplo, `v1.1.0`), además publica una Release con los 3 archivos. Si se cambian los scripts de `build/` o las rutas de salida, actualizar también este archivo de flujo.
@@ -64,6 +65,8 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 3. Reemplazar por texto exacto `<script type="module" src="js/main.js"></script>` en `index.html` con `<script src="bundle.js"></script>`. Si se cambia esa etiqueta en `src/index.html`, el reemplazo deja de funcionar sin avisar.
 4. Ejecutar la herramienta de la plataforma (electron-builder o `cap sync`).
 
+**Publicar un APK (`build/android-release.js`, `npm run android:release`):** borra todo lo generado (www/, `assets/public`, carpetas `build/` de Gradle, `.gradle`, APK de `dist/`; nunca `platforms/android/keystore/` ni `src/`), sube `versionCode` en 1 y `versionName` a `1.<versionCode − 1>`, corre `build-android.js` y compila con `gradlew clean assembleRelease`. Firma siempre con la clave del proyecto en `platforms/android/keystore/` (la crea con keytool la primera vez; está en `.gitignore`: **hacer copia de seguridad**, sin ella las versiones nuevas no se pueden instalar encima). Comprueba con `aapt` que el versionCode subió y muestra la huella de la firma. El manifiesto tiene `allowBackup="false"` y `capacitor.config.ts` usa `server.hostname: "musicalshowdown.app"`: así Android no restaura el service worker ni la caché de versiones anteriores al reinstalar (eso hacía que la app mostrara la versión vieja). Los APK de GitHub Actions siguen siendo de prueba (otra firma de depuración).
+
 `build-android.js` además corrige un problema de Capacitor: `cap sync` apunta `capacitor.settings.gradle` a `node_modules/@capacitor/android/capacitor`, que no se versiona. El script copia esa carpeta a `platforms/android/android/capacitor-android` y reescribe la ruta. Esa copia se regenera en cada build de Android, así que no se edita a mano.
 
 **Juego en tiempo de ejecución (JS puro, sin framework):**
@@ -78,7 +81,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
   - El puntaje es 100 × multiplicador.
   - Las canciones no se bloquean: una ya cantada se puede volver a elegir (decisión del usuario, 01-10-2026).
 - Pantalla de inicio (`screens/menu.js`, rediseño del 01-10-2026): ahí se eligen el tipo de batalla y el modo (ya no en "Configurar partida"). Las hojas emergentes usan `screens/sheet.js`. Las luces de fondo están en `index.html`, fuera de `#app`, para que sigan en todas las pantallas.
-- Versión visible: `APP_VERSION` en `screens/menu.js` (se muestra en Ajustes). Al cambiarla, cambiar también `versionName` y subir `versionCode` en `platforms/android/android/app/build.gradle`.
+- Versión visible en Ajustes: `src/js/version.js` (`APP_VERSION`, `BUILD_INFO`). Al compilar, `build/stamp.js` reescribe ese archivo en la copia `www/` con el `versionName` de `platforms/android/android/app/build.gradle` (única fuente de la versión, también para PC) y la fecha y hora; y pone en `www/sw.js` un `CACHE_NAME` único por compilación.
 - `settings.js` guarda en el dispositivo la preferencia "Animaciones: Sí / No" y la aplica con `html[data-anim]`. Las animaciones van siempre encendidas por decisión del usuario: no usar `prefers-reduced-motion` (en la PC del usuario Windows tiene las animaciones apagadas).
 - `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.

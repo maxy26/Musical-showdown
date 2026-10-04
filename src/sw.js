@@ -1,6 +1,9 @@
 // "network-first": siempre intenta traer la versión más reciente del
 // servidor primero; solo usa la copia guardada en caché si no hay
 // conexión. Así el juego nunca se queda pegado en una versión vieja.
+// Los scripts de build/ reemplazan este nombre por uno único en cada
+// compilación (versión + fecha y hora), así cada build usa una caché nueva y
+// "activate" borra las anteriores. En la web servida desde src/ queda este.
 const CACHE_NAME = "musical-showdown-v13";
 const ASSETS = [
   "./",
@@ -18,6 +21,7 @@ const ASSETS = [
   "./js/relay.js",
   "./js/pairing.js",
   "./js/utils.js",
+  "./js/version.js",
   "./js/settings.js",
   "./js/icons.js",
   "./js/tapFeedback.js",
