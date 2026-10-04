@@ -13,6 +13,22 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 17): protección de la clave de firma
+
+**Pedido del usuario:** que el script no cree una clave nueva sin querer (por
+ejemplo, si el proyecto se baja de nuevo y la clave quedó solo en OneDrive).
+
+**Qué se hizo:** `build/android-release.js` revisa la clave **antes** de
+borrar o subir la versión; si falta, se detiene con instrucciones para copiarla
+desde la copia de seguridad. Solo crea una nueva con `--nueva-clave`.
+CLAUDE.md actualizado.
+
+**Cómo se verificó:** se movió la carpeta de la clave, se ejecutó el script:
+salió con el aviso (código 1) y el versionCode siguió en 4; se devolvió la
+carpeta.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 16): el APK no se actualizaba — diagnóstico y `android:release`
 
 **Pedido del usuario:** diagnosticar y arreglar sin pedir confirmación; crear

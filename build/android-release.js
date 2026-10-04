@@ -55,6 +55,26 @@ function sdkTool(name) {
   return path.join(dir, exe);
 }
 
+// ---------- 0. Protección: no crear una clave nueva sin querer ----------
+// Si la clave no está (por ejemplo, el proyecto se bajó de nuevo de GitHub), una
+// clave nueva haría que las versiones siguientes no se puedan instalar encima de
+// las que ya tienen los celulares. Se detiene antes de tocar nada; solo crea una
+// clave nueva con "npm run android:release -- --nueva-clave".
+if (!fs.existsSync(KEYSTORE_PROPS) && !process.argv.includes("--nueva-clave")) {
+  console.error(`
+✖ No encontré la clave de firma en platforms/android/keystore/.
+
+  Si ya tienes una copia (por ejemplo en OneDrive), copia la carpeta "keystore"
+  (musical-showdown.jks y keystore.properties) a platforms/android/keystore/
+  y vuelve a ejecutar: npm run android:release
+
+  Solo si es la primera vez y quieres crear una clave NUEVA:
+    npm run android:release -- --nueva-clave
+  (las versiones firmadas con otra clave no se instalan encima de esta).
+`);
+  process.exit(1);
+}
+
 // ---------- 1. Borrar todo lo generado antes ----------
 console.log("== 1/5: borrando compilaciones, archivos copiados y APK anteriores ==");
 const toDelete = [
