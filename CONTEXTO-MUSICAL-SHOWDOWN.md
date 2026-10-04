@@ -144,6 +144,10 @@
         relevos): puede responder ella, fallar y en el turno siguiente llamar
         a un compañero. Puede llamar a **cualquier compañero**, aunque ya lo
         haya llamado en esa ronda.
+        Si el compañero llamado **todavía no respondió**, se puede llamar a otro
+        en su lugar (usuario, 04-10-2026, opción a): el primero no gastó
+        intento y el nuevo relevo cuenta para el máximo por ronda (o se
+        penaliza si se pasa).
       - **Si el compañero acierta:** el equipo suma los puntos de la ronda; para
         el **MVP**, el aporte es de **quien cantó** (el compañero). Para los
         turnos, el que jugó el duelo es **Ana** (la representante); los

@@ -59,7 +59,9 @@ function pickMate(side, extra, resume) {
   const team = teamOf(side);
   const rules = relayRules(state.config);
   const current = side === "A" ? r.showA : r.showB; // el representante (o, en Alternativo 1, el que canta ahora)
-  const mates = team.players.filter((p) => p !== current);
+  // Se puede llamar a cualquier compañero, menos al que ya está llamado y todavía no respondió.
+  const pending = r.sub?.[side];
+  const mates = team.players.filter((p) => p !== current && p !== pending);
   const left = state.relays[team.name] || 0;
   const question = rules.lifeline
     ? `${escapeHtml(current)} pide ayuda. ¿Quién responde esta vez?`

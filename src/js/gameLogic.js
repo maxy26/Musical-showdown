@@ -94,7 +94,8 @@ export function relayCheck(side) {
  *   - Alternativo 1: el que entra reemplaza al que pidió por el resto de la
  *     ronda; para los emparejamientos cuenta el que entró.
  *   - Alternativo 2 (comodín): el compañero responde una vez en lugar del
- *     representante; si falla, el turno vuelve al representante.
+ *     representante; si falla, el turno vuelve al representante. Si todavía no
+ *     respondió, otro compañero puede entrar en su lugar (cuenta como relevo).
  * @returns {Array|null} los cambios de puntos de la penalización, si hubo
  */
 export function useRelay(side, substitute) {

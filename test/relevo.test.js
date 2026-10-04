@@ -45,9 +45,10 @@ test("Alternativo 1: el relevo se pide antes de responder; el 2.º de la ronda o
   assert.deepEqual(relayStatus({ round: ronda(), side: "A", left: 0, rules: ALT1, attemptsLeft: Infinity }), { status: "extra", reason: "total" });
 });
 
-test("Alternativo 2 (comodín): se puede pedir después de fallar, no mientras el compañero no responde ni sin intentos", () => {
+test("Alternativo 2 (comodín): se puede pedir después de fallar y mientras el compañero no responde, pero no sin intentos", () => {
   assert.equal(relayStatus({ round: ronda({ attempted: { A: true, B: false } }), side: "A", left: 3, rules: ALT2, attemptsLeft: 4 }).status, "ok");
-  assert.equal(relayStatus({ round: ronda({ sub: { A: "Carlos", B: null } }), side: "A", left: 3, rules: ALT2, attemptsLeft: 4 }).status, "blocked");
+  // Carlos todavía no responde: se puede llamar a otro en su lugar (con 1 por ronda, es de más)
+  assert.deepEqual(relayStatus({ round: ronda({ sub: { A: "Carlos", B: null }, relaysThisRound: { A: 1, B: 0 } }), side: "A", left: 2, rules: ALT2, attemptsLeft: 4 }), { status: "extra", reason: "round" });
   assert.equal(relayStatus({ round: ronda(), side: "A", left: 3, rules: ALT2, attemptsLeft: 0 }).status, "blocked");
   assert.deepEqual(relayStatus({ round: ronda({ relaysThisRound: { A: 1, B: 0 } }), side: "A", left: 2, rules: ALT2, attemptsLeft: 4 }), { status: "extra", reason: "round" });
 });

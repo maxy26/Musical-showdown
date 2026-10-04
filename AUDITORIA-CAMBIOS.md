@@ -13,6 +13,26 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 4): relevo mientras el compañero no responde
+
+**Decisión del usuario (opción a):** en Alternativo 2, si el compañero llamado
+todavía no respondió, se puede llamar a otro en su lugar; el primero no gastó
+intento y el nuevo relevo cuenta para el máximo por ronda o se penaliza.
+
+**Qué se hizo:** `relay.js` ya no bloquea el botón mientras hay un compañero
+llamado (solo sin intentos); la lista de `relayModals.js` no muestra al que ya
+está llamado. Pruebas actualizadas. El usuario también preguntó por 5 intentos y
+5 relevos por ronda: con una prueba de clics se comprobó que funciona en la
+versión actual (en la anterior el máximo por ronda no podía pasar del total).
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 108 pasan + 1
+pendiente; recorrido con clics de 5 y 5 (5 relevos, intentos 5 → 0, "Ronda"
+5 → 0, total 3 → 2). Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** nada de este punto.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 3): conteo nuevo de relevos
 
 **Decisión del usuario:** el total de relevos cuenta las **rondas** en que se

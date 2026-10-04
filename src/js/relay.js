@@ -77,8 +77,9 @@ export function maxRelaysPerRound(attempts) {
  */
 export function relayStatus({ round, side, left, rules, attemptsLeft }) {
   if (rules.lifeline) {
-    // Comodín: no mientras un compañero llamado todavía no responde, ni sin intentos.
-    if (round.sub?.[side] || attemptsLeft <= 0) return { status: "blocked" };
+    // Comodín: no sin intentos. Si el compañero llamado todavía no responde, se
+    // puede llamar a otro en su lugar (opción a del usuario, 04-10-2026).
+    if (attemptsLeft <= 0) return { status: "blocked" };
   } else if (round.attempted?.[side]) {
     // Alternativo 1: solo antes de que ese lado responda.
     return { status: "blocked" };

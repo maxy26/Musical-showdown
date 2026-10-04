@@ -28,8 +28,11 @@ test("relevo normal: el compañero responde por Ana, gasta un relevo y no hay pe
   assert.equal(currentSinger("A"), "Carlos");
   assert.equal(state.relays["Equipo 1"], 2);
   assert.deepEqual(state.scores, { "Equipo 1": 1000, "Equipo 2": 1000 });
-  // mientras Carlos no responde, no se puede pedir otro
-  assert.equal(relayCheck("A").status, "blocked");
+  // mientras Carlos no responde se puede llamar a otro en su lugar (con 1 por ronda, es de más)
+  assert.deepEqual(relayCheck("A"), { status: "extra", reason: "round" });
+  useRelay("A", "Dani");
+  assert.equal(currentSinger("A"), "Dani", "Dani entra en lugar de Carlos");
+  assert.equal(attemptsLeft("A"), 5, "Carlos no respondió: no gastó intento");
 });
 
 test("si el compañero falla, el turno vuelve a Ana y el 2.º relevo de la ronda es 'de más': −mitad y +mitad, sin gastar del total", () => {
