@@ -118,6 +118,11 @@
   proponerlos también. Antes de hacerlo: preguntar si los sonidos deben ser
   sintetizados (regla de INSTRUCCIONES) o archivos, mostrar opciones para que
   elija y cuidar que sean de uso libre (no copiar melodías de Nintendo).
+  - **Decisiones del usuario (04-10-2026):** sonidos **sintetizados** en estilo
+    chiptune de 8 bits; agregar efectos al acertar, fallar, cambiar de ronda,
+    usar el relevo (y el relevo de más) y una fanfarria de victoria. Se le
+    mostró una página de prueba (fuera del juego) con 3 músicas de fondo
+    originales y 9 efectos generados con Web Audio; falta que elija.
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las
