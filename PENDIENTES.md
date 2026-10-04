@@ -123,6 +123,12 @@
 
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
 
+- [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
+  la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
+  objetivo. Se programó que gana el que tiene más puntos; si quedan con los
+  mismos puntos, hoy gana el primero de la lista. Preguntar al usuario qué
+  debe pasar en ese empate exacto (desempate, ronda extra, ganan los dos…).
+
 > No inventar reglas: preguntar antes (instrucción 21).
 
 > El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
@@ -130,15 +136,7 @@
 
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-- [ ] 🔴 **Programar las reglas de Alternativo 2** (definidas por el usuario el
-  03-10-2026; detalle en CONTEXTO, sección 3). "El perdedor resta" tiene dos
-  opciones: "No resta" / "Sí, resta lo mismo que gana el otro" (opción a,
-  03-10-2026). Textos aprobados (ver CONTEXTO). Antes de programar, mostrarle
-  una maqueta de las opciones en "Configurar partida".
-- [ ] 🔴 **Alternativo 1: multiplicadores siempre activos** (usuario,
-  03-10-2026). Quitar el selector "Con / Sin multiplicadores" de Alternativo 1;
-  ese selector queda solo en Alternativo 2. Programarlo junto con Alternativo 2
-  y actualizar el manual de modos ("Se pueden usar multiplicadores").
+
 - [ ] 🟡 **Botón de ayuda en cada opción** (pedido del usuario, 03-10-2026).
   Poner un pequeño botón de ayuda junto a cada opción de la configuración (tiempo,
   multiplicadores, intentos, cuánto resta el perdedor, etc.) que explique cómo
@@ -156,6 +154,20 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🔴 **(Resuelto 04-10-2026)** **Programar las reglas de Alternativo 2** (definidas por el usuario el
+  03-10-2026; detalle en CONTEXTO, sección 3). "El perdedor resta" tiene dos
+  opciones: "No resta" / "Sí, resta lo mismo que gana el otro" (opción a,
+  03-10-2026). Textos aprobados (ver CONTEXTO). Antes de programar, mostrarle
+  una maqueta de las opciones en "Configurar partida".
+  → Programado con el relevo comodín configurable (total 0 a 7 y máximo por
+    ronda) y la penalización nueva del relevo de más. Configuración en filas
+    compactas para los tres modos.
+
+- [x] 🔴 **(Resuelto 04-10-2026)** **Alternativo 1: multiplicadores siempre activos** (usuario,
+  03-10-2026). Quitar el selector "Con / Sin multiplicadores" de Alternativo 1;
+  ese selector queda solo en Alternativo 2. Programarlo junto con Alternativo 2
+  y actualizar el manual de modos ("Se pueden usar multiplicadores").
 
 - [x] 🔴 **(Resuelto 01-10-2026)** **El juego se rompe cuando se acaban las canciones** (encontrado el
   01-10-2026 al probar el podio). Cada canción acertada queda bloqueada para

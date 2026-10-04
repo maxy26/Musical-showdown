@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { SONG_DB } from "../data/songs.js";
 import { el, normalizeForSearch, highlightWord } from "../utils.js";
 import { render } from "../router.js";
-import { resolveAnswer } from "../gameLogic.js";
+import { resolveAnswer, currentSinger } from "../gameLogic.js";
 
 /**
  * Busca por nombre o por fragmento de letra en los géneros elegidos. No
@@ -22,7 +22,7 @@ export function searchSongs(q) {
 export function screenVerify() {
   const r = state.round;
   const v = state.verify;
-  const who = r.selected === "A" ? r.showA || r.participantA : r.showB || r.participantB;
+  const who = currentSinger(r.selected);
 
   const root = el(`<div class="modal-backdrop">
     <div class="modal">
@@ -103,7 +103,7 @@ export function screenVerify() {
 function openJudgeDecision() {
   const r = state.round;
   const v = state.verify;
-  const who = r.selected === "A" ? r.showA || r.participantA : r.showB || r.participantB;
+  const who = currentSinger(r.selected);
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
   overlay.innerHTML = `<div class="modal">

@@ -1,11 +1,11 @@
 import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
-import { finishRoundManual } from "../gameLogic.js";
+import { finishRoundManual, attemptsLeft, relayCheck } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
-import { modeName, effectiveRoundTime } from "./config/modes.js";
+import { modeName, effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
-import { hasRelay, canRequestRelay } from "../relay.js";
+import { relayRules } from "../relay.js";
 import { openRelay, openRelayAdjust } from "./relayModals.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
@@ -22,21 +22,31 @@ export function screenRound() {
   const pctA = Math.max(0, Math.min(100, Math.round((scoreA / c.targetScore) * 100)));
   const pctB = Math.max(0, Math.min(100, Math.round((scoreB / c.targetScore) * 100)));
 
-  // Relevo (solo Alternativo 1 – Grupal): 3 símbolos con los relevos que le
-  // quedan al equipo, el botón "Relevo" y "±" para agregar o quitar.
-  const relayOn = hasRelay(c.mode, c.battleType);
+  // Relevo (Grupal, Alternativo 1 y 2): un símbolo por cada relevo de la
+  // partida (encendidos los que le quedan), el botón "Relevo" y "±" para
+  // agregar o quitar.
+  const relays = relayRules(c);
+  const limit = attemptsPerRound(c);
   function relayBar(side) {
-    if (!relayOn) return "";
+    if (!relays) return "";
     const team = side === "A" ? r.participantA : r.participantB;
     const left = state.relays[team] ?? 0;
-    const icons = Array.from({ length: Math.max(3, Math.min(left, 3)) }, (_, i) =>
+    const icons = Array.from({ length: relays.total }, (_, i) =>
       `<span class="relay-dot ${i < left ? "on" : ""}">🔁</span>`).join("");
-    const extra = left > 3 ? `<span class="relay-extra">+${left - 3}</span>` : "";
+    const extra = left > relays.total ? `<span class="relay-extra">+${left - relays.total}</span>` : "";
     return `<div class="relay-bar">
       <span class="relay-icons" title="Relevos que le quedan">${icons}${extra}</span>
       <button type="button" class="btn btn-secondary relay-btn" data-relay="${side}">Relevo</button>
       <button type="button" class="icon-btn icon-btn-round relay-adjust" data-relay-adjust="${side}" title="Agregar o quitar relevos">±</button>
     </div>`;
+  }
+
+  /** Quién canta por el lado: el representante o, con el comodín, el compañero llamado. */
+  function singerLine(side) {
+    const show = side === "A" ? r.showA : r.showB;
+    const sub = r.sub?.[side];
+    if (sub) return `<div class="sub">🔁 ${sub} <span class="sub-note">por ${show}</span></div>`;
+    return show ? `<div class="sub">${show}</div>` : "";
   }
 
   const root = el(`<div class="screen">
@@ -50,7 +60,7 @@ export function screenRound() {
     <div class="stage">
       <div class="side a ${groupColorClass(r.groupA)}">
         <button class="name-btn" id="btn-a">
-          ${r.participantA}${r.showA ? `<div class="sub">${r.showA}</div>` : ""}
+          ${r.participantA}${singerLine("A")}
           <span class="score ${scoreA < 0 ? "score-negative" : ""}">${formatPoints(scoreA)} pts</span>
         </button>
         <div class="progress-track"><div class="progress-fill" style="width:${pctA}%;"></div></div>
@@ -76,7 +86,7 @@ export function screenRound() {
 
       <div class="side b ${groupColorClass(r.groupB)}">
         <button class="name-btn" id="btn-b">
-          ${r.participantB}${r.showB ? `<div class="sub">${r.showB}</div>` : ""}
+          ${r.participantB}${singerLine("B")}
           <span class="score ${scoreB < 0 ? "score-negative" : ""}">${formatPoints(scoreB)} pts</span>
         </button>
         <div class="progress-track"><div class="progress-fill" style="width:${pctB}%;"></div></div>
@@ -85,25 +95,34 @@ export function screenRound() {
     </div>
   </div>`);
 
-  const failed = r.failed || {};
   ["A", "B"].forEach((side) => {
     const btn = root.querySelector(`#btn-${side.toLowerCase()}`);
+    const left = attemptsLeft(side);
     if (r.phase !== "counting") {
       btn.disabled = true;
-    } else if (failed[side]) {
-      // Clásico: ya usó su único intento en esta ronda.
+    } else if (left <= 0) {
+      // Sin intentos en esta ronda (Clásico: 1; Alternativo 2: los elegidos).
       btn.disabled = true;
       btn.classList.add("attempt-used");
-      btn.appendChild(el(`<span class="attempt-badge">Ya usó su intento</span>`));
+      btn.appendChild(el(`<span class="attempt-badge">${limit === 1 ? "Ya usó su intento" : "Sin intentos"}</span>`));
     } else {
+      // Alternativo 2: cuántos intentos le quedan a ese lado.
+      if (Number.isFinite(limit) && limit > 1) {
+        btn.appendChild(el(`<span class="attempt-left">🎯 Quedan ${left}</span>`));
+      }
       btn.onclick = () => openVerification(side);
     }
   });
 
   root.querySelectorAll("[data-relay]").forEach((b) => {
     const side = b.dataset.relay;
-    if (r.phase !== "counting" || !canRequestRelay(r, side)) b.disabled = true;
-    else b.onclick = () => openRelay(side);
+    const { status } = relayCheck(side);
+    if (r.phase !== "counting" || status === "blocked") {
+      b.disabled = true;
+    } else {
+      if (status === "extra") b.classList.add("relay-btn-extra"); // relevo de más: con penalización
+      b.onclick = () => openRelay(side);
+    }
   });
   root.querySelectorAll("[data-relay-adjust]").forEach((b) => {
     b.onclick = () => openRelayAdjust(b.dataset.relayAdjust);
@@ -125,7 +144,7 @@ export function screenRound() {
 function openVerification(side) {
   state.round.paused = true;
   state.round.selected = side;
-  state.round.attempted = { ...state.round.attempted, [side]: true }; // ya no puede pedir relevo
+  state.round.attempted = { ...state.round.attempted, [side]: true }; // Alternativo 1: ya no puede pedir relevo
   // Velocidad para el MVP: segundos desde que apareció la palabra hasta que
   // se tocó el botón de este lado (hoy lo toca el moderador).
   state.round.answeredAt = { ...state.round.answeredAt, [side]: state.round.elapsed || 0 };

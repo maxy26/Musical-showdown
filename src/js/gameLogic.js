@@ -2,9 +2,9 @@ import { state } from "./state.js";
 import { SONG_DB } from "./data/songs.js";
 import { weightedPick } from "./utils.js";
 import { groupName, pickRepresentative } from "./groups.js";
-import { effectiveRoundTime, effectiveMultipliers } from "./screens/config/modes.js";
+import { effectiveRoundTime, effectiveMultipliers, attemptsPerRound, scoringRules } from "./screens/config/modes.js";
 import { roundScoreChanges, roundValue } from "./scoring.js";
-import { hasRelay, RELAYS_PER_TEAM, adjustRelays, relayPenaltyChanges } from "./relay.js";
+import { relayRules, relayStatus, relayPenaltyChanges, relayUsesTotal } from "./relay.js";
 import {
   roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel, applyRelayToMemory,
@@ -67,35 +67,58 @@ export function resetMatchTracking() {
   state.relays = {};
 }
 
-/**
- * Relevo: el que canta por el lado `side` le pasa el turno a `substitute`, un
- * compañero de su equipo. El duelo pasa a ser con el que entró, se gasta un
- * relevo del equipo y la ronda sigue con el mismo tiempo.
- */
-export function useRelay(side, substitute) {
+/** Quién responde ahora por el lado `side`: el compañero llamado con el comodín, el representante o el participante. */
+export function currentSinger(side) {
   const r = state.round;
-  const g = side === "A" ? r.groupA : r.groupB;
-  const requester = side === "A" ? r.showA : r.showB;
-  const rival = side === "A" ? r.showB : r.showA;
+  return r.sub?.[side] || (side === "A" ? r.showA : r.showB) || (side === "A" ? r.participantA : r.participantB);
+}
+
+/** Intentos que le quedan al lado `side` en esta ronda (Infinity = sin límite). */
+export function attemptsLeft(side) {
+  return attemptsPerRound(state.config) - (state.round.attemptsUsed?.[side] || 0);
+}
+
+/** Qué pasa si `side` pide un relevo ahora ("blocked" / "ok" / "extra"; ver relay.js). */
+export function relayCheck(side) {
+  const rules = relayRules(state.config);
+  if (!rules) return { status: "blocked" };
+  const r = state.round;
   const team = side === "A" ? r.participantA : r.participantB;
-  applyRelayToMemory(state.groups.map((x) => x.players), g, requester, substitute, rival, state.singCounts, state.alt1.memory);
-  if (side === "A") r.showA = substitute; else r.showB = substitute;
-  state.relays[team] = adjustRelays(state.relays[team] || 0, -1);
-  r.relayUsed = { ...r.relayUsed, [side]: true };
+  return relayStatus({ round: r, side, left: state.relays[team] ?? 0, rules, attemptsLeft: attemptsLeft(side) });
 }
 
 /**
- * Relevo sin tener relevos: el equipo de `side` resta la mitad del valor de la
- * ronda, el otro suma el valor completo sin cantar y la ronda termina.
+ * Relevo: el lado `side` le pasa el turno a `substitute`, un compañero de su
+ * equipo. Si es un relevo de más, en ese momento el equipo resta la mitad del
+ * valor de la ronda y el rival suma esa misma mitad (la ronda sigue).
+ *   - Alternativo 1: el que entra reemplaza al que pidió por el resto de la
+ *     ronda; para los emparejamientos cuenta el que entró.
+ *   - Alternativo 2 (comodín): el compañero responde una vez en lugar del
+ *     representante; si falla, el turno vuelve al representante.
+ * @returns {Array|null} los cambios de puntos de la penalización, si hubo
  */
-export function applyRelayPenalty(side) {
+export function useRelay(side, substitute) {
   const r = state.round;
-  clearInterval(r.timerId);
-  r.relayUsed = { ...r.relayUsed, [side]: true };
-  const changes = applyScoreChanges(relayPenaltyChanges(side, r.multiplier));
-  r.lastResult = { type: "relay-penalty", who: side === "A" ? r.participantA : r.participantB, changes };
-  state.screen = "round-result";
-  render();
+  const rules = relayRules(state.config);
+  const { status } = relayCheck(side);
+  if (!rules || status === "blocked") return null;
+  const team = side === "A" ? r.participantA : r.participantB;
+
+  let penalty = null;
+  if (status === "extra") penalty = applyScoreChanges(relayPenaltyChanges(side, r.multiplier));
+  if (relayUsesTotal(status)) state.relays[team] = Math.max(0, (state.relays[team] ?? 0) - 1);
+  r.relaysThisRound = { ...r.relaysThisRound, [side]: (r.relaysThisRound?.[side] || 0) + 1 };
+
+  if (rules.lifeline) {
+    r.sub = { ...r.sub, [side]: substitute };
+  } else {
+    const g = side === "A" ? r.groupA : r.groupB;
+    const requester = side === "A" ? r.showA : r.showB;
+    const rival = side === "A" ? r.showB : r.showA;
+    applyRelayToMemory(state.groups.map((x) => x.players), g, requester, substitute, rival, state.singCounts, state.alt1.memory);
+    if (side === "A") r.showA = substitute; else r.showB = substitute;
+  }
+  return penalty;
 }
 
 export function startNextRound() {
@@ -110,6 +133,7 @@ export function startNextRound() {
       : null;
 
   const alt1 = c.mode === "alternativo1";
+  const alt2 = c.mode === "alternativo2";
   let A, B, showA = null, showB = null, groupA = null, groupB = null;
   if (c.battleType === "individual") {
     if (alt1) {
@@ -134,9 +158,17 @@ export function startNextRound() {
       [showA, showB] = pickGroupDuelPlayers(
         state.groups.map((g) => g.players), ia, ib, state.singCounts, state.alt1.memory
       );
+    } else if (alt2) {
+      // Alternativo 2: los grupos se emparejan al azar como en Clásico y los
+      // jugadores de cada grupo salen en orden como en Alternativo 1.
+      const [na, nb] = pickClassicDuel(names);
+      ia = names.indexOf(na);
+      ib = names.indexOf(nb);
+      [showA, showB] = pickGroupDuelPlayers(
+        state.groups.map((g) => g.players), ia, ib, state.singCounts, state.alt1.memory
+      );
     } else {
-      // Clásico (y, por ahora, Alternativo 2, que aún no tiene reglas):
-      // qué grupos se enfrentan, con las mismas fases que en Individual.
+      // Clásico: qué grupos se enfrentan, con las mismas fases que en Individual.
       const [na, nb] = pickClassicDuel(names);
       ia = names.indexOf(na);
       ib = names.indexOf(nb);
@@ -151,9 +183,10 @@ export function startNextRound() {
     groupA = ia; // posición del grupo, para usar su color en la ronda
     groupB = ib;
   }
-  // Relevo (solo Alternativo 1 – Grupal): cada equipo empieza con 3.
-  if (hasRelay(c.mode, c.battleType)) {
-    [A, B].forEach((n) => { if (state.relays[n] === undefined) state.relays[n] = RELAYS_PER_TEAM; });
+  // Relevo (Grupal, Alternativo 1 y 2): cada equipo empieza con el total de la partida.
+  const relays = relayRules(c);
+  if (relays) {
+    [A, B].forEach((n) => { if (state.relays[n] === undefined) state.relays[n] = relays.total; });
   }
   state.matchCounts[A] = (state.matchCounts[A] || 0) + 1;
   state.matchCounts[B] = (state.matchCounts[B] || 0) + 1;
@@ -163,11 +196,12 @@ export function startNextRound() {
     word, multiplier: mult,
     timeLeft: roundTime, timerId: null, paused: false, phase: "intro",
     selected: null, lastResult: null,
-    failed: { A: false, B: false }, // Clásico: qué lado ya usó su único intento
+    attemptsUsed: { A: 0, B: 0 }, // intentos fallidos de cada lado (ver attemptsLeft)
     elapsed: 0, // segundos de la ronda sin contar pausas (ver startTimer)
     answeredAt: { A: null, B: null }, // segundo en que se tocó el botón de cada lado
     attempted: { A: false, B: false }, // si el lado ya respondió en esta ronda
-    relayUsed: { A: false, B: false }, // relevo usado en esta ronda (máximo 1 por equipo)
+    relaysThisRound: { A: 0, B: 0 }, // relevos usados en esta ronda (normales y de más)
+    sub: { A: null, B: null }, // Alternativo 2: compañero llamado con el comodín que todavía no respondió
   };
   state.screen = "round";
 
@@ -216,16 +250,19 @@ function updateClockOnly() {
  * `winnerSide`: "A", "B" o null si nadie acertó.
  */
 function applyRoundScores(winnerSide) {
-  return applyScoreChanges(roundScoreChanges(state.config.mode, winnerSide, state.round.multiplier));
+  return applyScoreChanges(roundScoreChanges(scoringRules(state.config), winnerSide, state.round.multiplier));
 }
 
-/** Suma `changes` ({A, B}) a los puntajes y devuelve los cambios para mostrarlos. */
+/**
+ * Suma `changes` ({A, B}) a los puntajes y devuelve los cambios para mostrarlos.
+ * El cambio de cada grupo se le anota (MVP) a quien responde ahora por él: si
+ * acertó un compañero llamado con el comodín, el aporte es de ese compañero.
+ */
 function applyScoreChanges(changes) {
   const r = state.round;
   return [["A", r.participantA], ["B", r.participantB]].map(([side, who]) => {
     state.scores[who] = (state.scores[who] || 0) + changes[side];
-    // MVP (Grupal): el cambio de puntos del grupo se le anota a quien cantó por él.
-    const singer = side === "A" ? r.showA : r.showB;
+    const singer = r.sub?.[side] || (side === "A" ? r.showA : r.showB);
     if (singer) state.contrib[singer] = (state.contrib[singer] || 0) + changes[side];
     return { who, delta: changes[side], newScore: state.scores[who] };
   });
@@ -244,41 +281,34 @@ export function finishRoundManual() {
   render();
 }
 
-/**
- * ¿Hay un solo intento por jugador o equipo en cada ronda? Solo en Clásico
- * (definido por el usuario el 30-09-2026). En Alternativo 1 los intentos son
- * ilimitados; Alternativo 2 todavía no tiene reglas y sigue sin límite.
- */
-export function hasSingleAttempt(mode) {
-  return mode === "clasico";
-}
-
 export function resolveAnswer(correct) {
   const r = state.round;
-  const who = r.selected === "A" ? r.participantA : r.participantB;
+  const side = r.selected;
+  const who = side === "A" ? r.participantA : r.participantB;
 
   if (correct) {
     clearInterval(r.timerId);
     // MVP: en qué segundo respondió el que acertó (para desempatar por velocidad).
-    const singer = (r.selected === "A" ? r.showA : r.showB) || who;
-    state.answerTimes[singer] = [...(state.answerTimes[singer] || []), r.answeredAt[r.selected] || 0];
-    const changes = applyRoundScores(r.selected);
+    const singer = currentSinger(side);
+    state.answerTimes[singer] = [...(state.answerTimes[singer] || []), r.answeredAt[side] || 0];
+    const changes = applyRoundScores(side);
     r.lastResult = { type: "correct", who, pts: roundValue(r.multiplier), changes };
     state.screen = "round-result";
-  } else if (hasSingleAttempt(state.config.mode)) {
-    // Clásico: ese lado ya usó su único intento. Si los dos fallaron, la
-    // ronda termina de inmediato con 0 para ambos.
-    r.failed = { ...r.failed, [r.selected]: true };
-    if (r.failed.A && r.failed.B) {
-      clearInterval(r.timerId);
-      r.lastResult = { type: "both-failed", changes: applyRoundScores(null) };
-      state.screen = "round-result";
-    } else {
-      r.lastResult = { type: "incorrect", who };
-      state.screen = "round-result-incorrect";
-    }
+    render();
+    return;
+  }
+
+  // Falló: gasta un intento. Si respondía un compañero llamado con el comodín,
+  // el turno vuelve al representante.
+  r.attemptsUsed = { ...r.attemptsUsed, [side]: (r.attemptsUsed?.[side] || 0) + 1 };
+  r.sub = { ...r.sub, [side]: null };
+  if (attemptsLeft("A") <= 0 && attemptsLeft("B") <= 0) {
+    // Los dos agotaron sus intentos: la ronda termina como "nadie acertó".
+    clearInterval(r.timerId);
+    r.lastResult = { type: "both-failed", changes: applyRoundScores(null) };
+    state.screen = "round-result";
   } else {
-    r.lastResult = { type: "incorrect", who };
+    r.lastResult = { type: "incorrect", who, left: attemptsLeft(side) };
     state.screen = "round-result-incorrect";
   }
   render();

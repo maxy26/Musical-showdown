@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import {
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel,
 } from "../src/js/pairing.js";
-import { hasSingleAttempt } from "../src/js/gameLogic.js";
+import { attemptsPerRound } from "../src/js/screens/config/modes.js";
 
 // Reglas de Clásico definidas por el usuario (CONTEXTO, sección 3). Sirven
 // igual para jugadores (Individual) y para grupos (Grupal).
@@ -153,8 +153,9 @@ test("con 4 participantes, después de muchas vueltas nunca se repite un duelo s
 
 // ---------- Intentos por ronda (definido por el usuario el 30-09-2026) ----------
 
-test("un solo intento por ronda solo en Clásico; Alternativo 1 sin límite", () => {
-  assert.equal(hasSingleAttempt("clasico"), true);
-  assert.equal(hasSingleAttempt("alternativo1"), false);
-  assert.equal(hasSingleAttempt("alternativo2"), false); // aún sin reglas propias
+test("intentos por ronda: Clásico 1, Alternativo 1 sin límite, Alternativo 2 los elegidos (5 de entrada)", () => {
+  assert.equal(attemptsPerRound({ mode: "clasico" }), 1);
+  assert.equal(attemptsPerRound({ mode: "alternativo1" }), Infinity);
+  assert.equal(attemptsPerRound({ mode: "alternativo2" }), 5);
+  assert.equal(attemptsPerRound({ mode: "alternativo2", alt2: { attempts: 8 } }), 8);
 });

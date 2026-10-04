@@ -34,19 +34,28 @@ const MODE_GUIDES = {
     ],
     more: [
       "El tiempo por ronda es de 30 segundos si no se cambia.",
-      "Se pueden usar multiplicadores: la ronda vale 100 × multiplicador.",
+      "Los multiplicadores siempre están activos: en cada ronda puede salir ×2 a ×5 y la ronda vale 100 × multiplicador.",
       "Los puntos pueden quedar en negativo.",
-      "En Grupal, cada equipo tiene 3 relevos para la partida: pasarle el turno a un compañero antes de responder.",
+      "En Grupal, cada equipo tiene 3 relevos para la partida (1 por ronda): pasarle el turno a un compañero antes de responder.",
+      "Usar un relevo de más se permite, pero en ese momento el equipo resta la mitad del valor de la ronda y el rival suma esa mitad.",
       "Gana quien llega primero al puntaje objetivo.",
     ],
   },
   alternativo2: {
-    facts: ["👥 Solo en Grupal", "🚧 En preparación"],
+    facts: ["👥 Solo en Grupal", "⚙️ Tú eliges las reglas", "📞 Relevo comodín"],
     story: [
       { art: `<span class="fx-mix"><b>Clásico</b><i>＋</i><b>Alt. 1</b></span>`, text: "Una mezcla de los dos modos" },
-      { art: `<span class="fx-pop">🚧</span>`, text: "Sus reglas todavía se están definiendo" },
+      { art: `<span class="fx-pop">⚙️</span>`, text: "Tú eliges: reloj, intentos, multiplicadores y si se resta" },
+      { art: `<span class="fx-pop">🙋</span><span class="fx-arrow">➜</span><span class="fx-pop fx-late">📞</span>`, text: "Comodín: un compañero responde por ti" },
+      { art: `<span class="fx-pop">🎯</span><b class="fx-points fx-late">5</b>`, text: "Cada jugador tiene sus intentos (5 si no se cambia)" },
     ],
-    more: ["Mientras tanto, se juega con los emparejamientos de Clásico."],
+    more: [
+      "Los equipos se enfrentan al azar (con ventaja para el que va atrás) y los jugadores de cada equipo salen en orden.",
+      "Se elige: tiempo o sin tiempo, multiplicadores, intentos (1 a 10), si el perdedor resta y si los dos restan la mitad cuando nadie acierta.",
+      "Relevo comodín: el compañero responde y gasta un intento; si falla, el turno vuelve al jugador. Se elige cuántos hay en total y por ronda.",
+      "Usar un relevo de más se permite, pero en ese momento el equipo resta la mitad del valor de la ronda y el rival suma esa mitad.",
+      "Gana quien llega primero al puntaje objetivo.",
+    ],
   },
 };
 

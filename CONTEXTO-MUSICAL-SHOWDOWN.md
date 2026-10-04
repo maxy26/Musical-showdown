@@ -77,15 +77,15 @@
     03-10-2026 no se pueden desactivar; en cada ronda puede salir ×2 a ×5),
     el perdedor resta el valor de la ronda, si nadie acierta los dos restan la
     mitad, relevo en Grupal.
-  - **Alternativo 2** (solo Grupal; reglas definidas el 03-10-2026, sin
-    programar todavía):
+  - **Alternativo 2** (solo Grupal; reglas definidas el 03-10-2026 y
+    programadas el 04-10-2026):
     - **Emparejamiento:** los equipos se emparejan al azar con las reglas de
       Clásico (fases al azar / con ventaja, equilibrio de partidos); los
       jugadores de cada equipo salen en orden como en Alternativo 1 (el que
       menos ha cantado; el rival es el siguiente del otro equipo con quien aún
       no se enfrentó).
-    - **Opciones que se eligen en "Configurar partida"** (textos aprobados
-      el 03-10-2026; en negrita el valor de entrada):
+    - **Opciones que se eligen en "Configurar partida"** (una fila por
+      opción con Sí / No o − N +; en negrita el valor de entrada):
       - ⏱️ Tiempo por ronda: **30 segundos** · otros tiempos · Sin tiempo.
       - ✨ Multiplicadores: **Sí, pueden salir ×2 a ×5** · No, todas las
         rondas valen 100.
@@ -94,7 +94,8 @@
       - 😢 ¿El que pierde la ronda resta puntos?: **No resta** · Sí, resta lo
         mismo que gana el otro.
       - ⌛ Si nadie acierta: **Nadie resta** · Los dos restan la mitad.
-      - 🔁 Relevos: 3 por equipo (fijo, solo se muestra).
+      - 🔁 Relevos por equipo: **3 en total · 1 por ronda**, se cambia en una
+        ventanita (ver "Relevo" abajo).
     - **Puntos:** ejemplo del usuario: ronda ×3 → el ganador +300 y, si se
       eligió que el perdedor resta, el perdedor −300; si nadie acierta y se
       eligió que resten, los dos −150. Primero se calcula 100 × multiplicador
@@ -102,11 +103,48 @@
     - **La ronda termina** cuando alguien acierta, cuando los dos agotan sus
       intentos, cuando se acaba el tiempo (con reloj) o cuando el moderador
       toca "Finalizar ronda" (sin reloj).
-    - **Relevo:** las mismas reglas de Alternativo 1 Grupal (antes de
-      responder, 1 por ronda, 3 por equipo en la partida). Como se pide antes
-      del primer intento, el que entra tiene todos los intentos de la ronda.
-      El relevo prohibido (el 4.º) se penaliza igual aunque se haya elegido
-      que el perdedor no resta.
+    - **Relevo (cambiado por el usuario el 03-10-2026; solo Alternativo 2):**
+      - Se configura en una ventanita desde "Configurar partida": relevos **en
+        total** (0 a 7; 0 = sin relevos) y **como máximo por ronda** (1 hasta
+        el total). Valor de entrada: 3 en total y 1 por ronda. Alternativo 1
+        sigue con 3 fijos y 1 por ronda.
+      - Funciona como el comodín de llamada de "¿Quién quiere ser
+        millonario?": Ana le pasa el turno a Carlos, Carlos responde; si se
+        equivoca, el turno **vuelve a Ana**, que puede pedir otro relevo.
+      - Cada relevo **gasta un relevo y un intento**. Ejemplo del usuario: con
+        5 intentos y 4 relevos por ronda, si usa los 4 relevos le queda 1
+        intento sin relevo.
+      - **Relevo de más** (pasarse del máximo por ronda o del total; cambiado
+        por el usuario el 03-10-2026): el botón se puede presionar, se **avisa
+        antes la consecuencia** y el relevo **sí se aplica** (el compañero
+        responde y gasta un intento). Cada vez que se usa uno de más, **en ese
+        momento** el equipo resta **la mitad del valor de la ronda** y el
+        rival suma **esa misma mitad** (no el valor completo). La ronda **no
+        termina**. Se aplica aunque se haya elegido que el perdedor no resta.
+        Si se le acaban los relevos pero tiene intentos, Ana puede seguir
+        respondiendo ella o usar relevos de más con esta penalización.
+        Después del relevo de más la ronda sigue normal: si el compañero
+        acierta, el equipo suma lo que corresponde; si falla, el rival todavía
+        puede acertar y sumar. Antes de cada relevo de más sale un aviso con
+        los puntos exactos y hay que confirmarlo.
+      - Un relevo de más por pasarse del **máximo por ronda** **no gasta**
+        del total (ya se pagó con puntos). Ejemplo: 3 en total y 1 por ronda;
+        si en una ronda usa 2, le quedan 2 para el resto de la partida.
+      - **Ganar con puntos de penalización:** si esos puntos hacen que el
+        rival llegue al objetivo a mitad de ronda, se suman en ese momento,
+        pero el ganador se declara **al terminar la ronda**.
+      - **Cuándo:** en cualquier turno de Ana mientras le queden intentos (y
+        relevos): puede responder ella, fallar y en el turno siguiente llamar
+        a un compañero. Puede llamar a **cualquier compañero**, aunque ya lo
+        haya llamado en esa ronda.
+      - **Si el compañero acierta:** el equipo suma los puntos de la ronda; para
+        el **MVP**, el aporte es de **quien cantó** (el compañero). Para los
+        turnos, el que jugó el duelo es **Ana** (la representante); los
+        compañeros que ayudaron no pierden su turno.
+      - **Máximo por ronda ≤ intentos:** en la ventanita, el máximo de relevos
+        por ronda no puede pasar de la cantidad de intentos elegida.
+      - **Reloj:** se pausa mientras se elige a quién llamar y sigue con el
+        mismo tiempo al confirmar.
 - **Ideas nuevas para Alternativo 1** (decisión del usuario, 29-09-2026,
   opción A): los cambios en la **forma de jugar**, los **puntos** (ej. restar
   al fallar, bonos), el **tiempo / fin de la partida** y el **relevo** se
@@ -133,13 +171,22 @@
   - Si el que entró falla, **sigue intentando él** hasta que se acabe el tiempo
     (intentos ilimitados). Si acierta, el equipo suma normal (100 × multiplicador).
   - Después de que un equipo falla, el otro **también** puede usar su relevo.
-  - **Usar un relevo que ya no tienen:** el botón se puede presionar igual. Se
-    resta **la mitad del valor de la ronda**, la ronda se pierde y el **otro
-    equipo suma el valor completo sin cantar** (con ×2: −100 y +200).
+  - **Usar un relevo que ya no tienen** (regla cambiada por el usuario el
+    03-10-2026, igual que en Alternativo 2): el botón se puede presionar, se
+    avisa antes y el relevo **sí se aplica**. En ese momento el equipo resta
+    **la mitad del valor de la ronda** y el rival suma **esa misma mitad** (con
+    ×2: −100 y +100). La ronda **no termina**: si el que entró acierta, suma
+    normal; si no, el rival todavía puede acertar. Si esos puntos hacen llegar
+    al rival al objetivo, el ganador se declara al terminar la ronda.
+    *(Antes: la ronda se perdía y el otro equipo sumaba el valor completo.)*
   - En la pantalla de la ronda: **3 símbolos** con los relevos que le quedan a
     cada equipo y, al lado, un botón **"±"** para agregar o quitar relevos con
     confirmación. **3 es el máximo estricto** por partida (decisión del usuario,
     01-10-2026, en lugar de "sin máximo"); no baja de 0.
+  - **2.º relevo en la misma ronda** (usuario, 03-10-2026, igual que en
+    Alternativo 2): el botón se puede presionar, con aviso, y se penaliza igual
+    que el relevo de más (−la mitad / +la mitad, la ronda sigue). No gasta del
+    total.
   - **Relevo prohibido (el 4.º):** antes de confirmar aparece un aviso con lo
     que pierden, con los puntos exactos de esa ronda.
   - **Puntos negativos** permitidos, mostrados en **rojo bien visible**.

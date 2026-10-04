@@ -30,10 +30,21 @@ test("ejemplo del usuario: objetivo 500, María 250 y Carlos 400; Carlos gana �
   assert.ok(scores.Carlos >= 500);
 });
 
-test("Clásico (y Alternativo 2 por ahora): el que acierta suma y nadie resta", () => {
+test("Clásico: el que acierta suma y nadie resta", () => {
   assert.deepEqual(roundScoreChanges("clasico", "A", null), { A: 100, B: 0 });
   assert.deepEqual(roundScoreChanges("clasico", null, null), { A: 0, B: 0 });
+});
+
+test("Alternativo 2: el perdedor resta y 'nadie acierta' según lo elegido (ejemplos del usuario)", () => {
+  // valores de entrada: el perdedor no resta y si nadie acierta nadie resta
   assert.deepEqual(roundScoreChanges("alternativo2", "B", 3), { A: 0, B: 300 });
+  assert.deepEqual(roundScoreChanges({ loserLoses: false, noneLoseHalf: false }, null, 3), { A: 0, B: 0 });
+  // "Sí, resta lo mismo que gana el otro": ronda ×3 → +300 y −300; ×4 → +400 y −400
+  assert.deepEqual(roundScoreChanges({ loserLoses: true, noneLoseHalf: false }, "A", 3), { A: 300, B: -300 });
+  assert.deepEqual(roundScoreChanges({ loserLoses: true, noneLoseHalf: false }, "B", 4), { A: -400, B: 400 });
+  // "Si nadie acierta, ambos restan": ×3 → los dos −150; ×4 → los dos −200
+  assert.deepEqual(roundScoreChanges({ loserLoses: false, noneLoseHalf: true }, null, 3), { A: -150, B: -150 });
+  assert.deepEqual(roundScoreChanges({ loserLoses: false, noneLoseHalf: true }, null, 4), { A: -200, B: -200 });
 });
 
 test("los puntos negativos se muestran con signo menos y los cambios siempre con signo", () => {

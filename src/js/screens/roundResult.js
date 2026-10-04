@@ -1,15 +1,24 @@
 import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
-import { startNextRound, hasSingleAttempt } from "../gameLogic.js";
+import { startNextRound, attemptsLeft } from "../gameLogic.js";
 import { formatPoints, formatDelta } from "../scoring.js";
 
 export function screenRoundResultIncorrect() {
   const r = state.round;
-  // Clásico: un solo intento por lado; Alternativo 1: intentos ilimitados.
-  const note = hasSingleAttempt(state.config.mode)
-    ? `${r.lastResult.who} ya usó su único intento en esta ronda. Ahora solo puede intentarlo ${r.lastResult.who === r.participantA ? r.participantB : r.participantA}.`
-    : "La canción no queda bloqueada. El intento no otorga puntos. Puede volver a intentar cualquier participante de esta ronda.";
+  const who = r.lastResult.who;
+  const other = who === r.participantA ? r.participantB : r.participantA;
+  const left = r.lastResult.left;
+  const otherCanTry = attemptsLeft(who === r.participantA ? "B" : "A") > 0;
+  // Clásico: 1 intento por lado; Alternativo 1: ilimitados; Alternativo 2: los elegidos.
+  let note;
+  if (!Number.isFinite(left)) {
+    note = "El intento no otorga puntos. Puede volver a intentar cualquier participante de esta ronda.";
+  } else if (left > 0) {
+    note = `A ${who} le ${left === 1 ? "queda 1 intento" : `quedan ${left} intentos`} en esta ronda.`;
+  } else {
+    note = `${who} ya no tiene intentos en esta ronda.${otherCanTry ? ` Ahora solo puede intentarlo ${other}.` : ""}`;
+  }
   const root = el(`<div class="screen">
     <div class="card result-banner">
       <div class="big">❌ Respuesta incorrecta</div>
@@ -43,12 +52,11 @@ export function screenRoundResult() {
     content = `<div class="big">⏰ ¡Tiempo agotado!</div>
       <p class="panel-title">Sin ganador · ${anyLoss ? "los dos restan la mitad del valor de la ronda" : "+0 puntos"}</p>${lines}`;
   } else if (result.type === "both-failed") {
-    content = `<div class="big">❌ Nadie acertó</div><p class="panel-title">Los dos usaron su intento · +0 puntos</p>`;
-  } else if (result.type === "relay-penalty") {
-    content = `<div class="big">🚫 Relevo sin intentos</div>
-      <p class="panel-title">${result.who} usó un relevo que ya no tenía: resta la mitad y el otro equipo gana la ronda</p>${lines}`;
+    content = `<div class="big">❌ Nadie acertó</div>
+      <p class="panel-title">Los dos agotaron sus intentos · ${anyLoss ? "los dos restan la mitad del valor de la ronda" : "+0 puntos"}</p>${lines}`;
   } else if (result.type === "finished") {
-    content = `<div class="big">⏹️ Ronda finalizada</div><p class="panel-title">Sin ganador · +0 puntos</p>`;
+    content = `<div class="big">⏹️ Ronda finalizada</div>
+      <p class="panel-title">Sin ganador · ${anyLoss ? "los dos restan la mitad del valor de la ronda" : "+0 puntos"}</p>${lines}`;
   } else {
     content = `<div class="big">✅ ¡Correcto!</div>
       <div class="pts" style="color:var(--gold);">+${result.pts}</div>${lines}`;
@@ -59,7 +67,10 @@ export function screenRoundResult() {
   </div></div>`);
 
   root.querySelector("#next").onclick = () => {
-    const winner = Object.keys(state.scores).find((k) => state.scores[k] >= c.targetScore);
+    // Gana el que llegó al objetivo; si con la penalización del relevo llegaron
+    // varios, el que tiene más puntos.
+    const reached = Object.keys(state.scores).filter((k) => state.scores[k] >= c.targetScore);
+    const winner = reached.sort((x, y) => state.scores[y] - state.scores[x])[0];
     if (winner) {
       state.winner = winner;
       state.screen = "results";

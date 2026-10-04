@@ -13,6 +13,55 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 2): Alternativo 2 programado
+
+**Decisiones del usuario (03-10-2026)**
+- Relevos de Alternativo 2 configurables en una ventanita: total 0 a 7 (0 = sin
+  relevos) y máximo por ronda (1 hasta el total y los intentos); de entrada 3 y 1.
+- Relevo tipo comodín de llamada: el compañero responde y gasta un intento; si
+  falla, el turno vuelve al representante. Se puede pedir en cualquier turno.
+  Para el MVP, el aporte es de quien cantó.
+- Relevo de más (sin relevos o pasado del máximo por ronda), en **Alternativo 1
+  y 2**: se permite con aviso; en ese momento el equipo resta la mitad del valor
+  de la ronda y el rival suma esa mitad; la ronda sigue. El ganador se declara
+  al terminar la ronda. Pasarse del máximo por ronda no gasta del total. En
+  Alternativo 1, el 2.º relevo de la misma ronda también se permite así.
+- Opciones con "Sí / No" y formato compacto en Android.
+
+**Qué se hizo**
+- `config/modes.js`: `ALT2_DEFAULTS`, `alt2Options`, `attemptsPerRound`,
+  `scoringRules`, `hasMultiplierChoice`; Alternativo 1 con multiplicadores
+  siempre activos. `state.js`: `config.alt2`.
+- `scoring.js`: `roundScoreChanges` acepta el modo o sus reglas (el perdedor
+  resta / si nadie acierta ambos restan).
+- `relay.js` reescrito: `relayRules`, `relayStatus` (bloqueado / normal / de
+  más), `maxRelaysPerRound`, penalización de mitad y mitad, `relayUsesTotal`.
+- `gameLogic.js`: emparejamiento de Alternativo 2, intentos por lado
+  (`attemptsLeft`), comodín (`round.sub`, `currentSinger`), `relayCheck`,
+  `useRelay` con penalización en vivo; se quitó `applyRelayPenalty` y
+  `hasSingleAttempt`. Si nadie acierta o los dos agotan sus intentos, se
+  aplican las reglas del modo.
+- Pantallas: ronda (intentos que quedan, "🔁 Carlos por Ana", botón de relevo de
+  más en rojo), ventanas del relevo, resultado de la ronda (textos nuevos; gana
+  el que más puntos tiene si varios pasan el objetivo), verificación (quién
+  canta de verdad).
+- `config/index.js` + nuevo `config/alt2Options.js`: filas compactas en los
+  tres modos y ventanita de relevos. CSS de filas, "Sí / No", "− N +" y
+  jugadores en dos columnas en el teléfono. `sw.js` v11.
+- Manual de "Modos de juego" actualizado. Pruebas: nuevas en
+  `test/alternativo2.test.js` y actualizadas en clasico, modos, puntos y relevo.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 106 pasan + 1
+pendiente. Capturas con Edge sin ventana del juego real: configuración de
+Alternativo 1 y 2 en el teléfono, ventanita de relevos, ronda de Alternativo 2
+y aviso del relevo de más (ronda ×5: −250 / +250). Compilados `.exe` y `.apk` y
+se abrió el juego.
+
+**Qué quedó abierto:** empate exacto al llegar al objetivo por la penalización
+(PENDIENTES); botón de ayuda en cada opción; actualizar la ayuda general.
+
+---
+
 ## 2026-10-03 — Sesión 6: reglas de Alternativo 2 definidas (sin programar)
 
 **Decisiones del usuario:** resumen de los tres modos y reglas completas de

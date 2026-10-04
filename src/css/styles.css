@@ -653,3 +653,48 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 
 /* Podio */
 .podium-block{border-radius:18px 18px 6px 6px;box-shadow:0 6px 0 rgba(0,0,0,.25);}
+
+/* ---------- Configurar partida: opciones en filas compactas (03-10-2026) ---------- */
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 8px 8px 14px;
+  border-radius:18px;background:var(--bg-alt);}
+.opt-row > span{font-weight:700;font-size:14.5px;}
+.opt-row select{width:auto;min-width:120px;padding:9px 34px 9px 14px;background-color:var(--card-2);flex:none;}
+/* "Sí / No" */
+.yesno{display:inline-flex;background:var(--card-2);border-radius:999px;padding:3px;gap:3px;flex:none;}
+.yesno button{min-width:54px;padding:8px 12px;border-radius:999px;background:none;color:var(--text-dim);font-weight:800;font-size:14px;}
+.yesno button.active{background:var(--gold);color:var(--stage-bg);}
+/* "− N +" */
+.stepper{display:inline-flex;align-items:center;gap:4px;background:var(--card-2);border-radius:999px;padding:3px;flex:none;}
+.stepper button{width:34px;height:34px;border-radius:50%;background:var(--bg-alt);color:var(--text);font-size:19px;font-weight:800;}
+.stepper button:disabled{opacity:.35;cursor:default;}
+.stepper output{min-width:30px;text-align:center;font-family:'Fredoka','Nunito',sans-serif;font-size:19px;font-weight:700;}
+/* Fila de relevos: abre la ventanita */
+.relay-open{padding:8px 14px;border-radius:999px;background:var(--card-2);color:var(--gold);font-weight:800;font-size:13.5px;
+  box-shadow:0 4px 0 rgba(0,0,0,.3);flex:none;}
+.relay-settings .opt-row{margin-bottom:8px;}
+.add-player-btn{margin-top:6px;}
+
+/* Ronda: intentos que quedan, compañero llamado con el comodín y relevo de más */
+.attempt-left{display:block;margin-top:6px;font-size:12px;font-weight:700;color:var(--gold);}
+.sub-note{opacity:.75;font-size:11px;}
+.relay-btn.relay-btn-extra{background:rgba(255,77,109,.18);color:#FFB3C1;}
+
+/* Teléfono: todo más ajustado para bajar menos */
+@media (max-width:640px){
+  .card{padding:14px;}
+  .field{margin-bottom:14px;}
+  .field label{margin-bottom:6px;}
+  .chip-group{gap:6px;}
+  .chip{padding:7px 12px;}
+  .config-summary{margin-bottom:12px;}
+  .opt-row{padding:6px 6px 6px 12px;}
+  .opt-row > span{font-size:13.5px;}
+  .opt-row select{min-width:0;width:112px;padding:8px 26px 8px 12px;font-size:14px;background-position:right 8px center;}
+  /* Jugadores en dos columnas */
+  #players-list{display:grid;grid-template-columns:1fr 1fr;column-gap:8px;}
+  #players-list .player-row{gap:2px;margin-bottom:6px;min-width:0;}
+  #players-list .player-row input{padding:9px 12px;min-width:0;}
+  #players-list .remove-btn{padding:4px 6px;font-size:15px;}
+  .add-player-btn{margin-top:4px;padding:9px 16px;font-size:14px;}
+}

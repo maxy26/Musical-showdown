@@ -8,7 +8,8 @@ import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
 } from "./presets.js";
-import { modesFor, modeName, usesRoundTime, allowsNoTime, usesMultipliers, DEFAULT_ROUND_TIME } from "./modes.js";
+import { modesFor, modeName, usesRoundTime, allowsNoTime, DEFAULT_ROUND_TIME } from "./modes.js";
+import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
 import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
@@ -45,7 +46,7 @@ export function screenConfig() {
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
         <p class="small-note config-group-note" id="group-note" ${isGroup && typedCount < 4 ? "" : "hidden"}>Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typedCount}).</p>
-        <button class="btn btn-secondary" id="add-player" style="margin-top:6px;">+ Añadir jugador</button>
+        <button class="btn btn-secondary add-player-btn" id="add-player">+ Añadir jugador</button>
       </div>
 
       <div class="field">
@@ -55,9 +56,9 @@ export function screenConfig() {
         </div>
       </div>
 
-      <div class="config-2col">
-        <div class="field">
-          <label>Puntaje objetivo</label>
+      <!-- Opciones en filas compactas: nombre a la izquierda, control a la derecha (03-10-2026) -->
+      <div class="opts">
+        <div class="opt-row"><span>🏆 Puntaje objetivo</span>
           <select id="target">
             ${TARGET_SCORE_PRESETS.map((v) => `<option value="${v}" ${c.targetScoreMode === "preset" && v === c.targetScore ? "selected" : ""}>${v} pts</option>`).join("")}
             ${customValueOption(c.targetScoreMode === "custom", `${c.targetScore} pts`)}
@@ -65,25 +66,15 @@ export function screenConfig() {
           </select>
         </div>
         ${usesRoundTime(c.mode) ? `
-        <div class="field">
-          <label>Tiempo por ronda</label>
+        <div class="opt-row"><span>⏱️ Tiempo por ronda</span>
           <select id="roundtime">
             ${ROUND_TIME_PRESETS.filter((o) => o.value !== 0 || allowsNoTime(c.mode)).map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
             ${customValueOption(c.roundTimeMode === "custom", formatCustomTime(c.roundTime))}
             <option value="custom">Personalizado…</option>
           </select>
         </div>` : ""}
+        ${c.mode === "alternativo2" ? alt2RowsHTML(c) : ""}
       </div>
-
-      ${usesMultipliers(c.mode) ? `
-      <div class="field">
-        <label>Multiplicadores</label>
-        <div class="segmented" id="mult-segment" role="radiogroup" aria-label="Multiplicadores">
-          <button type="button" role="radio" data-mult="on" class="${c.multipliers.length > 0 ? "active" : ""}" aria-checked="${c.multipliers.length > 0}">✨ Con multiplicadores</button>
-          <button type="button" role="radio" data-mult="off" class="${c.multipliers.length > 0 ? "" : "active"}" aria-checked="${c.multipliers.length === 0}">Sin multiplicadores</button>
-        </div>
-        <p class="field-hint">${c.multipliers.length > 0 ? "Pueden salir ×2, ×3, ×4 o ×5 en cualquier ronda." : "Todas las rondas valen 100 puntos."}</p>
-      </div>` : ""}
 
       <button class="btn btn-primary btn-block" id="confirm-config">Confirmar configuración</button>
     </div>
@@ -158,7 +149,7 @@ export function screenConfig() {
     render();
   };
 
-  // ---------- Géneros / multiplicadores ----------
+  // ---------- Géneros y opciones de Alternativo 2 ----------
   root.querySelectorAll("[data-genre]").forEach((b) => (b.onclick = () => {
     const g = b.dataset.genre;
     if (c.genres.includes(g)) c.genres = c.genres.filter((x) => x !== g);
@@ -166,11 +157,9 @@ export function screenConfig() {
     render();
   }));
 
-  // Selector "Con / Sin multiplicadores" (diseño B elegido por el usuario).
-  root.querySelectorAll("[data-mult]").forEach((b) => (b.onclick = () => {
-    c.multipliers = b.dataset.mult === "on" ? [2, 3, 4, 5] : [];
-    render();
-  }));
+  // Alternativo 2: multiplicadores, intentos, puntos y relevos (alt2Options.js).
+  // En Alternativo 1 los multiplicadores ya no se eligen: siempre están activos.
+  bindAlt2Options(root, c, render);
 
   // ---------- Confirmar y arrancar la partida ----------
   root.querySelector("#confirm-config").onclick = () => {

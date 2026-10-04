@@ -3,6 +3,8 @@
  * (`state`) para que todas las pantallas lean/escriban el mismo estado,
  * y `resetState()` para reiniciarlo (nueva partida / volver al inicio).
  */
+import { ALT2_DEFAULTS } from "./screens/config/modes.js";
+
 function freshState() {
   return {
     screen: "menu",
@@ -15,7 +17,8 @@ function freshState() {
       targetScoreMode: "preset", // "preset" | "custom"
       roundTime: 30, // 0 = sin tiempo
       roundTimeMode: "preset", // "preset" | "custom"
-      multipliers: [2, 3, 4, 5], // los 4 fijos, con un solo interruptor (instrucción 20)
+      multipliers: [2, 3, 4, 5], // Alternativo 2: los 4 o ninguno (Sí / No); Alternativo 1 siempre los 4
+      alt2: { ...ALT2_DEFAULTS }, // opciones de Alternativo 2 (ver modes.js)
       groupCount: 2, // modo Grupal: cantidad de grupos
       groupTerm: "equipo", // modo Grupal: "equipo" | "grupo" (ver groups.js)
     },
