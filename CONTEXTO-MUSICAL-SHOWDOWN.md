@@ -105,9 +105,12 @@
       toca "Finalizar ronda" (sin reloj).
     - **Relevo (cambiado por el usuario el 03-10-2026; solo Alternativo 2):**
       - Se configura en una ventanita desde "Configurar partida": relevos **en
-        total** (0 a 7; 0 = sin relevos) y **como máximo por ronda** (1 hasta
+        total** (0 a 7) y **como máximo por ronda** (1 hasta
         los intentos). Valor de entrada: 3 en total y 1 por ronda. Alternativo 1
         sigue con 3 fijos y 1 por ronda.
+      - **Con 0 en total** (04-10-2026, para que funcione como Alternativo 1 sin
+        relevos): el botón sigue y **todos** los relevos son de más (aviso y
+        penalización). En la ronda dice "0 · con penalización".
       - **Conteo (usuario, 04-10-2026):** el total cuenta las **rondas** en que
         se usan relevos. Apenas se usa el primero de la ronda se descuenta 1 del
         total; en esa ronda se pueden usar los que faltan hasta el máximo por

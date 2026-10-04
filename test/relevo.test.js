@@ -15,7 +15,8 @@ test("hay relevo en Grupal: Alternativo 1 con 3 fijos y 1 por ronda; Alternativo
   assert.deepEqual(relayRules({ mode: "alternativo2", battleType: "grupal" }), { total: 3, perRound: 1, lifeline: true });
   assert.deepEqual(relayRules({ mode: "alternativo2", battleType: "grupal", alt2: { relaysTotal: 6, relaysPerRound: 2 } }),
     { total: 6, perRound: 2, lifeline: true });
-  assert.equal(relayRules({ mode: "alternativo2", battleType: "grupal", alt2: { relaysTotal: 0 } }), null, "0 = sin relevos");
+  // con 0 en total el relevo sigue, pero todos son de más (como Alternativo 1 sin relevos)
+  assert.deepEqual(relayRules({ mode: "alternativo2", battleType: "grupal", alt2: { relaysTotal: 0 } }), { total: 0, perRound: 1, lifeline: true });
   assert.equal(RELAYS_PER_TEAM, 3);
 });
 

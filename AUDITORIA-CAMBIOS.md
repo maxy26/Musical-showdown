@@ -13,6 +13,30 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 5): relevo con 0 en total, como en Alternativo 1
+
+**Pedido del usuario:** poder volver a usar el relevo en Alternativo 2 como en
+Alternativo 1, respetando las reglas.
+
+**Qué se encontró:** un recorrido con clics de 4 rondas (13 situaciones:
+antes y después de responder Ana, tras fallar el compañero, con el compañero
+sin responder, con el total agotado) mostró el botón siempre activo. La
+diferencia real con Alternativo 1 era que en Alternativo 2, con **0 en total**
+en la ventanita, el relevo desaparecía; en Alternativo 1, sin relevos, se
+puede usar igual con penalización.
+
+**Qué se hizo:** `relay.js` ya no devuelve "sin relevo" con 0 en total: el
+botón sigue y todos son de más. Fila de configuración: "0 · todos con
+penalización"; ronda: "0 · con penalización". Pruebas y CONTEXTO actualizados.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 108 pasan + 1
+pendiente; recorrido con 0 en total (botón activo, −50 por cada relevo en una
+ronda de 100, la ronda sigue). Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** confirmar con el usuario que era esto lo que le pasaba.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 4): relevo mientras el compañero no responde
 
 **Decisión del usuario (opción a):** en Alternativo 2, si el compañero llamado

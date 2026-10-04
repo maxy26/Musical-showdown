@@ -6,7 +6,8 @@
  *     entra reemplaza al que pidió el relevo por el resto de la ronda; se pide
  *     antes de que ese lado responda.
  *   - Alternativo 2: el total (0 a 7) y el máximo por ronda se eligen en la
- *     configuración. Funciona como el comodín de llamada: el compañero responde
+ *     configuración. Con 0 en total el relevo sigue disponible, pero todos son
+ *     "de más" (con penalización), igual que en Alternativo 1 sin relevos. Funciona como el comodín de llamada: el compañero responde
  *     en lugar del representante (gasta un intento del lado) y, si falla, el
  *     turno vuelve al representante, que puede pedir otro.
  *   - Conteo (usuario, 04-10-2026): el total cuenta las RONDAS en las que el
@@ -40,8 +41,7 @@ export function relayRules(config) {
   }
   if (config.mode === "alternativo2") {
     const o = alt2Options(config);
-    if (o.relaysTotal <= 0) return null; // 0 = sin relevos
-    return { total: o.relaysTotal, perRound: o.relaysPerRound, lifeline: true };
+    return { total: Math.max(0, o.relaysTotal), perRound: o.relaysPerRound, lifeline: true };
   }
   return null;
 }

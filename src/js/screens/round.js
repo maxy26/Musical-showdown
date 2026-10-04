@@ -35,9 +35,12 @@ export function screenRound() {
       `<span class="relay-dot ${i < left ? "on" : ""}">🔁</span>`).join("");
     const extra = left > relays.total ? `<span class="relay-extra">+${left - relays.total}</span>` : "";
     // Alternativo 2: también cuántos le quedan en esta ronda (el total cuenta rondas).
-    const inRound = relays.lifeline
-      ? `<span class="relay-round" title="Relevos que le quedan en esta ronda">Ronda: ${relaysLeftThisRound(r.relaysThisRound?.[side] || 0, left, relays.perRound)}</span>`
-      : "";
+    // Con 0 en total (Alternativo 2), todos los relevos son de más.
+    const inRound = relays.total === 0
+      ? `<span class="relay-round">0 · con penalización</span>`
+      : relays.lifeline
+        ? `<span class="relay-round" title="Relevos que le quedan en esta ronda">Ronda: ${relaysLeftThisRound(r.relaysThisRound?.[side] || 0, left, relays.perRound)}</span>`
+        : "";
     return `<div class="relay-bar">
       <span class="relay-icons" title="Relevos que le quedan (en total)">${icons}${extra}</span>${inRound}
       <button type="button" class="btn btn-secondary relay-btn" data-relay="${side}">Relevo</button>

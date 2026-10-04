@@ -25,9 +25,9 @@ function stepper(id, value, label) {
   </div>`;
 }
 
-/** Texto de la fila de relevos: "3 en total · 1 por ronda" o "Sin relevos". */
+/** Texto de la fila de relevos: "3 en total · 1 por ronda" o, con 0, "0 · todos con penalización". */
 export function relaySummary(o) {
-  return o.relaysTotal === 0 ? "Sin relevos" : `${o.relaysTotal} en total · ${o.relaysPerRound} por ronda`;
+  return o.relaysTotal === 0 ? "0 · todos con penalización" : `${o.relaysTotal} en total · ${o.relaysPerRound} por ronda`;
 }
 
 /** Filas de las opciones de Alternativo 2 (van dentro de `.opts`). */
@@ -75,7 +75,7 @@ export function bindAlt2Options(root, c, rerender) {
 }
 
 /**
- * Ventanita de relevos: total de la partida (0 a 7; 0 = sin relevos; cuenta las
+ * Ventanita de relevos: total de la partida (0 a 7; con 0 todos son de más; cuenta las
  * rondas en que se usan) y máximo por ronda (de 1 hasta los intentos). "Listo" guarda.
  */
 function openRelaySettings(c, rerender) {

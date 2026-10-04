@@ -77,7 +77,7 @@ test("sin intentos no se puede pedir relevo (cada relevo gasta un intento)", () 
   assert.equal(relayCheck("A").status, "blocked");
 });
 
-test("con 0 relevos elegidos no hay relevo en la partida", () => {
-  setupRound({ alt2: { relaysTotal: 0 } });
-  assert.equal(relayCheck("A").status, "blocked");
+test("con 0 relevos elegidos el relevo sigue, pero siempre es de más (como Alternativo 1 sin relevos)", () => {
+  setupRound({ alt2: { relaysTotal: 0 }, relays: 0 });
+  assert.deepEqual(relayCheck("A"), { status: "extra", reason: "total" });
 });
