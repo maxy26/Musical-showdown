@@ -13,6 +13,30 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 8): animación al tocar botones y casillas
+
+**Pedido del usuario:** una pequeña animación al tocar y seleccionar cada
+casilla y botón.
+
+**Qué se hizo**
+- Nuevo `src/js/tapFeedback.js` (`initTapFeedback`, llamado desde `main.js`):
+  al tocar un botón o casilla sale una **onda dorada** desde el punto tocado.
+  Se dibuja en `<body>` con posición fija, así que se ve aunque al tocar se
+  vuelva a dibujar la pantalla (Sí/No, géneros, interruptor). No sale con
+  "Animaciones: No".
+- CSS: la onda (`.tap-ripple`) y un "hundirse" al presionar en casillas,
+  Sí/No, − +, interruptor, nombres de la ronda, ✕ y botones redondos (los
+  `.btn` y `.pressable` conservan su efecto de juguete). `sw.js` v12.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; prueba con Edge sin ventana: la onda aparece tras tocar un "Sí" que
+redibuja la pantalla y no aparece con "Animaciones: No". Compilados `.exe` y
+`.apk`.
+
+**Qué quedó abierto:** las dos preguntas de la parte 6.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 7): tarjetas tocables, Alternativo 2 desde Individual y 4 jugadores en Grupal
 
 **Pedidos del usuario:** elegir el modo tocando la tarjeta completa del manual;

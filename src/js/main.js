@@ -1,10 +1,12 @@
 import { render } from "./router.js";
 import { initSound } from "./sound.js";
 import { applySettings } from "./settings.js";
+import { initTapFeedback } from "./tapFeedback.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
 initSound();
+initTapFeedback();
 
 function hideLoader() {
   const loader = document.getElementById("loader");
