@@ -281,6 +281,13 @@
 - El número de cada jugador es su orden dentro de la tarjeta de su grupo;
   el de cada grupo, el orden de las tarjetas.
 
+### Logo (04-10-2026)
+- El usuario eligió **"3D premium"**: el logo de siempre (círculo con degradado
+  azul-violeta → rosa, ecualizador de cuadritos rosa y turquesa, nota doble rosa
+  con rayas turquesa) mejorado con volumen, reflejo, destellos y borde
+  brillante. Está en `src/icons/`, en los íconos y pantallas de carga de
+  Android (fondo azul marino `#141833`) y en `platforms/desktop/build-icon.ico`.
+
 ### Pantalla de inicio (rediseño del 01-10-2026)
 - Estilo "casual y divertido" con **luces de show** moviéndose en el fondo de
   todas las pantallas. Solo el nombre (sin logo).

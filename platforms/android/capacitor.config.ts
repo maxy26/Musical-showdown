@@ -4,9 +4,9 @@ const config: CapacitorConfig = {
   appId: 'com.palabracantada.app',
   appName: 'Musical Showdown',
   webDir: 'www',
-  backgroundColor: '#150F22',
+  backgroundColor: '#141833',
   android: {
-    backgroundColor: '#150F22'
+    backgroundColor: '#141833'
   }
 };
 

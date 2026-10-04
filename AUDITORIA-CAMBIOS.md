@@ -13,6 +13,36 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 15): logo nuevo "3D premium" y versión 1.2
+
+**Decisión del usuario:** de las 3 mejoras del logo de hoy, la tercera ("3D
+premium"), aplicada directamente al juego. Contó que pasa el APK por WhatsApp
+y al abrir ve la versión vieja.
+
+**Qué se hizo**
+- Los íconos se generaron dibujando el SVG del logo en un lienzo del navegador
+  (página en la carpeta temporal + Edge sin ventana con conexión de
+  depuración), sin herramientas externas:
+  - `src/icons/icon-512.png` y `icon-192.png`.
+  - Android: `ic_launcher`, `ic_launcher_round` (48 a 192 px),
+    `ic_launcher_foreground` (108 a 432 px, logo al 72 %) y las 11
+    `splash.png` (logo al 32 % sobre `#141833`).
+  - Windows: `platforms/desktop/build-icon.ico` (16 a 256 px, PNG dentro).
+- Fondo del ícono adaptable de Android: blanco → `#141833`; fondo de
+  Capacitor (`capacitor.config.ts`): `#150F22` → `#141833`.
+- Versión 1.2 (`APP_VERSION`, versionCode 3, versionName "1.2"): el APK sale
+  como `Musical-Showdown-v1.2.apk`. `sw.js` v13.
+- PENDIENTES (logos resuelto; seguimiento del APK por WhatsApp) y CONTEXTO.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; se vieron el ícono y una pantalla de carga generados; el APK trae el
+ícono nuevo (`res/mipmap-xxxhdpi-v4/ic_launcher.png`, 52 513 bytes), el ícono
+web nuevo y la versión 1.2. Compilados `.exe` y `.apk`; se abrió el juego.
+
+**Qué quedó abierto:** que el usuario confirme en el celular que ve la 1.2.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 14): versión visible y APK con la versión en el nombre
 
 **Reporte del usuario:** aun desinstalando la app vieja, el APK que instala no

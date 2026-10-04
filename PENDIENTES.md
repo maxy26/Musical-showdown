@@ -54,6 +54,12 @@
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
+- [ ] 🟡 **El usuario ve la versión vieja al instalar el APK** (04-10-2026). Lo
+  pasa por WhatsApp (arrastrando el APK al chat) y, aun desinstalando la app,
+  al abrir ve la versión anterior. El APK de `dist/android` sí trae todo. Se
+  agregó la versión visible en Ajustes y el APK con la versión en el nombre
+  (`Musical-Showdown-v1.2.apk`); confirmar con el usuario si con eso se ve la
+  1.2. Si no, probar pasarlo por cable o Drive.
 - [ ] 🟡 **Probar el APK en un teléfono Android real.** Se descarga desde
   GitHub Actions ("Artifacts" → `musical-showdown-android`). Para instalarlo
   hay que permitir "instalar apps de origen desconocido".
@@ -76,11 +82,6 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
-- [ ] 🟡 **Recomendar logos nuevos** (pedido del usuario, 04-10-2026). Proponerle
-  distintos logos basados en el logo actual (`src/icons/icon-512.png`) que
-  combinen con el diseño nuevo (casual y divertido, luces de show, colores
-  azul marino, amarillo, naranja-rosa y turquesa, letras Fredoka). Mostrarlos
-  como maqueta para que elija; el ícono cambia en la web, el `.exe` y el `.apk`.
 - [ ] 🔴 **CRÍTICO — Cambiar la forma en que se buscan las canciones** (pedido
   del usuario, 04-10-2026), teniendo en cuenta que el juego es de **canto**.
   Hoy el moderador escribe el nombre o un fragmento y elige la canción de una
@@ -188,6 +189,16 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 04-10-2026)** **Recomendar logos nuevos** (pedido del usuario, 04-10-2026). Proponerle
+  distintos logos basados en el logo actual (`src/icons/icon-512.png`) que
+  combinen con el diseño nuevo (casual y divertido, luces de show, colores
+  azul marino, amarillo, naranja-rosa y turquesa, letras Fredoka). Mostrarlos
+  como maqueta para que elija; el ícono cambia en la web, el `.exe` y el `.apk`.
+  → Se mostraron 4 tandas (fuera del juego). El usuario eligió **"3D premium"**:
+    el logo de hoy mejorado (misma composición y colores) con volumen, reflejo,
+    destellos y borde brillante. Se aplicó a la web, Android (íconos,
+    adaptable y pantallas de carga) y Windows (`build-icon.ico`).
 
 - [x] 🔴 **(Resuelto 04-10-2026)** **Programar las reglas de Alternativo 2** (definidas por el usuario el
   03-10-2026; detalle en CONTEXTO, sección 3). "El perdedor resta" tiene dos

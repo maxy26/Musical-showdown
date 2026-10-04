@@ -34,7 +34,7 @@ function notificationsBody() {
  * instalada. Al cambiarla, cambiar también versionName (y subir versionCode) en
  * platforms/android/android/app/build.gradle.
  */
-export const APP_VERSION = "1.1 · 04-10-2026";
+export const APP_VERSION = "1.2 · 04-10-2026";
 
 /**
  * Ajustes (la tuerca): cada opción se enciende o apaga con "Sí / No" y se
