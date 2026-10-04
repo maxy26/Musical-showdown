@@ -13,6 +13,40 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 6): buscador de canciones y nombre del relevo
+
+**Pedidos del usuario**
+1. En la ronda, con el comodín, mostrar solo el nombre del que responde (no
+   "Carlos por Ana").
+2. Poder pasar de Ana–Carlos a Ana–Luis con otro relevo, haya respondido Carlos
+   o no (ver lo que quedó abierto).
+3. Búsqueda rápida: resultados mientras se escribe, mínimo 3 letras con un
+   mensaje, y que "hacer" no muestre canciones que no tienen esa palabra en el
+   nombre (ver lo que quedó abierto).
+4. Una sola versión por artista ("Color Esperanza" y no también "(en vivo)").
+5. Pendiente crítico: cambiar la forma de buscar canciones pensando en el canto.
+
+**Qué se hizo**
+- `round.js`: con el comodín se ve solo el nombre del compañero.
+- `verify.js`: búsqueda mientras se escribe (sin botón "Buscar"), mínimo 3
+  letras (`MIN_SEARCH_LETTERS`) con el mensaje "Escribe al menos 3 letras para
+  buscar", y `onePerVersion` / `baseSongTitle` para dejar una versión por
+  artista (la original; con artistas distintos quedan las dos). Ayuda "Cómo se
+  juega" actualizada. Pruebas nuevas en `test/texto.test.js`.
+- PENDIENTES: el pendiente crítico del punto 5.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 110 pasan + 1
+pendiente; buscador probado letra por letra en el juego real ("a" y "co" →
+mensaje; "col" → Color Esperanza una vez; "hacer" → no encontrada). Compilados
+`.exe` y `.apk`.
+
+**Qué quedó abierto:** se le preguntó al usuario: (2) con 1 relevo por ronda,
+el 2.º relevo es "de más" y se penaliza; ¿quiere que en su lugar gaste otro del
+total? (3) la búsqueda por fragmento de letra existe desde antes; ¿buscar solo
+por nombre?
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 5): relevo con 0 en total, como en Alternativo 1
 
 **Pedido del usuario:** poder volver a usar el relevo en Alternativo 2 como en

@@ -48,12 +48,10 @@ export function screenRound() {
     </div>`;
   }
 
-  /** Quién canta por el lado: el representante o, con el comodín, el compañero llamado. */
+  /** Quién canta por el lado: el representante o, con el comodín, solo el nombre del compañero llamado. */
   function singerLine(side) {
-    const show = side === "A" ? r.showA : r.showB;
-    const sub = r.sub?.[side];
-    if (sub) return `<div class="sub">🔁 ${sub} <span class="sub-note">por ${show}</span></div>`;
-    return show ? `<div class="sub">${show}</div>` : "";
+    const name = r.sub?.[side] || (side === "A" ? r.showA : r.showB);
+    return name ? `<div class="sub">${name}</div>` : "";
   }
 
   const root = el(`<div class="screen">

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 
 import { normalizeText, normalizeForSearch, escapeHtml, highlightWord, titleCaseName } from "../src/js/utils.js";
 import { state, resetState } from "../src/js/state.js";
-import { searchSongs } from "../src/js/screens/verify.js";
+import { searchSongs, onePerVersion, baseSongTitle } from "../src/js/screens/verify.js";
 
 // Pruebas del buscador de canciones y del resaltado de la palabra en la letra.
 
@@ -111,4 +111,28 @@ test("searchSongs devuelve una lista vacía si la búsqueda está vacía o solo 
   resetState();
   assert.deepEqual(searchSongs(""), []);
   assert.deepEqual(searchSongs("  ¿?, "), []);
+});
+
+test("searchSongs necesita al menos 3 letras (usuario, 04-10-2026)", () => {
+  resetState();
+  state.config.genres = ["pop"];
+  assert.deepEqual(searchSongs("a"), []);
+  assert.deepEqual(searchSongs("co"), []);
+  assert.ok(searchSongs("col").length >= 1);
+});
+
+test("de cada canción se muestra una sola versión por artista: la original", () => {
+  resetState();
+  state.config.genres = ["pop"];
+  const titulos = searchSongs("color esperanza").map((s) => s.title);
+  assert.deepEqual(titulos, ["Color Esperanza"]);
+  assert.equal(baseSongTitle("Color Esperanza (en vivo)"), "color esperanza");
+  assert.equal(baseSongTitle("Bailando - Versión acústica"), "bailando");
+  // si el artista es distinto, quedan las dos
+  const otras = onePerVersion([
+    { title: "Bailando", artist: "Enrique Iglesias" },
+    { title: "Bailando (en vivo)", artist: "Enrique Iglesias" },
+    { title: "Bailando", artist: "Otro Artista" },
+  ]).map((s) => `${s.title}|${s.artist}`);
+  assert.deepEqual(otras, ["Bailando|Enrique Iglesias", "Bailando|Otro Artista"]);
 });

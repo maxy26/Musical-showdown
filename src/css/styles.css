@@ -677,7 +677,6 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 
 /* Ronda: intentos que quedan, compañero llamado con el comodín y relevo de más */
 .attempt-left{display:block;margin-top:6px;font-size:12px;font-weight:700;color:var(--gold);}
-.sub-note{opacity:.75;font-size:11px;}
 .relay-btn.relay-btn-extra{background:rgba(255,77,109,.18);color:#FFB3C1;}
 .relay-round{font-size:12px;font-weight:800;color:var(--gold);padding:4px 8px;border-radius:999px;background:rgba(0,0,0,.25);}
 

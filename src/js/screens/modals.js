@@ -102,12 +102,9 @@ export function openHelp() {
 
     <div class="help-row">
       <div class="help-visual help-visual-wide">
-        <div style="display:flex;gap:6px;width:100%;">
-          <input type="text" class="mini" disabled placeholder="Nombre o fragmento cantado">
-          <button class="btn btn-secondary mini" disabled>Buscar</button>
-        </div>
+        <input type="text" class="mini" disabled placeholder="Nombre o fragmento (mín. 3 letras)">
       </div>
-      <div class="help-text"><strong>Buscar canción</strong>Se puede buscar por el nombre de la canción o por el fragmento que se cantó.</div>
+      <div class="help-text"><strong>Buscar canción</strong>Mientras se escribe aparecen las canciones, por nombre o por el fragmento que se cantó. Hacen falta al menos 3 letras.</div>
     </div>
 
     <div class="help-row">

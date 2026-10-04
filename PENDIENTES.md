@@ -76,6 +76,14 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🔴 **CRÍTICO — Cambiar la forma en que se buscan las canciones** (pedido
+  del usuario, 04-10-2026), teniendo en cuenta que el juego es de **canto**.
+  Hoy el moderador escribe el nombre o un fragmento y elige la canción de una
+  lista. Antes de hacer nada: preguntarle al usuario cómo lo imagina (por
+  ejemplo, por lo que se cantó, por artista, por voz…) y mostrarle maquetas.
+  Relacionado: la parte legal de las letras y que las palabras no siempre están
+  en la letra guardada (sección de canciones).
+
 - [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,
   tic-tac) por unos mejores y más acordes al juego. Por ahora le interesa una
