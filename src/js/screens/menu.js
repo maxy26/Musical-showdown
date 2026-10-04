@@ -121,11 +121,18 @@ export function screenMenu() {
       <span class="home-card-title">${b.title}</span>
       <span class="home-card-text">${b.text}</span>
       <button type="button" class="home-play pressable" id="btn-play">${ICONS.play(22)} Jugar</button>`;
-    card.querySelector("#btn-play").onclick = () => {
-      state.screen = "config";
-      render();
-    };
   }
+  // Se empieza a jugar tocando la tarjeta completa o el botón "Jugar" (usuario, 04-10-2026).
+  const play = () => {
+    state.screen = "config";
+    render();
+  };
+  card.onclick = play;
+  card.setAttribute("role", "button");
+  card.tabIndex = 0;
+  card.addEventListener("keydown", (e) => {
+    if (e.target === card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); play(); }
+  });
   toggle.querySelectorAll("[data-battle]").forEach((t) => (t.onclick = () => {
     c.battleType = t.dataset.battle;
     // Alternativo 2 solo existe en Grupal: al pasar a Individual vuelve a Clásico.
@@ -152,7 +159,14 @@ export function screenMenu() {
           c.mode = id;
           paintMode();
           close();
-          showToast(`Modo elegido: ${modeName(id)}`);
+          // Alternativo 2 solo existe en Grupal: si estaba Individual, pasa a Grupal.
+          if (!modeAllowed(id, c.battleType)) {
+            c.battleType = "grupal";
+            paintBattle();
+            showToast(`Modo elegido: ${modeName(id)} · se cambió a Grupal`);
+          } else {
+            showToast(`Modo elegido: ${modeName(id)}`);
+          }
         },
       }),
     });

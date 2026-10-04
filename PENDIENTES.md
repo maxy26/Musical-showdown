@@ -76,6 +76,11 @@
 
 > Se irán agregando las que pida el usuario o se le recomienden.
 
+- [ ] 🟡 **Recomendar logos nuevos** (pedido del usuario, 04-10-2026). Proponerle
+  distintos logos basados en el logo actual (`src/icons/icon-512.png`) que
+  combinen con el diseño nuevo (casual y divertido, luces de show, colores
+  azul marino, amarillo, naranja-rosa y turquesa, letras Fredoka). Mostrarlos
+  como maqueta para que elija; el ícono cambia en la web, el `.exe` y el `.apk`.
 - [ ] 🔴 **CRÍTICO — Cambiar la forma en que se buscan las canciones** (pedido
   del usuario, 04-10-2026), teniendo en cuenta que el juego es de **canto**.
   Hoy el moderador escribe el nombre o un fragmento y elige la canción de una

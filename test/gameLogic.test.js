@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
-import { countTypedPlayers, duplicateNameIndexes, cleanName } from "../src/js/screens/config/players.js";
+import { countTypedPlayers, duplicateNameIndexes, cleanName, minPlayerRows, padPlayers } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
 import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
 
@@ -83,3 +83,11 @@ test("weightedPick nunca elige un elemento con peso 0", () => {
   }
 });
 
+test("Grupal empieza con 4 espacios de jugador e Individual con 2 (usuario, 04-10-2026)", () => {
+  assert.equal(minPlayerRows("individual"), 2);
+  assert.equal(minPlayerRows("grupal"), 4);
+  assert.deepEqual(padPlayers(["", ""], "grupal"), ["", "", "", ""]);
+  assert.deepEqual(padPlayers(["Ana", "Luis"], "grupal"), ["Ana", "Luis", "", ""]);
+  assert.deepEqual(padPlayers(["Ana", "Luis", "Eva", "Mario", "Sofía"], "grupal"), ["Ana", "Luis", "Eva", "Mario", "Sofía"]);
+  assert.deepEqual(padPlayers(["", ""], "individual"), ["", ""]);
+});

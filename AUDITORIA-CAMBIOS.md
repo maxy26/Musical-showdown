@@ -13,6 +13,33 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 7): tarjetas tocables, Alternativo 2 desde Individual y 4 jugadores en Grupal
+
+**Pedidos del usuario:** elegir el modo tocando la tarjeta completa del manual;
+empezar a jugar tocando la tarjeta grande del inicio; Grupal con 4 espacios de
+jugador de entrada; poder elegir Alternativo 2 estando en Individual (cambia a
+Grupal); anotar en pendientes recomendar logos nuevos.
+
+**Qué se hizo**
+- `modesManual.js`: la tarjeta de cada modo se elige con un toque ("Ver más"
+  no elige); Alternativo 2 en Individual dice "Elegir Alternativo 2 (pasa a
+  Grupal)". `menu.js`: al elegirlo cambia a Grupal con un aviso; la tarjeta
+  grande lleva a "Configurar partida" (también con Enter o espacio).
+- `players.js`: `minPlayerRows` (2 o 4) y `padPlayers`; en Grupal los primeros
+  4 espacios no tienen ✕. `config/index.js` completa la lista al entrar.
+- CSS: cursor y efecto al tocar en las tarjetas. PENDIENTES: logos nuevos.
+  CONTEXTO actualizado. Pruebas nuevas en `test/gameLogic.test.js`.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; recorrido con clics (Edge sin ventana): "Ver más" no elige;
+tocar la tarjeta de Alternativo 2 en Individual → Grupal + aviso; tocar la
+tarjeta grande → configuración con 4 espacios sin ✕. Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** las dos preguntas de la parte 6 (relevo de más por ronda
+y búsqueda solo por nombre).
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 6): buscador de canciones y nombre del relevo
 
 **Pedidos del usuario**

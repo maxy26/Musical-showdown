@@ -288,7 +288,11 @@
   interruptor Individual | Grupal con un botón "Jugar", y "Modos de juego"
   (manual con historietas animadas, "Ver más" y "Elegir…"). Debajo, "Modo:
   Clásico" (por defecto). Alternativo 2 solo en Grupal: al pasar a
-  Individual vuelve a Clásico con un aviso.
+  Individual vuelve a Clásico con un aviso; y si se elige Alternativo 2 estando
+  en Individual, el juego pasa a Grupal con un aviso (usuario, 04-10-2026).
+- En el manual, el modo se elige tocando **la tarjeta completa** o el botón; se
+  empieza a jugar tocando **la tarjeta grande** (Individual o Grupal) o
+  "Jugar" (04-10-2026).
 
 ### Configuración de partida
 - En una sola pantalla: jugadores, géneros, puntaje objetivo, tiempo por
@@ -296,6 +300,8 @@
   aquí solo se muestran en un resumen. En Grupal con menos de 4 jugadores
   se avisa al confirmar y se queda en esta pantalla (no se cambia a
   Individual ni se vuelve al inicio). Se bloquea al iniciar la partida.
+- **Espacios de jugador al empezar** (04-10-2026): 2 en Individual y **4 en
+  Grupal**; esos primeros espacios no se pueden borrar.
 - **Jugadores**: campos con placeholder "Jugador N" (no un valor
   precargado que haya que borrar). Mientras se escribe, **la primera letra
   de cada palabra pasa a mayúscula y el resto a minúscula**, sin importar

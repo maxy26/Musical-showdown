@@ -92,7 +92,10 @@ export function buildModesManual({ battleType, current, onChoose }) {
     const allowed = modeAllowed(id, battleType);
     const chosen = id === current;
     const item = document.createElement("article");
-    item.className = `manual-item${chosen ? " is-chosen" : ""}`;
+    // Se elige tocando la tarjeta completa o el botón (usuario, 04-10-2026). Un
+    // modo que no existe en el tipo de batalla actual (Alternativo 2 en
+    // Individual) también se puede elegir: quien llama cambia a Grupal.
+    item.className = `manual-item${chosen ? " is-chosen" : " is-selectable"}`;
     item.innerHTML = `
       <div class="manual-top">
         <h3 class="manual-name">${name}</h3>
@@ -106,8 +109,8 @@ export function buildModesManual({ battleType, current, onChoose }) {
       <ul class="manual-more" hidden>${guide.more.map((t) => `<li>${t}</li>`).join("")}</ul>
       <div class="manual-actions">
         <button type="button" class="manual-toggle pressable" aria-expanded="false">Ver más</button>
-        <button type="button" class="manual-choose pressable" ${!allowed || chosen ? "disabled" : ""}>
-          ${chosen ? "✓ Modo elegido" : allowed ? `Elegir ${name}` : "Solo en Grupal"}</button>
+        <button type="button" class="manual-choose pressable" ${chosen ? "disabled" : ""}>
+          ${chosen ? "✓ Modo elegido" : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>
       </div>`;
     const more = item.querySelector(".manual-more");
     const toggle = item.querySelector(".manual-toggle");
@@ -116,7 +119,12 @@ export function buildModesManual({ battleType, current, onChoose }) {
       toggle.textContent = more.hidden ? "Ver más" : "Ver menos";
       toggle.setAttribute("aria-expanded", String(!more.hidden));
     };
-    item.querySelector(".manual-choose").onclick = () => onChoose(id);
+    if (!chosen) {
+      item.onclick = (e) => {
+        if (e.target.closest(".manual-toggle")) return; // "Ver más" no elige el modo
+        onChoose(id);
+      };
+    }
     list.append(item);
     animateStory(item.querySelector(".story"));
   }

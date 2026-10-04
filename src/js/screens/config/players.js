@@ -3,6 +3,20 @@ import { el, titleCaseName } from "../../utils.js";
 /** Largo máximo de un nombre (jugadores y grupos), para que quepa en la ronda. */
 export const MAX_NAME_LENGTH = 20;
 
+/**
+ * Espacios de jugador con los que empieza la lista y que no se pueden borrar:
+ * 2 en Individual y 4 en Grupal (lo mínimo para jugar; usuario, 04-10-2026).
+ */
+export function minPlayerRows(battleType) {
+  return battleType === "grupal" ? 4 : 2;
+}
+
+/** Completa la lista con espacios vacíos hasta el mínimo del tipo de batalla. */
+export function padPlayers(players, battleType) {
+  const min = minPlayerRows(battleType);
+  return players.length >= min ? players : [...players, ...Array(min - players.length).fill("")];
+}
+
 /** Cuenta cuántos campos de jugador tienen texto realmente escrito (no vacíos). */
 export function countTypedPlayers(players) {
   return players.filter((p) => p.trim().length > 0).length;
@@ -67,7 +81,7 @@ export function initPlayersSection(root, c) {
     c.players.forEach((p, i) => {
       const row = el(`<div class="player-row">
         <input type="text" value="${p}" placeholder="Jugador ${i + 1}" maxlength="${MAX_NAME_LENGTH}" data-idx="${i}">
-        ${i >= 2 ? `<button class="remove-btn" data-remove="${i}">✕</button>` : ""}
+        ${i >= minPlayerRows(c.battleType) ? `<button class="remove-btn" data-remove="${i}">✕</button>` : ""}
       </div>`);
       row.querySelector("input").oninput = (e) => {
         const pos = e.target.selectionStart;

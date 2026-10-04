@@ -10,7 +10,7 @@ import {
 } from "./presets.js";
 import { modesFor, modeName, usesRoundTime, allowsNoTime, DEFAULT_ROUND_TIME } from "./modes.js";
 import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
-import { countTypedPlayers, initPlayersSection, cleanName } from "./players.js";
+import { countTypedPlayers, initPlayersSection, cleanName, padPlayers } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
 
@@ -33,6 +33,7 @@ export function screenConfig() {
   // El tipo de batalla y el modo se eligen en la pantalla de inicio (opción A
   // del usuario, 01-10-2026); aquí solo se muestran. En Grupal, si hay menos de
   // 4 jugadores, se avisa al confirmar y no se cambia nada.
+  c.players = padPlayers(c.players, c.battleType); // Grupal empieza con 4 espacios
   const typedCount = countTypedPlayers(c.players);
   const isGroup = c.battleType === "grupal";
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
