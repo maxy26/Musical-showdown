@@ -1,28 +1,50 @@
 /**
- * Animación al tocar (pedido del usuario, 04-10-2026): una onda dorada que sale
- * del punto que se tocó en cualquier botón o casilla. La onda se dibuja aparte
- * (en <body>, con posición fija), así que se sigue viendo aunque al tocar se
- * vuelva a dibujar la pantalla (por ejemplo, al elegir "Sí" o un género). El
- * "hundirse" al presionar está en el CSS (:active).
+ * Animación de selección (pedido del usuario, 04-10-2026): el botón o la
+ * casilla que se toca crece un poco y vuelve, para que se note lo elegido.
  *
- * Con "Animaciones: No" (html[data-anim="off"]) no se dibuja nada.
+ * Muchos botones vuelven a dibujar la pantalla al tocarlos (Sí/No, géneros,
+ * interruptor…), así que el botón tocado ya no existe cuando termina el toque.
+ * Por eso se busca en la pantalla nueva el botón equivalente (mismo tipo, mismo
+ * texto y mismos datos) y se anima ese. Si el toque lleva a otra pantalla, no
+ * hay equivalente y no se anima nada.
+ *
+ * Con "Animaciones: No" (html[data-anim="off"]) el CSS apaga la animación.
  * Sin efectos al cargar el módulo: main.js llama a initTapFeedback().
  */
 
-/** Elementos que reaccionan al toque. */
+/** Elementos que se animan al elegirlos. */
 const TAPPABLE = "button, .chip, .home-card, .manual-item.is-selectable, .result-item, .team-member, [role=button]";
 
+function describe(node) {
+  if (!node) return "";
+  const data = Object.entries(node.dataset || {}).sort().map(([k, v]) => `${k}=${v}`).join("&");
+  return `${node.tagName}|${node.id}|${data}`;
+}
+
+/**
+ * "Firma" de un elemento para reconocerlo después de volver a dibujar la
+ * pantalla: el elemento, su texto y el grupo donde está (así el "Sí" de una
+ * opción no se confunde con el "Sí" de otra).
+ */
+function signature(node) {
+  return `${describe(node)}|${node.textContent.trim()}^${describe(node.parentElement)}`;
+}
+
+function pop(node) {
+  node.classList.remove("tap-pop");
+  void node.offsetWidth; // reinicia la animación si se toca dos veces seguidas
+  node.classList.add("tap-pop");
+  node.addEventListener("animationend", () => node.classList.remove("tap-pop"), { once: true });
+}
+
 export function initTapFeedback() {
-  document.addEventListener("pointerdown", (e) => {
-    if (document.documentElement.dataset.anim === "off") return;
-    const target = e.target.closest(TAPPABLE);
-    if (!target || target.disabled) return;
-    const ripple = document.createElement("span");
-    ripple.className = "tap-ripple";
-    ripple.style.left = `${e.clientX}px`;
-    ripple.style.top = `${e.clientY}px`;
-    document.body.appendChild(ripple);
-    ripple.addEventListener("animationend", () => ripple.remove());
-    setTimeout(() => ripple.remove(), 700); // por si la animación no llega a terminar
+  // Se escucha en <body> al final del clic: para entonces la pantalla ya se redibujó.
+  document.addEventListener("click", (e) => {
+    const tapped = e.target.closest?.(TAPPABLE);
+    if (!tapped || tapped.disabled) return;
+    if (tapped.isConnected) { pop(tapped); return; }
+    const sig = signature(tapped);
+    const twin = [...document.querySelectorAll(TAPPABLE)].find((n) => signature(n) === sig);
+    if (twin) pop(twin);
   });
 }

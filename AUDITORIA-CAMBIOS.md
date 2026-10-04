@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 9): la animación pasa a ser "crecer al elegir"
+
+**Corrección del usuario:** no quería la onda; quería que el botón o la casilla
+que se elige se mueva y se agrande un poco para que se note.
+
+**Qué se hizo:** `tapFeedback.js` reescrito: al terminar el clic, el elemento
+tocado recibe `.tap-pop` (crece hasta 112 % y vuelve con un pequeño rebote,
+0,32 s). Si la pantalla se redibujó, se busca el elemento equivalente por su
+"firma" (tipo, datos, texto y el grupo donde está, para no confundir el "Sí"
+de una opción con el de otra). Se quitó la onda (`.tap-ripple`). Se mantiene
+el "hundirse" al presionar. Con "Animaciones: No" no se anima.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; prueba con Edge sin ventana: se anima el "Sí" de "El perdedor
+resta" (no el de otra opción), el género Rock y el interruptor Individual; con
+"Animaciones: No", animación "none". Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** las dos preguntas de la parte 6.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 8): animación al tocar botones y casillas
 
 **Pedido del usuario:** una pequeña animación al tocar y seleccionar cada

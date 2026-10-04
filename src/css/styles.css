@@ -705,11 +705,10 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
   .add-player-btn{margin-top:4px;padding:9px 16px;font-size:14px;}
 }
 
-/* ---------- Animación al tocar (04-10-2026; ver tapFeedback.js) ---------- */
-/* Onda dorada desde el punto que se tocó */
-.tap-ripple{position:fixed;z-index:100;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle, rgba(255,210,63,.6), rgba(255,210,63,0) 70%);animation:tap-ripple .45s ease-out forwards;}
-@keyframes tap-ripple{from{transform:scale(1);opacity:1;}to{transform:scale(7);opacity:0;}}
+/* ---------- Animación de selección (04-10-2026; ver tapFeedback.js) ---------- */
+/* Lo que se toca crece un poco y vuelve, para que se note lo elegido */
+.tap-pop{animation:tap-pop .32s cubic-bezier(.3,1.6,.5,1) both !important;position:relative;z-index:2;}
+@keyframes tap-pop{0%{transform:scale(1);}45%{transform:scale(1.12);}75%{transform:scale(.97);}100%{transform:scale(1);}}
 /* Al presionar, botones y casillas se hunden un poco (los .btn y .pressable ya tienen su propio efecto) */
 .chip,.result-item,.team-member,.yesno button,.stepper button,.segmented button,.home-toggle-opt,.icon-btn,.name-btn,.remove-btn,.modal-close{
   transition:transform .12s ease, filter .12s ease, background .2s ease, color .2s ease;}
