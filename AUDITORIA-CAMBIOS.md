@@ -13,6 +13,28 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 12): prueba de reconocimiento de voz (fuera del juego)
+
+**Decisiones del usuario (pendiente crítico de buscar canciones):** Vosk sin
+internet; la voz busca la canción; se puede escribir solo el nombre; el juego
+sugiere y el moderador confirma. Primero, una prueba aparte.
+
+**Qué se hizo (carpeta temporal, no en el juego):** página `voz.html` con
+`vosk-browser` 0.0.8 y el modelo `vosk-model-small-es-0.42` empaquetado como
+`.tar.gz`. Muestra lo que va entendiendo y ordena las canciones de la base de
+ejemplo por palabras y pares de palabras que coinciden.
+
+**Cómo se verificó:** con Edge sin ventana y su conexión de depuración (tiempo
+real): el modelo carga en 3,5 s; con un audio de la voz de Windows en español
+("que estás cansado de andar y de andar…") lo entendió exacto y encontró Color
+Esperanza. Se le abrió la prueba al usuario en Brave para que cante.
+
+**Qué quedó abierto:** resultado con voz cantada; después, diseño e
+integración en el juego (peso de 40 MB en el `.exe`/`.apk`, permiso de
+micrófono en Android).
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 11): decisiones pendientes cerradas
 
 **Decisiones del usuario:** (1) pasarse del máximo de relevos por ronda se

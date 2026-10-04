@@ -92,6 +92,23 @@
     **solo por nombre** o también **por fragmento de la letra** (hoy busca por
     los dos). Ya se hizo: búsqueda mientras se escribe, mínimo 3 letras y una
     versión por artista.
+  - 04-10-2026: el usuario eligió usar **reconocimiento de voz** (entre lista
+    automática, votación, voz y tipo Shazam). Falta definir con él: en qué
+    plataformas, si puede necesitar internet, si puede tener costo, qué hace
+    el reconocimiento (detectar la palabra, buscar la canción o ambas) y si el
+    juego decide solo o el moderador confirma. Probar primero qué tan bien
+    reconoce voz **cantada** antes de programarlo en el juego.
+  - **Decisiones del usuario (04-10-2026):** opción 2, **Vosk sin internet**
+    (modelo de español dentro del juego, gratis, funciona igual en web, `.exe`
+    y Android); lo que entiende se usa para **buscar la canción**; también se
+    puede **escribir, solo el nombre de la canción**; el juego **sugiere** y el
+    moderador confirma "Correcta / Incorrecta". Primero, una página de prueba
+    aparte para cantarle y medir qué tan bien entiende.
+  - 04-10-2026, página de prueba (carpeta temporal, fuera del juego): Vosk
+    para el navegador (`vosk-browser` 0.0.8) + modelo `vosk-model-small-es-0.42`
+    (40 MB). Carga en 3,5 s sin internet. Con una frase **hablada** de Color
+    Esperanza la entendió palabra por palabra y encontró la canción (8
+    palabras). Falta que el usuario la pruebe **cantando**.
 
 - [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,
