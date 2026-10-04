@@ -106,8 +106,15 @@
     - **Relevo (cambiado por el usuario el 03-10-2026; solo Alternativo 2):**
       - Se configura en una ventanita desde "Configurar partida": relevos **en
         total** (0 a 7; 0 = sin relevos) y **como máximo por ronda** (1 hasta
-        el total). Valor de entrada: 3 en total y 1 por ronda. Alternativo 1
+        los intentos). Valor de entrada: 3 en total y 1 por ronda. Alternativo 1
         sigue con 3 fijos y 1 por ronda.
+      - **Conteo (usuario, 04-10-2026):** el total cuenta las **rondas** en que
+        se usan relevos. Apenas se usa el primero de la ronda se descuenta 1 del
+        total; en esa ronda se pueden usar los que faltan hasta el máximo por
+        ronda sin descontar más. En la ronda siguiente el máximo se restaura si
+        quedan en el total. Ejemplo del usuario: 5 en total y 3 por ronda; usa
+        2 en una ronda → queda 4 en total (y 1 más en esa ronda). En la ronda
+        se muestra "Ronda: N" con los que quedan en esa ronda.
       - Funciona como el comodín de llamada de "¿Quién quiere ser
         millonario?": Ana le pasa el turno a Carlos, Carlos responde; si se
         equivoca, el turno **vuelve a Ana**, que puede pedir otro relevo.

@@ -45,9 +45,7 @@ export function alt2RowsHTML(c) {
 /** Guarda un cambio de las opciones de Alternativo 2 (los relevos por ronda no pasan de los intentos). */
 function saveAlt2(c, patch) {
   const next = { ...alt2Options(c), ...patch };
-  if (next.relaysTotal > 0) {
-    next.relaysPerRound = Math.min(Math.max(1, next.relaysPerRound), maxRelaysPerRound(next.relaysTotal, next.attempts));
-  }
+  next.relaysPerRound = Math.min(Math.max(1, next.relaysPerRound), maxRelaysPerRound(next.attempts));
   c.alt2 = next;
 }
 
@@ -77,8 +75,8 @@ export function bindAlt2Options(root, c, rerender) {
 }
 
 /**
- * Ventanita de relevos: total de la partida (0 a 7; 0 = sin relevos) y máximo
- * por ronda (de 1 hasta el total y hasta los intentos). "Listo" guarda.
+ * Ventanita de relevos: total de la partida (0 a 7; 0 = sin relevos; cuenta las
+ * rondas en que se usan) y máximo por ronda (de 1 hasta los intentos). "Listo" guarda.
  */
 function openRelaySettings(c, rerender) {
   const o = alt2Options(c);
@@ -89,6 +87,7 @@ function openRelaySettings(c, rerender) {
       <button type="button" class="modal-close" aria-label="Cerrar">✕</button>
       <h2>🔁 Relevos por equipo</h2>
       <div class="opt-row"><span>En total (toda la partida)</span>${stepper("total", draft.total, "relevos en total")}</div>
+      <p class="field-hint relay-settings-note">Se descuenta 1 del total en cada ronda en que se usen relevos.</p>
       <div class="opt-row"><span>Como máximo por ronda</span>${stepper("perRound", draft.perRound, "relevos por ronda")}</div>
       <div class="btn-row" style="margin-top:14px;">
         <button type="button" class="btn btn-secondary" id="relay-settings-cancel" style="flex:1;">Cancelar</button>
@@ -97,8 +96,8 @@ function openRelaySettings(c, rerender) {
     </div>
   </div>`);
   const paint = () => {
-    const maxPerRound = maxRelaysPerRound(draft.total, o.attempts);
-    if (draft.total > 0) draft.perRound = Math.min(Math.max(1, draft.perRound), maxPerRound);
+    const maxPerRound = maxRelaysPerRound(o.attempts);
+    draft.perRound = Math.min(Math.max(1, draft.perRound), maxPerRound);
     const total = overlay.querySelector('[data-stepper="total"]');
     const perRound = overlay.querySelector('[data-stepper="perRound"]');
     total.querySelector("output").textContent = draft.total;

@@ -56,6 +56,17 @@ test("sin relevos en el total también se puede usar, con la misma penalización
   assert.equal(state.relays["Equipo 1"], 0);
 });
 
+test("ejemplo del usuario: 5 en total y 3 por ronda; usa 2 en una ronda → le quedan 4 en total", () => {
+  setupRound({ alt2: { attempts: 9, relaysTotal: 5, relaysPerRound: 3 }, relays: 5 });
+  useRelay("A", "Carlos");
+  state.round.attemptsUsed.A = 1; state.round.sub.A = null; // Carlos falla, vuelve Ana
+  useRelay("A", "Dani");
+  assert.equal(state.relays["Equipo 1"], 4, "solo se descuenta 1 del total por la ronda");
+  state.round.attemptsUsed.A = 2; state.round.sub.A = null;
+  assert.deepEqual(relayCheck("A"), { status: "ok", usesTotal: false }, "le queda 1 en la ronda");
+  assert.deepEqual(state.scores, { "Equipo 1": 1000, "Equipo 2": 1000 }, "sin penalización");
+});
+
 test("sin intentos no se puede pedir relevo (cada relevo gasta un intento)", () => {
   setupRound({ alt2: { attempts: 2 } });
   state.round.attemptsUsed.A = 2;

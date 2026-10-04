@@ -4,7 +4,7 @@ import { weightedPick } from "./utils.js";
 import { groupName, pickRepresentative } from "./groups.js";
 import { effectiveRoundTime, effectiveMultipliers, attemptsPerRound, scoringRules } from "./screens/config/modes.js";
 import { roundScoreChanges, roundValue } from "./scoring.js";
-import { relayRules, relayStatus, relayPenaltyChanges, relayUsesTotal } from "./relay.js";
+import { relayRules, relayStatus, relayPenaltyChanges } from "./relay.js";
 import {
   roundRobinSequence, groupOrderSequence, newGroupMemory, pickGroupDuelPlayers,
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel, applyRelayToMemory,
@@ -100,14 +100,18 @@ export function relayCheck(side) {
 export function useRelay(side, substitute) {
   const r = state.round;
   const rules = relayRules(state.config);
-  const { status } = relayCheck(side);
-  if (!rules || status === "blocked") return null;
+  const check = relayCheck(side);
+  if (!rules || check.status === "blocked") return null;
   const team = side === "A" ? r.participantA : r.participantB;
 
   let penalty = null;
-  if (status === "extra") penalty = applyScoreChanges(relayPenaltyChanges(side, r.multiplier));
-  if (relayUsesTotal(status)) state.relays[team] = Math.max(0, (state.relays[team] ?? 0) - 1);
-  r.relaysThisRound = { ...r.relaysThisRound, [side]: (r.relaysThisRound?.[side] || 0) + 1 };
+  if (check.status === "extra") {
+    // Relevo de más: penalización en el momento; no gasta del total ni del máximo por ronda.
+    penalty = applyScoreChanges(relayPenaltyChanges(side, r.multiplier));
+  } else {
+    if (check.usesTotal) state.relays[team] = Math.max(0, (state.relays[team] ?? 0) - 1);
+    r.relaysThisRound = { ...r.relaysThisRound, [side]: (r.relaysThisRound?.[side] || 0) + 1 };
+  }
 
   if (rules.lifeline) {
     r.sub = { ...r.sub, [side]: substitute };
@@ -200,7 +204,7 @@ export function startNextRound() {
     elapsed: 0, // segundos de la ronda sin contar pausas (ver startTimer)
     answeredAt: { A: null, B: null }, // segundo en que se tocó el botón de cada lado
     attempted: { A: false, B: false }, // si el lado ya respondió en esta ronda
-    relaysThisRound: { A: 0, B: 0 }, // relevos usados en esta ronda (normales y de más)
+    relaysThisRound: { A: 0, B: 0 }, // relevos normales usados en esta ronda (los de más no cuentan)
     sub: { A: null, B: null }, // Alternativo 2: compañero llamado con el comodín que todavía no respondió
   };
   state.screen = "round";

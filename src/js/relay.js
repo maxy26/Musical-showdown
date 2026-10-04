@@ -9,10 +9,17 @@
  *     configuración. Funciona como el comodín de llamada: el compañero responde
  *     en lugar del representante (gasta un intento del lado) y, si falla, el
  *     turno vuelve al representante, que puede pedir otro.
- *   - Relevo de más (sin relevos en el total o pasado del máximo por ronda): se
- *     puede usar, con aviso. Se aplica igual y en ese momento el equipo resta la
- *     mitad del valor de la ronda y el rival suma esa misma mitad; la ronda
- *     sigue. Pasarse del máximo por ronda no gasta del total.
+ *   - Conteo (usuario, 04-10-2026): el total cuenta las RONDAS en las que el
+ *     equipo usa relevos. Apenas usa el primero de la ronda se descuenta 1 del
+ *     total, y en esa misma ronda puede usar los que le faltan hasta el máximo
+ *     por ronda sin descontar más. En la ronda siguiente el máximo por ronda se
+ *     restaura si todavía le quedan en el total. Ejemplo: 5 en total y 3 por
+ *     ronda; usa 2 en una ronda → le quedan 4 en total (y 1 más en esa ronda).
+ *     En Alternativo 1 (3 y 1) es lo mismo que "cada relevo gasta uno".
+ *   - Relevo de más (sin relevos en el total al empezar a usarlos en la ronda,
+ *     o pasado del máximo por ronda): se puede usar, con aviso. Se aplica igual
+ *     y en ese momento el equipo resta la mitad del valor de la ronda y el
+ *     rival suma esa misma mitad; la ronda sigue. No gasta del total.
  */
 import { roundValue } from "./scoring.js";
 import { alt2Options } from "./screens/config/modes.js";
@@ -45,21 +52,23 @@ export function adjustRelays(current, delta, max = RELAYS_PER_TEAM) {
 }
 
 /**
- * Máximo de relevos por ronda que se puede elegir: de 1 hasta el total y hasta
- * los intentos (cada relevo gasta un intento).
+ * Máximo de relevos por ronda que se puede elegir: de 1 hasta los intentos
+ * (cada relevo gasta un intento). Ya no depende del total, que cuenta rondas.
  */
-export function maxRelaysPerRound(total, attempts) {
-  return Math.max(1, Math.min(total, attempts));
+export function maxRelaysPerRound(attempts) {
+  return Math.max(1, attempts);
 }
 
 /**
  * Qué pasa si este lado pide un relevo ahora:
  *   - "blocked": no se puede (el botón queda desactivado).
- *   - "ok": relevo normal; gasta uno del total.
- *   - "extra": relevo de más (sin relevos o pasado del máximo por ronda); se
- *     puede usar con aviso y penalización. `reason` dice cuál de los dos.
+ *   - "ok": relevo normal. Si es el primero de la ronda, gasta uno del total
+ *     (`usesTotal`); los siguientes de la misma ronda, no.
+ *   - "extra": relevo de más (sin relevos en el total o pasado del máximo por
+ *     ronda); se puede usar con aviso y penalización. `reason` dice cuál.
  * @param {object} p
- * @param {object} p.round - state.round (attempted, relaysThisRound, sub)
+ * @param {object} p.round - state.round (attempted, relaysThisRound = relevos
+ *   normales usados en la ronda, sub)
  * @param {"A"|"B"} p.side
  * @param {number} p.left - relevos que le quedan al equipo
  * @param {{total: number, perRound: number, lifeline: boolean}} p.rules
@@ -74,9 +83,13 @@ export function relayStatus({ round, side, left, rules, attemptsLeft }) {
     // Alternativo 1: solo antes de que ese lado responda.
     return { status: "blocked" };
   }
-  if (left <= 0) return { status: "extra", reason: "total" };
-  if ((round.relaysThisRound?.[side] || 0) >= rules.perRound) return { status: "extra", reason: "round" };
-  return { status: "ok" };
+  const usedThisRound = round.relaysThisRound?.[side] || 0;
+  if (usedThisRound === 0) {
+    // Primer relevo de la ronda: abre la ronda y gasta uno del total.
+    return left <= 0 ? { status: "extra", reason: "total" } : { status: "ok", usesTotal: true };
+  }
+  if (usedThisRound >= rules.perRound) return { status: "extra", reason: "round" };
+  return { status: "ok", usesTotal: false };
 }
 
 /**
@@ -89,7 +102,12 @@ export function relayPenaltyChanges(offenderSide, multiplier) {
   return offenderSide === "A" ? { A: -half, B: half } : { A: half, B: -half };
 }
 
-/** ¿Este relevo gasta uno del total? El normal sí; el de más, no (ya se pagó con puntos). */
-export function relayUsesTotal(status) {
-  return status === "ok";
+/**
+ * Relevos normales que le quedan a un lado en esta ronda: si ya abrió la ronda,
+ * los que le faltan del máximo; si no, el máximo completo (o 0 si no le quedan
+ * en el total).
+ */
+export function relaysLeftThisRound(usedThisRound, left, perRound) {
+  if (usedThisRound > 0) return Math.max(0, perRound - usedThisRound);
+  return left > 0 ? perRound : 0;
 }

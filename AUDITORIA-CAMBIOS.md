@@ -13,6 +13,38 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 3): conteo nuevo de relevos
+
+**Decisión del usuario:** el total de relevos cuenta las **rondas** en que se
+usan. Con el primer relevo de la ronda se descuenta 1 del total; en esa ronda
+se pueden usar los que faltan hasta el máximo por ronda sin descontar más; en
+la ronda siguiente el máximo se restaura si quedan en el total (ejemplo: 5 y 3,
+usa 2 → queda 4). Alternativo 1 (3 y 1) queda igual que antes. Reportó que en
+Alternativo 2 no lo dejaba usar el relevo prohibido.
+
+**Qué se hizo**
+- `relay.js`: `relayStatus` devuelve `usesTotal` (solo el primero de la ronda);
+  `relaysLeftThisRound`; `maxRelaysPerRound` ahora solo depende de los
+  intentos. `gameLogic.useRelay`: los relevos de más no cuentan para el máximo
+  por ronda ni para el total.
+- Ventanita de relevos: el máximo por ronda va de 1 a los intentos (ya no
+  limitado por el total) y una nota explica el conteo. Ronda de Alternativo 2:
+  "Ronda: N" con los que quedan en esa ronda.
+- Pruebas nuevas con el ejemplo del usuario. CONTEXTO actualizado.
+- **Relevo prohibido:** con una prueba de clics del flujo real se vio que sí
+  funciona después de que el compañero responde (aviso y −/+ la mitad). Lo que
+  lo bloquea es que el botón queda apagado **mientras el compañero llamado
+  todavía no responde**; eso fue una suposición, se le preguntó al usuario.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 108 pasan + 1
+pendiente; recorrido con clics (Edge sin ventana): 5 → 4 tras dos relevos en la
+ronda, sin aviso ni penalización, "Ronda: 1". Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** si se puede pedir relevo mientras el compañero llamado
+todavía no responde.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 2): Alternativo 2 programado
 
 **Decisiones del usuario (03-10-2026)**

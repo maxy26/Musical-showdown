@@ -5,7 +5,7 @@ import { finishRoundManual, attemptsLeft, relayCheck } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
 import { modeName, effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
-import { relayRules } from "../relay.js";
+import { relayRules, relaysLeftThisRound } from "../relay.js";
 import { openRelay, openRelayAdjust } from "./relayModals.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
@@ -34,8 +34,12 @@ export function screenRound() {
     const icons = Array.from({ length: relays.total }, (_, i) =>
       `<span class="relay-dot ${i < left ? "on" : ""}">🔁</span>`).join("");
     const extra = left > relays.total ? `<span class="relay-extra">+${left - relays.total}</span>` : "";
+    // Alternativo 2: también cuántos le quedan en esta ronda (el total cuenta rondas).
+    const inRound = relays.lifeline
+      ? `<span class="relay-round" title="Relevos que le quedan en esta ronda">Ronda: ${relaysLeftThisRound(r.relaysThisRound?.[side] || 0, left, relays.perRound)}</span>`
+      : "";
     return `<div class="relay-bar">
-      <span class="relay-icons" title="Relevos que le quedan">${icons}${extra}</span>
+      <span class="relay-icons" title="Relevos que le quedan (en total)">${icons}${extra}</span>${inRound}
       <button type="button" class="btn btn-secondary relay-btn" data-relay="${side}">Relevo</button>
       <button type="button" class="icon-btn icon-btn-round relay-adjust" data-relay-adjust="${side}" title="Agregar o quitar relevos">±</button>
     </div>`;
