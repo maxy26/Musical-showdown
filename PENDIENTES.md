@@ -130,10 +130,22 @@
 
 - [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
   un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-- [ ] 🔴 **Reglas de Alternativo 2:** combinación llamativa de Alternativo 1
-  (con sus ideas nuevas) y Clásico. Falta definir cómo se combinan. Opciones
-  que se le mostraron: alternar por bloques, orden con ayuda de la ventaja,
-  por mitades de la partida, u otra. Mientras tanto usa las reglas de Clásico.
+- [ ] 🔴 **Programar las reglas de Alternativo 2** (definidas por el usuario el
+  03-10-2026; detalle en CONTEXTO, sección 3). "El perdedor resta" tiene dos
+  opciones: "No resta" / "Sí, resta lo mismo que gana el otro" (opción a,
+  03-10-2026). Textos aprobados (ver CONTEXTO). Antes de programar, mostrarle
+  una maqueta de las opciones en "Configurar partida".
+- [ ] 🔴 **Alternativo 1: multiplicadores siempre activos** (usuario,
+  03-10-2026). Quitar el selector "Con / Sin multiplicadores" de Alternativo 1;
+  ese selector queda solo en Alternativo 2. Programarlo junto con Alternativo 2
+  y actualizar el manual de modos ("Se pueden usar multiplicadores").
+- [ ] 🟡 **Botón de ayuda en cada opción** (pedido del usuario, 03-10-2026).
+  Poner un pequeño botón de ayuda junto a cada opción de la configuración (tiempo,
+  multiplicadores, intentos, cuánto resta el perdedor, etc.) que explique cómo
+  funciona esa opción en particular. La idea es que reemplace a la ayuda general
+  de arriba a la derecha (❓), para que sea más directo y simple de leer. El
+  usuario quiere verlo más adelante: antes de hacerlo, preguntarle el diseño y
+  si se quita la ayuda general.
 - [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
   29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
   equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con

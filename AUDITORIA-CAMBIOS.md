@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-10-03 — Sesión 6: reglas de Alternativo 2 definidas (sin programar)
+
+**Decisiones del usuario:** resumen de los tres modos y reglas completas de
+Alternativo 2 (solo Grupal, opciones elegibles en "Configurar partida");
+Alternativo 1 con multiplicadores siempre activos; el valor de la ronda es
+siempre 100 × multiplicador y el perdedor resta lo mismo que gana el ganador.
+Pidió anotar un botón de ayuda en cada opción.
+
+**Archivos tocados:** solo documentos: `CONTEXTO-MUSICAL-SHOWDOWN.md`
+(sección 3, resumen de los modos y reglas de Alternativo 2) y `PENDIENTES.md`
+(programar Alternativo 2, multiplicadores fijos en Alternativo 1, botón de
+ayuda por opción).
+
+Después eligió la opción a ("No resta" / "Sí, resta lo mismo que gana el
+otro") y aprobó los textos de las opciones.
+
+**Qué quedó abierto:** maqueta de las opciones en "Configurar partida" y
+programación.
+
+---
+
 ## 2026-10-01 — Sesión 5 (parte 11): sin botón de silencio; pendientes ordenados
 
 **Decisión del usuario:** quitar el botón 🔊/🔇 de las pantallas, porque el

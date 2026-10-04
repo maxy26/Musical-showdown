@@ -65,9 +65,48 @@
   muestran Clásico y Alternativo 1 (Alternativo 2 no aparece). Si es
   **Grupal**, se muestran los tres modos, todos libres de seleccionar
   (sin candado).
-- **Alternativo 2** (idea del usuario, 29-09-2026; reglas en definición):
-  será una **combinación llamativa de Alternativo 1 y Clásico**. Mientras no
-  tenga reglas, usa las de Clásico.
+- **Resumen de los tres modos** (usuario, 03-10-2026). En los tres gana el
+  primero que llega al puntaje objetivo. El valor de la ronda es siempre
+  **100 × el multiplicador** de la ronda (×1 si no salió ninguno).
+  - **Clásico** (Individual y Grupal): duelos al azar (con la ventaja de
+    Clásico), sin reloj, un solo intento, sin multiplicadores, el perdedor no
+    resta.
+  - **Alternativo 1** (Individual y Grupal): duelos en orden (Individual:
+    primero contra último; Grupal: G1-1 contra G3-1…), reloj obligatorio,
+    intentos ilimitados, **multiplicadores siempre activos** (desde el
+    03-10-2026 no se pueden desactivar; en cada ronda puede salir ×2 a ×5),
+    el perdedor resta el valor de la ronda, si nadie acierta los dos restan la
+    mitad, relevo en Grupal.
+  - **Alternativo 2** (solo Grupal; reglas definidas el 03-10-2026, sin
+    programar todavía):
+    - **Emparejamiento:** los equipos se emparejan al azar con las reglas de
+      Clásico (fases al azar / con ventaja, equilibrio de partidos); los
+      jugadores de cada equipo salen en orden como en Alternativo 1 (el que
+      menos ha cantado; el rival es el siguiente del otro equipo con quien aún
+      no se enfrentó).
+    - **Opciones que se eligen en "Configurar partida"** (textos aprobados
+      el 03-10-2026; en negrita el valor de entrada):
+      - ⏱️ Tiempo por ronda: **30 segundos** · otros tiempos · Sin tiempo.
+      - ✨ Multiplicadores: **Sí, pueden salir ×2 a ×5** · No, todas las
+        rondas valen 100.
+      - 🎯 Intentos de cada jugador (el que representa a su equipo en la
+        ronda): de 1 a 10 (**5**).
+      - 😢 ¿El que pierde la ronda resta puntos?: **No resta** · Sí, resta lo
+        mismo que gana el otro.
+      - ⌛ Si nadie acierta: **Nadie resta** · Los dos restan la mitad.
+      - 🔁 Relevos: 3 por equipo (fijo, solo se muestra).
+    - **Puntos:** ejemplo del usuario: ronda ×3 → el ganador +300 y, si se
+      eligió que el perdedor resta, el perdedor −300; si nadie acierta y se
+      eligió que resten, los dos −150. Primero se calcula 100 × multiplicador
+      y luego se suma o resta.
+    - **La ronda termina** cuando alguien acierta, cuando los dos agotan sus
+      intentos, cuando se acaba el tiempo (con reloj) o cuando el moderador
+      toca "Finalizar ronda" (sin reloj).
+    - **Relevo:** las mismas reglas de Alternativo 1 Grupal (antes de
+      responder, 1 por ronda, 3 por equipo en la partida). Como se pide antes
+      del primer intento, el que entra tiene todos los intentos de la ronda.
+      El relevo prohibido (el 4.º) se penaliza igual aunque se haya elegido
+      que el perdedor no resta.
 - **Ideas nuevas para Alternativo 1** (decisión del usuario, 29-09-2026,
   opción A): los cambios en la **forma de jugar**, los **puntos** (ej. restar
   al fallar, bonos), el **tiempo / fin de la partida** y el **relevo** se
