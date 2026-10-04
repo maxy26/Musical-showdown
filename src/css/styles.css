@@ -716,3 +716,18 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 .segmented button:active,.home-toggle-opt:active,.icon-btn:active,.name-btn:not(:disabled):active,.remove-btn:active,.modal-close:active{
   transform:scale(.94);filter:brightness(1.1);}
 
+/* ---------- Al pasar el mouse por encima (solo PC; 04-10-2026) ---------- */
+/* Solo en equipos con mouse: en el celular no hay "pasar por encima". Se usan
+   las propiedades scale y translate (no transform) para no chocar con las
+   animaciones de entrada ni con el rebote al elegir (.tap-pop). */
+@media (hover:hover) and (pointer:fine){
+  button:not(:disabled),.chip,.result-item,.team-member,.home-card,.manual-item.is-selectable{
+    transition:transform .12s ease, filter .12s ease, box-shadow .12s ease, background .2s ease, color .2s ease,
+      scale .16s ease, translate .16s ease;}
+  /* Botones y casillas chicas: se elevan y crecen un poco */
+  button:not(:disabled):hover,.chip:hover,.result-item:hover,.team-member:hover{
+    translate:0 -2px;scale:1.05;filter:brightness(1.1);}
+  /* Tarjetas grandes: el mismo efecto, más suave para que no se salgan de su lugar */
+  .home-card:hover,.manual-item.is-selectable:hover{translate:0 -3px;scale:1.015;filter:brightness(1.06);}
+}
+

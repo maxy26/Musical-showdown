@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 10): efecto al pasar el mouse (solo PC)
+
+**Decisión del usuario:** dejar el "Rebote" al elegir (vio 6 animaciones en
+una muestra) y agregar un efecto nuevo cuando el mouse pasa por encima, solo
+en PC.
+
+**Qué se hizo:** `styles.css`, regla `@media (hover:hover) and (pointer:fine)`
+(solo equipos con mouse): botones y casillas se elevan 2 px y crecen al 105 %;
+las tarjetas grandes (inicio y manual de modos) se elevan 3 px y crecen al
+101,5 %. Se usan las propiedades `scale` y `translate` para no chocar con las
+animaciones de entrada ni con el rebote al elegir.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; con Edge sin ventana se comprobó que la PC cuenta como equipo con
+mouse y que la regla se lee (3 reglas). El efecto en sí se ve moviendo el
+mouse en el `.exe`. Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** las dos preguntas de la parte 6.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 9): la animación pasa a ser "crecer al elegir"
 
 **Corrección del usuario:** no quería la onda; quería que el botón o la casilla
