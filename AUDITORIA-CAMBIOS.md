@@ -13,6 +13,34 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 14): versión visible y APK con la versión en el nombre
+
+**Reporte del usuario:** aun desinstalando la app vieja, el APK que instala no
+trae los cambios.
+
+**Qué se encontró:** el APK de `dist/android` sí trae todo (se revisó su
+`bundle.js` y `styles.css`); en GitHub no hay versiones publicadas ni APKs
+guardados en el repositorio, y todas las compilaciones de Actions salieron
+bien. El problema está en cómo llega el archivo al teléfono (probablemente una
+copia vieja con el mismo nombre); se le preguntó cómo lo pasa.
+
+**Qué se hizo**
+- `menu.js`: `APP_VERSION` ("1.1 · 04-10-2026") visible al final de Ajustes,
+  para saber qué versión está instalada.
+- `build/build-android.js`: además de `Musical-Showdown.apk`, deja una copia
+  `Musical-Showdown-v<versionName>.apk` para no confundirla con APKs viejos.
+  (El flujo de GitHub Actions sube el mismo `Musical-Showdown.apk`; no cambia.)
+- CLAUDE.md actualizado. Propuestas de logo: tercera y cuarta tanda en la
+  carpeta temporal (fuera del juego).
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; el APK nuevo trae `APP_VERSION`. Compilados `.exe` y `.apk`.
+
+**Qué quedó abierto:** cómo pasa el usuario el APK al teléfono; elección del
+logo.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 13): el APK no se actualizaba en el celular
 
 **Reporte del usuario:** instaló el APK nuevo y el juego seguía viéndose como

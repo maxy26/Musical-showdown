@@ -30,6 +30,13 @@ function notificationsBody() {
 }
 
 /**
+ * Versión del juego que se muestra en Ajustes, para saber qué versión está
+ * instalada. Al cambiarla, cambiar también versionName (y subir versionCode) en
+ * platforms/android/android/app/build.gradle.
+ */
+export const APP_VERSION = "1.1 · 04-10-2026";
+
+/**
  * Ajustes (la tuerca): cada opción se enciende o apaga con "Sí / No" y se
  * guarda en el dispositivo (settings.js). El botón 🔊 de las pantallas sigue
  * silenciando todo de una vez.
@@ -53,6 +60,7 @@ function settingsBody() {
           <button type="button" role="radio" data-setting="${o.key}" data-value="off">No</button>
         </div>
       </div>`).join("")}
+    <p class="home-version">Musical Showdown · Versión ${APP_VERSION}</p>
   </div>`);
   const paint = () => {
     const current = loadSettings();

@@ -41,7 +41,7 @@ npm run build:linux                        # -> dist/linux/Musical-Showdown.AppI
 
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # deja el proyecto listo para Android Studio
-npm run build:apk                          # además genera dist/android/Musical-Showdown.apk (Java 17+ y SDK de Android)
+npm run build:apk                          # además genera dist/android/Musical-Showdown.apk y una copia Musical-Showdown-v<versión>.apk (Java 17+ y SDK de Android)
 ```
 
 **Compilación en la nube:** `.github/workflows/compilar.yml` corre lint y pruebas, y compila Windows (`.exe`), Linux (`.AppImage`) y Android (`.apk` de depuración) en cada envío a `main`. Los archivos quedan en la sección "Artifacts" de cada ejecución. Al subir una etiqueta `v*` (por ejemplo, `v1.1.0`), además publica una Release con los 3 archivos. Si se cambian los scripts de `build/` o las rutas de salida, actualizar también este archivo de flujo.
@@ -78,6 +78,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
   - El puntaje es 100 × multiplicador.
   - Las canciones no se bloquean: una ya cantada se puede volver a elegir (decisión del usuario, 01-10-2026).
 - Pantalla de inicio (`screens/menu.js`, rediseño del 01-10-2026): ahí se eligen el tipo de batalla y el modo (ya no en "Configurar partida"). Las hojas emergentes usan `screens/sheet.js`. Las luces de fondo están en `index.html`, fuera de `#app`, para que sigan en todas las pantallas.
+- Versión visible: `APP_VERSION` en `screens/menu.js` (se muestra en Ajustes). Al cambiarla, cambiar también `versionName` y subir `versionCode` en `platforms/android/android/app/build.gradle`.
 - `settings.js` guarda en el dispositivo la preferencia "Animaciones: Sí / No" y la aplica con `html[data-anim]`. Las animaciones van siempre encendidas por decisión del usuario: no usar `prefers-reduced-motion` (en la PC del usuario Windows tiene las animaciones apagadas).
 - `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.

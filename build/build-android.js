@@ -75,8 +75,11 @@ run(`"${gradlew}" assembleDebug --no-daemon`, ANDROID_NATIVE);
 const apkOut = path.join(ROOT, "dist", "android");
 fs.rmSync(apkOut, { recursive: true, force: true });
 fs.mkdirSync(apkOut, { recursive: true });
-fs.copyFileSync(
-  path.join(ANDROID_NATIVE, "app", "build", "outputs", "apk", "debug", "app-debug.apk"),
-  path.join(apkOut, "Musical-Showdown.apk")
-);
-console.log(`\n✔ Listo: dist/android/Musical-Showdown.apk`);
+const builtApk = path.join(ANDROID_NATIVE, "app", "build", "outputs", "apk", "debug", "app-debug.apk");
+fs.copyFileSync(builtApk, path.join(apkOut, "Musical-Showdown.apk"));
+// Copia con la versión en el nombre (versionName de app/build.gradle), para no
+// confundirla con APKs anteriores al pasarla al teléfono.
+const gradleFile = fs.readFileSync(path.join(ANDROID_NATIVE, "app", "build.gradle"), "utf8");
+const versionName = (gradleFile.match(/versionName\s+"([^"]+)"/) || [])[1];
+if (versionName) fs.copyFileSync(builtApk, path.join(apkOut, `Musical-Showdown-v${versionName}.apk`));
+console.log(`\n✔ Listo: dist/android/Musical-Showdown.apk${versionName ? ` (y Musical-Showdown-v${versionName}.apk)` : ""}`);

@@ -522,6 +522,7 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .home-empty-icon{font-size:40px;}
 .home-empty .home-empty-note{font-weight:600;font-size:14px;color:var(--fun-text-dim);}
 .home-settings{display:flex;flex-direction:column;gap:10px;}
+.home-version{margin:8px 0 0;text-align:center;font-size:12.5px;font-weight:700;color:var(--fun-text-dim);opacity:.8;}
 .home-settings-group{margin:6px 0 0;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--fun-accent);}
 .home-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
   background:var(--fun-surface-2);border-radius:20px;padding:16px;}
