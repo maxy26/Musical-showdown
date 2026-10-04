@@ -88,6 +88,10 @@
   ejemplo, por lo que se cantó, por artista, por voz…) y mostrarle maquetas.
   Relacionado: la parte legal de las letras y que las palabras no siempre están
   en la letra guardada (sección de canciones).
+  - 04-10-2026: el usuario dejó para este pendiente la duda de si se busca
+    **solo por nombre** o también **por fragmento de la letra** (hoy busca por
+    los dos). Ya se hizo: búsqueda mientras se escribe, mínimo 3 letras y una
+    versión por artista.
 
 - [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,

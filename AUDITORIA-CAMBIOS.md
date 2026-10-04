@@ -13,6 +13,16 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 11): decisiones pendientes cerradas
+
+**Decisiones del usuario:** (1) pasarse del máximo de relevos por ronda se
+sigue penalizando como ahora; (2) la duda de buscar solo por nombre o también
+por fragmento se decide en el pendiente crítico de cómo buscar canciones.
+
+**Archivos:** CONTEXTO (relevo) y PENDIENTES (búsqueda). Solo documentos.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 10): efecto al pasar el mouse (solo PC)
 
 **Decisión del usuario:** dejar el "Rebote" al elegir (vio 6 animaciones en

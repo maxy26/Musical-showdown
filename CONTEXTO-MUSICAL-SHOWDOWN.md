@@ -137,6 +137,9 @@
         acierta, el equipo suma lo que corresponde; si falla, el rival todavía
         puede acertar y sumar. Antes de cada relevo de más sale un aviso con
         los puntos exactos y hay que confirmarlo.
+      - Pasarse del máximo por ronda **se sigue penalizando** aunque queden
+        relevos en el total (confirmado por el usuario el 04-10-2026; se
+        descartó que gastara otro del total en su lugar).
       - Un relevo de más por pasarse del **máximo por ronda** **no gasta**
         del total (ya se pagó con puntos). Ejemplo: 3 en total y 1 por ronda;
         si en una ronda usa 2, le quedan 2 para el resto de la partida.
