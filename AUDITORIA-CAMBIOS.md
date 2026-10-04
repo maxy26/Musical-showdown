@@ -13,6 +13,36 @@
 
 ---
 
+## 2026-10-04 — Sesión 6 (parte 13): el APK no se actualizaba en el celular
+
+**Reporte del usuario:** instaló el APK nuevo y el juego seguía viéndose como
+la versión anterior.
+
+**Causa:** el service worker de la versión anterior quedó registrado en la
+app. En Android, Capacitor no atiende las peticiones del service worker
+(`capacitor-android` no usa `ServiceWorkerController`): sus pedidos fallan y
+"network-first" cae a la copia guardada, que era la versión vieja. El APK sí
+traía el código nuevo.
+
+**Qué se hizo**
+- `main.js`: `isNativeShell()` (Capacitor o file://). El service worker solo
+  se registra en la web; en Android y en el `.exe` se borran al abrir los
+  service workers y copias que hayan quedado.
+- `platforms/android/android/app/build.gradle`: versionCode 2, versionName
+  "1.1", para ver en el celular qué versión está instalada.
+- CLAUDE.md actualizado.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
+pendiente; el `bundle.js` del APK nuevo trae el cambio. Compilados `.exe` y
+`.apk`. **Importante:** en un celular que ya tenía la versión vieja, el
+service worker viejo impide que cargue el código nuevo la primera vez; hay que
+**desinstalar la app (o borrar sus datos) una vez** antes de instalar este APK.
+Desde esta versión no vuelve a pasar.
+
+**Qué quedó abierto:** que el usuario confirme en el celular.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 12): prueba de reconocimiento de voz (fuera del juego)
 
 **Decisiones del usuario (pendiente crítico de buscar canciones):** Vosk sin
