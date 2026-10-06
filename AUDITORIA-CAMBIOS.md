@@ -13,6 +13,30 @@
 
 ---
 
+## 2026-10-05 — Sesión 6 (parte 18): pruebas de sonido con grabaciones CC0
+
+**Pedido del usuario:** sonidos más profesionales; rechazó los sintetizados y
+eligió grabaciones de uso libre.
+
+**Qué se hizo (solo pruebas, fuera del juego, en el scratchpad):** mesa de
+sonidos (`sonidos7.html`, prueba 9) y una copia del juego (`/juego/`) con un
+motor de prueba (`motor-sonidos.js`): música con entrada, bucle sin corte de
+Coffee Beans (44 pulsos medidos), aceleración en los últimos 5 s, efectos por
+momento y los 7 pedidos del 05-10-2026 (ver PENDIENTES, "Sonidos nuevos"). Se
+subió el commit `fc0ff44`.
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. El juego
+real (`src/`) no cambió.
+
+**Cómo se verificó:** Edge sin ventana con CDP: los 276 sonidos se decodifican,
+y un recorrido del juego de prueba registra el sonido correcto en cada paso, sin
+errores.
+
+**Qué quedó abierto:** que el usuario elija los sonidos y apruebe los 7 pedidos;
+cambiar las reglas 17 y 18 de INSTRUCCIONES al pasarlo al juego.
+
+---
+
 ## 2026-10-04 — Sesión 6 (parte 17): protección de la clave de firma
 
 **Pedido del usuario:** que el script no cree una clave nueva sin querer (por

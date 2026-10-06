@@ -123,6 +123,31 @@
     usar el relevo (y el relevo de más) y una fanfarria de victoria. Se le
     mostró una página de prueba (fuera del juego) con 3 músicas de fondo
     originales y 9 efectos generados con Web Audio; falta que elija.
+  - **Cambio de rumbo (04/05-10-2026):** rechazó los sintetizados (8 bits,
+    piano, sintetizador moderno). Ahora se usan **grabaciones CC0** (Kenney y
+    OpenGameArt): hay que cambiar la regla 18 de INSTRUCCIONES al pasarlo al
+    juego. Elegido hasta ahora (pruebas 5 a 9, en el scratchpad, fuera del
+    juego): Funky Disco para el inicio y la configuración, Coffee Beans en
+    bucle sin corte para las rondas, las dos con una entrada de 4 s (filtro que
+    se abre con barrido de subida). En los últimos 5 s la música se acelera
+    (más rápida y más aguda) y el reloj sigue siendo el de hoy. Clic de botones
+    elegido; los demás momentos (elegir, acertar/fallar, relevo, relevo de más,
+    aviso, interruptor, ruleta) siguen en elección. Falta decir para qué es el
+    "Bong".
+  - **Pedidos del usuario del 05-10-2026** (hechos solo en el juego de prueba,
+    falta que los apruebe para pasarlos al juego real):
+    1. Botones + y − de intentos y relevos con el sonido del interruptor.
+    2. Clic también en las listas de puntaje y tiempo y en los nombres.
+    3. Sonido propio en la ruleta de puntaje y tiempo (uno por número).
+    4. Efectos bien audibles frente a la música: volúmenes separados y la
+       música baja un momento cuando suena un efecto (confirmar que esto es lo
+       que quiso decir).
+    5. Volver a poner el botón 🔊 donde estaba (configuración, grupos y ronda),
+       ahora **solo para la música de fondo** (cambia la regla 17).
+    6. Botón de Ajustes también en las rondas (preguntar si la ronda se pausa
+       mientras está abierto).
+    7. En el celular, Ajustes como panel que entra desde la izquierda (hoy sube
+       desde abajo). En PC sigue la ventana centrada.
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las
