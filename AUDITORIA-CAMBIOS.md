@@ -13,6 +13,30 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 19): sonidos definidos y ajustes de volumen (pruebas)
+
+**Pedido del usuario:** fijar varios sonidos, opciones nuevas para el resto, y
+4 pedidos más (Sí/No con cada toque, sin parpadeo, volumen sin "agache" con
+barras en Ajustes, dos formas de silenciar) más ver Ajustes en tamaño celular.
+
+**Qué se hizo (solo pruebas en el scratchpad):** mesa (prueba 10) y juego de
+prueba actualizados; detalle en PENDIENTES, "Sonidos nuevos". Se encontró la
+causa del parpadeo: cada cambio redibuja la pantalla entera y repite la
+animación `fadein` de `.screen`.
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. `src/` no
+cambió.
+
+**Cómo se verificó:** Edge sin ventana con CDP: 117 sonidos de la mesa se
+decodifican; recorrido del juego de prueba con Sí/No, barras en 0 y 80, modos A
+y B del botón 🔊 (A siguió desde el segundo exacto donde se quitó), sin
+animación de entrada al redibujar; captura del panel de Ajustes a 390 px.
+
+**Qué quedó abierto:** elecciones pendientes de la mesa y aprobación de todo
+para pasarlo al juego real.
+
+---
+
 ## 2026-10-05 — Sesión 6 (parte 18): pruebas de sonido con grabaciones CC0
 
 **Pedido del usuario:** sonidos más profesionales; rechazó los sintetizados y

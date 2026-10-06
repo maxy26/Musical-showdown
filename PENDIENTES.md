@@ -148,6 +148,24 @@
        mientras está abierto).
     7. En el celular, Ajustes como panel que entra desde la izquierda (hoy sube
        desde abajo). En PC sigue la ventana centrada.
+  - **Elecciones definidas (06-10-2026):** Elegir = cristal doble; Acertar /
+    Fallar = acorde de cinco notas con "Elegir 7" (sube / baja); Falla (relevo
+    de más) = nota repetida y caída; Interruptor = gemelo más grave
+    (switch14 a 0,8). Siguen en elección: clic (intermedio entre Clic 2 y
+    Clic 3), relevo, aviso (el zap doble rápido más suave), ruleta y
+    abrir/cerrar.
+  - **Pedidos del 06-10-2026** (hechos en el juego de prueba, falta aprobarlos):
+    1. Los Sí / No cambian con cada toque, aunque se toque la opción ya elegida.
+    2. Sin parpadeo al tocar Sí / No o + / −: el juego volvía a dibujar la
+       pantalla y repetía su animación de entrada (`.screen{animation:fadein}`);
+       ahora al redibujar la misma pantalla no se repite y se conserva la
+       posición.
+    3. Los efectos ya **no bajan la música** (se quitó eso); volúmenes fijos y
+       barras de volumen en Ajustes para música y efectos (al máximo: música
+       0,45 y efectos 0,9, para que no quede muy fuerte). Volumen en 0 = "No".
+    4. Botón 🔊: el usuario duda entre **A** (al quitarla se detiene y al volver
+       sigue donde iba) y **B** (sigue corriendo en silencio). Las dos están en
+       la mesa para que elija.
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las
