@@ -13,6 +13,22 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 22): opciones nuevas de acertar/fallar, fin del tiempo y cuenta (pruebas)
+
+**Pedido del usuario:** intermedios entre el 3 y el 4 de Acertar/Fallar;
+parecidos al 5 de "Se acabó el tiempo" y además un solo sonido de fin parecido
+al reloj; parecidos al 4 de la cuenta.
+
+**Qué se hizo:** mesa (prueba 13) con 8, 13 y 8 opciones. Solo scratchpad;
+`src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: 200 sonidos se decodifican; el recorrido
+de la cuenta en el juego de prueba sigue igual (3, 2, 1, final; sin errores).
+
+**Qué quedó abierto:** que el usuario elija esos tres sonidos.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 21): cuenta en Ajustes, capa de la cuenta y diseño cara a cara (pruebas)
 
 **Pedido del usuario:** fijar Elegir y Abrir/Cerrar, opciones nuevas para
