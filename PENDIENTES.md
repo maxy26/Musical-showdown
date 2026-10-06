@@ -165,7 +165,26 @@
        0,45 y efectos 0,9, para que no quede muy fuerte). Volumen en 0 = "No".
     4. Botón 🔊: el usuario duda entre **A** (al quitarla se detiene y al volver
        sigue donde iba) y **B** (sigue corriendo en silencio). Las dos están en
-       la mesa para que elija.
+       la mesa para que elija. **Eligió A (06-10-2026).**
+  - **Más elecciones (06-10-2026):** clic = Clic 3 presionar y soltar; aviso =
+    zap doble rápido más suave; ruleta = tic suave; relevo **sin sonido propio**
+    (suena el clic). Siguen en elección: versión más suave de Elegir y de
+    Acertar/Fallar, abrir/cerrar (parecidos al punteo de dos notas), y los
+    sonidos de "fin del tiempo" y de la cuenta.
+  - **Pedidos del 06-10-2026, parte 2** (hechos en el juego de prueba):
+    1. La tarjeta completa de "Jugar" suena con el clic.
+    2. El botón de ayuda ❓ suena como abrir/cerrar ventana.
+    3. Sonido propio cuando se acaba el tiempo de la ronda.
+    4. Cuenta antes de cada ronda (3, 2, 1…) configurable en "Configurar
+       partida" (No o de 1 a 10 s; por defecto 3), con su sonido (por defecto el
+       mismo del reloj). Se muestra en lugar de la barra de carga del "VS".
+       Confirmar con el usuario: duración por defecto, si va antes de mostrar
+       la palabra (así está) y si se puede pausar.
+    5. Solo en PC: tocar la fila completa de "Puntaje objetivo", "Tiempo por
+       ronda", los Sí/No y "Relevos por equipo" hace lo mismo que su control
+       (las filas con − / + no, porque tienen dos acciones).
+    6. Android: maqueta con 4 diseños del orden de los jugadores en la ronda
+       (`disenos-ronda.html` en el scratchpad); falta que el usuario elija.
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las

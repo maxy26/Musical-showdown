@@ -13,6 +13,31 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 20): más sonidos, cuenta antes de la ronda y diseños de ronda (pruebas)
+
+**Pedido del usuario:** fijar más sonidos, modo A del botón 🔊, sonido en la
+tarjeta de Jugar y en la ayuda, sonido de fin del tiempo, cuenta configurable
+antes de cada ronda, fila completa clicable en PC y diseños del orden de los
+jugadores en Android. Subir los commits.
+
+**Qué se hizo:** se subieron `a33f77e` y `d7da6ec`. En el scratchpad: mesa
+(prueba 11, con los momentos nuevos "Se acabó el tiempo" y "Cuenta antes de la
+ronda"), juego de prueba con los 6 pedidos y `disenos-ronda.html` con 4
+diseños. Detalle en PENDIENTES, "Sonidos nuevos".
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. `src/` no
+cambió.
+
+**Cómo se verificó:** Edge sin ventana con CDP: 158 sonidos de la mesa se
+decodifican; recorrido del juego: tarjeta de Jugar → clic y pasa a configurar,
+ayuda → abrir/cerrar, fila de puntaje clicable, cuenta 3 → 2 → 1 → final con su
+sonido, tiempo en 0 → "fin"; sin errores. Captura de los diseños.
+
+**Qué quedó abierto:** elecciones de la mesa, detalles de la cuenta y el
+diseño de ronda que elija el usuario.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 19): sonidos definidos y ajustes de volumen (pruebas)
 
 **Pedido del usuario:** fijar varios sonidos, opciones nuevas para el resto, y
