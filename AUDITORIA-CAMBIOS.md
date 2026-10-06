@@ -13,6 +13,30 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 21): cuenta en Ajustes, capa de la cuenta y diseño cara a cara (pruebas)
+
+**Pedido del usuario:** fijar Elegir y Abrir/Cerrar, opciones nuevas para
+Acertar/Fallar, fin del tiempo y cuenta; mover la cuenta a Ajustes; que no se
+pueda tocar nada durante la cuenta (con una pantalla transparente); diseño 4 de
+la ronda con casillas grandes. Subir el commit.
+
+**Qué se hizo:** se subió `3805f2e`. En el scratchpad: mesa (prueba 12) y juego
+de prueba con los cambios; detalle en PENDIENTES, "Sonidos nuevos".
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. `src/` no
+cambió.
+
+**Cómo se verificó:** Edge sin ventana a 390×844: la cuenta ya no está en la
+configuración de partida y en Ajustes sube y baja; durante la cuenta, "Pausa"
+no hace nada y la capa se quita al terminar (suenan 3, 2, 1 y el final);
+capturas de la ronda en Individual y Grupal: la página mide justo el alto de la
+pantalla y las casillas ocupan el ancho. 185 sonidos de la mesa se decodifican.
+
+**Qué quedó abierto:** elecciones de la mesa y aprobación para pasar todo al
+juego real.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 20): más sonidos, cuenta antes de la ronda y diseños de ronda (pruebas)
 
 **Pedido del usuario:** fijar más sonidos, modo A del botón 🔊, sonido en la

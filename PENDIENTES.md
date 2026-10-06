@@ -185,6 +185,20 @@
        (las filas con − / + no, porque tienen dos acciones).
     6. Android: maqueta con 4 diseños del orden de los jugadores en la ronda
        (`disenos-ronda.html` en el scratchpad); falta que el usuario elija.
+  - **Más elecciones (06-10-2026, parte 3):** Elegir = cristal doble suave y
+    más lento; Abrir/Cerrar (y ❓) = metal suave de dos notas. Siguen en
+    elección: Acertar/Fallar (melodías nuevas con el timbre del 3), fin del
+    tiempo (parecidos a los tres tics rápidos) y la cuenta (cada número con
+    su nota y un remate final).
+  - **Pedidos del 06-10-2026, parte 3** (hechos en el juego de prueba):
+    1. La cuenta antes de la ronda se ajusta en **Ajustes** (grupo "Partida"),
+       no en "Configurar partida".
+    2. Durante la cuenta no se puede tocar nada (antes la pausa funcionaba mal
+       en ese momento): una capa transparente con el número tapa la pantalla y
+       bloquea toques y teclado.
+    3. Ronda en el celular con el **diseño 4 (cara a cara)** y casillas grandes
+       que, con la palabra y el reloj, llenan la pantalla (hasta 720 px de
+       ancho).
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las
