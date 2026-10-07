@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 29): final de la cuenta distinto (pruebas)
+
+**Pedido del usuario:** que el último sonido de la cuenta sea distinto al resto,
+con alguna similitud, y más fuerte.
+
+**Qué se hizo:** mesa (prueba 20) con 9 finales a partir del cristal (doble,
+acorde, arpegio, cristal medio, con campana, con metal, agudo doble, con
+remate grave y el de antes); los números siguen en cristal. Solo scratchpad.
+
+**Cómo se verificó:** Edge sin ventana: en las 9 opciones los números quedan en
+0,130 y el final en 0,195 (50 % más fuerte); 85 sonidos se decodifican; sin
+errores.
+
+**Qué quedó abierto:** que el usuario elija el final; prueba final.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 28): podio definido (pruebas)
 
 **Pedido del usuario:** podio = 11 (jingle de victoria con piano) con aplausos;
