@@ -216,8 +216,12 @@
     4. La fila completa de "Puntaje objetivo" y "Tiempo por ronda" (PC) lleva
        encima una copia invisible de la misma lista: cada toque abre o cierra
        la lista exactamente como al tocar el valor.
-  - **Con esto ya están elegidos todos los sonidos.** Falta la aprobación para
-    pasarlo todo al juego real (cambia las reglas 17 y 18).
+  - **Falta elegir el sonido del podio** (pedido del usuario, 06-10-2026: una
+    felicitación, sin bucle). En el juego de prueba suena una vez al llegar al
+    podio y la música de la ronda se detiene; al volver al inicio entra Funky
+    Disco. Confirmar con el usuario si la música debe detenerse en el podio.
+  - Después falta la aprobación para pasarlo todo al juego real (cambia las
+    reglas 17 y 18).
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las

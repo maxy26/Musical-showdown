@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 26): sonido del podio (pruebas)
+
+**Pedido del usuario:** un sonido especial de felicitaciones para el podio, sin
+bucle.
+
+**Qué se hizo:** momento nuevo "Podio" en la mesa (prueba 17) con 9 opciones:
+Funky Victory (canción corta de unos 8 s), jingles de saxofón, tambores
+metálicos, pizzicato y golpe de banda, y fanfarrias armadas con los sonidos ya
+elegidos. En el juego de prueba suena una vez al llegar al podio; la música de
+la ronda se detiene ahí. Solo scratchpad; `src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: se ganó una partida (puntaje objetivo
+100) y al pasar al podio sonó "podio" con la música detenida; al volver al
+inicio entró Funky Disco; las 9 opciones quedan al mismo nivel (0,13); 81
+sonidos de la mesa se decodifican; sin errores.
+
+**Qué quedó abierto:** elegir el sonido y confirmar que la música se detenga en
+el podio.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 25): cuenta definida y fila de la lista exacta (pruebas)
 
 **Pedido del usuario:** "más alto" era más fuerte; cuenta = 1 (cristal); que la
