@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 30): final de la cuenta definido (pruebas)
+
+**Pedido del usuario:** final de la cuenta = 6 (cristal con metal suave). Subir
+los commits.
+
+**Qué se hizo:** se subieron `9e19790` y `bae239d`. En la mesa (prueba 21) la
+cuenta queda fija: 3, 2 y 1 con cristal; el final, cristal más agudo con metal
+suave, un 50 % más fuerte. Todos los sonidos están elegidos. Solo scratchpad.
+
+**Cómo se verificó:** Edge sin ventana: números 0,130 y final 0,195; en el
+juego de prueba suenan 3, 2, 1 y el final, la capa se quita y empieza la ronda;
+sin errores.
+
+**Qué quedó abierto:** la prueba final del usuario.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 29): final de la cuenta distinto (pruebas)
 
 **Pedido del usuario:** que el último sonido de la cuenta sea distinto al resto,
