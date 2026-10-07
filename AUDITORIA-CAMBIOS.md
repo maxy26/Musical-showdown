@@ -13,6 +13,24 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 28): podio definido (pruebas)
+
+**Pedido del usuario:** podio = 11 (jingle de victoria con piano) con aplausos;
+no pasar nada al juego real hasta una prueba final. Subir los commits.
+
+**Qué se hizo:** se subió `98e0a43`. En la mesa (prueba 19) el podio queda fijo:
+piano y, desde el segundo 1,2, aplausos que se desvanecen a los 5 s. Con esto
+todos los sonidos están elegidos. Solo scratchpad; `src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: partida ganada → en el podio suena la
+felicitación (6,2 s) con la música detenida; al salir entra Funky Disco; sin
+errores.
+
+**Qué quedó abierto:** la prueba final del usuario antes de pasar todo al juego
+real.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 27): felicitaciones del podio más festivas (pruebas)
 
 **Pedido del usuario:** sonidos de podio más atractivos, más de felicitaciones;
