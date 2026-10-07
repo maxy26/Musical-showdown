@@ -13,6 +13,43 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 35): letras ocultas, búsqueda con la palabra y música al abrir (versión 1.6)
+
+**Pedido del usuario:** (1) usar QR sin Wi-Fi para vincular dispositivos; (2) que
+la música empiece al abrir el `.exe` y el APK; (3) no mostrar las letras de las
+canciones (podría requerir pagar), solo usarlas por dentro para saber si la
+canción lleva la palabra; (4) que la búsqueda solo encuentre canciones con la
+palabra de la ronda; (5) posible pendiente: cambiar cómo se marca correcta /
+incorrecta. Subir los commits.
+
+**Qué se hizo:**
+- `screens/verify.js`: nuevo `songHasWord()` (palabra marcada en `words` o
+  palabra entera en la letra guardada); `searchSongs(q, word)` filtra por la
+  palabra; ya no se muestra la letra ni en la búsqueda ni en "¿La respuesta es
+  correcta?" (ahora muestra canción, artista, quién canta y la palabra);
+  mensaje nuevo cuando no hay resultados. Ayuda sin la fila "Letra resaltada".
+- Música al abrir: `sound.js` arranca la música al iniciar si `esAppInstalada()`;
+  `platforms/desktop/main.js` con `autoplay-policy=no-user-gesture-required`
+  (Android ya lo permite: Capacitor desactiva el requisito de toque). En la
+  web sigue con el primer toque.
+- Pruebas nuevas en `test/texto.test.js` (ejemplo "despacito" / "bicicleta").
+  `sw.js` v16. CONTEXTO y PENDIENTES al día (música al abrir → Resueltos;
+  nuevo pendiente de la forma de marcar correcta / incorrecta; aclaración del
+  QR en el pendiente de dos dispositivos; decisión de las letras).
+- Compilados `dist/MusicalShowdown-v1.6.apk` (versionCode 7) y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 118 bien, 1 pendiente
+conocido. En el navegador (tamaño celular): palabra DESPACITO → buscar
+"bicicleta" no da resultados y "despacito" sí; sin letra en la búsqueda ni en la
+decisión. En el `.exe`: un sonido nuevo arranca sin tocar nada (estado
+"running") y Ajustes dice versión 1.6.
+
+**Qué quedó abierto:** el pendiente "Letras del rediseño sin internet" se refiere
+a las **tipografías** (Fredoka, Nunito…), no a las letras de canciones: aclarárselo
+al usuario y preguntarle de nuevo. Cómo quiere marcar correcta / incorrecta.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 34): pendientes nuevos y orden acordado
 
 **Pedido del usuario:** dejar para el final la búsqueda por voz y todo lo que

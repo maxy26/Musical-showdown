@@ -13,8 +13,10 @@
 - Cada ronda el sistema elige una **palabra exacta**; los participantes
   cantan cualquier canción que la contenga.
 - El juego **no reproduce canciones**: solo permite buscar una canción
-  (por nombre o por el fragmento cantado) y muestra su letra para que un
-  **moderador humano** decida si la respuesta es correcta.
+  (por nombre o por el fragmento cantado) para que un **moderador humano**
+  decida si la respuesta es correcta. **La letra ya no se muestra** (usuario,
+  07-10-2026: mostrarla podría requerir pagar derechos); se guarda solo por
+  dentro, para saber si la canción lleva la palabra.
 - Gana el primer jugador/equipo que alcance o supere el **puntaje
   objetivo**. No hay empates ni desempates.
 - Metodología del proyecto: primero se definieron las reglas de diseño
@@ -439,9 +441,11 @@
   repetirse, como siempre: el usuario decidió no agregar una regla de
   "palabra no repetida".
 - **Interfaz de verificación**: una sola caja de búsqueda (por nombre o
-  por fragmento cantado). Muestra resultados, letra con la palabra
-  resaltada, y botones Correcta/Incorrecta que decide el moderador
-  (no hay reconocimiento de voz automático).
+  por fragmento cantado). **Solo aparecen las canciones que llevan la
+  palabra de la ronda** (07-10-2026: si la palabra es "despacito", buscar "la
+  bicicleta" no la encuentra). Muestra resultados (nombre y artista, sin la
+  letra) y botones Correcta/Incorrecta que decide el moderador (no hay
+  reconocimiento de voz automático).
 - **Respuesta incorrecta**: no bloquea la canción, no hay límite de
   intentos, se puede volver a intentar cualquier participante de esa
   ronda.
@@ -457,7 +461,7 @@
 - **Ayuda ("Cómo se juega")**: es un modal **visual, no solo texto** —
   muestra cada elemento real de la UI (el botón de jugador, la barra de
   progreso, el reloj, la palabra, el multiplicador, el botón de pausa,
-  el buscador, un resultado, la letra resaltada, los botones de
+  el buscador, un resultado, los botones de
   correcta/incorrecta) junto a una explicación corta de qué hace cada
   uno. Pensado para ser "a prueba de tontos".
 - **Ubicación de botones** (regla explícita del usuario): fuera de la

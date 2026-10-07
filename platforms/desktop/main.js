@@ -2,6 +2,9 @@ const { app, BrowserWindow, protocol, net } = require("electron");
 const path = require("path");
 const { pathToFileURL } = require("url");
 
+// La música empieza apenas se abre el juego, sin esperar el primer toque (usuario, 07-10-2026).
+app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
+
 // El juego se sirve con app://juego/ en lugar de abrir el archivo (file://):
 // el sonido (Web Audio) necesita leer los audios con fetch, y Chromium no lo
 // permite con file:// (07-10-2026).

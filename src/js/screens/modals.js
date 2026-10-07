@@ -105,7 +105,7 @@ export function openHelp() {
       <div class="help-visual help-visual-wide">
         <input type="text" class="mini" disabled placeholder="Nombre o fragmento (mín. 3 letras)">
       </div>
-      <div class="help-text"><strong>Buscar canción</strong>Mientras se escribe aparecen las canciones, por nombre o por el fragmento que se cantó. Hacen falta al menos 3 letras.</div>
+      <div class="help-text"><strong>Buscar canción</strong>Mientras se escribe aparecen las canciones, por nombre o por el fragmento que se cantó. Hacen falta al menos 3 letras, y solo aparecen las canciones que llevan la palabra de la ronda.</div>
     </div>
 
     <div class="help-row">
@@ -116,13 +116,6 @@ export function openHelp() {
         </div>
       </div>
       <div class="help-text"><strong>Resultado</strong>El moderador elige la canción correcta entre los resultados encontrados.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual help-visual-wide">
-        <div class="lyric-box mini" style="width:100%;">...me miro en el espejo y veo en mi rostro<br>el tiempo que he sufrido por tu <mark>AMOR</mark>...</div>
-      </div>
-      <div class="help-text"><strong>Letra resaltada</strong>La palabra de la ronda se marca en amarillo dentro de la letra.</div>
     </div>
 
     <div class="help-row">

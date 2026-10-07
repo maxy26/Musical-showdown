@@ -26,6 +26,11 @@
   sigue siendo de ejemplo (instrucción 22). **El usuario decidió dejarlo para
   después (28-09-2026)**: no bloquea los demás pendientes, solo el siguiente
   (palabras que no están en la letra) y la publicación.
+  - **Decisión del usuario (07-10-2026):** la letra **ya no se muestra** en el
+    juego (podría requerir pagar); se guarda solo por dentro para saber si la
+    canción lleva la palabra, y la búsqueda solo trae canciones con la palabra
+    de la ronda (hecho, ver auditoría). Falta averiguar si guardar la letra
+    por dentro también necesita licencia (si es de pago, va al final).
 - [ ] 🟡 **Las palabras que se piden no siempre están en la letra guardada.**
   De 25 palabras que el juego puede pedir en `data/songs.js`, solo 11
   aparecen en el fragmento de letra de su canción. Ejemplo: puede pedir
@@ -166,12 +171,17 @@
   qué dispositivos. Ojo: conectar dos dispositivos sin internet (misma red
   Wi-Fi) es posible entre apps instaladas; por internet puede necesitar un
   servidor (posible costo, entonces va al final según el orden acordado).
-- [ ] 🟡 **La música de fondo debe empezar apenas se abre la app**, sin esperar
-  el primer toque (pedido del usuario, 07-10-2026). Hoy arranca con el primer
-  toque porque los navegadores bloquean el sonido automático. En el `.exe`
-  (Electron) y en Android (WebView) se puede permitir; en la **web** los
-  navegadores no lo dejan hasta que el usuario toca algo, así que ahí seguiría
-  empezando con el primer toque. Confirmar con el usuario.
+  - 07-10-2026: el usuario prefiere **QR sin Wi-Fi**. Aclaración pendiente de
+    conversar: el QR solo sirve para *encontrarse* (lleva el "código" de la
+    partida); los dos dispositivos igual necesitan un camino para hablar:
+    la misma red Wi-Fi (aunque no tenga internet; sirve el punto de acceso de
+    un celular), internet (posible servidor) o Bluetooth (solo entre apps
+    instaladas y más complejo).
+- [ ] 🟡 **Cambiar la forma de marcar si la canción es correcta o incorrecta**
+  (pedido del usuario, 07-10-2026). Hoy: se busca la canción, se elige,
+  "Confirmar" y luego "❌ Incorrecta" / "✅ Correcta". Falta que el usuario
+  diga cómo lo quiere (por ejemplo, botones directos sin buscar, deslizar,
+  un solo toque…); mostrarle opciones en maqueta antes de programar.
 
 - [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
   la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
@@ -204,6 +214,12 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 07-10-2026)** **La música de fondo empieza apenas se abre la
+  app** (pedido del usuario). En el `.exe` (Electron con
+  `autoplay-policy=no-user-gesture-required`) y en Android (Capacitor ya lo
+  permite) suena sola al abrir; en la web sigue empezando con el primer toque,
+  porque los navegadores no dejan sonar nada antes.
 
 - [x] 🟡 **(Resuelto 07-10-2026)** **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,

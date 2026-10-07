@@ -10,8 +10,10 @@
  * - El botón 🔊 de configuración, grupos y ronda solo quita o pone la música
  *   (usuario, 05-10-2026): al volver, sigue desde donde iba.
  *
- * Los navegadores no dejan sonar nada hasta el primer toque del usuario: la
- * música arranca en el primer clic dentro de la app (ver initSound).
+ * En la app de Android y en el .exe la música empieza apenas se abre (usuario,
+ * 07-10-2026; Capacitor y Electron permiten el sonido automático). En la web los
+ * navegadores no dejan sonar nada hasta el primer toque: ahí arranca con el
+ * primer clic (ver initSound).
  *
  * Nada toca `document` ni el audio al cargar el módulo (inicialización
  * perezosa): se puede importar desde Node en las pruebas.
@@ -19,6 +21,7 @@
 
 import { loadSettings, saveSetting } from "./settings.js";
 import { EFECTOS, MAS_FUERTE, MUSICA, TICK } from "./audio/catalogo.js";
+import { esAppInstalada } from "./plataforma.js";
 import { tocar, musica, pararMusica, pausarMusica, acelerar, precargar, usarVolumenes, volumenMusica } from "./audio/motor.js";
 
 /** Volumen de Ajustes (0 a 100) de "music" o "effects". */
@@ -137,6 +140,7 @@ export function initSound() {
   musicaEncendida = kindOn("music");
   usarVolumenes(() => ({ efectos: volumen("effects") / 100, musica: volumen("music") / 100 }));
   precargar(Object.values(EFECTOS).concat(TICK.map((f) => [{ f }])), Object.values(MUSICA));
+  if (esAppInstalada()) arrancar(); // la música suena apenas se abre la app
   document.addEventListener("click", (e) => {
     arrancar();
     if (e.target.closest(".mute-btn")) { alternarMusica(); efecto("interruptor"); return; }

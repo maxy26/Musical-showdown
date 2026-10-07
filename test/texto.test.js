@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 
 import { normalizeText, normalizeForSearch, escapeHtml, highlightWord, titleCaseName } from "../src/js/utils.js";
 import { state, resetState } from "../src/js/state.js";
-import { searchSongs, onePerVersion, baseSongTitle } from "../src/js/screens/verify.js";
+import { searchSongs, onePerVersion, baseSongTitle, songHasWord } from "../src/js/screens/verify.js";
+import { SONG_DB } from "../src/js/data/songs.js";
 
 // Pruebas del buscador de canciones y del resaltado de la palabra en la letra.
 
@@ -135,4 +136,27 @@ test("de cada canción se muestra una sola versión por artista: la original", (
     { title: "Bailando", artist: "Otro Artista" },
   ]).map((s) => `${s.title}|${s.artist}`);
   assert.deepEqual(otras, ["Bailando|Enrique Iglesias", "Bailando|Otro Artista"]);
+});
+
+// ---------- Solo canciones con la palabra de la ronda (usuario, 07-10-2026) ----------
+
+test("con la palabra de la ronda solo aparecen las canciones que la llevan", () => {
+  resetState();
+  state.config.genres = ["pop", "reggaeton"];
+  // Ejemplo del usuario: la palabra es "despacito" y se busca "la bicicleta" → no aparece.
+  assert.deepEqual(searchSongs("la bicicleta", "despacito"), []);
+  assert.ok(searchSongs("despacito", "despacito").some((s) => s.title === "Despacito"));
+  // Sin palabra, la búsqueda funciona como antes.
+  assert.ok(searchSongs("la bicicleta").some((s) => s.title === "La Bicicleta"));
+});
+
+test("songHasWord usa las palabras marcadas y la letra guardada (por dentro)", () => {
+  const despacito = SONG_DB.find((s) => s.title === "Despacito");
+  assert.equal(songHasWord(despacito, "despacito"), true);
+  assert.equal(songHasWord(despacito, "bicicleta"), false);
+  // Palabra entera en la letra, sin importar mayúsculas ni tildes
+  const color = SONG_DB.find((s) => s.title === "Color Esperanza");
+  assert.equal(songHasWord(color, "MIRAR"), true);
+  assert.equal(songHasWord(color, "mira"), false); // "mira" no es una palabra entera de la letra
+  assert.equal(songHasWord(color, "cerrar"), false); // marcada como que no está
 });
