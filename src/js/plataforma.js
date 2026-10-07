@@ -20,3 +20,13 @@ export function salirDeLaApp() {
   if (app?.exitApp) app.exitApp();
   else window.close();
 }
+
+/**
+ * Abre un enlace fuera del juego, en el navegador del sistema (por ejemplo,
+ * "Descargar" de un aviso). En Android, Capacitor abre en el navegador las
+ * direcciones de otros sitios; en el .exe lo hace platforms/desktop/main.js.
+ */
+export function abrirEnlace(url) {
+  if (window.Capacitor?.isNativePlatform?.()) window.location.href = url;
+  else window.open(url, "_blank", "noopener");
+}

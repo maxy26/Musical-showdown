@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol, net } = require("electron");
+const { app, BrowserWindow, protocol, net, shell } = require("electron");
 const path = require("path");
 const { pathToFileURL } = require("url");
 
@@ -37,6 +37,12 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+  });
+  // Los enlaces externos (por ejemplo, "Descargar" de un aviso) se abren en el
+  // navegador del sistema, no en una ventana del juego.
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^https?:/.test(url)) shell.openExternal(url);
+    return { action: "deny" };
   });
   win.loadURL("app://juego/index.html");
 }

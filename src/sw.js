@@ -4,7 +4,7 @@
 // Los scripts de build/ reemplazan este nombre por uno único en cada
 // compilación (versión + fecha y hora), así cada build usa una caché nueva y
 // "activate" borra las anteriores. En la web servida desde src/ queda este.
-const CACHE_NAME = "musical-showdown-v17";
+const CACHE_NAME = "musical-showdown-v18";
 const ASSETS = [
   "./",
   "./index.html",
@@ -32,6 +32,7 @@ const ASSETS = [
   "./js/version.js",
   "./js/settings.js",
   "./js/plataforma.js",
+  "./js/avisos.js",
   "./js/icons.js",
   "./js/tapFeedback.js",
   "./js/data/songs.js",

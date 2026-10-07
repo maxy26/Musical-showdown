@@ -13,6 +13,42 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 37): avisos de la campana (versión 1.8)
+
+**Pedido del usuario:** avisos de versiones nuevas, novedades y promociones;
+de las dos fuentes (versiones publicadas y un archivo de avisos); sin internet,
+los últimos guardados; globito con los no leídos. Aprobó la maqueta tal cual y
+pidió anotar "Compartir" como pendiente.
+
+**Qué se hizo:**
+- `src/js/avisos.js`: trae de GitHub (repositorio público, sin costo) las
+  versiones publicadas (solo la más nueva que la instalada → "Actualización"
+  con "Descargar") y `avisos/avisos.json` (novedades y promociones); los guarda
+  para verlos sin internet; marca leídos al abrir el panel. Funciones puras con
+  pruebas (`test/avisos.test.js`).
+- `screens/menu.js`: panel con el diseño de la maqueta y globito en la campana.
+  `plataforma.js` → `abrirEnlace()`; `platforms/desktop/main.js` abre los
+  enlaces externos en el navegador del sistema.
+- `avisos/avisos.json` (un aviso de bienvenida) y `avisos/LEEME.md` (cómo
+  agregar avisos). `sw.js` v18. CLAUDE.md y PENDIENTES (notificaciones
+  resueltas; nuevos: "Compartir el juego"; la clave ya está en la nube, falta
+  protegerla con contraseña). Compilados `dist/MusicalShowdown-v1.8.apk`
+  (versionCode 9) y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 123 bien, 1 pendiente
+conocido. En el navegador, simulando las respuestas de GitHub: globito 2,
+panel con "Versión 1.8 disponible" y la bienvenida, "Descargar" abre la página
+de la versión, el globito se oculta al abrir; sin internet muestra los
+guardados con "📡 Sin conexión"; sin nada guardado, el mensaje vacío. Con la
+red real (sin versiones publicadas y sin el archivo subido) el panel queda
+vacío sin errores. En el `.exe` (app://) GitHub responde 200.
+
+**Qué quedó abierto:** subir `avisos/avisos.json` a `main` para que aparezca
+la bienvenida; publicar una versión (etiqueta `v*`) para ver el aviso de
+actualización real.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 36): tipografías dentro del juego y espacios de jugadores (versión 1.7)
 
 **Pedido del usuario:** que las tipografías no cambien sin internet; que

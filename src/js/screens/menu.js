@@ -1,5 +1,5 @@
 import { state } from "../state.js";
-import { el } from "../utils.js";
+import { el, escapeHtml } from "../utils.js";
 import { render } from "../router.js";
 import { ICONS } from "../icons.js";
 import { openHelp, showToast, showConfirm } from "./modals.js";
@@ -9,7 +9,8 @@ import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } from "../settings.js";
 import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO } from "../version.js";
-import { esAppInstalada, salirDeLaApp } from "../plataforma.js";
+import { esAppInstalada, salirDeLaApp, abrirEnlace } from "../plataforma.js";
+import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, fechaRelativa } from "../avisos.js";
 
 /**
  * Pantalla de inicio (rediseño elegido por el usuario el 01-10-2026; detalles
@@ -22,13 +23,40 @@ const BATTLES = {
   grupal: { title: "Grupal", text: "Equipos que se enfrentan por turnos.", icon: ICONS.users },
 };
 
-/** Panel de la campana: actualizaciones, promoción del juego y avisos. Aún no hay fuente de avisos. */
+/** Panel de la campana: actualizaciones, novedades y promociones (ver avisos.js). */
 function notificationsBody() {
-  return el(`<div class="home-empty">
+  const { avisos, sinRed } = avisosActuales();
+  if (avisos.length === 0) return el(`<div class="home-empty">
     <div class="home-empty-icon">🔔</div>
     <p>No hay notificaciones por ahora.</p>
-    <p class="home-empty-note">Aquí aparecerán las novedades del juego, las actualizaciones y otros avisos.</p>
+    <p class="home-empty-note">${sinRed ? "Sin conexión. " : ""}Aquí aparecerán las novedades del juego, las actualizaciones y otros avisos.</p>
   </div>`);
+  const nuevos = idsSinLeer(avisos);
+  const body = el(`<div class="avisos">
+    ${sinRed ? `<p class="aviso-sin-red">📡 Sin conexión: se muestran los últimos avisos guardados.</p>` : ""}
+    ${avisos.map((a, i) => `
+      <article class="aviso ${nuevos.includes(a.id) ? "is-nuevo" : ""}">
+        <div class="aviso-icono">${TIPOS[a.tipo].icono}</div>
+        <div class="aviso-cuerpo">
+          <p class="aviso-meta"><span class="home-tag">${TIPOS[a.tipo].nombre}</span> ${fechaRelativa(a.fecha)}${nuevos.includes(a.id) ? ` <span class="aviso-nuevo">● Nuevo</span>` : ""}</p>
+          <h3>${escapeHtml(a.titulo)}</h3>
+          ${a.texto ? `<p>${escapeHtml(a.texto)}</p>` : ""}
+          ${a.boton ? `<button type="button" class="btn btn-primary aviso-boton" data-aviso="${i}">${escapeHtml(a.boton.texto)}</button>` : ""}
+        </div>
+      </article>`).join("")}
+  </div>`);
+  body.querySelectorAll("[data-aviso]").forEach((b) => (b.onclick = () => abrirEnlace(avisos[Number(b.dataset.aviso)].boton.url)));
+  marcarLeidos(avisos); // al abrir el panel quedan leídos
+  return body;
+}
+
+/** Globito de la campana con la cantidad de avisos sin leer. */
+function pintarGlobito(root) {
+  const g = root.querySelector(".aviso-globito");
+  if (!g) return;
+  const n = idsSinLeer(avisosActuales().avisos).length;
+  g.textContent = n > 9 ? "9+" : String(n);
+  g.hidden = n === 0;
 }
 
 /**
@@ -129,7 +157,7 @@ export function screenMenu() {
     <header class="home-header">
       <button type="button" class="home-round-btn pressable" id="btn-settings" aria-label="Ajustes">${ICONS.settings()}</button>
       <div class="home-header-right">
-        <button type="button" class="home-round-btn pressable" id="btn-notifications" aria-label="Notificaciones">${ICONS.bell()}</button>
+        <button type="button" class="home-round-btn pressable" id="btn-notifications" aria-label="Notificaciones">${ICONS.bell()}<span class="aviso-globito" hidden></span></button>
         <button type="button" class="home-round-btn pressable" id="btn-help" aria-label="Cómo se juega">${ICONS.help()}</button>
       </div>
     </header>
@@ -223,7 +251,13 @@ export function screenMenu() {
 
   // ---------- Encabezado ----------
   root.querySelector("#btn-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
-  root.querySelector("#btn-notifications").onclick = () => openSheet({ title: "Notificaciones", body: notificationsBody() });
+  root.querySelector("#btn-notifications").onclick = () => {
+    openSheet({ title: "Notificaciones", body: notificationsBody() });
+    pintarGlobito(root);
+  };
+  // Avisos: primero los guardados; cuando llegan los de internet se actualiza el globito.
+  pintarGlobito(root);
+  cargarAvisos(APP_VERSION).then(() => pintarGlobito(root)).catch(() => {});
   root.querySelector("#btn-help").onclick = () => openHelp();
 
   paintBattle();

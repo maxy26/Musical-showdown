@@ -65,6 +65,9 @@
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
 - [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
+  **07-10-2026: el usuario ya subió una copia a la nube**; falta protegerla con
+  contraseña (Almacén personal de OneDrive o un ZIP con 7-Zip y AES-256), porque
+  `keystore.properties` guarda la contraseña de la clave en texto normal.
   `platforms/android/keystore/` (archivo `.jks` y `keystore.properties`). No está
   en git. Si se pierde, las versiones nuevas no se podrán instalar encima de
   las anteriores (habrá que desinstalar). Pedirle al usuario que la guarde en un
@@ -120,11 +123,12 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Notificaciones sin fuente de avisos.** La campana abre un panel que
-  por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
-  promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
-  la página de Releases de GitHub, etc.). Preguntar al usuario.
-
+- [ ] 🟡 **Compartir el juego** (pedido del usuario, 07-10-2026, a partir del
+  aviso de promoción "Invita a tus amigos" de la maqueta). Un botón
+  "Compartir" que abra el menú de compartir del celular (WhatsApp, etc.) o, en
+  PC, copie el enlace. Definir con el usuario: dónde va el botón (aviso de
+  promoción, Ajustes, podio…), qué texto y qué enlace se comparte (por ejemplo,
+  la página de descarga de GitHub) y mostrarle una maqueta antes.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -209,6 +213,16 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 07-10-2026)** **Notificaciones sin fuente de avisos.** La campana abre un panel que
+  por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
+  promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
+  la página de Releases de GitHub, etc.). Preguntar al usuario.
+  Hecho con la maqueta aprobada: los avisos salen de GitHub (versiones
+  publicadas más nuevas que la instalada → "Actualización" con "Descargar";
+  `avisos/avisos.json` → novedades y promociones, ver `avisos/LEEME.md`),
+  globito con los no leídos, y sin internet se ven los últimos guardados
+  (`src/js/avisos.js`).
 
 - [x] 🟡 **(Resuelto 07-10-2026)** **Letras del rediseño sin internet** (tipografías, no letras de canciones). Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
