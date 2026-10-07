@@ -199,6 +199,18 @@
     3. Ronda en el celular con el **diseño 4 (cara a cara)** y casillas grandes
        que, con la palabra y el reloj, llenan la pantalla (hasta 720 px de
        ancho).
+  - **06-10-2026, parte 4:** Acertar/Fallar = escala alegre / escala que se
+    apaga; fin del tiempo = tics que bajan con el reloj normal; el Bong se
+    ignora. Hechos en el juego de prueba:
+    1. **Todos los efectos al mismo volumen:** el motor mide cada sonido y lo
+       lleva al mismo nivel (0,13); los clics, que son golpes muy cortos, se
+       suben más y un limitador suave contiene su pico. La música también se
+       iguala por canción (0,07, siempre por debajo de los efectos). Las barras
+       de Ajustes siguen igual (0 = "No").
+    2. En PC, tocar otra vez la fila de "Puntaje objetivo" (o "Tiempo por
+       ronda") cierra la lista, igual que al tocar el valor.
+    3. Cuenta: 10 sonidos nuevos, el mismo en 3, 2 y 1 y el final un poco más
+       agudo (5 semitonos). Confirmar si "más alto" era más agudo o más fuerte.
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las

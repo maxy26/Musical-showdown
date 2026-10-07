@@ -13,6 +13,33 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 24): mismo volumen para todos los efectos (pruebas)
+
+**Pedido del usuario:** que todos los sonidos que no son la música suenen con el
+mismo volumen (los clics casi no se oían), respetando las barras de música y
+efectos; que tocar otra vez la fila del puntaje cierre la lista; sonidos nuevos
+para la cuenta con el final un poco más alto. Subir los commits.
+
+**Qué se hizo:** se subieron `acbcae3`, `b9b19e7` y `302aeaa`. En el motor de
+prueba: medición del nivel de cada sonido (grabación sin sonido, ventanas de
+30 ms) y ganancia para dejarlos todos en 0,13, con un limitador en los efectos;
+cada canción igualada a 0,07. La medición mostró que antes la música al
+máximo (0,27) sonaba más fuerte que los efectos. Fila del puntaje: abre y
+cierra (al abrirse la lista el campo pierde el foco un instante, por eso no se
+usa "blur"). Detalle en PENDIENTES.
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. `src/` no
+cambió.
+
+**Cómo se verificó:** Edge sin ventana: niveles medidos después de igualar
+(efectos entre 0,11 y 0,13); toques reales del mouse en la fila: abre, cierra,
+abre; cuenta del juego sin errores; 77 sonidos se decodifican.
+
+**Qué quedó abierto:** elegir la cuenta y confirmar "más alto"; aprobar para
+pasar todo al juego real.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 23): acertar/fallar y fin del tiempo definidos (pruebas)
 
 **Pedido del usuario:** Acertar/Fallar = 7 (la escala alegre / escala que se
