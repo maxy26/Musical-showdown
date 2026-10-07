@@ -219,7 +219,13 @@
   - **Falta elegir el sonido del podio** (pedido del usuario, 06-10-2026: una
     felicitación, sin bucle). En el juego de prueba suena una vez al llegar al
     podio y la música de la ronda se detiene; al volver al inicio entra Funky
-    Disco. Confirmar con el usuario si la música debe detenerse en el podio.
+    Disco. **Confirmado (06-10-2026): la música se detiene y suena el podio.**
+    Opciones nuevas (prueba 18), todas CC0 de OpenGameArt: fanfarrias,
+    aplausos de público, voces "Congratulations!" (pack Voiceover 40 lines) y
+    jingles de victoria con varios instrumentos. Al pasarlo al juego, los
+    aplausos (`aplausos.wav`, 6,9 MB) hay que convertirlos a OGG y recortarlos
+    para que no pesen tanto. Se descartaron "Fireworks with applause" y "Video
+    game cheerful ending" porque piden dar crédito (CC-BY), no son CC0.
   - Después falta la aprobación para pasarlo todo al juego real (cambia las
     reglas 17 y 18).
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que

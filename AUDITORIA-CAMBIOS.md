@@ -13,6 +13,28 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 27): felicitaciones del podio más festivas (pruebas)
+
+**Pedido del usuario:** sonidos de podio más atractivos, más de felicitaciones;
+la música de la ronda se detiene y suena el podio. Subir los commits.
+
+**Qué se hizo:** se subieron `51e57dc` y `89f6da5`. Se buscaron en OpenGameArt
+sonidos CC0 de celebración (revisando la licencia de cada página) y se
+descargaron 14: aplausos, "bien hecho" con aplausos, voces "Congratulations!",
+fanfarrias, "nivel completado", "misión cumplida" y un jingle de victoria en 18
+instrumentos. Mesa (prueba 18) con 15 opciones, varias combinadas con
+aplausos; el motor puede cortar un sonido largo con desvanecimiento. Solo
+scratchpad; `src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: se ganó una partida y en el podio sonó
+la felicitación con la música detenida; las 15 opciones quedan al mismo nivel
+(0,13) y duran de 0,9 a 10,5 s; 61 sonidos de la mesa se decodifican; sin
+errores (se corrigió un error de orden al cortar los aplausos).
+
+**Qué quedó abierto:** que el usuario elija el sonido del podio.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 26): sonido del podio (pruebas)
 
 **Pedido del usuario:** un sonido especial de felicitaciones para el podio, sin
