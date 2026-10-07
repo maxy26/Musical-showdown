@@ -12,6 +12,11 @@
 > publicar se harán los pendientes que falten, mejoras visuales y de lógica
 > (las que pida el usuario o se le recomienden) y la parte legal de agregar
 > canciones (solo letras, sin audio).
+>
+> **Orden acordado (07-10-2026):** la búsqueda de canciones por voz (el
+> pendiente CRÍTICO) y todo lo que pueda necesitar un servicio de pago (por
+> ejemplo, la fuente legal de letras o la firma del `.exe`) se dejan **para el
+> final**, aunque sean críticos. Se sigue con el resto.
 
 ## 🎵 Canciones y letras (antes de publicar)
 
@@ -148,6 +153,25 @@
 
 
 ## 🎮 Diseño / implementación pendiente (decisión del usuario)
+
+- [ ] 🟡 **Partida en dos dispositivos vinculados** (pedido del usuario,
+  07-10-2026). Un dispositivo muestra la pantalla de la ronda (la pantalla
+  principal) como hoy; el segundo sirve para **elegir quién canta**. Al
+  elegir, la pantalla principal muestra el nombre (o nombre y grupo) de quien
+  canta, y la secundaria muestra una **animación de audio** que indica que se
+  escucha la voz de esa persona cantando. Antes de programarlo, preguntar y
+  mostrar una maqueta: cómo se vinculan (código, QR, misma red Wi-Fi o
+  internet), qué más hace la pantalla secundaria (confirmar Correcta /
+  Incorrecta, relevo, pausa…), si la animación usa el micrófono de verdad y en
+  qué dispositivos. Ojo: conectar dos dispositivos sin internet (misma red
+  Wi-Fi) es posible entre apps instaladas; por internet puede necesitar un
+  servidor (posible costo, entonces va al final según el orden acordado).
+- [ ] 🟡 **La música de fondo debe empezar apenas se abre la app**, sin esperar
+  el primer toque (pedido del usuario, 07-10-2026). Hoy arranca con el primer
+  toque porque los navegadores bloquean el sonido automático. En el `.exe`
+  (Electron) y en Android (WebView) se puede permitir; en la **web** los
+  navegadores no lo dejan hasta que el usuario toca algo, así que ahí seguiría
+  empezando con el primer toque. Confirmar con el usuario.
 
 - [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
   la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
