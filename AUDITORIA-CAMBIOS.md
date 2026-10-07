@@ -13,6 +13,29 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 33): botón "Salir del juego" en Ajustes (versión 1.5)
+
+**Pedido del usuario:** un botón para salir en los Ajustes del juego, en PC y
+en Android.
+
+**Qué se hizo:** nuevo `src/js/plataforma.js` con `esAppInstalada()` (lo que
+antes era `isNativeShell()` de `main.js`) y `salirDeLaApp()`. En Ajustes, al
+final, el botón rojo "🚪 Salir del juego" pregunta "¿Salir del juego?" (en una
+partida avisa "Se perderá la partida en curso.") y cierra: en Android con el
+complemento oficial `@capacitor/app` (versión 6, instalado en
+`platforms/android`; Capacitor agregó `capacitor-app` a los archivos de
+Gradle), en Windows cerrando la ventana. En la web no aparece (no se puede
+cerrar una pestaña desde la página). `sw.js` v15. Compilados el `.exe` y
+`dist/MusicalShowdown-v1.5.apk` (versionCode 6).
+
+**Cómo se verificó:** lint sin errores; `npm test`: 116 bien, 1 pendiente
+conocido. En el navegador: en la web el botón no aparece; simulando Android
+aparece, "No" no cierra y "Sí" llama a `exitApp`. El APK trae registrado
+`@capacitor/app` (`capacitor.plugins.json`). En el `.exe` el botón aparece.
+Falta que el usuario confirme que cierra de verdad en el celular y en la PC.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 32): sonidos nuevos y ajustes pasados al juego real (versión 1.4)
 
 **Pedido del usuario:** pasar al juego real todo lo aprobado en las pruebas de

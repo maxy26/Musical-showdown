@@ -2,13 +2,14 @@ import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { ICONS } from "../icons.js";
-import { openHelp, showToast } from "./modals.js";
+import { openHelp, showToast, showConfirm } from "./modals.js";
 import { openSheet } from "./sheet.js";
 import { buildModesManual, modeAllowed } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } from "../settings.js";
 import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO } from "../version.js";
+import { esAppInstalada, salirDeLaApp } from "../plataforma.js";
 
 /**
  * Pantalla de inicio (rediseño elegido por el usuario el 01-10-2026; detalles
@@ -66,6 +67,7 @@ export function settingsBody() {
         <button type="button" data-step="1" aria-label="Más segundos">+</button>
       </div>
     </div>
+    ${esAppInstalada() ? `<button type="button" class="btn btn-danger btn-block home-exit" id="btn-exit">🚪 Salir del juego</button>` : ""}
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
   const paint = () => {
@@ -86,6 +88,15 @@ export function settingsBody() {
       r.closest(".home-volume").classList.toggle("is-off", !current[k] || v === 0);
     });
   };
+  // Salir del juego (solo en la app de Android y en el .exe): pregunta antes.
+  const salir = body.querySelector("#btn-exit");
+  if (salir) salir.onclick = () => showConfirm({
+    title: "¿Salir del juego?",
+    message: ["menu", "config"].includes(state.screen) ? "" : "Se perderá la partida en curso.",
+    yesText: "Sí, salir",
+    noText: "No",
+    onYes: salirDeLaApp,
+  });
   body.querySelectorAll('[data-stepper="countdown"] [data-step]').forEach((b) => (b.onclick = () => {
     saveSetting({ countdown: ajustarCuenta(loadSettings().countdown, Number(b.dataset.step)) });
     paint();

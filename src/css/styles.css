@@ -785,3 +785,6 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
   .round-screen .word-wrap{padding:10px;}
   .round-screen .word{font-size:clamp(44px,15vw,72px);}
 }
+
+/* Botón "Salir del juego" en Ajustes (solo en la app de Android y en el .exe) */
+.home-exit{margin-top:8px;}
