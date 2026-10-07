@@ -53,7 +53,8 @@ function saveAlt2(c, patch) {
 export function bindAlt2Options(root, c, rerender) {
   root.querySelectorAll("[data-yesno]").forEach((group) => {
     group.querySelectorAll("button").forEach((b) => (b.onclick = () => {
-      const on = b.dataset.value === "on";
+      // Cada toque cambia el valor, aunque se toque la opción ya elegida (usuario, 06-10-2026)
+      const on = !group.querySelector('[data-value="on"]').classList.contains("active");
       const key = group.dataset.yesno;
       if (key === "multipliers") c.multipliers = on ? [...ALL_MULTIPLIERS] : [];
       else saveAlt2(c, { [key]: on });

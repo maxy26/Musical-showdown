@@ -464,8 +464,8 @@
   pantalla inicial, el botón de ayuda (❓, redondo) va **a la derecha**
   del botón de menú/volver (pantallas de configuración y organizar
   equipos) y, durante la partida, **a la derecha** del botón de pausa.
-  Ya no hay botón de silencio (🔊/🔇): se quitó el 01-10-2026 y el
-  sonido se controla en Ajustes (tuerca del inicio).
+  A su derecha va el botón 🔊/🔇, que solo quita o pone la música (volvió
+  el 05-10-2026 con esa función); en la ronda va además la tuerca de Ajustes.
 
 ### Resultados y "jugar de nuevo"
 - **Podio** (usuario, 30-09-2026; programado el 01-10-2026), en **todos los
@@ -484,20 +484,36 @@
 
 ## 4. Sonido
 
-- **Clic de botones**: enganchado globalmente (delegación de eventos en
-  `document`), así que cualquier botón de la app suena, incluidos los
-  que se agreguen después, sin tocar cada pantalla.
-- **Ambiente**: un pad suave en loop de fondo, volumen bajo. Arranca en
-  el primer clic dentro de la app (los navegadores bloquean el
-  autoplay hasta que hay una interacción real).
-- **Tick del reloj**: uno suave cada segundo, y uno más agudo/urgente en
-  los últimos 5 segundos.
-- Todos los sonidos son **sintetizados** (generados con Python/numpy),
-  no son samples de terceros — para evitar cualquier problema de
-  derechos de autor.
-- **Ajustes → Sonido** (01-10-2026): música de fondo, efectos de sonido y
-  sonido del reloj se encienden o apagan por separado y se recuerdan en el
-  dispositivo (`settings.js`). No hay botón de silencio en las pantallas.
+Rediseñado entre el 04 y el 07-10-2026: el usuario eligió cada sonido en una
+"mesa de sonidos" de prueba. Son **grabaciones CC0** (Kenney y OpenGameArt;
+créditos en `src/audio/CREDITOS.txt`). Código: `sound.js` (qué suena en cada
+momento), `audio/catalogo.js` (archivos y notas de cada efecto) y
+`audio/motor.js` (Web Audio).
+
+- **Música**: "Funky Disco" en el inicio y la configuración; "Coffee Beans" en
+  las rondas, en bucle sin corte (se repite justo a los 44 pulsos, con un cruce
+  de 0,3 s). Las dos entran con un filtro que se abre y un barrido de subida
+  (4 s); cada ronda nueva repite la entrada. En los últimos 5 segundos la música
+  se acelera (más rápida y más aguda). En el podio se detiene y suena la
+  felicitación. Arranca en el primer toque (los navegadores bloquean el sonido
+  hasta que hay una interacción real).
+- **Efectos** (enganchados globalmente en `document`, así que los botones
+  nuevos suenan solos): clic de botones (también la tarjeta de Jugar, las
+  listas, los nombres y, en PC, las filas completas), elegir (modo, tipo de
+  batalla, géneros), interruptor (Sí / No, + / −, 🔊), ruleta (cada número),
+  abrir / cerrar ventanas (también la ayuda), aviso, acertar / fallar (cuando el
+  moderador confirma), relevo de más (el relevo normal suena como un clic),
+  fin del tiempo, cuenta antes de la ronda (el final más fuerte) y podio (piano
+  con aplausos). El reloj sigue con sus dos tics de siempre.
+- **Mismo volumen**: el motor mide cada efecto una vez y lo lleva al mismo
+  nivel; los clics, que son golpes muy cortos, se suben más y un limitador
+  suave evita que saturen. Cada canción se iguala a un nivel por debajo de los
+  efectos. Ningún sonido baja el volumen de otro.
+- **Ajustes → Sonido**: música, efectos y reloj se encienden o apagan por
+  separado; la música y los efectos tienen barra de volumen (0 = "No"). Se
+  recuerdan en el dispositivo (`settings.js`).
+- **Ajustes → Partida**: cuenta antes de cada ronda, No o de 3 a 7 segundos
+  (por defecto 3). Una capa transparente con el número no deja tocar nada.
 
 ## 5. Advertencias y diálogos propios
 

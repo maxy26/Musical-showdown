@@ -4,6 +4,7 @@ import { el } from "../../utils.js";
 import { render } from "../../router.js";
 import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
 import { openHelp, showWarning } from "../modals.js";
+import { muteButtonHTML } from "../../sound.js";
 import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
@@ -39,7 +40,7 @@ export function screenConfig() {
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
 
   const root = el(`<div class="screen">
-    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button></div></div>
+    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
@@ -94,6 +95,7 @@ export function screenConfig() {
 
   root.querySelector("#back").onclick = () => { state.screen = "menu"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
+  filasCompletas(root);
 
   // ---------- Puntaje objetivo y tiempo: predeterminado vs. personalizado ----------
   // "Personalizado…" abre un selector de rueda (valuePicker.js): se desliza
@@ -197,4 +199,35 @@ export function screenConfig() {
   };
 
   return root;
+}
+
+/**
+ * Solo en PC: tocar cualquier parte de una fila hace lo mismo que su control
+ * (usuario, 06-10-2026). En las filas con lista (puntaje, tiempo) va encima una
+ * copia invisible de la misma lista: así cada toque abre o cierra la lista igual
+ * que al tocar el valor. Las filas con − / + no, porque tienen dos acciones.
+ */
+function filasCompletas(root) {
+  if (!window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+  root.querySelectorAll(".opts .opt-row").forEach((row) => {
+    const sel = row.querySelector("select"), btn = row.querySelector("#relay-settings"), yn = row.querySelector("[data-yesno]");
+    if (!sel && !btn && !yn) return;
+    row.classList.add("row-click");
+    if (sel) {
+      const copia = document.createElement("select");
+      copia.className = "fila-lista";
+      copia.setAttribute("aria-hidden", "true");
+      copia.tabIndex = -1;
+      copia.innerHTML = sel.innerHTML;
+      copia.value = sel.value;
+      copia.onchange = () => { sel.value = copia.value; sel.dispatchEvent(new window.Event("change")); };
+      row.append(copia);
+      return;
+    }
+    row.addEventListener("click", (e) => {
+      if (e.target.closest("select, button, input")) return;
+      if (btn) btn.click();
+      else yn.querySelector(".active").click();
+    });
+  });
 }

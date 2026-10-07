@@ -1,3 +1,5 @@
+import { ruleta } from "../../sound.js";
+
 /**
  * Selector de rueda para elegir un valor personalizado (puntaje objetivo o
  * tiempo por ronda), como los de los relojes y alarmas del teléfono: los
@@ -55,6 +57,7 @@ const TAP_PX = 6; // un movimiento menor a esto se toma como toque
 export function openValuePicker({ title, value, min, max, step, formatItem, unit = "", describe, onAccept, onCancel }) {
   const values = wheelValues(min, max, step);
   const startIndex = values.indexOf(clampStep(value, min, max, step));
+  let ultimoSonado = startIndex; // suena cada número que pasa por el centro
   let offset = startIndex; // posición de la rueda en filas (puede ser fraccionaria)
 
   const overlay = document.createElement("div");
@@ -93,6 +96,7 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
       item.style.opacity = String(Math.max(0.15, 1 - d * 0.32));
       item.style.transform = `scale(${Math.max(0.72, 1 - d * 0.1)})`;
     });
+    if (selectedIndex() !== ultimoSonado) { ultimoSonado = selectedIndex(); ruleta(); }
     const v = selectedValue();
     caption.textContent = describe(v);
     wheel.setAttribute("aria-valuenow", v);

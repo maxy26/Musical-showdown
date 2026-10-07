@@ -732,3 +732,56 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
   .home-card:hover,.manual-item.is-selectable:hover{translate:0 -3px;scale:1.015;filter:brightness(1.06);}
 }
 
+/* ---------- Sonido y Ajustes (pasado al juego el 07-10-2026) ---------- */
+/* Ajustes: en el celular entra desde la izquierda y ocupa el alto (sheet.js, side "left") */
+@media (max-width:899px){
+  .sheet-back.sheet-left{justify-content:flex-start;align-items:stretch;}
+  .sheet-left .sheet{width:min(400px,88vw);max-width:none;max-height:none;height:100%;
+    border-radius:0 var(--radius-fun) var(--radius-fun) 0;padding-top:env(safe-area-inset-top);
+    box-shadow:10px 0 40px rgba(0,0,0,.5), inset 0 0 0 2px rgba(255,255,255,.06);animation:sheet-left .3s cubic-bezier(.25,1,.5,1) both;}
+}
+@keyframes sheet-left{from{transform:translateX(-100%);}to{transform:translateX(0);}}
+/* Barras de volumen de la música y los efectos */
+.home-volume{flex-basis:100%;display:flex;align-items:center;gap:10px;font-weight:800;}
+.home-volume input{flex:1;accent-color:var(--fun-accent);height:28px;}
+.home-volume output{min-width:48px;text-align:right;}
+.home-volume.is-off{opacity:.5;}
+
+/* Al volver a dibujar la misma pantalla no se repite la entrada (sin parpadeo, router.js) */
+.sin-entrada{animation:none !important;}
+
+/* Solo PC: la fila completa funciona como su control (config/index.js) */
+@media (hover:hover) and (pointer:fine){
+  .opt-row.row-click{position:relative;cursor:pointer;transition:background .15s;}
+  .opt-row.row-click:hover{background:rgba(255,255,255,.05);}
+}
+.fila-lista{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;}
+
+/* Cuenta antes de la ronda: capa transparente que no deja tocar nada (gameLogic.js) */
+.cuenta-capa{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:rgba(10,12,32,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:fadein .2s ease both;}
+.cuenta-capa.is-closing{opacity:0;transition:opacity .25s;}
+.cuenta-num{font-family:'Fredoka','Nunito',sans-serif;font-size:min(42vw,220px);font-weight:700;color:var(--gold,#ffd23f);
+  line-height:1;text-shadow:0 8px 30px rgba(0,0,0,.5);}
+.cuenta-num.pop{animation:cuenta-pop .9s ease both;}
+@keyframes cuenta-pop{0%{transform:scale(1.6);opacity:0;}25%{transform:scale(1);opacity:1;}100%{transform:scale(.92);opacity:.9;}}
+
+/* Ronda en el celular: diseño "cara a cara" (usuario, 06-10-2026). El de arriba va
+   girado para leerlo de frente con el celular sobre la mesa, y las casillas, con
+   la palabra y el reloj, llenan la pantalla. */
+@media (max-width:720px){
+  body:has(.round-screen){padding-top:calc(10px + env(safe-area-inset-top));padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+  .round-screen{min-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));display:flex;flex-direction:column;}
+  .round-screen .stage{flex:1;display:flex;flex-direction:column;gap:10px;width:100%;align-self:stretch;}
+  .round-screen .side, .round-screen .center-stage{width:100%;}
+  .round-screen .side{flex:1;display:flex;flex-direction:column;}
+  .round-screen .side.a{transform:rotate(180deg);}
+  .round-screen .side .name-btn{flex:1;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:4px;font-size:28px;padding:16px;}
+  .round-screen .side .score{font-size:38px;}
+  .round-screen .side .sub{font-size:17px;}
+  .round-screen .center-stage{flex:0 0 auto;padding:0;}
+  .round-screen .clock{font-size:22px;margin:0;}
+  .round-screen .word-wrap{padding:10px;}
+  .round-screen .word{font-size:clamp(44px,15vw,72px);}
+}

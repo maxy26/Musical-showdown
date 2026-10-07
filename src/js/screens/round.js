@@ -7,6 +7,10 @@ import { modeName, effectiveRoundTime, attemptsPerRound } from "./config/modes.j
 import { formatPoints } from "../scoring.js";
 import { relayRules, relaysLeftThisRound } from "../relay.js";
 import { openRelay, openRelayAdjust } from "./relayModals.js";
+import { muteButtonHTML } from "../sound.js";
+import { ICONS } from "../icons.js";
+import { openSheet } from "./sheet.js";
+import { settingsBody } from "./menu.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -54,12 +58,14 @@ export function screenRound() {
     return name ? `<div class="sub">${name}</div>` : "";
   }
 
-  const root = el(`<div class="screen">
+  const root = el(`<div class="screen round-screen">
     <div class="top-bar">
       <span class="panel-title">${c.battleType === "grupal" ? "MODO GRUPAL" : "MODO INDIVIDUAL"} · ${modeName(c.mode).toUpperCase()}</span>
       <div class="top-bar-actions">
         <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>
+        ${muteButtonHTML()}
+        <button class="icon-btn icon-btn-round" id="round-settings" aria-label="Ajustes">${ICONS.settings()}</button>
       </div>
     </div>
     <div class="stage">
@@ -135,6 +141,7 @@ export function screenRound() {
 
   root.querySelector("#pause").onclick = () => openPause();
   root.querySelector("#help").onclick = () => openHelp();
+  root.querySelector("#round-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
   const fr = root.querySelector("#finish-round");
   if (fr) fr.onclick = () => showConfirm({
     title: "¿Desean finalizar esta ronda?",

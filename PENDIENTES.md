@@ -110,7 +110,78 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Sonidos nuevos, más profesionales y envolventes** (pedido del
+- [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
+  Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
+  conexión se ven con una letra genérica. Solución: incluir los archivos de las
+  letras en `src/` (son de licencia libre OFL) y agregarlos a `sw.js`.
+  Preguntar al usuario antes.
+- [ ] 🟡 **Notificaciones sin fuente de avisos.** La campana abre un panel que
+  por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
+  promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
+  la página de Releases de GitHub, etc.). Preguntar al usuario.
+
+- [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
+  30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
+  pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
+  la velocidad del MVP se mide hasta que el moderador toca ese botón. Definir
+  con el usuario si quiere un "pulsador" para los jugadores y cómo funcionaría.
+
+- [ ] 🟡 **Lista de jugadores: navegar con las flechas del teclado y confirmar
+  con Enter** (pedido del usuario, 29-09-2026). En "Configurar partida", poder
+  moverse entre los campos de jugadores con ↑ ↓ y confirmar con Enter. Antes de
+  programarlo, preguntar los detalles: ¿Enter en el último campo agrega un
+  jugador nuevo, pasa al siguiente campo o confirma la configuración? ¿Las
+  flechas también sirven en el resto de la pantalla (tipo de batalla, modo,
+  géneros…)?
+- [ ] 🟡 **Terminar la partida a mitad de juego debe volver a "Configurar
+  partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la
+  partida" vuelve al menú principal y borra todo. Preguntar: ¿se conservan los
+  jugadores y la configuración elegida al volver?
+
+
+- [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
+  está en `dist/android/Musical-Showdown.apk` (se genera con
+  `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
+  con eventos simulados.
+  Puede que haya que ajustar la sensibilidad (`MIN_FLING`, `MOMENTUM_MS` en
+  `valuePicker.js`).
+
+
+## 🎮 Diseño / implementación pendiente (decisión del usuario)
+
+- [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
+  la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
+  objetivo. Se programó que gana el que tiene más puntos; si quedan con los
+  mismos puntos, hoy gana el primero de la lista. Preguntar al usuario qué
+  debe pasar en ese empate exacto (desempate, ronda extra, ganan los dos…).
+
+> No inventar reglas: preguntar antes (instrucción 21).
+
+> El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
+> por completo con preguntas antes de programarla.
+
+- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
+  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
+
+- [ ] 🟡 **Botón de ayuda en cada opción** (pedido del usuario, 03-10-2026).
+  Poner un pequeño botón de ayuda junto a cada opción de la configuración (tiempo,
+  multiplicadores, intentos, cuánto resta el perdedor, etc.) que explique cómo
+  funciona esa opción en particular. La idea es que reemplace a la ayuda general
+  de arriba a la derecha (❓), para que sea más directo y simple de leer. El
+  usuario quiere verlo más adelante: antes de hacerlo, preguntarle el diseño y
+  si se quita la ayuda general.
+- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
+  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
+  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
+  sus reglas cuando estén definidas), el selector de rueda del valor
+  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
+  terminar de definir Alternativo 1 y 2.
+
+---
+
+## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 07-10-2026)** **Sonidos nuevos, más profesionales y envolventes** (pedido del
   usuario, 01-10-2026). Cambiar los sonidos actuales (música de fondo, clic,
   tic-tac) por unos mejores y más acordes al juego. Por ahora le interesa una
   **melodía muy parecida a la de los juegos de Nintendo** (alegre, tipo
@@ -230,76 +301,13 @@
     game cheerful ending" porque piden dar crédito (CC-BY), no son CC0.
   - Después falta la aprobación para pasarlo todo al juego real (cambia las
     reglas 17 y 18).
-- [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
-  Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
-  conexión se ven con una letra genérica. Solución: incluir los archivos de las
-  letras en `src/` (son de licencia libre OFL) y agregarlos a `sw.js`.
-  Preguntar al usuario antes.
-- [ ] 🟡 **Notificaciones sin fuente de avisos.** La campana abre un panel que
-  por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
-  promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
-  la página de Releases de GitHub, etc.). Preguntar al usuario.
-
-- [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
-  30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
-  pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
-  la velocidad del MVP se mide hasta que el moderador toca ese botón. Definir
-  con el usuario si quiere un "pulsador" para los jugadores y cómo funcionaría.
-
-- [ ] 🟡 **Lista de jugadores: navegar con las flechas del teclado y confirmar
-  con Enter** (pedido del usuario, 29-09-2026). En "Configurar partida", poder
-  moverse entre los campos de jugadores con ↑ ↓ y confirmar con Enter. Antes de
-  programarlo, preguntar los detalles: ¿Enter en el último campo agrega un
-  jugador nuevo, pasa al siguiente campo o confirma la configuración? ¿Las
-  flechas también sirven en el resto de la pantalla (tipo de batalla, modo,
-  géneros…)?
-- [ ] 🟡 **Terminar la partida a mitad de juego debe volver a "Configurar
-  partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la
-  partida" vuelve al menú principal y borra todo. Preguntar: ¿se conservan los
-  jugadores y la configuración elegida al volver?
-
-
-- [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
-  está en `dist/android/Musical-Showdown.apk` (se genera con
-  `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
-  con eventos simulados.
-  Puede que haya que ajustar la sensibilidad (`MIN_FLING`, `MOMENTUM_MS` en
-  `valuePicker.js`).
-
-
-## 🎮 Diseño / implementación pendiente (decisión del usuario)
-
-- [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
-  la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
-  objetivo. Se programó que gana el que tiene más puntos; si quedan con los
-  mismos puntos, hoy gana el primero de la lista. Preguntar al usuario qué
-  debe pasar en ese empate exacto (desempate, ronda extra, ganan los dos…).
-
-> No inventar reglas: preguntar antes (instrucción 21).
-
-> El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
-> por completo con preguntas antes de programarla.
-
-- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
-  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
-
-- [ ] 🟡 **Botón de ayuda en cada opción** (pedido del usuario, 03-10-2026).
-  Poner un pequeño botón de ayuda junto a cada opción de la configuración (tiempo,
-  multiplicadores, intentos, cuánto resta el perdedor, etc.) que explique cómo
-  funciona esa opción en particular. La idea es que reemplace a la ayuda general
-  de arriba a la derecha (❓), para que sea más directo y simple de leer. El
-  usuario quiere verlo más adelante: antes de hacerlo, preguntarle el diseño y
-  si se quita la ayuda general.
-- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
-  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
-  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
-  sus reglas cuando estén definidas), el selector de rueda del valor
-  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
-  terminar de definir Alternativo 1 y 2.
-
----
-
-## ✅ Resueltos
+  - **Pasado al juego real (07-10-2026)** después de la prueba final del
+    usuario: `sound.js`, `audio/catalogo.js`, `audio/motor.js`, audios en
+    `src/audio/` (créditos en `CREDITOS.txt`), Ajustes con volumen y cuenta,
+    botón 🔊, capa de la cuenta, filas completas en PC, diseño cara a cara de
+    la ronda en el celular. Reglas 17 y 18 de INSTRUCCIONES actualizadas. El
+    `.exe` ahora sirve el juego con `app://` para que el sonido pueda leer los
+    audios.
 
 - [x] 🟡 **(Resuelto 04-10-2026)** **El usuario ve la versión vieja al instalar el APK**. Lo
   pasa por WhatsApp (arrastrando el APK al chat) y, aun desinstalando la app,

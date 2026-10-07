@@ -13,6 +13,59 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 32): sonidos nuevos y ajustes pasados al juego real (versión 1.4)
+
+**Pedido del usuario:** pasar al juego real todo lo aprobado en las pruebas de
+sonido.
+
+**Qué se hizo:**
+- **Sonido nuevo:** `sound.js` reescrito; nuevos `js/audio/catalogo.js` (archivos y
+  notas de cada efecto elegido) y `js/audio/motor.js` (Web Audio: mismo volumen
+  para todos los efectos con limitador, música igualada por canción, entrada
+  con filtro y barrido, bucle sin corte de Coffee Beans, aceleración en los
+  últimos 5 s, pausa y vuelta desde donde iba). En Node no hace nada
+  (`hayAudio()`), así las pruebas no fallan.
+- **Audios** en `src/audio/musica/` y `src/audio/efectos/` (solo los usados;
+  aplausos recortados a 5,2 s en mono, 224 KB), créditos en
+  `src/audio/CREDITOS.txt`. Se borraron `ambient.mp3` y `click.wav`.
+- **Pantallas:** Ajustes con barras de volumen, Sí/No que cambian con cada
+  toque y cuenta antes de la ronda (No o 3 a 7 s); en el celular, Ajustes entra
+  desde la izquierda; botón 🔊 (solo música) en configuración, grupos y ronda;
+  tuerca de Ajustes en la ronda; cuenta con capa transparente que bloquea los
+  toques; sonido de fin del tiempo, acertar/fallar, relevo de más, aviso,
+  abrir/cerrar (también la ayuda), ruleta y podio; sin parpadeo al redibujar
+  la misma pantalla; en PC, filas completas clicables; diseño cara a cara de la
+  ronda en el celular.
+- **Windows:** `platforms/desktop/main.js` sirve el juego con `app://juego/`
+  (Chromium no deja leer audios con fetch desde `file://`); `main.js` trata
+  `app:` como app instalada (sin service worker). Ojo: los ajustes guardados en
+  el `.exe` anterior no pasan (cambió el origen).
+- `sw.js`: `CACHE_NAME` v14 y lista de archivos al día. Prueba nueva
+  `test/sonido.test.js`. Reglas 17 y 18 de INSTRUCCIONES, CLAUDE.md y CONTEXTO
+  (sección 4) actualizados; el pendiente de sonidos pasa a Resueltos.
+- Compilados `dist/windows/Musical Showdown.exe` y
+  `dist/MusicalShowdown-v1.4.apk` (`npm run android:release`, versionCode 5).
+
+**Archivos tocados:** `src/js/sound.js`, `src/js/audio/*`, `src/audio/*`,
+`src/js/{gameLogic,main,router,settings}.js`, `src/js/screens/{menu,modals,round,sheet,teamOrg}.js`,
+`src/js/screens/config/{index,alt2Options,valuePicker}.js`, `src/css/styles.css`,
+`src/sw.js`, `platforms/desktop/main.js`, `platforms/android/android/app/build.gradle`,
+`test/sonido.test.js` y la documentación.
+
+**Cómo se verificó:** `npm run lint` sin errores; `npm test`: 116 bien y 1
+pendiente conocido. Juego real servido en el navegador a tamaño de celular: los
+13 audios cargan y todos los efectos suenan sin errores; Ajustes (panel desde la
+izquierda, Sí/No, volumen 0 = No, cuenta − de 3 a No); botón 🔊 presente;
+cuenta con capa que bloquea la pausa y luego empieza la ronda; la ronda llena
+la pantalla (844/844); podio. En el `.exe` (abierto con depuración) la página
+carga desde `app://juego/` y la música, los efectos y los aplausos se
+decodifican. El APK trae todos los audios.
+
+**Qué quedó abierto:** que el usuario pruebe el `.exe` y el APK 1.4 en el
+celular (instalar encima del 1.3).
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 31): límites de la cuenta antes de la ronda (pruebas)
 
 **Pedido del usuario:** la cuenta no puede ser de menos de 3 segundos, pero sí 0

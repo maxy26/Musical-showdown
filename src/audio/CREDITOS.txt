@@ -1,0 +1,26 @@
+Sonidos y música de Musical Showdown
+====================================
+
+Todos tienen licencia CC0 (dominio público): se pueden usar, cambiar y
+distribuir libremente, también con fines comerciales, sin pedir permiso ni
+dar crédito. Igual los nombramos como agradecimiento.
+
+Música
+------
+- musica/funky-disco.ogg: "Funky Disco Beats to Boogie/Woogie to", de Fupi.
+  https://opengameart.org/content/funky-disco-beats-to-boogiewoogie-to
+- musica/coffee-beans.mp3: "Coffee Beans", de Pro Sensory.
+  https://opengameart.org/content/coffee-beans-0
+
+Efectos
+-------
+- efectos/clic.ogg, efectos/nota.ogg: "Interface Sounds", de Kenney (www.kenney.nl).
+- efectos/interruptor.ogg, efectos/ruleta.ogg: "UI Audio", de Kenney.
+- efectos/aviso.ogg: "Digital Audio", de Kenney.
+- efectos/cristal.ogg, efectos/metal.ogg: "Impact Sounds", de Kenney.
+- efectos/podio-piano.ogg: "Win Jingle" (WinGrandPiano), de Fupi.
+  https://opengameart.org/content/win-jingle
+- efectos/aplausos.wav: "Applause in a large hall or church", de eXpl0it3r
+  (recortado a 5 segundos, en mono).
+  https://opengameart.org/content/applause-in-a-large-hall-or-church
+- tick.wav, tick-urgent.wav: sonidos originales del juego.

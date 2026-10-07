@@ -89,12 +89,18 @@
     todos los tamaños/plataformas.
 17. El botón de ayuda (❓) va redondo, a la derecha del botón de
     volver/pausa correspondiente (ver contexto, sección 3 → "Pausa / Ayuda /
-    Salir"). **No hay botón de silencio (🔊/🔇) en las pantallas**: el
-    usuario lo pidió quitar el 01-10-2026 porque el sonido se controla en
-    Ajustes (tuerca del inicio), por tipo: música, efectos y reloj.
-18. Los sonidos son sintetizados (no samples de terceros) — si se
-    agregan sonidos nuevos, mantener ese enfoque para no introducir
-    problemas de derechos de autor.
+    Salir"). A su derecha va el botón 🔊/🔇 (configuración, grupos y ronda),
+    que **solo quita o pone la música de fondo** (usuario, 05-10-2026; antes
+    se había quitado el 01-10-2026): al volver, la música sigue desde donde
+    iba. En la ronda va además la tuerca de Ajustes. Música, efectos y reloj
+    se ajustan por separado en Ajustes.
+18. Los sonidos y la música son **grabaciones con licencia CC0** (uso libre,
+    sin derechos de autor; decisión del usuario del 04-10-2026, antes eran
+    sintetizados). Si se agregan sonidos nuevos: solo CC0 (revisar la licencia
+    en la página de cada uno; CC-BY no, porque pide crédito), anotarlos en
+    `src/audio/CREDITOS.txt` y agregarlos a `audio/catalogo.js`. Todos los
+    efectos suenan al mismo volumen (el motor los iguala) y nunca bajan el
+    volumen de la música.
 19. El service worker usa **network-first**, nunca volver a
     "cache-first para siempre" (causaba que el juego se quedara pegado
     en versiones viejas).

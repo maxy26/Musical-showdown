@@ -10,7 +10,8 @@ import {
   newClassicMemory, isBalanced, nextClassicMode, pickClassicPair, recordClassicDuel, applyRelayToMemory,
 } from "./pairing.js";
 import { render } from "./router.js";
-import { playTick } from "./sound.js";
+import { playTick, efecto, nuevaRonda, cuenta, finTiempo } from "./sound.js";
+import { loadSettings, cuentaValida } from "./settings.js";
 
 /**
  * Elige una palabra ponderando por: nº de canciones disponibles que la
@@ -105,6 +106,7 @@ export function useRelay(side, substitute) {
   if (!rules || check.status === "blocked") return null;
   const team = side === "A" ? r.participantA : r.participantB;
 
+  if (check.status === "extra") efecto("falla"); // el relevo normal suena con el clic del botón
   let penalty = null;
   if (check.status === "extra") {
     // Relevo de más: penalización en el momento; no gasta del total ni del máximo por ronda.
@@ -127,6 +129,7 @@ export function useRelay(side, substitute) {
 }
 
 export function startNextRound() {
+  nuevaRonda();
   const c = state.config;
   const word = pickWeightedWord();
   // Multiplicadores y reloj según el modo (Clásico: ninguno de los dos).
@@ -210,13 +213,51 @@ export function startNextRound() {
   };
   state.screen = "round";
 
-  // Presentación de 3s (palabra + multiplicador) antes de iniciar el conteo.
-  setTimeout(() => {
-    if (state.screen !== "round") return;
-    state.round.phase = "counting";
-    render();
-    startTimer();
-  }, 1500);
+  const segundos = cuentaValida(loadSettings().countdown);
+  if (segundos > 0) { contarAntesDeLaRonda(segundos); return; }
+  // Sin cuenta: presentación de 1,5 s ("A VS B") antes de iniciar el conteo.
+  setTimeout(empezarConteo, 1500);
+}
+
+function empezarConteo() {
+  if (state.screen !== "round") return;
+  state.round.phase = "counting";
+  render();
+  startTimer();
+}
+
+/**
+ * Cuenta antes de cada ronda (3, 2, 1…), configurable en Ajustes (usuario,
+ * 06-10-2026). Una capa transparente con el número tapa la pantalla y no deja
+ * tocar nada (ni la pausa) hasta que termina.
+ */
+function contarAntesDeLaRonda(segundos) {
+  const capa = document.createElement("div");
+  capa.className = "cuenta-capa";
+  capa.innerHTML = `<div class="cuenta-num pop">${segundos}</div>`;
+  const bloquear = (e) => { e.preventDefault(); e.stopPropagation(); };
+  const EVENTOS = ["keydown", "click", "pointerdown"];
+  EVENTOS.forEach((t) => document.addEventListener(t, bloquear, true));
+  document.body.appendChild(capa);
+  let quedan = segundos;
+  setTimeout(() => cuenta(quedan), 60);
+  const paso = () => {
+    quedan--;
+    if (quedan > 0) {
+      const num = capa.querySelector(".cuenta-num");
+      num.textContent = quedan;
+      num.classList.remove("pop"); void num.offsetWidth; num.classList.add("pop"); // repite la animación
+      cuenta(quedan);
+      setTimeout(paso, 1000);
+      return;
+    }
+    cuenta(0);
+    EVENTOS.forEach((t) => document.removeEventListener(t, bloquear, true));
+    capa.classList.add("is-closing");
+    setTimeout(() => capa.remove(), 250);
+    empezarConteo();
+  };
+  setTimeout(paso, 1000);
 }
 
 export function startTimer() {
@@ -274,6 +315,7 @@ function applyScoreChanges(changes) {
 }
 
 function timeOut() {
+  finTiempo();
   state.round.lastResult = { type: "timeout", changes: applyRoundScores(null) };
   state.screen = "round-result";
   render();
@@ -290,6 +332,7 @@ export function resolveAnswer(correct) {
   const r = state.round;
   const side = r.selected;
   const who = side === "A" ? r.participantA : r.participantB;
+  efecto(correct ? "acertar" : "fallar");
 
   if (correct) {
     clearInterval(r.timerId);

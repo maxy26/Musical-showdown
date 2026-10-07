@@ -4,7 +4,7 @@
 // Los scripts de build/ reemplazan este nombre por uno único en cada
 // compilación (versión + fecha y hora), así cada build usa una caché nueva y
 // "activate" borra las anteriores. En la web servida desde src/ queda este.
-const CACHE_NAME = "musical-showdown-v13";
+const CACHE_NAME = "musical-showdown-v14";
 const ASSETS = [
   "./",
   "./index.html",
@@ -12,6 +12,8 @@ const ASSETS = [
   "./css/styles.css",
   "./js/main.js",
   "./js/sound.js",
+  "./js/audio/catalogo.js",
+  "./js/audio/motor.js",
   "./js/router.js",
   "./js/state.js",
   "./js/gameLogic.js",
@@ -44,10 +46,20 @@ const ASSETS = [
   "./js/screens/relayModals.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./audio/click.wav",
   "./audio/tick.wav",
   "./audio/tick-urgent.wav",
-  "./audio/ambient.mp3",
+  "./audio/CREDITOS.txt",
+  "./audio/musica/funky-disco.ogg",
+  "./audio/musica/coffee-beans.mp3",
+  "./audio/efectos/clic.ogg",
+  "./audio/efectos/cristal.ogg",
+  "./audio/efectos/nota.ogg",
+  "./audio/efectos/interruptor.ogg",
+  "./audio/efectos/ruleta.ogg",
+  "./audio/efectos/aviso.ogg",
+  "./audio/efectos/metal.ogg",
+  "./audio/efectos/podio-piano.ogg",
+  "./audio/efectos/aplausos.wav",
 ];
 
 self.addEventListener("install", (event) => {

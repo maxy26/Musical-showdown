@@ -1,5 +1,24 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, protocol, net } = require("electron");
 const path = require("path");
+const { pathToFileURL } = require("url");
+
+// El juego se sirve con app://juego/ en lugar de abrir el archivo (file://):
+// el sonido (Web Audio) necesita leer los audios con fetch, y Chromium no lo
+// permite con file:// (07-10-2026).
+protocol.registerSchemesAsPrivileged([
+  { scheme: "app", privileges: { standard: true, secure: true, supportFetchAPI: true } },
+]);
+
+const WWW = path.join(__dirname, "www");
+
+function servirJuego() {
+  protocol.handle("app", (request) => {
+    const ruta = decodeURIComponent(new URL(request.url).pathname);
+    const archivo = path.normalize(path.join(WWW, ruta === "/" ? "index.html" : ruta));
+    if (!archivo.startsWith(WWW)) return new Response("No permitido", { status: 403 });
+    return net.fetch(pathToFileURL(archivo).toString());
+  });
+}
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -16,10 +35,11 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
-  win.loadFile(path.join(__dirname, "www", "index.html"));
+  win.loadURL("app://juego/index.html");
 }
 
 app.whenReady().then(() => {
+  servirJuego();
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

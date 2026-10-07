@@ -24,7 +24,7 @@ Promise.all([minTime, fontsReady]).then(hideLoader);
  * Ahí los archivos ya vienen dentro de la app y el service worker sobra.
  */
 function isNativeShell() {
-  return Boolean(window.Capacitor?.isNativePlatform?.()) || window.location.protocol === "file:";
+  return Boolean(window.Capacitor?.isNativePlatform?.()) || ["file:", "app:"].includes(window.location.protocol);
 }
 
 if ("serviceWorker" in navigator) {

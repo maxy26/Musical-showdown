@@ -6,8 +6,8 @@ import { openHelp, showToast } from "./modals.js";
 import { openSheet } from "./sheet.js";
 import { buildModesManual, modeAllowed } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
-import { loadSettings, saveSetting } from "../settings.js";
-import { refreshMusic } from "../sound.js";
+import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } from "../settings.js";
+import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO } from "../version.js";
 
 /**
@@ -42,7 +42,8 @@ const SETTINGS = [
   { key: "clock", title: "Sonido del reloj", text: "El tic-tac de la ronda y el aviso de los últimos 5 segundos." },
 ];
 
-function settingsBody() {
+/** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
+export function settingsBody() {
   const body = el(`<div class="home-settings">
     <p class="home-settings-group">Pantalla</p>
     ${SETTINGS.map((o) => `
@@ -53,7 +54,18 @@ function settingsBody() {
           <button type="button" role="radio" data-setting="${o.key}" data-value="on">Sí</button>
           <button type="button" role="radio" data-setting="${o.key}" data-value="off">No</button>
         </div>
+        ${o.key === "music" || o.key === "effects" ? `<label class="home-volume"><span aria-hidden="true">🔈</span>
+          <input type="range" min="0" max="100" step="5" data-volume="${o.key}" aria-label="Volumen: ${o.title}">
+          <output></output></label>` : ""}
       </div>`).join("")}
+    <p class="home-settings-group">Partida</p>
+    <div class="home-setting">
+      <div><h3>Cuenta antes de cada ronda</h3><p>Números grandes con sonido antes de que aparezca la palabra: No, o de 3 a 7 segundos.</p></div>
+      <div class="stepper" data-stepper="countdown">
+        <button type="button" data-step="-1" aria-label="Menos segundos">−</button><output></output>
+        <button type="button" data-step="1" aria-label="Más segundos">+</button>
+      </div>
+    </div>
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
   const paint = () => {
@@ -63,10 +75,34 @@ function settingsBody() {
       b.classList.toggle("active", active);
       b.setAttribute("aria-checked", String(active));
     });
+    const cd = cuentaValida(current.countdown);
+    body.querySelector('[data-stepper="countdown"] output').textContent = cd === 0 ? "No" : cd + " s";
+    body.querySelector('[data-stepper="countdown"] [data-step="-1"]').disabled = cd === 0;
+    body.querySelector('[data-stepper="countdown"] [data-step="1"]').disabled = cd >= CUENTA_MAX;
+    body.querySelectorAll("[data-volume]").forEach((r) => {
+      const k = r.dataset.volume, v = volumen(k);
+      r.value = v;
+      r.nextElementSibling.textContent = v + " %";
+      r.closest(".home-volume").classList.toggle("is-off", !current[k] || v === 0);
+    });
   };
+  body.querySelectorAll('[data-stepper="countdown"] [data-step]').forEach((b) => (b.onclick = () => {
+    saveSetting({ countdown: ajustarCuenta(loadSettings().countdown, Number(b.dataset.step)) });
+    paint();
+  }));
+  // Volumen: en 0 es lo mismo que "No"; al subirlo desde 0 vuelve a "Sí"
+  body.querySelectorAll("[data-volume]").forEach((r) => (r.oninput = () => {
+    const k = r.dataset.volume, v = Number(r.value);
+    saveSetting({ [k + "Vol"]: v, [k]: v > 0 });
+    refreshMusic();
+    paint();
+  }));
   body.querySelectorAll("[data-setting]").forEach((b) => (b.onclick = () => {
-    saveSetting({ [b.dataset.setting]: b.dataset.value === "on" });
-    if (b.dataset.setting === "music") refreshMusic();
+    // Cada toque cambia el valor, aunque se toque la opción ya elegida (usuario, 06-10-2026).
+    // Si se enciende la música o los efectos con el volumen en 0, vuelve a 50.
+    const k = b.dataset.setting, on = !loadSettings()[k];
+    saveSetting(on && (k === "music" || k === "effects") && volumen(k) === 0 ? { [k]: true, [k + "Vol"]: 50 } : { [k]: on });
+    refreshMusic();
     paint();
   }));
   paint();
@@ -175,7 +211,7 @@ export function screenMenu() {
   };
 
   // ---------- Encabezado ----------
-  root.querySelector("#btn-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody() });
+  root.querySelector("#btn-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
   root.querySelector("#btn-notifications").onclick = () => openSheet({ title: "Notificaciones", body: notificationsBody() });
   root.querySelector("#btn-help").onclick = () => openHelp();
 

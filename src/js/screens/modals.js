@@ -1,4 +1,5 @@
 import { state, resetState } from "../state.js";
+import { efecto, efectoSuave } from "../sound.js";
 import { render } from "../router.js";
 import { startTimer } from "../gameLogic.js";
 
@@ -140,8 +141,10 @@ export function openHelp() {
     <button class="btn btn-primary btn-block" id="close" style="margin-top:14px;">Entendido</button>
   </div>`;
   document.getElementById("app").appendChild(overlay);
-  overlay.querySelector("#close").onclick = () => overlay.remove();
-  addCloseButton(overlay, () => overlay.remove());
+  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); };
+  overlay.querySelector("#close").onclick = cerrar;
+  addCloseButton(overlay, cerrar);
+  efecto("abrir");
 }
 
 /**
@@ -149,6 +152,7 @@ export function openHelp() {
  * que se ve genérico y muestra la URL). Mismo estilo visual del resto del juego.
  */
 export function showWarning(message) {
+  efecto("aviso");
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
   overlay.innerHTML = `<div class="modal warning-modal" style="text-align:center;">
