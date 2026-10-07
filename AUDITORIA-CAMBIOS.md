@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 23): acertar/fallar y fin del tiempo definidos (pruebas)
+
+**Pedido del usuario:** Acertar/Fallar = 7 (la escala alegre / escala que se
+apaga), "Se acabó el tiempo" = 7 (tics que bajan con el reloj normal); en la
+cuenta, el mismo sonido para 3, 2 y 1 y otro parecido pero distinto al final.
+
+**Qué se hizo:** mesa (prueba 14) con esos dos fijos y 8 opciones nuevas de la
+cuenta. Solo scratchpad; `src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: 78 sonidos se decodifican; la cuenta del
+juego de prueba suena 3, 2, 1 y el final, sin errores.
+
+**Qué quedó abierto:** elegir la cuenta; luego, con todo elegido, pasar los
+sonidos al juego real (cambia las reglas 17 y 18).
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 22): opciones nuevas de acertar/fallar, fin del tiempo y cuenta (pruebas)
 
 **Pedido del usuario:** intermedios entre el 3 y el 4 de Acertar/Fallar;
