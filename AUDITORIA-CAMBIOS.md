@@ -13,6 +13,22 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 34): pendientes nuevos y orden acordado
+
+**Pedido del usuario:** dejar para el final la búsqueda por voz y todo lo que
+necesite un servicio de pago, aunque sea crítico; anotar dos pedidos nuevos:
+partida en dos dispositivos vinculados (uno muestra la ronda y el otro elige
+quién canta, con animación de audio) y que la música empiece apenas se abre la
+app.
+
+**Qué se hizo:** `PENDIENTES.md` (nota de orden en el encabezado y los dos
+pendientes en "Diseño / implementación pendiente", con las preguntas a hacer
+antes). Commit `519b301`.
+
+**Qué quedó abierto:** seguir con el siguiente pendiente.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 33): botón "Salir del juego" en Ajustes (versión 1.5)
 
 **Pedido del usuario:** un botón para salir en los Ajustes del juego, en PC y
