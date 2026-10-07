@@ -193,6 +193,8 @@
   - **Pedidos del 06-10-2026, parte 3** (hechos en el juego de prueba):
     1. La cuenta antes de la ronda se ajusta en **Ajustes** (grupo "Partida"),
        no en "Configurar partida".
+       Valores permitidos (06-10-2026): **No (0) o de 3 a 7 segundos**; por
+       defecto 3.
     2. Durante la cuenta no se puede tocar nada (antes la pausa funcionaba mal
        en ese momento): una capa transparente con el número tapa la pantalla y
        bloquea toques y teclado.

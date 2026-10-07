@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 31): límites de la cuenta antes de la ronda (pruebas)
+
+**Pedido del usuario:** la cuenta no puede ser de menos de 3 segundos, pero sí 0
+(No); máximo 7.
+
+**Qué se hizo (juego de prueba):** en Ajustes, − desde 3 pasa a "No" y + desde
+"No" pasa a 3; tope en 7. Un valor guardado fuera de rango (por ejemplo 10) se
+lleva a 7. Solo scratchpad; `src/` no cambió.
+
+**Cómo se verificó:** Edge sin ventana: guardado 10 → 7; − : 6, 5, 4, 3, No (y
+se apaga); + : 3, 4, 5, 6, 7 (y se apaga); la cuenta de la ronda sigue
+funcionando; sin errores.
+
+**Qué quedó abierto:** la prueba final del usuario.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 30): final de la cuenta definido (pruebas)
 
 **Pedido del usuario:** final de la cuenta = 6 (cristal con metal suave). Subir
