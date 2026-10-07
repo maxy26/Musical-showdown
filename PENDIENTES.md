@@ -211,6 +211,13 @@
        ronda") cierra la lista, igual que al tocar el valor.
     3. Cuenta: 10 sonidos nuevos, el mismo en 3, 2 y 1 y el final un poco más
        agudo (5 semitonos). Confirmar si "más alto" era más agudo o más fuerte.
+       → **Definido (06-10-2026):** cristal en 3, 2 y 1, y el final el mismo
+       cristal un 50 % **más fuerte** ("más alto" era volumen).
+    4. La fila completa de "Puntaje objetivo" y "Tiempo por ronda" (PC) lleva
+       encima una copia invisible de la misma lista: cada toque abre o cierra
+       la lista exactamente como al tocar el valor.
+  - **Con esto ya están elegidos todos los sonidos.** Falta la aprobación para
+    pasarlo todo al juego real (cambia las reglas 17 y 18).
 - [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
   Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
   conexión se ven con una letra genérica. Solución: incluir los archivos de las

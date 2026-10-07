@@ -13,6 +13,29 @@
 
 ---
 
+## 2026-10-06 — Sesión 6 (parte 25): cuenta definida y fila de la lista exacta (pruebas)
+
+**Pedido del usuario:** "más alto" era más fuerte; cuenta = 1 (cristal); que la
+fila de "Puntaje objetivo" funcione exactamente como tocar el valor. Subir el
+commit.
+
+**Qué se hizo:** se subió `750f9ee`. En el scratchpad: la cuenta queda en
+cristal con el final un 50 % más fuerte (se aplica después de igualar el
+volumen); la fila lleva encima una copia invisible de la lista (la solución
+anterior podía desfasarse con la lista real de Windows, que es una ventana
+aparte).
+
+**Archivos del proyecto tocados:** `PENDIENTES.md` y esta auditoría. `src/` no
+cambió.
+
+**Cómo se verificó:** Edge sin ventana: la copia cubre toda la fila y tiene las
+mismas opciones; elegir 500 desde ella cambia el puntaje y suena un solo clic;
+nivel de la cuenta: números 0,130 y final 0,195; sin errores.
+
+**Qué quedó abierto:** aprobación para pasar todo al juego real.
+
+---
+
 ## 2026-10-06 — Sesión 6 (parte 24): mismo volumen para todos los efectos (pruebas)
 
 **Pedido del usuario:** que todos los sonidos que no son la música suenen con el
