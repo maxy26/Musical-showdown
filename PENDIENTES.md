@@ -120,11 +120,6 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Letras del rediseño sin internet.** Fredoka y Nunito (igual que
-  Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
-  conexión se ven con una letra genérica. Solución: incluir los archivos de las
-  letras en `src/` (son de licencia libre OFL) y agregarlos a `sw.js`.
-  Preguntar al usuario antes.
 - [ ] 🟡 **Notificaciones sin fuente de avisos.** La campana abre un panel que
   por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
   promoción y avisos hace falta decidir de dónde salen (un archivo en internet,
@@ -214,6 +209,20 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 07-10-2026)** **Letras del rediseño sin internet** (tipografías, no letras de canciones). Fredoka y Nunito (igual que
+  Unbounded e Inter) se cargan desde Google Fonts. En el `.exe` o el `.apk` sin
+  conexión se ven con una letra genérica. Solución: incluir los archivos de las
+  letras en `src/` (son de licencia libre OFL) y agregarlos a `sw.js`.
+  Preguntar al usuario antes.
+  Hecho: las cuatro tipografías (archivos `.woff2`, 168 KB) están en
+  `src/fonts/` con sus licencias OFL (`LICENCIAS.txt`) y se cargan desde
+  `css/fuentes.css`; ya no se pide nada a Google Fonts.
+- [x] 🟡 **(Resuelto 07-10-2026)** **Individual empezaba con 4 espacios para nombres**
+  después de pasar por Grupal (el usuario quería 2 en Individual y 4 en
+  Grupal, los mínimos para empezar). Al cambiar el tipo de batalla, la lista
+  conserva los nombres escritos y deja espacios vacíos solo hasta el mínimo
+  (`fitPlayers` en `config/players.js`).
 
 - [x] 🟡 **(Resuelto 07-10-2026)** **La música de fondo empieza apenas se abre la
   app** (pedido del usuario). En el `.exe` (Electron con

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
-import { countTypedPlayers, duplicateNameIndexes, cleanName, minPlayerRows, padPlayers } from "../src/js/screens/config/players.js";
+import { countTypedPlayers, duplicateNameIndexes, cleanName, minPlayerRows, padPlayers, fitPlayers } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
 import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
 
@@ -90,4 +90,10 @@ test("Grupal empieza con 4 espacios de jugador e Individual con 2 (usuario, 04-1
   assert.deepEqual(padPlayers(["Ana", "Luis"], "grupal"), ["Ana", "Luis", "", ""]);
   assert.deepEqual(padPlayers(["Ana", "Luis", "Eva", "Mario", "Sofía"], "grupal"), ["Ana", "Luis", "Eva", "Mario", "Sofía"]);
   assert.deepEqual(padPlayers(["", ""], "individual"), ["", ""]);
+  // Al volver de Grupal a Individual se quitan los espacios vacíos de más
+  assert.deepEqual(fitPlayers(["", "", "", ""], "individual"), ["", ""]);
+  assert.deepEqual(fitPlayers(["Ana", "", "", ""], "individual"), ["Ana", ""]);
+  assert.deepEqual(fitPlayers(["Ana", "", "Luis", ""], "individual"), ["Ana", "Luis"]);
+  assert.deepEqual(fitPlayers(["Ana", "Luis", "Eva"], "individual"), ["Ana", "Luis", "Eva"]);
+  assert.deepEqual(fitPlayers(["Ana", ""], "grupal"), ["Ana", "", "", ""]);
 });

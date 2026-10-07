@@ -1,0 +1,10 @@
+/*
+ * Tipografías incluidas en el juego (antes se descargaban de Google Fonts):
+ * así el .exe y el APK se ven igual sin internet. Cada archivo trae todos los
+ * grosores (fuentes variables, solo caracteres latinos). Licencia OFL: ver
+ * fonts/LICENCIAS.txt.
+ */
+@font-face{font-family:'Unbounded';font-style:normal;font-weight:200 900;font-display:swap;src:url(../fonts/unbounded.woff2) format('woff2');}
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/inter.woff2) format('woff2');}
+@font-face{font-family:'Fredoka';font-style:normal;font-weight:300 700;font-display:swap;src:url(../fonts/fredoka.woff2) format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:200 1000;font-display:swap;src:url(../fonts/nunito.woff2) format('woff2');}

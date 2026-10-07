@@ -17,6 +17,15 @@ export function padPlayers(players, battleType) {
   return players.length >= min ? players : [...players, ...Array(min - players.length).fill("")];
 }
 
+/**
+ * Al cambiar el tipo de batalla: deja los nombres escritos (en su orden) y
+ * espacios vacíos solo hasta el mínimo, así Individual vuelve a 2 espacios y
+ * Grupal a 4 (usuario, 07-10-2026).
+ */
+export function fitPlayers(players, battleType) {
+  return padPlayers(players.filter((p) => p.trim().length > 0), battleType);
+}
+
 /** Cuenta cuántos campos de jugador tienen texto realmente escrito (no vacíos). */
 export function countTypedPlayers(players) {
   return players.filter((p) => p.trim().length > 0).length;

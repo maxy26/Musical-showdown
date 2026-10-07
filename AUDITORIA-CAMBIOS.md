@@ -13,6 +13,31 @@
 
 ---
 
+## 2026-10-07 — Sesión 6 (parte 36): tipografías dentro del juego y espacios de jugadores (versión 1.7)
+
+**Pedido del usuario:** que las tipografías no cambien sin internet; que
+Individual empiece con 2 espacios para nombres y Grupal con 4 (Individual
+mostraba 4 después de pasar por Grupal).
+
+**Qué se hizo:**
+- Tipografías: `src/fonts/` con Unbounded, Inter, Fredoka y Nunito (`.woff2`
+  variables, solo latinas, 168 KB) y `LICENCIAS.txt` (OFL completas);
+  `css/fuentes.css` con los `@font-face`; `index.html` ya no usa Google Fonts.
+- Espacios: `fitPlayers()` en `config/players.js` (nombres escritos + espacios
+  vacíos hasta el mínimo); `config/index.js` la usa solo cuando cambió el tipo
+  de batalla (si no, solo completa, para no borrar un espacio recién agregado).
+- `sw.js` v17 con los archivos nuevos; pruebas de `fitPlayers`; CLAUDE.md y
+  PENDIENTES (dos resueltos). Compilados `dist/MusicalShowdown-v1.7.apk`
+  (versionCode 8) y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 118 bien, 1 pendiente
+conocido. En el navegador: 0 pedidos a Google y las fuentes se cargan de
+`/fonts/`; captura de la configuración con Fredoka y Nunito; espacios
+Individual 2 → Grupal 4 → Individual 2 (conserva "Ana"); agregar un espacio y
+tocar un género no lo borra. El APK trae los 5 archivos de `fonts/`.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 35): letras ocultas, búsqueda con la palabra y música al abrir (versión 1.6)
 
 **Pedido del usuario:** (1) usar QR sin Wi-Fi para vincular dispositivos; (2) que

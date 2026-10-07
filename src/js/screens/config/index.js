@@ -11,7 +11,7 @@ import {
 } from "./presets.js";
 import { modesFor, modeName, usesRoundTime, allowsNoTime, DEFAULT_ROUND_TIME } from "./modes.js";
 import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
-import { countTypedPlayers, initPlayersSection, cleanName, padPlayers } from "./players.js";
+import { countTypedPlayers, initPlayersSection, cleanName, padPlayers, fitPlayers } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
 
@@ -24,6 +24,9 @@ function customValueOption(show, label) {
   return show ? `<option value="custom-value" selected>${label}</option>` : "";
 }
 
+/** Tipo de batalla para el que se armaron los espacios de jugadores la última vez. */
+let tipoDeLosEspacios = null;
+
 export function screenConfig() {
   const c = state.config;
 
@@ -34,7 +37,11 @@ export function screenConfig() {
   // El tipo de batalla y el modo se eligen en la pantalla de inicio (opción A
   // del usuario, 01-10-2026); aquí solo se muestran. En Grupal, si hay menos de
   // 4 jugadores, se avisa al confirmar y no se cambia nada.
-  c.players = padPlayers(c.players, c.battleType); // Grupal empieza con 4 espacios
+  // Individual empieza con 2 espacios y Grupal con 4. Si cambió el tipo de batalla,
+  // se quitan los espacios vacíos de más; si no, solo se completa (así no
+  // desaparece un espacio que el usuario acaba de agregar).
+  c.players = tipoDeLosEspacios === c.battleType ? padPlayers(c.players, c.battleType) : fitPlayers(c.players, c.battleType);
+  tipoDeLosEspacios = c.battleType;
   const typedCount = countTypedPlayers(c.players);
   const isGroup = c.battleType === "grupal";
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
