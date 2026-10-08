@@ -13,6 +13,17 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 41): versión v1.9 publicada
+
+**Qué se hizo:** se subieron `acb2cbf` y la etiqueta `v1.9`; GitHub publicó
+https://github.com/maxy26/Musical-showdown/releases/tag/v1.9 con el APK, el
+`.exe` y el `.AppImage`.
+
+**Cómo se verificó:** el APK publicado es versionCode 10, versión 1.9, con la
+firma SHA-256 e0e0a02f… del proyecto (se instala encima de la 1.8).
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 40): compartir el podio y arreglo del botón Salir en Android (versión 1.9)
 
 **Pedido del usuario:** pasar "Compartir el podio" al juego (maqueta aprobada).
