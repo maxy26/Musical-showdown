@@ -21,8 +21,8 @@
 
 import { loadSettings, saveSetting } from "./settings.js";
 import { EFECTOS, MAS_FUERTE, MUSICA, TICK } from "./audio/catalogo.js";
-import { esAppInstalada } from "./plataforma.js";
-import { tocar, musica, pararMusica, pausarMusica, acelerar, precargar, usarVolumenes, volumenMusica } from "./audio/motor.js";
+import { esAppInstalada, alCambiarPrimerPlano } from "./plataforma.js";
+import { tocar, musica, pararMusica, pausarMusica, acelerar, precargar, usarVolumenes, volumenMusica, congelarAudio } from "./audio/motor.js";
 
 /** Volumen de Ajustes (0 a 100) de "music" o "effects". */
 export function volumen(kind) {
@@ -141,6 +141,8 @@ export function initSound() {
   usarVolumenes(() => ({ efectos: volumen("effects") / 100, musica: volumen("music") / 100 }));
   precargar(Object.values(EFECTOS).concat(TICK.map((f) => [{ f }])), Object.values(MUSICA));
   if (esAppInstalada()) arrancar(); // la música suena apenas se abre la app
+  // Al salir de la app sin cerrarla no suena nada; al volver sigue donde iba
+  alCambiarPrimerPlano((enSegundoPlano) => congelarAudio(enSegundoPlano));
   document.addEventListener("click", (e) => {
     arrancar();
     if (e.target.closest(".mute-btn")) { alternarMusica(); efecto("interruptor"); return; }

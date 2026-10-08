@@ -13,6 +13,27 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 44): sin sonido en segundo plano; v1.11 publicada
+
+**Pedido del usuario:** que la música no suene al salir de la app sin cerrarla;
+luego subir y publicar la 1.11.
+
+**Qué se hizo:** `audio/motor.js` → `congelarAudio()` suspende el audio y bloquea
+que algo lo reactive (por ejemplo, el tic del reloj si la ronda sigue);
+`plataforma.js` → `alCambiarPrimerPlano()` (página oculta y, en Android, el
+evento `appStateChange` del complemento App vía `Capacitor.nativeCallback`);
+`sound.js` lo conecta. Al volver, sigue desde el mismo punto. El APK 1.11 se
+compiló firmado sin subir la versión (`build-android.js` + `gradlew
+assembleRelease`) para publicarlo como 1.11. Se subió todo y la etiqueta `v1.11`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 127 bien. En el navegador:
+con la música sonando el audio está "running"; al ocultarse pasa a
+"suspended" y sigue así aunque suenen un tic y un clic; al volver, "running".
+APK local 1.11 (versionCode 12) con la firma del proyecto. Falta que el usuario
+lo confirme en el celular.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 43): avisos que llegan con la app abierta (versión 1.11) y v1.10 publicada
 
 **Pedido del usuario:** subir los commits y publicar la 1.10; que los avisos

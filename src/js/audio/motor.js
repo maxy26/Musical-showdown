@@ -36,8 +36,21 @@ function audio() {
 /** Los navegadores no dejan sonar nada hasta el primer toque del usuario. */
 export async function despertar() {
   const c = audio();
+  if (congelado) return; // fuera de la app no se reactiva (ver congelarAudio)
   if (c.state !== "running") await c.resume();
 }
+
+/**
+ * Fuera de la app (segundo plano) no suena nada (usuario, 08-10-2026): el audio
+ * se congela y al volver sigue desde el mismo punto.
+ */
+let congelado = false;
+export function congelarAudio(si) {
+  congelado = si;
+  if (!ctx) return;
+  (si ? ctx.suspend() : ctx.resume()).catch(() => {});
+}
+export const estadoAudio = () => ctx?.state ?? "sin-iniciar";
 
 // ---------- Archivos ----------
 /**
@@ -123,7 +136,7 @@ function ganancia(notas) {
 /** Toca un efecto (lista de notas) al nivel común; `extra` lo sube o baja (1 = igual). */
 export async function tocar(notas, extra = 1) {
   const vol = volEfectos() * extra;
-  if (vol <= 0 || !hayAudio()) return;
+  if (vol <= 0 || !hayAudio() || congelado) return;
   await despertar();
   const c = audio(), [g, bufs] = await Promise.all([ganancia(notas), Promise.all(notas.map((n) => buffer(n.f)))]);
   const inicio = c.currentTime + 0.02;

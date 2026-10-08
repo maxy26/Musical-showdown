@@ -39,3 +39,17 @@ export function abrirEnlace(url) {
   if (window.Capacitor?.isNativePlatform?.()) window.location.href = url;
   else window.open(url, "_blank", "noopener");
 }
+
+/**
+ * Avisa cuando la app pasa a segundo plano (`fn(true)`) o vuelve (`fn(false)`):
+ * la página se oculta (web, .exe minimizado, Android) y, en Android, además
+ * el evento appStateChange del complemento App.
+ */
+export function alCambiarPrimerPlano(fn) {
+  document.addEventListener("visibilitychange", () => fn(document.hidden));
+  if (window.Capacitor?.isNativePlatform?.() && window.Capacitor.nativeCallback) {
+    window.Capacitor.nativeCallback("App", "addListener", { eventName: "appStateChange" }, (datos) => {
+      if (datos && typeof datos.isActive === "boolean") fn(!datos.isActive);
+    });
+  }
+}
