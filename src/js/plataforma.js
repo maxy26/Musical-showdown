@@ -10,14 +10,23 @@ export function esAppInstalada() {
 }
 
 /**
+ * Llama a un complemento nativo de Capacitor (Android) sin incluir sus librerías:
+ * `Capacitor.nativePromise` viene en el puente nativo de la app. Ojo: en
+ * Capacitor 6, `Capacitor.Plugins.X` solo existe si se incluye la librería del
+ * complemento, por eso no se usa (08-10-2026).
+ */
+export function nativo(complemento, metodo, opciones = {}) {
+  return window.Capacitor.nativePromise(complemento, metodo, opciones);
+}
+
+/**
  * Cierra la app (botón "Salir del juego" de Ajustes, usuario, 07-10-2026).
  * Android: complemento App de Capacitor (@capacitor/app). Windows: cerrar la
  * ventana cierra el programa. En la web no se puede cerrar la pestaña, por eso
  * el botón no se muestra ahí.
  */
 export function salirDeLaApp() {
-  const app = window.Capacitor?.Plugins?.App;
-  if (app?.exitApp) app.exitApp();
+  if (window.Capacitor?.isNativePlatform?.()) nativo("App", "exitApp").catch(() => {});
   else window.close();
 }
 

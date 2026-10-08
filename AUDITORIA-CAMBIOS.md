@@ -13,6 +13,38 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 40): compartir el podio y arreglo del botón Salir en Android (versión 1.9)
+
+**Pedido del usuario:** pasar "Compartir el podio" al juego (maqueta aprobada).
+
+**Qué se hizo:**
+- `src/js/compartir.js`: imagen del podio (1080 × 1350) y `compartirPodio()`:
+  Android con los complementos Share y Filesystem (la imagen se guarda en la
+  caché y se comparte), celular en la web con `navigator.share`, PC guarda la
+  imagen y copia el texto con el enlace de descargas de GitHub.
+- `screens/results.js`: botón "📤 Compartir el podio" con vista previa, como en
+  la maqueta. Estilos en `styles.css`.
+- **Arreglo encontrado:** en Capacitor 6 `Capacitor.Plugins.App` no existe si el
+  juego no incluye la librería del complemento, así que el botón "Salir del
+  juego" probablemente no cerraba la app en Android. Ahora `plataforma.js` →
+  `nativo()` llama a los complementos con `Capacitor.nativePromise` (incluido
+  en el puente nativo); lo usan Salir y Compartir.
+- `platforms/android`: `@capacitor/share` y `@capacitor/filesystem` versión 6.
+  `platforms/desktop/main.js`: las descargas van directo a Descargas.
+- `sw.js` v19; prueba nueva `test/compartir.test.js`; CLAUDE.md y PENDIENTES.
+  Compilados `dist/MusicalShowdown-v1.9.apk` (versionCode 10) y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 125 bien, 1 pendiente
+conocido. En el navegador se ganó una partida: en el podio aparece el botón,
+la imagen sale de 1080 × 1350, y en PC se copia el texto y aparece el aviso.
+El APK trae registrados App, Filesystem y Share (`capacitor.plugins.json`) y
+los nombres de los métodos coinciden con el código nativo.
+
+**Qué quedó abierto:** que el usuario pruebe en el celular Compartir y Salir
+(con el APK 1.9); publicar `v1.9` si lo pide.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 39): primera versión publicada (v1.8) con la firma del proyecto
 
 **Qué se hizo:** el usuario creó los secretos `ANDROID_KEYSTORE_BASE64` y

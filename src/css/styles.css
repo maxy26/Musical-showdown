@@ -804,3 +804,10 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 .aviso-nuevo{color:var(--fun-accent);font-weight:800;}
 .aviso-boton{align-self:flex-start;margin-top:4px;padding:10px 18px;}
 .aviso-sin-red{background:rgba(255,255,255,.06);border-radius:14px;padding:10px 12px;font-size:13.5px;font-weight:700;margin:0;}
+
+/* ---------- Compartir el podio (compartir.js, maqueta aprobada el 08-10-2026) ---------- */
+.compartir-btn{margin-top:12px;}
+.compartir{display:flex;flex-direction:column;gap:12px;align-items:stretch;}
+.compartir-img{width:100%;max-width:360px;align-self:center;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.45);}
+.compartir-texto{margin:0;padding:12px 14px;border-radius:14px;background:var(--fun-surface-2);font-size:14px;line-height:1.45;}
+.compartir-nota{margin:0;text-align:center;font-size:13px;color:var(--fun-text-dim);}

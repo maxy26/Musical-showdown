@@ -44,6 +44,11 @@ function createWindow() {
     if (/^https?:/.test(url)) shell.openExternal(url);
     return { action: "deny" };
   });
+  // Las descargas (imagen del podio para compartir) van directo a la carpeta
+  // Descargas, sin preguntar dónde guardar.
+  win.webContents.session.on("will-download", (_e, item) => {
+    item.setSavePath(path.join(app.getPath("downloads"), item.getFilename()));
+  });
   win.loadURL("app://juego/index.html");
 }
 

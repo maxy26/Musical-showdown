@@ -120,14 +120,6 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Compartir el juego desde el podio** (pedido del usuario, 07 y
-  08-10-2026; la idea salió del aviso "Invita a tus amigos" de la maqueta de
-  notificaciones). Un botón "Compartir" **en el podio** (no en las
-  notificaciones) que arme una **imagen del podio** (tipo foto) para compartir
-  el juego con otras personas. Falta confirmar con el usuario: qué lleva la
-  imagen y qué texto/enlace acompaña; en el celular, menú de compartir
-  (WhatsApp, etc.); en PC, guardar la imagen y copiar el texto. Mostrar maqueta
-  antes de programar.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -212,6 +204,17 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 08-10-2026)** **Compartir el juego desde el podio** (pedido del usuario, 07 y
+  08-10-2026; la idea salió del aviso "Invita a tus amigos" de la maqueta de
+  notificaciones). Un botón "Compartir" **en el podio** (no en las
+  notificaciones) que arme una **imagen del podio** (tipo foto) para compartir
+  el juego con otras personas. Falta confirmar con el usuario: qué lleva la
+  imagen y qué texto/enlace acompaña; en el celular, menú de compartir
+  (WhatsApp, etc.); en PC, guardar la imagen y copiar el texto. Mostrar maqueta
+  antes de programar.
+  Hecho con la maqueta aprobada (`src/js/compartir.js`, botón "📤 Compartir
+  el podio"). Falta que el usuario lo pruebe en el celular (menú de compartir).
 
 - [x] 🟡 **(Resuelto 08-10-2026)** **Firma del APK en GitHub y primera versión publicada** (08-10-2026).
   El usuario eligió guardar la clave como secretos de GitHub (opción A) para

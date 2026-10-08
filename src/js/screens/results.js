@@ -5,6 +5,9 @@ import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 import { formatPoints } from "../scoring.js";
 import { buildPodium, pickMvp } from "../podium.js";
 import { groupName } from "../groups.js";
+import { imagenDelPodio, compartirPodio, hayMenuCompartir, TEXTO_COMPARTIR } from "../compartir.js";
+import { openSheet } from "./sheet.js";
+import { showToast } from "./modals.js";
 
 const MEDALS = { 1: "🥇", 2: "🥈", 3: "🥉" };
 // Orden en pantalla: 2.º a la izquierda, 1.º al centro (más alto), 3.º a la derecha.
@@ -62,6 +65,7 @@ export function screenResults() {
         <button class="btn btn-primary" id="again">Jugar de nuevo</button>
         <button class="btn btn-secondary" id="menu">Volver al inicio</button>
       </div>
+      <button class="btn btn-ghost btn-block compartir-btn" id="compartir">📤 Compartir el podio</button>
     </div>
   </div>`);
 
@@ -76,6 +80,27 @@ export function screenResults() {
       startNextRound();
     }
     render();
+  };
+  // Compartir el juego: imagen del podio con vista previa (ver compartir.js)
+  root.querySelector("#compartir").onclick = async () => {
+    const mvpDe = (name) => (grupal ? pickMvp(playersOf(name), state.contrib, state.answerTimes) : []);
+    const imagen = await imagenDelPodio({ scores: state.scores, winner: state.winner, mvpDe });
+    const menu = hayMenuCompartir();
+    const body = el(`<div class="compartir">
+      <img class="compartir-img" src="${imagen.url}" alt="Imagen del podio">
+      <p class="compartir-texto">${escapeHtml(TEXTO_COMPARTIR).replace(/\n/g, "<br>")}</p>
+      <button type="button" class="btn btn-primary btn-block" id="compartir-ya">${menu ? "📤 Compartir (WhatsApp, Instagram…)" : "💾 Guardar imagen y copiar el texto"}</button>
+      <p class="compartir-nota">${menu ? "Se abre el menú de compartir con la imagen y el texto." : "La imagen se guarda en Descargas y el texto con el enlace queda copiado para pegarlo."}</p>
+    </div>`);
+    body.querySelector("#compartir-ya").onclick = async () => {
+      try {
+        const r = await compartirPodio(imagen);
+        if (r === "guardado") showToast("Imagen guardada en Descargas y texto copiado");
+      } catch {
+        showToast("No se pudo compartir la imagen");
+      }
+    };
+    openSheet({ title: "Compartir el podio", body });
   };
   root.querySelector("#menu").onclick = () => {
     resetState();
