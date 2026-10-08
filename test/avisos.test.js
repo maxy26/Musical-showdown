@@ -34,6 +34,10 @@ test("solo avisa la versión publicada más nueva que la instalada", () => {
   assert.equal(avisos[0].boton.url, "https://x/1.9");
   assert.deepEqual(avisosDeVersiones(releases, "1.9"), []);
   assert.deepEqual(avisosDeVersiones({ message: "Not Found" }, "1.7"), []);
+  // Notas con títulos de Markdown: se usa la primera línea de texto
+  const conTitulos = avisosDeVersiones([{ tag_name: "v2.0", published_at: "2026-11-01T00:00:00Z", html_url: "u",
+    body: "## What's Changed\n* **Sonidos** nuevos" }], "1.8");
+  assert.equal(conTitulos[0].texto, "Sonidos nuevos");
 });
 
 test("avisos del archivo: descarta los incompletos y ordena por fecha", () => {

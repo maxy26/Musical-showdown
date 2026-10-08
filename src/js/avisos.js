@@ -47,6 +47,12 @@ export function fechaRelativa(iso, ahora = new Date()) {
   return `Hace ${Math.floor(dias / 30)} meses`;
 }
 
+/** Primera línea con texto de las notas de una versión, sin títulos ni marcas de Markdown. */
+function primeraLinea(texto) {
+  const linea = String(texto || "").split("\n").map((l) => l.trim()).find((l) => l && !l.startsWith("#"));
+  return (linea || "").replace(/^[-+*] /, "").replace(/[*_`]/g, "").trim();
+}
+
 /** Versiones publicadas (respuesta de GitHub) más nuevas que la instalada → avisos. */
 export function avisosDeVersiones(releases, versionInstalada) {
   return (Array.isArray(releases) ? releases : [])
@@ -57,7 +63,7 @@ export function avisosDeVersiones(releases, versionInstalada) {
       tipo: "version",
       fecha: (r.published_at || "").slice(0, 10),
       titulo: `Versión ${r.tag_name.replace(/^v/i, "")} disponible`,
-      texto: (r.body || "Hay una versión nueva del juego.").split("\n").find((l) => l.trim()) || "",
+      texto: primeraLinea(r.body) || "Hay una versión nueva del juego.",
       boton: { texto: "⬇️ Descargar", url: r.html_url },
     }));
 }

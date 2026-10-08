@@ -13,6 +13,37 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 38): maqueta de compartir el podio y firma del APK en GitHub
+
+**Pedido del usuario:** compartir el juego desde el podio con una imagen del
+podio (maqueta aprobada tal cual); publicar la versión con el enlace de
+descargas de GitHub (temporal hasta una tienda oficial); para publicar, opción
+A: guardar la clave de firma como secretos de GitHub.
+
+**Qué se hizo:**
+- Maqueta (scratchpad, fuera del juego): botón "📤 Compartir el podio" que
+  dibuja una imagen 1080 × 1350 (logo, ganador, podio con medallas y MVP en
+  Grupal, invitación con el enlace) y muestra la vista previa; en el celular
+  abre el menú de compartir, en PC guarda la imagen y copia el texto.
+  Aprobada; falta pasarla al juego.
+- `.github/workflows/compilar.yml`: si existen los secretos de la clave, el
+  APK se compila firmado (release) con la clave del proyecto; si no, como
+  antes. La versión publicada lleva un texto propio en la primera línea.
+- `src/js/avisos.js`: el aviso de una versión toma la primera línea de texto
+  de sus notas (sin títulos ni marcas de Markdown). Prueba nueva.
+- Valores de los secretos preparados en `platforms/android/keystore/`
+  (ignorada por git); se comprobó que el texto reconstruye la clave exacta.
+- CLAUDE.md y PENDIENTES al día.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 123 bien, 1 pendiente
+conocido. Capturas de la maqueta (Individual y Grupal) y de la imagen generada.
+
+**Qué quedó abierto:** que el usuario cree los 2 secretos en GitHub; luego subir
+estos cambios, publicar `v1.8` y comprobar que el APK publicado tiene la firma
+del proyecto; pasar "Compartir el podio" al juego.
+
+---
+
 ## 2026-10-07 — Sesión 6 (parte 37): avisos de la campana (versión 1.8)
 
 **Pedido del usuario:** avisos de versiones nuevas, novedades y promociones;

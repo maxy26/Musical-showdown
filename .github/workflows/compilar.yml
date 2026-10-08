@@ -76,6 +76,13 @@ jobs:
     name: Android (.apk)
     needs: pruebas
     runs-on: ubuntu-latest
+    env:
+      # Clave de firma del proyecto, guardada como secretos del repositorio
+      # (Settings → Secrets and variables → Actions). Con ella, el APK se firma
+      # igual que con "npm run android:release" y las versiones se instalan una
+      # encima de otra. Sin los secretos, se compila con la firma de prueba.
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      KEYSTORE_PROPS: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -88,9 +95,22 @@ jobs:
           java-version: 21
       - run: npm ci --prefix platforms/android
       - run: chmod +x platforms/android/android/gradlew
-      # Mismo comando que en la PC: sincroniza y genera dist/android/Musical-Showdown.apk
-      # (firma de depuración: sirve para instalarlo en un teléfono, no para la Play Store).
-      - run: npm run build:apk
+      # Con la clave del proyecto: APK firmado (release) en dist/android/Musical-Showdown.apk
+      - name: APK firmado con la clave del proyecto
+        if: env.KEYSTORE_B64 != '' && env.KEYSTORE_PROPS != ''
+        run: |
+          mkdir -p platforms/android/keystore
+          echo "$KEYSTORE_B64" | base64 -d > platforms/android/keystore/musical-showdown.jks
+          printf '%s\n' "$KEYSTORE_PROPS" > platforms/android/keystore/keystore.properties
+          MS_BUILD_LABEL=Android npm run build:android
+          (cd platforms/android/android && ./gradlew assembleRelease --no-daemon)
+          mkdir -p dist/android
+          cp platforms/android/android/app/build/outputs/apk/release/app-release.apk dist/android/Musical-Showdown.apk
+          rm -rf platforms/android/keystore
+      # Sin la clave: mismo comando que en la PC con firma de depuración (solo para probar).
+      - name: APK de prueba (firma de depuración)
+        if: env.KEYSTORE_B64 == '' || env.KEYSTORE_PROPS == ''
+        run: npm run build:apk
       - uses: actions/upload-artifact@v4
         with:
           name: musical-showdown-android
@@ -112,4 +132,7 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: artefactos/*
+          # La primera línea es la que muestra el aviso de la campana (src/js/avisos.js).
+          body: |
+            Nueva versión de Musical Showdown: descarga el APK para Android o el .exe para Windows.
           generate_release_notes: true

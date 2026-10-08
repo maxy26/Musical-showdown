@@ -82,6 +82,15 @@
 - [ ] 🟡 **Probar el `.exe` portátil en otra PC con Windows.** En esta PC ya
   se comprobó que abre. El `.exe` se descomprime en una carpeta temporal cada
   vez que se abre, así que puede tardar unos segundos en arrancar.
+- [ ] 🟡 **Firma del APK en GitHub y primera versión publicada** (08-10-2026).
+  El usuario eligió guardar la clave como secretos de GitHub (opción A) para
+  que las versiones publicadas se puedan instalar una encima de otra. El flujo
+  ya está listo; falta que el usuario cree los 2 secretos
+  (`ANDROID_KEYSTORE_BASE64` y `ANDROID_KEYSTORE_PROPERTIES`; los valores están
+  en `platforms/android/keystore/SECRETO-*.txt`, borrarlos después) y publicar
+  `v1.8`. Es temporal hasta publicar en una tienda oficial: en Google Play se
+  puede usar **la misma clave** (Play App Signing con clave propia), así
+  quienes instalaron desde GitHub podrán actualizar desde la tienda.
 - [ ] 🟢 **Publicar una versión descargable:** crear y subir una etiqueta
   (por ejemplo, `git tag v1.0.0` y luego `git push origin v1.0.0`). GitHub
   Actions creará una "Release" con los 3 archivos.
@@ -123,12 +132,14 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Compartir el juego** (pedido del usuario, 07-10-2026, a partir del
-  aviso de promoción "Invita a tus amigos" de la maqueta). Un botón
-  "Compartir" que abra el menú de compartir del celular (WhatsApp, etc.) o, en
-  PC, copie el enlace. Definir con el usuario: dónde va el botón (aviso de
-  promoción, Ajustes, podio…), qué texto y qué enlace se comparte (por ejemplo,
-  la página de descarga de GitHub) y mostrarle una maqueta antes.
+- [ ] 🟡 **Compartir el juego desde el podio** (pedido del usuario, 07 y
+  08-10-2026; la idea salió del aviso "Invita a tus amigos" de la maqueta de
+  notificaciones). Un botón "Compartir" **en el podio** (no en las
+  notificaciones) que arme una **imagen del podio** (tipo foto) para compartir
+  el juego con otras personas. Falta confirmar con el usuario: qué lleva la
+  imagen y qué texto/enlace acompaña; en el celular, menú de compartir
+  (WhatsApp, etc.); en PC, guardar la imagen y copiar el texto. Mostrar maqueta
+  antes de programar.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
