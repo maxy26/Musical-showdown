@@ -13,6 +13,23 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 39): primera versión publicada (v1.8) con la firma del proyecto
+
+**Qué se hizo:** el usuario creó los secretos `ANDROID_KEYSTORE_BASE64` y
+`ANDROID_KEYSTORE_PROPERTIES`. Se subió `09a43ba` y la etiqueta `v1.8`; GitHub
+compiló y publicó https://github.com/maxy26/Musical-showdown/releases/tag/v1.8
+con `Musical-Showdown.apk`, `Musical.Showdown.exe` y `Musical-Showdown.AppImage`.
+Se borraron los archivos `SECRETO-*.txt` de la carpeta de la clave.
+
+**Cómo se verificó:** se descargó el APK publicado: versionCode 9, versión 1.8 y
+firma SHA-256 e0e0a02f… igual a la de los APK de la PC (se instala encima).
+Las notas de la versión empiezan con el texto propio, que es lo que mostrará
+el aviso de la campana a quien tenga una versión anterior.
+
+**Qué quedó abierto:** pasar "Compartir el podio" al juego (maqueta aprobada).
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 38): maqueta de compartir el podio y firma del APK en GitHub
 
 **Pedido del usuario:** compartir el juego desde el podio con una imagen del

@@ -82,18 +82,6 @@
 - [ ] 🟡 **Probar el `.exe` portátil en otra PC con Windows.** En esta PC ya
   se comprobó que abre. El `.exe` se descomprime en una carpeta temporal cada
   vez que se abre, así que puede tardar unos segundos en arrancar.
-- [ ] 🟡 **Firma del APK en GitHub y primera versión publicada** (08-10-2026).
-  El usuario eligió guardar la clave como secretos de GitHub (opción A) para
-  que las versiones publicadas se puedan instalar una encima de otra. El flujo
-  ya está listo; falta que el usuario cree los 2 secretos
-  (`ANDROID_KEYSTORE_BASE64` y `ANDROID_KEYSTORE_PROPERTIES`; los valores están
-  en `platforms/android/keystore/SECRETO-*.txt`, borrarlos después) y publicar
-  `v1.8`. Es temporal hasta publicar en una tienda oficial: en Google Play se
-  puede usar **la misma clave** (Play App Signing con clave propia), así
-  quienes instalaron desde GitHub podrán actualizar desde la tienda.
-- [ ] 🟢 **Publicar una versión descargable:** crear y subir una etiqueta
-  (por ejemplo, `git tag v1.0.0` y luego `git push origin v1.0.0`). GitHub
-  Actions creará una "Release" con los 3 archivos.
 - [ ] 🟢 **Windows SmartScreen en otros equipos.** El `.exe` no está firmado,
   así que en otra PC Windows mostrará "Windows protegió su PC" y habrá que
   hacer clic en "Más información → Ejecutar de todas formas". Para quitar el
@@ -224,6 +212,24 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 08-10-2026)** **Firma del APK en GitHub y primera versión publicada** (08-10-2026).
+  El usuario eligió guardar la clave como secretos de GitHub (opción A) para
+  que las versiones publicadas se puedan instalar una encima de otra. El flujo
+  ya está listo; falta que el usuario cree los 2 secretos
+  (`ANDROID_KEYSTORE_BASE64` y `ANDROID_KEYSTORE_PROPERTIES`; los valores están
+  en `platforms/android/keystore/SECRETO-*.txt`, borrarlos después) y publicar
+  `v1.8`. Es temporal hasta publicar en una tienda oficial: en Google Play se
+  puede usar **la misma clave** (Play App Signing con clave propia), así
+  quienes instalaron desde GitHub podrán actualizar desde la tienda.
+  Hecho: el usuario creó los 2 secretos; se publicó `v1.8`
+  (https://github.com/maxy26/Musical-showdown/releases/tag/v1.8) con el APK,
+  el `.exe` y el `.AppImage`. El APK publicado tiene la misma firma que los
+  compilados en la PC (SHA-256 e0e0a02f…). Se borraron los archivos
+  `SECRETO-*.txt`.
+- [x] 🟢 **(Resuelto 08-10-2026, versión v1.8)** **Publicar una versión descargable:** crear y subir una etiqueta
+  (por ejemplo, `git tag v1.0.0` y luego `git push origin v1.0.0`). GitHub
+  Actions creará una "Release" con los 3 archivos.
 
 - [x] 🟡 **(Resuelto 07-10-2026)** **Notificaciones sin fuente de avisos.** La campana abre un panel que
   por ahora dice "No hay notificaciones". Para mostrar actualizaciones,
