@@ -132,3 +132,38 @@ export function idsSinLeer(avisos) {
 export function marcarLeidos(avisos) {
   guardar(CLAVE_LEIDOS, [...new Set([...leer(CLAVE_LEIDOS, []), ...avisos.map((a) => a.id)])]);
 }
+
+// ---------- Revisión mientras la app está abierta (usuario, 08-10-2026) ----------
+// Sin un servidor propio no se pueden "empujar" los avisos al instante: el juego
+// revisa solo cada MINUTOS_REVISION minutos con la app a la vista, y además
+// apenas vuelve internet o se vuelve a la app. GitHub permite 60 consultas por
+// hora sin cuenta: con al menos 1 minuto entre revisiones no se llega al límite.
+// (avisos.json puede tardar hasta unos 5 minutos en verse por la caché de GitHub.)
+export const MINUTOS_REVISION = 3;
+const MINIMO_ENTRE_REVISIONES = 60 * 1000;
+let revisando = false;
+let ultimaRevision = 0;
+
+/** IDs sin leer que aparecieron entre dos listas de avisos (los que "llegaron"). */
+export function avisosNuevos(sinLeerAntes, sinLeerAhora) {
+  const antes = new Set(sinLeerAntes);
+  return sinLeerAhora.filter((id) => !antes.has(id));
+}
+
+/** Empieza a revisar los avisos solo; `alLlegar(ids)` recibe los que llegaron. */
+export function revisarAvisosSeguido(versionInstalada, alLlegar) {
+  if (revisando) return;
+  revisando = true;
+  const revisar = async () => {
+    if (Date.now() - ultimaRevision < MINIMO_ENTRE_REVISIONES) return;
+    ultimaRevision = Date.now();
+    const antes = idsSinLeer(avisosActuales().avisos);
+    const { avisos, sinRed } = await cargarAvisos(versionInstalada, true);
+    if (sinRed) return;
+    alLlegar(avisosNuevos(antes, idsSinLeer(avisos)));
+  };
+  const intentar = () => { revisar().catch(() => {}); };
+  window.setInterval(() => { if (!document.hidden) intentar(); }, MINUTOS_REVISION * 60 * 1000);
+  window.addEventListener("online", intentar);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) intentar(); });
+}

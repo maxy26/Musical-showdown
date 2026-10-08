@@ -13,6 +13,29 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 43): avisos que llegan con la app abierta (versión 1.11) y v1.10 publicada
+
+**Pedido del usuario:** subir los commits y publicar la 1.10; que los avisos
+nuevos se noten sin cerrar y abrir la app.
+
+**Qué se hizo:**
+- Se subieron `e885a8d` y `3860c72` y la etiqueta `v1.10`.
+- `src/js/avisos.js`: `revisarAvisosSeguido()` revisa cada 3 minutos con la app
+  a la vista, apenas vuelve internet y al volver a la app (mínimo 1 minuto
+  entre revisiones, por el límite gratis de GitHub); `avisosNuevos()` (pura).
+  Sin servidor propio no se pueden enviar al instante (eso podría tener costo);
+  además GitHub guarda `avisos.json` en caché hasta unos 5 minutos.
+- `screens/menu.js` → `avisosLlegaron()`: actualiza el globito y sacude la
+  campana (`.campana-nueva` en `styles.css`). Se inicia en `main.js`.
+- Pruebas nuevas en `test/avisos.test.js`; CLAUDE.md al día. Compilados
+  `dist/MusicalShowdown-v1.11.apk` y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 127 bien. En el navegador,
+con GitHub simulado: al abrir sin avisos, globito oculto; al publicar un aviso y
+volver internet, globito 1 y campana sacudiéndose, sin recargar.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 42): salir de la partida vuelve a "Configurar partida" (versión 1.10)
 
 **Pedido del usuario:** al salir de una partida a mitad de juego, volver a

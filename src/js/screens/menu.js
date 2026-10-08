@@ -60,6 +60,20 @@ function pintarGlobito(root) {
 }
 
 /**
+ * Llegaron avisos mientras la app está abierta (ver revisarAvisosSeguido en
+ * avisos.js): actualiza el globito del inicio y, si hay nuevos, la campana se
+ * sacude para que se note.
+ */
+export function avisosLlegaron(nuevos) {
+  pintarGlobito(document);
+  const campana = document.querySelector("#btn-notifications");
+  if (!campana || !nuevos.length) return;
+  campana.classList.remove("campana-nueva");
+  void campana.offsetWidth; // repite la animación
+  campana.classList.add("campana-nueva");
+}
+
+/**
  * Ajustes (la tuerca): cada opción se enciende o apaga con "Sí / No" y se
  * guarda en el dispositivo (settings.js). El botón 🔊 de las pantallas sigue
  * silenciando todo de una vez.

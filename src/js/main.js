@@ -3,11 +3,15 @@ import { initSound } from "./sound.js";
 import { applySettings } from "./settings.js";
 import { initTapFeedback } from "./tapFeedback.js";
 import { esAppInstalada } from "./plataforma.js";
+import { revisarAvisosSeguido } from "./avisos.js";
+import { avisosLlegaron } from "./screens/menu.js";
+import { APP_VERSION } from "./version.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
 initSound();
 initTapFeedback();
+revisarAvisosSeguido(APP_VERSION, avisosLlegaron); // avisos nuevos con la app abierta
 
 function hideLoader() {
   const loader = document.getElementById("loader");

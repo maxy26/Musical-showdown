@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { compararVersiones, fechaRelativa, avisosDeVersiones, avisosDelArchivo, unirAvisos } from "../src/js/avisos.js";
+import { compararVersiones, fechaRelativa, avisosDeVersiones, avisosDelArchivo, unirAvisos, avisosNuevos, MINUTOS_REVISION } from "../src/js/avisos.js";
 
 test("compararVersiones entiende 1.10 > 1.9 y la v del comienzo", () => {
   assert.ok(compararVersiones("1.10", "1.9") > 0);
@@ -54,4 +54,14 @@ test("avisos del archivo: descarta los incompletos y ordena por fecha", () => {
 test("el archivo avisos/avisos.json del repositorio es válido", () => {
   const archivo = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "avisos", "avisos.json"), "utf8"));
   assert.equal(avisosDelArchivo(archivo).length, archivo.length, "hay avisos incompletos en avisos.json");
+});
+
+test("avisosNuevos: solo los sin leer que no estaban antes", () => {
+  assert.deepEqual(avisosNuevos(["a"], ["a", "b"]), ["b"]);
+  assert.deepEqual(avisosNuevos(["a", "b"], ["b"]), []);
+  assert.deepEqual(avisosNuevos([], []), []);
+});
+
+test("la revisión no supera el límite gratis de GitHub (60 consultas por hora)", () => {
+  assert.ok(60 / MINUTOS_REVISION <= 30, "cada revisión consulta las versiones una vez");
 });
