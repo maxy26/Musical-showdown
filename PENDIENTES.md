@@ -133,12 +133,6 @@
   jugador nuevo, pasa al siguiente campo o confirma la configuración? ¿Las
   flechas también sirven en el resto de la pantalla (tipo de batalla, modo,
   géneros…)?
-- [ ] 🟡 **Terminar la partida a mitad de juego debe volver a "Configurar
-  partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la
-  partida" vuelve al menú principal y borra todo. Preguntar: ¿se conservan los
-  jugadores y la configuración elegida al volver?
-
-
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
   `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
@@ -204,6 +198,14 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 08-10-2026)** **Terminar la partida a mitad de juego debe volver a "Configurar
+  partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la
+  partida" vuelve al menú principal y borra todo. Preguntar: ¿se conservan los
+  jugadores y la configuración elegida al volver?
+  El usuario eligió conservar todo (opción a). "Sí, salir" vuelve a
+  "Configurar partida" con la misma configuración y los puntajes en cero.
+  De paso se arregló que "No, continuar" dejaba la ronda en pausa.
 
 - [x] 🟡 **(Resuelto 08-10-2026)** **Compartir el juego desde el podio** (pedido del usuario, 07 y
   08-10-2026; la idea salió del aviso "Invita a tus amigos" de la maqueta de

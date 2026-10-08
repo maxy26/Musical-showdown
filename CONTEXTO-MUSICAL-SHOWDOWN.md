@@ -457,7 +457,9 @@
 ### Pausa / Ayuda / Salir
 - Botón de pausa (detiene el reloj) con submenú: Continuar, Ayuda, Salir
   de la partida (pide confirmación, se pierde el progreso, no hay
-  guardado de partidas).
+  guardado de partidas). Al salir se vuelve a **"Configurar partida"** con
+  todo lo elegido (jugadores, tipo de batalla, modo, géneros, puntaje y
+  tiempo), para empezar otra rápido (usuario, 08-10-2026).
 - **Ayuda ("Cómo se juega")**: es un modal **visual, no solo texto** —
   muestra cada elemento real de la UI (el botón de jugador, la barra de
   progreso, el reloj, la palabra, el multiplicador, el botón de pausa,

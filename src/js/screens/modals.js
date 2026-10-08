@@ -45,17 +45,22 @@ export function openPause() {
   overlay.querySelector("#exit").onclick = () => {
     overlay.innerHTML = `<div class="modal" style="text-align:center;">
       <h2>¿Salir de la partida?</h2>
-      <p class="small-note">El progreso de esta partida se perderá.</p>
+      <p class="small-note">El progreso de esta partida se perderá. Volverás a "Configurar partida" con los mismos jugadores y opciones.</p>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn btn-secondary btn-block" id="no">No, continuar</button>
         <button class="btn btn-danger btn-block" id="yes">Sí, salir</button>
       </div>
     </div>`;
-    overlay.querySelector("#no").onclick = () => overlay.remove();
+    overlay.querySelector("#no").onclick = resume; // sigue la ronda (antes quedaba en pausa)
     overlay.querySelector("#yes").onclick = () => {
       overlay.remove();
       clearInterval(state.round.timerId);
+      // Vuelve a "Configurar partida" conservando todo lo elegido: jugadores,
+      // tipo de batalla, modo, géneros, puntaje y tiempo (usuario, 08-10-2026).
+      const config = state.config;
       resetState();
+      state.config = config;
+      state.screen = "config";
       render();
     };
   };

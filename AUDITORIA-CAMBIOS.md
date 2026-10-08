@@ -13,6 +13,25 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 42): salir de la partida vuelve a "Configurar partida" (versión 1.10)
+
+**Pedido del usuario:** al salir de una partida a mitad de juego, volver a
+"Configurar partida" conservando todo (opción a).
+
+**Qué se hizo:** `screens/modals.js` (pausa): "Sí, salir" guarda la
+configuración, reinicia el estado y abre "Configurar partida" con la misma
+configuración (jugadores, tipo, modo, géneros, puntaje y tiempo; puntajes en
+cero). **Error encontrado y arreglado:** "No, continuar" cerraba la ventana pero
+dejaba la ronda en pausa; ahora continúa. CONTEXTO y PENDIENTES al día.
+Compilados `dist/MusicalShowdown-v1.10.apk` (versionCode 11) y el `.exe`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 125 bien. En el navegador,
+partida Grupal con 4 jugadores, Pop y Rock y 3000 puntos: "No, continuar" deja
+la ronda corriendo; "Sí, salir" abre "Configurar partida" con los mismos datos
+y los 4 nombres en pantalla.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 41): versión v1.9 publicada
 
 **Qué se hizo:** se subieron `acb2cbf` y la etiqueta `v1.9`; GitHub publicó
