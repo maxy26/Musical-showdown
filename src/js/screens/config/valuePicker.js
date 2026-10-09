@@ -71,7 +71,7 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
       ${unit ? `<div class="wheel-unit" style="top:${ITEM_H * 2}px;line-height:${ITEM_H}px;">${unit}</div>` : ""}
     </div>
     <p class="wheel-caption"></p>
-    <p class="picker-hint">Desliza la rueda o usa las flechas ↑ ↓ · Enter para confirmar</p>
+    <p class="picker-hint">Desliza la rueda o usa las flechas · Enter para confirmar</p>
     <div class="btn-row picker-actions">
       <button type="button" class="btn btn-secondary" id="picker-cancel">Cancelar</button>
       <button type="button" class="btn btn-primary" id="picker-ok">Listo</button>
@@ -195,7 +195,7 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
   function accept() { const v = values[drag ? selectedIndex() : goal]; close(); onAccept(v); }
   function cancel() { close(); if (onCancel) onCancel(); }
   function onKey(e) {
-    const moves = { ArrowUp: 1, ArrowDown: -1, PageUp: 10, PageDown: -10 };
+    const moves = { ArrowUp: -1, ArrowLeft: -1, ArrowDown: 1, ArrowRight: 1, PageUp: -10, PageDown: 10 }; // ↑ ← bajan, ↓ → suben (usuario, 08-10-2026)
     if (e.key in moves) { e.preventDefault(); animateTo(goal + moves[e.key], 150); }
     else if (e.key === "Home") { e.preventDefault(); animateTo(0); }
     else if (e.key === "End") { e.preventDefault(); animateTo(values.length - 1); }

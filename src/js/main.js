@@ -6,11 +6,13 @@ import { esAppInstalada } from "./plataforma.js";
 import { revisarAvisosSeguido } from "./avisos.js";
 import { avisosLlegaron } from "./screens/menu.js";
 import { APP_VERSION } from "./version.js";
+import { iniciarTeclado } from "./teclado.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
 initSound();
 initTapFeedback();
+iniciarTeclado(); // flechas, Enter, Backspace y la lista del juego (teclado.js)
 revisarAvisosSeguido(APP_VERSION, avisosLlegaron); // avisos nuevos con la app abierta
 
 function hideLoader() {

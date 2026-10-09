@@ -210,9 +210,8 @@ export function screenConfig() {
 
 /**
  * Solo en PC: tocar cualquier parte de una fila hace lo mismo que su control
- * (usuario, 06-10-2026). En las filas con lista (puntaje, tiempo) va encima una
- * copia invisible de la misma lista: así cada toque abre o cierra la lista igual
- * que al tocar el valor. Las filas con − / + no, porque tienen dos acciones.
+ * (usuario, 06-10-2026). En las filas con lista (puntaje, tiempo), tocar la
+ * fila abre la lista del juego (teclado.js). Las filas con − / + no, porque tienen dos acciones.
  */
 function filasCompletas(root) {
   if (!window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
@@ -220,17 +219,7 @@ function filasCompletas(root) {
     const sel = row.querySelector("select"), btn = row.querySelector("#relay-settings"), yn = row.querySelector("[data-yesno]");
     if (!sel && !btn && !yn) return;
     row.classList.add("row-click");
-    if (sel) {
-      const copia = document.createElement("select");
-      copia.className = "fila-lista";
-      copia.setAttribute("aria-hidden", "true");
-      copia.tabIndex = -1;
-      copia.innerHTML = sel.innerHTML;
-      copia.value = sel.value;
-      copia.onchange = () => { sel.value = copia.value; sel.dispatchEvent(new window.Event("change")); };
-      row.append(copia);
-      return;
-    }
+    if (sel) return; // la fila abre la lista del juego (teclado.js)
     row.addEventListener("click", (e) => {
       if (e.target.closest("select, button, input")) return;
       if (btn) btn.click();

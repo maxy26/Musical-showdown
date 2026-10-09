@@ -13,6 +13,41 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 45): navegación con teclado y lista propia del juego
+
+**Pedido del usuario:** moverse por el juego con el teclado (flechas, Enter,
+Backspace para volver), cerrar con Backspace las listas desplegables y la ruleta,
+usar la lista rediseñada también con el mouse y en el celular, y arreglar que
+después de usar el mouse las flechas dejaban de funcionar. Se hizo primero en una
+maqueta (scratchpad `maqueta-teclado`) y el usuario la aprobó.
+
+**Qué se hizo:**
+- `src/js/teclado.js` (nuevo): flechas espaciales (`vecinoEn`), Enter = clic,
+  edición de nombres, Backspace = volver (`botonVolver`), la marca se recupera
+  tras redibujar (`firma` / `recuperar`), y la lista propia del juego
+  (`abrirLista`): ↑ ↓ / Enter / Backspace / Esc con el teclado; clic, toque y
+  tocar afuera con el mouse o el dedo. Se inicia con `iniciarTeclado()` en `main.js`.
+- La lista del sistema ya no recibe toques (`select{pointer-events:none}`); el
+  toque lo atiende `teclado.js`. En PC, la fila entera abre la lista (se quitó la
+  copia invisible `fila-lista` de `config/index.js`: era la causa de que las
+  flechas dejaran de funcionar tras un clic).
+- `valuePicker.js`: en la ruleta ↑ ← bajan y ↓ → suben; texto de ayuda nuevo.
+- `css/styles.css`: borde amarillo solo con teclado (`html.con-teclado`) y
+  estilos de `.lista-teclado`.
+- `sw.js`: `teclado.js` en `ASSETS`, `CACHE_NAME` v20. Prueba nueva
+  `test/teclado.test.js` (`vecinoEn`).
+
+**Cómo se verificó:** en la maqueta, con Edge sin ventana y CDP: flechas, Enter,
+Backspace en cada pantalla, lista con teclado, con mouse y con toques simulados
+de celular, ruleta cancelada con Backspace, y flechas después de usar el mouse;
+sin errores. `npm test`: 131 bien, 1 pendiente conocido; lint sin errores.
+
+**Compilado:** `.exe` y `dist/MusicalShowdown-v1.12.apk` (versionCode 13, versionName 1.12, firma del proyecto).
+
+**Qué quedó abierto:** probar la lista nueva y el resto en un celular real.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 44): sin sonido en segundo plano; v1.11 publicada
 
 **Pedido del usuario:** que la música no suene al salir de la app sin cerrarla;

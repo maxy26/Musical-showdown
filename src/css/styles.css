@@ -755,7 +755,6 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
   .opt-row.row-click{position:relative;cursor:pointer;transition:background .15s;}
   .opt-row.row-click:hover{background:rgba(255,255,255,.05);}
 }
-.fila-lista{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;}
 
 /* Cuenta antes de la ronda: capa transparente que no deja tocar nada (gameLogic.js) */
 .cuenta-capa{position:fixed;inset:0;z-index:200;display:grid;place-items:center;
@@ -815,3 +814,18 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 .campana-nueva{animation:campana-sacude .9s ease;}
 .campana-nueva .aviso-globito{animation:cuenta-pop .9s ease;}
 @keyframes campana-sacude{0%,100%{rotate:0deg;}15%{rotate:16deg;}30%{rotate:-14deg;}45%{rotate:10deg;}60%{rotate:-8deg;}75%{rotate:4deg;}}
+
+/* Navegación con teclado (teclado.js): borde amarillo solo al usar el teclado */
+html.con-teclado :is(button, select, input, a, [tabindex], .manual-item, [data-battle]):focus{
+  outline:3px solid #FFD23F !important;outline-offset:3px;box-shadow:0 0 0 6px rgba(255,210,63,.25);}
+input.edicion-pausada{caret-color:transparent;opacity:.8;}
+html.con-teclado input.edicion-pausada:focus{outline-style:dashed !important;}
+
+/* Lista desplegable propia del juego, con teclado, mouse y en el celular (teclado.js).
+   La lista del sistema no recibe toques: el toque lo atiende teclado.js */
+select{pointer-events:none;}
+:has(> select){cursor:pointer;}
+.lista-teclado{position:fixed;z-index:400;display:flex;flex-direction:column;gap:4px;max-height:60vh;overflow:auto;padding:8px;
+  border-radius:16px;background:var(--stage-bg);box-shadow:0 12px 40px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.08);}
+.lista-opcion{padding:10px 16px;border-radius:12px;background:transparent;color:var(--text);font-weight:700;text-align:left;white-space:nowrap;cursor:pointer;}
+.lista-opcion.is-marcada{background:var(--fun-surface-2);outline:3px solid #FFD23F;outline-offset:-3px;}

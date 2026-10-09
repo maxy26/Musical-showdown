@@ -130,21 +130,6 @@
   la velocidad del MVP se mide hasta que el moderador toca ese botón. Definir
   con el usuario si quiere un "pulsador" para los jugadores y cómo funcionaría.
 
-- [ ] 🟡 **Lista de jugadores: navegar con las flechas del teclado y confirmar
-  con Enter** (pedido del usuario, 29-09-2026). En "Configurar partida", poder
-  moverse entre los campos de jugadores con ↑ ↓ y confirmar con Enter. Antes de
-  programarlo, preguntar los detalles: ¿Enter en el último campo agrega un
-  jugador nuevo, pasa al siguiente campo o confirma la configuración? ¿Las
-  flechas también sirven en el resto de la pantalla (tipo de batalla, modo,
-  géneros…)?
-  - **Maqueta (08-10-2026, scratchpad `maqueta-teclado`)**, con lo que pidió el
-    usuario: las flechas recorren toda la pantalla hacia donde apuntan; Enter es
-    un clic (también abre listas y confirma la ruleta); en un nombre se escribe
-    al llegar y Enter apaga / enciende la edición; ← → al borde del texto salen
-    del campo (así se llega a la ✕ y Enter elimina al jugador); la tecla de
-    borrar, fuera de un nombre, es "volver" (cierra o cancela ventanas, "←
-    Inicio"); las flechas de la ruleta quedan invertidas. Falta que el usuario
-    la apruebe para pasarla al juego.
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
   `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
@@ -210,6 +195,18 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **(Resuelto 08-10-2026)** **Navegar con el teclado** (pedido del usuario,
+  29-09-2026; antes "Lista de jugadores: navegar con las flechas y confirmar con
+  Enter"). Se hizo con maqueta aprobada (`src/js/teclado.js`): las flechas
+  recorren toda la pantalla hacia donde apuntan (dentro de una ventana, solo esa
+  ventana); Enter es un clic; en un nombre se escribe al llegar y Enter apaga /
+  enciende la edición; → llega a la ✕ y Enter elimina al jugador; Backspace es
+  "volver" (cierra o cancela ventanas y la ruleta, "← Inicio", Pausa en la
+  ronda); en la ruleta ↑ ← bajan y ↓ → suben. Las listas desplegables usan una
+  lista propia del juego con teclado, mouse y en el celular (Backspace / Esc la
+  cierran). Después de usar el mouse, la primera flecha sigue desde lo último
+  tocado. Falta probar la lista nueva en un celular real.
 
 - [x] 🟡 **(Resuelto 08-10-2026)** **Terminar la partida a mitad de juego debe volver a "Configurar
   partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la
