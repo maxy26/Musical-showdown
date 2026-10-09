@@ -13,6 +13,16 @@
 
 ---
 
+## 2026-10-08 — Sesión 6 (parte 46): versión v1.12 publicada
+
+**Pedido del usuario:** publicar la 1.12. Se subió la etiqueta `v1.12`; GitHub
+Actions compiló bien y publicó la Release con el `.exe`, el `.AppImage` y el
+APK. Se comprobó el APK descargado de la Release: versionCode 13, versionName
+1.12, firma del proyecto (SHA-256 e0e0a02f…). Enlace:
+https://github.com/maxy26/Musical-showdown/releases/tag/v1.12
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 45): navegación con teclado y lista propia del juego
 
 **Pedido del usuario:** moverse por el juego con el teclado (flechas, Enter,
