@@ -120,6 +120,10 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
+- [ ] 🟡 **Botón "Seleccionar todos" en Géneros musicales** (pedido del usuario,
+  08-10-2026). Un botón más en la lista de géneros de "Configurar partida"
+  que marque todos los disponibles. El usuario quiere profundizarlo después
+  (por ejemplo, qué cuenta como "disponible" y si el mismo botón desmarca).
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -133,6 +137,14 @@
   jugador nuevo, pasa al siguiente campo o confirma la configuración? ¿Las
   flechas también sirven en el resto de la pantalla (tipo de batalla, modo,
   géneros…)?
+  - **Maqueta (08-10-2026, scratchpad `maqueta-teclado`)**, con lo que pidió el
+    usuario: las flechas recorren toda la pantalla hacia donde apuntan; Enter es
+    un clic (también abre listas y confirma la ruleta); en un nombre se escribe
+    al llegar y Enter apaga / enciende la edición; ← → al borde del texto salen
+    del campo (así se llega a la ✕ y Enter elimina al jugador); la tecla de
+    borrar, fuera de un nombre, es "volver" (cierra o cancela ventanas, "←
+    Inicio"); las flechas de la ruleta quedan invertidas. Falta que el usuario
+    la apruebe para pasarla al juego.
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
   `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
