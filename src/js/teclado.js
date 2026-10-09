@@ -117,12 +117,16 @@ function abrirLista(select) {
   caja.setAttribute("role", "listbox");
   caja.innerHTML = opciones.map((o) => `<button type="button" role="option" class="lista-opcion">${o.textContent}</button>`).join("");
   document.body.appendChild(caja);
-  // Debajo de la lista original (o arriba si no cabe)
+  // Debajo de la lista original o, si no cabe, del lado con más espacio. Nunca
+  // la tapa (así un segundo toque sobre ella la cierra); si es larga, se desplaza.
   const r = select.getBoundingClientRect();
-  caja.style.left = Math.max(8, Math.min(r.left, window.innerWidth - caja.offsetWidth - 8)) + "px";
   caja.style.minWidth = r.width + "px";
-  const abajo = r.bottom + 6;
-  caja.style.top = (abajo + caja.offsetHeight < window.innerHeight ? abajo : Math.max(8, r.top - caja.offsetHeight - 6)) + "px";
+  caja.style.left = Math.max(8, Math.min(r.left, window.innerWidth - caja.offsetWidth - 8)) + "px";
+  const espacioAbajo = window.innerHeight - r.bottom - 14, espacioArriba = r.top - 14;
+  const haciaAbajo = caja.offsetHeight <= espacioAbajo || espacioAbajo >= espacioArriba;
+  const espacio = haciaAbajo ? espacioAbajo : espacioArriba;
+  caja.style.maxHeight = Math.max(espacio, 120) + "px";
+  caja.style.top = (haciaAbajo ? r.bottom + 6 : r.top - 6 - caja.offsetHeight) + "px";
   const botones = [...caja.children];
   lista = { caja, select, opciones, botones, i: Math.max(0, opciones.findIndex((o) => o.selected)) };
   botones.forEach((b, i) => {
@@ -278,6 +282,7 @@ function alPresionar(e) {
 }
 
 let iniciado = false;
+let recienCerrada = null; // lista que se acaba de cerrar con un toque (segundo clic)
 export function iniciarTeclado() {
   if (iniciado) return;
   iniciado = true;
@@ -290,14 +295,18 @@ export function iniciarTeclado() {
     // Al volver al teclado, la primera flecha sigue desde lo último que se tocó
     const tocado = e.target.closest?.(CONTROLES);
     if (tocado && !tocado.closest(".lista-teclado")) ultimaFirma = firma(tocado);
-    if (lista && !lista.caja.contains(e.target)) { cerrarLista(); e.preventDefault(); } // tocar afuera la cierra
+    // Tocar afuera la cierra; si se tocó su misma lista, el clic no la vuelve a abrir
+    recienCerrada = null;
+    if (lista && !lista.caja.contains(e.target)) { recienCerrada = lista.select; cerrarLista(); e.preventDefault(); }
   }, true);
   // Con el mouse o el dedo también se abre la lista del juego (las listas no
   // reciben toques, ver styles.css): sobre la lista o, en PC, en toda su fila
   window.addEventListener("click", (e) => {
     if (lista || e.target.closest(".lista-teclado")) return;
     const select = listaBajo(e);
-    if (!select) return;
+    const segundoClic = select && select === recienCerrada;
+    recienCerrada = null;
+    if (!select || segundoClic) return;
     e.preventDefault();
     abrirLista(select);
   }, true);

@@ -206,7 +206,8 @@
   ronda); en la ruleta ↑ ← bajan y ↓ → suben. Las listas desplegables usan una
   lista propia del juego con teclado, mouse y en el celular (Backspace / Esc la
   cierran). Después de usar el mouse, la primera flecha sigue desde lo último
-  tocado. Falta probar la lista nueva en un celular real.
+  tocado. Un segundo toque sobre la misma lista la cierra. Falta probar la lista
+  nueva en un celular real.
 
 - [x] 🟡 **(Resuelto 08-10-2026)** **Terminar la partida a mitad de juego debe volver a "Configurar
   partida"** (pedido del usuario, 29-09-2026). Hoy "Pausa → Salir de la

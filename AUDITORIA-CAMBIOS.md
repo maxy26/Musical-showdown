@@ -42,6 +42,12 @@ Backspace en cada pantalla, lista con teclado, con mouse y con toques simulados
 de celular, ruleta cancelada con Backspace, y flechas después de usar el mouse;
 sin errores. `npm test`: 131 bien, 1 pendiente conocido; lint sin errores.
 
+**Ajuste después de la revisión del usuario:** un segundo clic o toque sobre la
+misma lista (o su fila) la cierra, como la lista del sistema (`recienCerrada`).
+Además, la lista se abre del lado con más espacio y nunca tapa su botón (antes,
+si era larga, lo tapaba y en el celular el segundo toque elegía una opción).
+Probado con mouse y toques simulados en el juego real.
+
 **Compilado:** `.exe` y `dist/MusicalShowdown-v1.12.apk` (versionCode 13, versionName 1.12, firma del proyecto).
 
 **Qué quedó abierto:** probar la lista nueva y el resto en un celular real.
