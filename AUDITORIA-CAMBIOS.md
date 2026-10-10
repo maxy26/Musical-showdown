@@ -13,6 +13,17 @@
 
 ---
 
+## 2026-10-10 — Sesión 7 (parte 4): versión 1.13 publicada
+
+**Pedido del usuario:** el APK 1.12 instalado no avisaba de una actualización.
+Era lo esperado: los cambios del día estaban en `main`, pero no había una
+Release mayor que 1.12. Se publicó la 1.13 con `npm run android:release`
+(versionCode 13 → 14, versionName 1.13, firma del proyecto SHA-256 e0e0a02f…,
+`dist/MusicalShowdown-v1.13.apk`), y después el commit y la etiqueta `v1.13`
+para que GitHub Actions compile y publique la Release.
+
+---
+
 ## 2026-10-10 — Sesión 7 (parte 3): aviso de Grupal, música desde la carga y versión en el inicio
 
 **Pedido del usuario:** (1) quitar la nota "Para jugar en Grupal se necesitan
