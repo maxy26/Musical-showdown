@@ -75,7 +75,7 @@ export function screenVerify() {
       <h2>🔎 Buscar canción</h2>
       <p class="panel-title">Palabra: <strong style="color:var(--gold);">${r.word.toUpperCase()}</strong> · Responde: ${who}</p>
       <div class="field">
-        <input type="text" id="q" placeholder="Escribe el nombre o un fragmento (mín. 3 letras)" value="${v.query}" autocomplete="off">
+        <input type="text" id="q" placeholder="Nombre de la canción" value="${v.query}" autocomplete="off">
       </div>
       <div class="search-results" id="results"></div>
       <div class="btn-row" style="margin-top:18px;">
@@ -138,15 +138,12 @@ export function screenVerify() {
 }
 
 function openJudgeDecision() {
-  const r = state.round;
   const v = state.verify;
-  const who = currentSinger(r.selected);
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
   overlay.innerHTML = `<div class="modal">
     <h2>¿La respuesta es correcta?</h2>
     <p class="panel-title">🎵 ${v.selectedSong.title} — ${v.selectedSong.artist}</p>
-    <p class="panel-title">👤 ${who} · Palabra: <strong style="color:var(--gold);">${r.word.toUpperCase()}</strong></p>
     <div class="btn-row" style="margin-top:18px;">
       <button class="btn btn-danger btn-block" id="no">❌ Incorrecta</button>
       <button class="btn btn-primary btn-block" id="yes">✅ Correcta</button>

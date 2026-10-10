@@ -3,7 +3,7 @@ import { el } from "../utils.js";
 import { render } from "../router.js";
 import { finishRoundManual, attemptsLeft, relayCheck } from "../gameLogic.js";
 import { openPause, openHelp, showConfirm } from "./modals.js";
-import { modeName, effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
+import { effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
 import { relayRules, relaysLeftThisRound } from "../relay.js";
 import { openRelay, openRelayAdjust } from "./relayModals.js";
@@ -60,7 +60,7 @@ export function screenRound() {
 
   const root = el(`<div class="screen round-screen">
     <div class="top-bar">
-      <span class="panel-title">${c.battleType === "grupal" ? "MODO GRUPAL" : "MODO INDIVIDUAL"} · ${modeName(c.mode).toUpperCase()}</span>
+      <span></span>
       <div class="top-bar-actions">
         <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>

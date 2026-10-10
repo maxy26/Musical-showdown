@@ -37,7 +37,6 @@ export function screenTeamOrg() {
           <select id="group-count">
             ${options.map((n) => `<option value="${n}" ${n === state.groups.length ? "selected" : ""}>${n} ${plural}</option>`).join("")}
           </select>
-          <p class="field-hint">De ${options[0]} a ${options[options.length - 1]} ${plural}: cada ${singular} necesita al menos 2 jugadores.</p>
         </div>
         <div class="field">
           <label>Se llaman</label>
@@ -48,7 +47,7 @@ export function screenTeamOrg() {
       </div>
       <div class="teams-grid" id="groups"></div>
       <p class="field-error" id="group-names-error" hidden></p>
-      <p class="small-note">Toca un jugador y luego a alguien de otro ${singular} para intercambiarlos, o toca el ${singular} (fuera de los nombres) para moverlo ahí. Toca el nombre de un ${singular} para cambiarlo.</p>
+      <p class="small-note">Toca dos jugadores para intercambiarlos.</p>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn btn-secondary" id="reshuffle">🎲 Volver a organizar</button>
         <button class="btn btn-primary" id="confirm-teams" style="margin-left:auto;">🔒 Confirmar ${plural}</button>

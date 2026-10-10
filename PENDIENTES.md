@@ -196,6 +196,20 @@
 
 ## ✅ Resueltos
 
+- [x] **Quitar el texto innecesario, colores nuevos y ✕ roja** (pedido del
+  usuario, 10-10-2026; resuelto 10-10-2026). Aprobado sobre una maqueta "antes /
+  después" de 16 pantallas. Ver la auditoría del 10-10-2026 (parte 2).
+- [x] **Pruebas automáticas de pantallas** (pedido del usuario, 10-10-2026;
+  resuelto 10-10-2026): Playwright en `test/e2e`, `npm run test:e2e`, también
+  en GitHub Actions.
+
+- [x] **Lista de jugadores con desplazamiento** (pedido del usuario,
+  10-10-2026; resuelto 10-10-2026). La lista tiene un alto fijo y se desplaza
+  por dentro, así la pantalla no se alarga. Diseño B elegido por el usuario
+  entre 3 maquetas: una columna numerada en un recuadro, contador de nombres
+  junto a "Jugadores", difuminado arriba y abajo, y al agregar un jugador
+  la lista baja sola hasta el espacio nuevo.
+
 - [x] 🟡 **(Resuelto 08-10-2026)** **Navegar con el teclado** (pedido del usuario,
   29-09-2026; antes "Lista de jugadores: navegar con las flechas y confirmar con
   Enter"). Se hizo con maqueta aprobada (`src/js/teclado.js`): las flechas

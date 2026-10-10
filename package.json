@@ -11,9 +11,11 @@
     "android:release": "node build/android-release.js",
     "build:all": "npm run build:desktop && npm run build:android",
     "test": "node --test test/*.test.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "eslint": "^9.39.5"
   }
 }

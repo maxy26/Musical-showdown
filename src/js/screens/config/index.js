@@ -51,7 +51,7 @@ export function screenConfig() {
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
-        <label>Jugadores</label>
+        <label>Jugadores <span class="players-count" id="players-count">${typedCount}</span></label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
         <p class="small-note config-group-note" id="group-note" ${isGroup && typedCount < 4 ? "" : "hidden"}>Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typedCount}).</p>

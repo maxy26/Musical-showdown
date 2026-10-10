@@ -13,11 +13,11 @@ export function screenRoundResultIncorrect() {
   // Clásico: 1 intento por lado; Alternativo 1: ilimitados; Alternativo 2: los elegidos.
   let note;
   if (!Number.isFinite(left)) {
-    note = "El intento no otorga puntos. Puede volver a intentar cualquier participante de esta ronda.";
+    note = "Pueden volver a intentarlo.";
   } else if (left > 0) {
-    note = `A ${who} le ${left === 1 ? "queda 1 intento" : `quedan ${left} intentos`} en esta ronda.`;
+    note = `${who}: ${left === 1 ? "1 intento más" : `${left} intentos más`}`;
   } else {
-    note = `${who} ya no tiene intentos en esta ronda.${otherCanTry ? ` Ahora solo puede intentarlo ${other}.` : ""}`;
+    note = otherCanTry ? `Turno de ${other}` : `${who} ya no tiene intentos`;
   }
   const root = el(`<div class="screen">
     <div class="card result-banner">

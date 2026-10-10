@@ -60,6 +60,8 @@ export function initPlayersSection(root, c) {
   function refreshGroupAvailability() {
     const typed = countTypedPlayers(c.players);
     const note = root.querySelector("#group-note");
+    const cuenta = root.querySelector("#players-count");
+    if (cuenta) cuenta.textContent = typed;
     if (!note) return;
     note.hidden = !(c.battleType === "grupal" && typed < 4);
     note.textContent = `Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typed}).`;
@@ -84,13 +86,17 @@ export function initPlayersSection(root, c) {
     return dup.size > 0;
   }
 
-  function renderPlayers() {
+  // Lista numerada con alto fijo que se desplaza por dentro, así la pantalla no
+  // se alarga con muchos jugadores (diseño B elegido por el usuario, 10-10-2026).
+  // `alFinal`: al agregar un jugador, la lista baja hasta el espacio nuevo.
+  function renderPlayers(alFinal = false) {
     const list = root.querySelector("#players-list");
     list.innerHTML = "";
     c.players.forEach((p, i) => {
       const row = el(`<div class="player-row">
+        <span class="player-num">${i + 1}</span>
         <input type="text" value="${p}" placeholder="Jugador ${i + 1}" maxlength="${MAX_NAME_LENGTH}" data-idx="${i}">
-        ${i >= minPlayerRows(c.battleType) ? `<button class="remove-btn" data-remove="${i}">✕</button>` : ""}
+        ${i >= minPlayerRows(c.battleType) ? `<button class="remove-btn" data-remove="${i}">✕</button>` : `<span class="remove-space"></span>`}
       </div>`);
       row.querySelector("input").oninput = (e) => {
         const pos = e.target.selectionStart;
@@ -110,13 +116,25 @@ export function initPlayersSection(root, c) {
       }
       list.appendChild(row);
     });
+    if (alFinal) {
+      list.scrollTop = list.scrollHeight;
+      list.lastElementChild.querySelector("input").focus({ preventScroll: true });
+    }
+    list.onscroll = () => updateScrollShadows(list);
+    requestAnimationFrame(() => updateScrollShadows(list)); // cuando ya está en pantalla
     refreshDuplicates();
   }
   renderPlayers();
 
+  // Difuminado arriba / abajo cuando quedan nombres fuera de la vista
+  function updateScrollShadows(list) {
+    list.classList.toggle("more-above", list.scrollTop > 2);
+    list.classList.toggle("more-below", list.scrollTop + list.clientHeight < list.scrollHeight - 2);
+  }
+
   root.querySelector("#add-player").onclick = () => {
     c.players.push("");
-    renderPlayers();
+    renderPlayers(true);
     refreshGroupAvailability();
   };
 

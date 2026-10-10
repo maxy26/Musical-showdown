@@ -19,8 +19,8 @@ import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, fechaRel
  * están en "Configurar partida". "Jugar" lleva a esa pantalla.
  */
 const BATTLES = {
-  individual: { title: "Individual", text: "Duelos 1 vs 1. Cada uno suma para sí.", icon: ICONS.user },
-  grupal: { title: "Grupal", text: "Equipos que se enfrentan por turnos.", icon: ICONS.users },
+  individual: { title: "Individual", icon: ICONS.user },
+  grupal: { title: "Grupal", icon: ICONS.users },
 };
 
 /** Panel de la campana: actualizaciones, novedades y promociones (ver avisos.js). */
@@ -79,10 +79,10 @@ export function avisosLlegaron(nuevos) {
  * silenciando todo de una vez.
  */
 const SETTINGS = [
-  { key: "animations", title: "Animaciones", text: "Luces que se mueven, rebotes y transiciones." },
-  { key: "music", title: "Música de fondo", text: "La música que suena mientras se juega." },
-  { key: "effects", title: "Efectos de sonido", text: "El sonido al tocar los botones." },
-  { key: "clock", title: "Sonido del reloj", text: "El tic-tac de la ronda y el aviso de los últimos 5 segundos." },
+  { key: "animations", title: "Animaciones" },
+  { key: "music", title: "Música de fondo" },
+  { key: "effects", title: "Efectos de sonido" },
+  { key: "clock", title: "Sonido del reloj" },
 ];
 
 /** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
@@ -92,7 +92,7 @@ export function settingsBody() {
     ${SETTINGS.map((o) => `
       ${o.key === "music" ? `<p class="home-settings-group">Sonido</p>` : ""}
       <div class="home-setting">
-        <div><h3>${o.title}</h3><p>${o.text}</p></div>
+        <h3>${o.title}</h3>
         <div class="segmented" role="radiogroup" aria-label="${o.title}">
           <button type="button" role="radio" data-setting="${o.key}" data-value="on">Sí</button>
           <button type="button" role="radio" data-setting="${o.key}" data-value="off">No</button>
@@ -103,7 +103,7 @@ export function settingsBody() {
       </div>`).join("")}
     <p class="home-settings-group">Partida</p>
     <div class="home-setting">
-      <div><h3>Cuenta antes de cada ronda</h3><p>Números grandes con sonido antes de que aparezca la palabra: No, o de 3 a 7 segundos.</p></div>
+      <h3>Cuenta antes de cada ronda</h3>
       <div class="stepper" data-stepper="countdown">
         <button type="button" data-step="-1" aria-label="Menos segundos">−</button><output></output>
         <button type="button" data-step="1" aria-label="Más segundos">+</button>
@@ -182,7 +182,6 @@ export function screenMenu() {
       <span class="home-floor" aria-hidden="true"></span>
     </section>
 
-    <p class="home-subtitle">¿Cómo quieres jugar?</p>
     <div class="home-battle">
       <div class="home-toggle" role="tablist" aria-label="Tipo de batalla">
         <span class="home-toggle-thumb"></span>
@@ -210,7 +209,6 @@ export function screenMenu() {
     card.innerHTML = `
       <span class="home-card-icon">${b.icon(34)}</span>
       <span class="home-card-title">${b.title}</span>
-      <span class="home-card-text">${b.text}</span>
       <button type="button" class="home-play pressable" id="btn-play">${ICONS.play(22)} Jugar</button>`;
   }
   // Se empieza a jugar tocando la tarjeta completa o el botón "Jugar" (usuario, 04-10-2026).

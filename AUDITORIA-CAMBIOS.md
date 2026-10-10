@@ -13,6 +13,72 @@
 
 ---
 
+## 2026-10-10 — Sesión 7 (parte 2): menos texto, colores nuevos, ✕ roja y pruebas de pantallas
+
+**Pedido del usuario:** quitar el texto innecesario de la app (mostrando antes
+cómo quedaría), rediseñar los colores con la paleta del juego, poner en rojo la
+✕ de eliminar jugador y agregar pruebas automáticas. Se le mostró una maqueta
+"antes / después" de 16 pantallas (scratchpad `maqueta-textos`) y aprobó todo.
+
+**Qué se hizo:**
+- Textos quitados o acortados: subtítulo y descripción del tipo de batalla en
+  el inicio (`menu.js`); descripciones de cada ajuste; "MODO … · …" arriba de
+  la ronda (`round.js`); en grupos, el rango de equipos y la instrucción larga
+  ("Toca dos jugadores para intercambiarlos.", `teamOrg.js`); salir de la
+  partida ("Se pierde el progreso de esta partida.", `modals.js`); campo de
+  búsqueda ("Nombre de la canción") y la línea "jugador · palabra" de la
+  confirmación (`verify.js`); respuesta incorrecta ("Turno de X" / "X: N
+  intentos más", `roundResult.js`); texto y nota de la hoja de compartir
+  (`results.js`). Se borraron las reglas CSS que quedaron sin uso y se ajustó la
+  cuadrícula del inicio en PC.
+- `css/styles.css`, sección "Colores del juego en toda la app": borde degradado
+  rosa → dorado → turquesa en tarjetas y ventanas, títulos en dorado, cada
+  género con su color, franja de color en cada opción, botones secundarios en
+  turquesa, "Correcta" en verde turquesa, fondos de color en los paneles de la
+  ronda (en Grupal se respeta el color de cada grupo) y la ✕ en un círculo rojo.
+- Pruebas de pantallas con Playwright (`@playwright/test` en `devDependencies`,
+  `npm run test:e2e`, `playwright.config.mjs`, `test/e2e/`): 10 recorridos, en
+  tamaño celular y PC. El servidor de prueba escucha solo en `127.0.0.1` (el
+  primer intento escuchaba en toda la red y Windows le pidió permiso de red al
+  usuario). Se agregaron a GitHub Actions. `test-results/` en `.gitignore`.
+- CLAUDE.md al día.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 131 bien, 1 pendiente
+conocido; `npm run test:e2e`: 20 bien. Capturas del juego real con Edge sin
+ventana: iguales a la maqueta aprobada; inicio en PC sin huecos.
+
+**Qué quedó abierto:** que el usuario lo vea en el `.exe` y en el celular.
+
+---
+
+## 2026-10-10 — Sesión 7 (parte 1): lista de jugadores con desplazamiento
+
+**Pedido del usuario:** que la lista de jugadores de "Configurar partida" no
+alargue la pantalla cuando se agregan muchos jugadores, sino que se desplace por
+dentro. Se hizo una maqueta con 3 diseños (scratchpad `maqueta-jugadores`: A,
+caja con 2 columnas; B, lista numerada; C, fichas) y el usuario eligió el **B**.
+
+**Qué se hizo:**
+- `screens/config/players.js`: cada fila lleva su número (`.player-num`); las
+  filas fijas reservan el lugar de la ✕ (`.remove-space`); al tocar "+ Añadir
+  jugador" la lista baja hasta el espacio nuevo y lo enfoca
+  (`renderPlayers(true)`); `updateScrollShadows()` marca si hay nombres fuera de
+  la vista (`more-above` / `more-below`); el contador `#players-count` se
+  actualiza en `refreshGroupAvailability()`.
+- `screens/config/index.js`: contador de nombres escritos junto a "Jugadores".
+- `css/styles.css`: `#players-list` con alto fijo (262 px; 236 px en el
+  celular), recuadro, barra amarilla y difuminado; se quitaron las 2 columnas
+  del celular.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 131 bien, 1 pendiente
+conocido. Capturas con Edge sin ventana (360 px y 760 px) con 2 y 12 jugadores y
+después de agregar el 13 (la lista bajó sola y enfocó el espacio nuevo).
+Compilados el `.exe` y el APK de prueba (`dist/android/Musical-Showdown.apk`).
+
+**Qué quedó abierto:** que el usuario lo pruebe en el `.exe` y en el celular.
+
+---
+
 ## 2026-10-08 — Sesión 6 (parte 46): versión v1.12 publicada
 
 **Pedido del usuario:** publicar la 1.12. Se subió la etiqueta `v1.12`; GitHub

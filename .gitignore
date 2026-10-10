@@ -21,3 +21,7 @@ platforms/android/android/**/build/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Resultados de las pruebas de pantallas (Playwright)
+test-results/
+playwright-report/

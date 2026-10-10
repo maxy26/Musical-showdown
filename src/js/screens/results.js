@@ -5,7 +5,7 @@ import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 import { formatPoints } from "../scoring.js";
 import { buildPodium, pickMvp } from "../podium.js";
 import { groupName } from "../groups.js";
-import { imagenDelPodio, compartirPodio, hayMenuCompartir, TEXTO_COMPARTIR } from "../compartir.js";
+import { imagenDelPodio, compartirPodio, hayMenuCompartir } from "../compartir.js";
 import { openSheet } from "./sheet.js";
 import { showToast } from "./modals.js";
 
@@ -88,9 +88,7 @@ export function screenResults() {
     const menu = hayMenuCompartir();
     const body = el(`<div class="compartir">
       <img class="compartir-img" src="${imagen.url}" alt="Imagen del podio">
-      <p class="compartir-texto">${escapeHtml(TEXTO_COMPARTIR).replace(/\n/g, "<br>")}</p>
       <button type="button" class="btn btn-primary btn-block" id="compartir-ya">${menu ? "📤 Compartir (WhatsApp, Instagram…)" : "💾 Guardar imagen y copiar el texto"}</button>
-      <p class="compartir-nota">${menu ? "Se abre el menú de compartir con la imagen y el texto." : "La imagen se guarda en Descargas y el texto con el enlace queda copiado para pegarlo."}</p>
     </div>`);
     body.querySelector("#compartir-ya").onclick = async () => {
       try {

@@ -45,7 +45,7 @@ export function openPause() {
   overlay.querySelector("#exit").onclick = () => {
     overlay.innerHTML = `<div class="modal" style="text-align:center;">
       <h2>¿Salir de la partida?</h2>
-      <p class="small-note">El progreso de esta partida se perderá. Volverás a "Configurar partida" con los mismos jugadores y opciones.</p>
+      <p class="small-note">Se pierde el progreso de esta partida.</p>
       <div class="btn-row" style="margin-top:16px;">
         <button class="btn btn-secondary btn-block" id="no">No, continuar</button>
         <button class="btn btn-danger btn-block" id="yes">Sí, salir</button>

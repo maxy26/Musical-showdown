@@ -192,8 +192,19 @@ body{-webkit-tap-highlight-color:transparent;}
 
 
 /* ---------- Players list ---------- */
-.player-row{display:flex;gap:10px;align-items:center;margin-bottom:10px;}
-.player-row input{flex:1;}
+/* Lista numerada con alto fijo que se desplaza por dentro (diseño B, 10-10-2026) */
+#players-list{max-height:262px;overflow-y:auto;overscroll-behavior:contain;padding:8px 6px 2px 8px;background:var(--bg);border:1px solid var(--border);border-radius:20px;scrollbar-width:thin;scrollbar-color:var(--gold) transparent;}
+#players-list::-webkit-scrollbar{width:6px;}
+#players-list::-webkit-scrollbar-thumb{background:var(--gold);border-radius:6px;}
+#players-list.more-below{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);}
+#players-list.more-above{-webkit-mask-image:linear-gradient(transparent,#000 20%);mask-image:linear-gradient(transparent,#000 20%);}
+#players-list.more-above.more-below{-webkit-mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(transparent,#000 15%,#000 85%,transparent);}
+.player-row{display:flex;gap:8px;align-items:center;margin-bottom:6px;}
+.player-row input{flex:1;min-width:0;padding:9px 12px;}
+.player-num{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--card-2);color:var(--gold);font-weight:800;font-size:13px;}
+.remove-space{flex:none;width:30px;}
+/* Cantidad de nombres escritos, junto a "Jugadores" */
+.players-count{display:inline-block;margin-left:6px;min-width:22px;padding:1px 8px;border-radius:999px;background:var(--gold);color:#1A0E12;font-size:12px;text-align:center;}
 /* Campo con un error (ej. nombre repetido) y su mensaje */
 input.input-error{border-color:var(--red);background:rgba(255,71,71,0.08);}
 input.input-error:focus{outline-color:var(--red);}
@@ -446,7 +457,6 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 @keyframes pop-in{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
 @keyframes bounce-in{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
 
-.home-subtitle{text-align:center;color:var(--fun-text-dim);font-size:16px;font-weight:700;margin:0 0 -6px;}
 
 /* Interruptor Individual | Grupal (diseño D) */
 .home-battle{display:flex;flex-direction:column;gap:14px;}
@@ -469,7 +479,6 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .home-card-grupal{background:linear-gradient(160deg, var(--grupal-from), var(--grupal-to));}
 .home-card-icon{width:60px;height:60px;border-radius:20px;background:rgba(255,255,255,.22);display:grid;place-items:center;}
 .home-card-title{font-family:var(--font-fun-title);font-weight:700;font-size:24px;line-height:1.1;}
-.home-card-text{font-size:14px;font-weight:600;line-height:1.4;color:rgba(255,255,255,.92);}
 .home-play{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px;align-self:stretch;padding:16px 0;
   border-radius:999px;background:#fff;color:var(--stage-bg);font-family:var(--font-fun-title);font-size:20px;font-weight:700;
   box-shadow:0 5px 0 rgba(0,0,0,.25);}
@@ -482,13 +491,12 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 
 /* PC: el escenario a la izquierda y las opciones a la derecha */
 @media (min-width:900px){
-  .home{max-width:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto 1fr;
-    grid-template-areas:"header header" "stage subtitle" "stage battle" "stage mode";column-gap:32px;row-gap:18px;}
+  .home{max-width:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;
+    grid-template-areas:"header header" "stage battle" "stage mode";column-gap:32px;row-gap:18px;}
   .home-header{grid-area:header;}
   .home-stage{grid-area:stage;min-height:440px;max-height:560px;}
   .home-title span:first-child{font-size:64px;}
   .home-title span:last-child{font-size:78px;}
-  .home-subtitle{grid-area:subtitle;align-self:end;text-align:left;font-size:18px;margin:0;}
   .home-battle{grid-area:battle;}
   .home-mode{grid-area:mode;align-self:start;}
 }
@@ -523,11 +531,10 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .home-empty .home-empty-note{font-weight:600;font-size:14px;color:var(--fun-text-dim);}
 .home-settings{display:flex;flex-direction:column;gap:10px;}
 .home-version{margin:8px 0 0;text-align:center;font-size:12.5px;font-weight:700;color:var(--fun-text-dim);opacity:.8;}
-.home-settings-group{margin:6px 0 0;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--fun-accent);}
+.home-settings-group{margin:6px 0 0;font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--pink);}
 .home-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
-  background:var(--fun-surface-2);border-radius:20px;padding:16px;}
+  background:var(--fun-surface-2);border-radius:20px;padding:16px;border-left:4px solid var(--teal);}
 .home-setting h3{font-family:var(--font-fun-title);font-size:18px;}
-.home-setting p{margin:4px 0 0;font-size:13.5px;color:var(--fun-text-dim);}
 
 /* ---------- Manual de modos de juego (modesManual.js) ---------- */
 .manual{display:flex;flex-direction:column;gap:12px;}
@@ -698,11 +705,7 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
   .opt-row{padding:6px 6px 6px 12px;}
   .opt-row > span{font-size:13.5px;}
   .opt-row select{min-width:0;width:112px;padding:8px 26px 8px 12px;font-size:14px;background-position:right 8px center;}
-  /* Jugadores en dos columnas */
-  #players-list{display:grid;grid-template-columns:1fr 1fr;column-gap:8px;}
-  #players-list .player-row{gap:2px;margin-bottom:6px;min-width:0;}
-  #players-list .player-row input{padding:9px 12px;min-width:0;}
-  #players-list .remove-btn{padding:4px 6px;font-size:15px;}
+  #players-list{max-height:236px;}
   .add-player-btn{margin-top:4px;padding:9px 16px;font-size:14px;}
 }
 
@@ -808,8 +811,6 @@ input.input-error,input.input-error:focus{border-color:var(--red);}
 .compartir-btn{margin-top:12px;}
 .compartir{display:flex;flex-direction:column;gap:12px;align-items:stretch;}
 .compartir-img{width:100%;max-width:360px;align-self:center;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.45);}
-.compartir-texto{margin:0;padding:12px 14px;border-radius:14px;background:var(--fun-surface-2);font-size:14px;line-height:1.45;}
-.compartir-nota{margin:0;text-align:center;font-size:13px;color:var(--fun-text-dim);}
 /* Llegó un aviso con la app abierta: la campana se sacude (menu.js → avisosLlegaron) */
 .campana-nueva{animation:campana-sacude .9s ease;}
 .campana-nueva .aviso-globito{animation:cuenta-pop .9s ease;}
@@ -829,3 +830,40 @@ select{pointer-events:none;}
   border-radius:16px;background:var(--stage-bg);box-shadow:0 12px 40px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.08);}
 .lista-opcion{padding:10px 16px;border-radius:12px;background:transparent;color:var(--text);font-weight:700;text-align:left;white-space:nowrap;cursor:pointer;}
 .lista-opcion.is-marcada{background:var(--fun-surface-2);outline:3px solid #FFD23F;outline-offset:-3px;}
+
+/* ---------- Colores del juego en toda la app (usuario, 10-10-2026) ---------- */
+/* Tarjetas y ventanas con borde degradado rosa → dorado → turquesa */
+.card,.modal{border:2px solid transparent;
+  background:linear-gradient(180deg,#2A3068,#222752) padding-box,
+             linear-gradient(135deg,rgba(255,92,122,.75),rgba(255,210,63,.55),rgba(46,196,182,.75)) border-box;}
+.field label{color:var(--gold);}
+/* Resumen (Individual · Clásico) con el color del tipo de batalla */
+.config-summary{background:linear-gradient(135deg,var(--individual-from),var(--individual-to));border:none;color:#fff;}
+/* Géneros: cada uno con su color al elegirlo */
+.chip{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.08);}
+.chip.active{color:#141833;border-color:transparent;}
+.chip.active[data-genre="pop"]{background:linear-gradient(135deg,#FF5C7A,#FF8A65);}
+.chip.active[data-genre="rock"]{background:linear-gradient(135deg,#FF8A3D,#FFB347);}
+.chip.active[data-genre="reggaeton"]{background:linear-gradient(135deg,#2EC4B6,#5FE0C8);}
+.chip.active[data-genre="salsa"]{background:linear-gradient(135deg,#FFD23F,#FFE680);}
+.chip.active[data-genre="balada"]{background:linear-gradient(135deg,#8E7CFF,#B9A8FF);}
+/* Filas de opciones con una franja de color a la izquierda */
+.opt-row{border-left:4px solid var(--pink);background:rgba(255,255,255,.04);}
+.opt-row:nth-child(5n+2){border-left-color:var(--teal);}
+.opt-row:nth-child(5n+3){border-left-color:var(--gold);}
+.opt-row:nth-child(5n+4){border-left-color:#FF8A3D;}
+.opt-row:nth-child(5n+5){border-left-color:#8E7CFF;}
+.player-num{background:linear-gradient(135deg,var(--pink),#FF8A65);color:#fff;}
+/* Botones secundarios en turquesa */
+.btn-secondary{background:rgba(46,196,182,.14);color:#7FF0E4;box-shadow:0 5px 0 rgba(0,0,0,.3),inset 0 0 0 2px rgba(46,196,182,.55);}
+.btn-secondary:hover{background:rgba(46,196,182,.24);}
+/* ¿La respuesta es correcta?: Correcta en verde turquesa, Incorrecta en rojo */
+.modal #yes{background:linear-gradient(135deg,#2EC4B6,#3DDC97);color:#0D2B27;}
+.modal #no.btn-danger{background:linear-gradient(135deg,#FF4D6D,#FF6B4A);}
+/* Ronda: cada jugador con su color de fondo (en Grupal se respeta el color de cada grupo) */
+.side.a:not([class*="group-color-"]) .name-btn{background:linear-gradient(160deg,rgba(255,92,122,.32),rgba(37,42,85,.9) 70%);border-color:rgba(255,92,122,.7);}
+.side.b:not([class*="group-color-"]) .name-btn{background:linear-gradient(160deg,rgba(46,196,182,.30),rgba(37,42,85,.9) 70%);border-color:rgba(46,196,182,.7);}
+/* ✕ de eliminar jugador: círculo rojo */
+.remove-btn{width:30px;height:30px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none;
+  font-size:14px;font-weight:900;color:#FF6B6B;background:rgba(255,71,71,.16);box-shadow:inset 0 0 0 2px rgba(255,71,71,.55);}
+.remove-btn:hover,.remove-btn:active{background:var(--red);color:#fff;}

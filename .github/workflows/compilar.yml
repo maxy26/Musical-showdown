@@ -37,6 +37,9 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      # Pruebas de pantallas: el juego se abre en un navegador sin ventana
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
 
   windows:
     name: Windows (.exe)
