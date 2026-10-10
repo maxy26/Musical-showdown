@@ -142,11 +142,16 @@ export async function tocar(notas, extra = 1) {
   const inicio = c.currentTime + 0.02;
   notas.forEach((n, i) => conectar(c, bufs[i], n, vol * g, salidaEfectos(), inicio));
 }
-/** Carga y mide de antemano, para que el primer sonido no llegue tarde. */
-export function precargar(efectos, musicas) {
+/**
+ * Carga y mide de antemano, para que el primer sonido no llegue tarde. Empieza
+ * cuando termina `despuesDe` (la primera canción), así no le quita velocidad.
+ */
+export function precargar(efectos, musicas, despuesDe = Promise.resolve()) {
   if (!hayAudio()) return;
-  efectos.forEach((notas) => ganancia(notas).catch(() => {}));
-  musicas.forEach((f) => (BUCLES[f] ? bufferBucle(f) : buffer(f)).catch(() => {}));
+  despuesDe.finally(() => {
+    efectos.forEach((notas) => ganancia(notas).catch(() => {}));
+    musicas.forEach((f) => (BUCLES[f] ? bufferBucle(f) : buffer(f)).catch(() => {}));
+  });
 }
 
 // ---------- Música ----------

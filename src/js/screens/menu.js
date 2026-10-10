@@ -195,6 +195,7 @@ export function screenMenu() {
       <button type="button" class="home-wide-btn pressable" id="btn-modes"><span class="home-wide-icon">${ICONS.book()}</span>Modos de juego</button>
       <p class="home-mode-label" id="mode-label"></p>
     </div>
+    <p class="home-version-tag">v${APP_VERSION}</p>
   </div>`);
 
   // ---------- Tipo de batalla: interruptor + tarjeta con "Jugar" ----------

@@ -54,7 +54,6 @@ export function screenConfig() {
         <label>Jugadores <span class="players-count" id="players-count">${typedCount}</span></label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
-        <p class="small-note config-group-note" id="group-note" ${isGroup && typedCount < 4 ? "" : "hidden"}>Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typedCount}).</p>
         <button class="btn btn-secondary add-player-btn" id="add-player">+ Añadir jugador</button>
       </div>
 
@@ -182,10 +181,10 @@ export function screenConfig() {
     }
     c.players = c.players.map(cleanName).filter((p) => p.length > 0);
     if (c.players.length < 2) { showWarning("Escribe al menos 2 nombres de jugador para poder iniciar la partida."); return; }
-    // Grupal con menos de 4: solo se avisa; se queda aquí para agregar jugadores
-    // (para jugar Individual, se vuelve al inicio con "← Inicio").
+    // Grupal con menos de 4: se avisa solo al confirmar, igual que en Individual
+    // (usuario, 10-10-2026); se queda aquí para agregar jugadores.
     if (c.battleType === "grupal" && c.players.length < 4) {
-      showWarning(`Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${c.players.length}). Agrega más jugadores o vuelve al inicio para elegir Individual.`);
+      showWarning(`Escribe al menos 4 nombres de jugador para jugar en Grupal (llevas ${c.players.length}).`);
       return;
     }
     if (c.genres.length === 0) { showWarning("Selecciona al menos un género."); return; }

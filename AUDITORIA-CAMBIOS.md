@@ -13,6 +13,41 @@
 
 ---
 
+## 2026-10-10 — Sesión 7 (parte 3): aviso de Grupal, música desde la carga y versión en el inicio
+
+**Pedido del usuario:** (1) quitar la nota "Para jugar en Grupal se necesitan
+al menos 4 jugadores" de la pantalla y avisarlo solo al confirmar, como en
+Individual; (2) mostrar la versión abajo a la derecha del inicio; (3) que la
+app abra siempre con la música sonando desde la pantalla de carga. Los cambios
+visuales se aprobaron antes sobre maquetas (`maqueta-grupal`, `maqueta-version`).
+
+**Qué se hizo:**
+- `screens/config/index.js` y `players.js`: sin la nota `#group-note`; el
+  aviso al confirmar dice "Escribe al menos 4 nombres de jugador para jugar en
+  Grupal (llevas N)." `refreshGroupAvailability` pasó a `refreshPlayerCount`
+  (solo actualiza el contador). Se borró `.config-group-note`.
+- `screens/menu.js` + `css/styles.css`: etiqueta `v<versión>` en dorado abajo a
+  la derecha del inicio (`.home-version-tag`). Aparece al terminar la entrada
+  de la pantalla: la prueba de pantallas detectó que, mientras la pantalla se
+  mueve, la etiqueta quedaba más arriba.
+- Música: antes, en un celular lento, la música empezaba después de que se iba
+  la pantalla de carga, porque esperaba a que se cargaran todos los efectos.
+  Ahora `sound.js` pide la música primero y `precargar()` (motor.js) carga lo
+  demás después; `main.js` espera `esperarMusica(4000)` antes de quitar la
+  pantalla de carga. En la web sigue empezando con el primer toque.
+- Pruebas de pantallas nuevas: aviso de Grupal y versión en el inicio.
+  CLAUDE.md al día.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 131 bien; `npm run
+test:e2e`: 24 bien. Medición con Edge sin ventana, la app simulada como
+instalada y la CPU 6 veces más lenta: antes la carga se iba a los 2,3 s y la
+música empezaba a los 3,2 s; ahora la música empieza a los 2,88 s y la carga se
+va a los 2,93 s.
+
+**Qué quedó abierto:** que el usuario lo confirme en el celular.
+
+---
+
 ## 2026-10-10 — Sesión 7 (parte 2): menos texto, colores nuevos, ✕ roja y pruebas de pantallas
 
 **Pedido del usuario:** quitar el texto innecesario de la app (mostrando antes

@@ -1,5 +1,5 @@
 import { render } from "./router.js";
-import { initSound } from "./sound.js";
+import { initSound, esperarMusica } from "./sound.js";
 import { applySettings } from "./settings.js";
 import { initTapFeedback } from "./tapFeedback.js";
 import { esAppInstalada } from "./plataforma.js";
@@ -24,7 +24,9 @@ function hideLoader() {
 
 const minTime = new Promise((resolve) => setTimeout(resolve, 900));
 const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
-Promise.all([minTime, fontsReady]).then(hideLoader);
+// En la app instalada, la pantalla de carga se va cuando ya suena la música
+// (como mucho 4 segundos; en la web la música espera el primer toque).
+Promise.all([minTime, fontsReady, esperarMusica(4000)]).then(hideLoader);
 
 // En la app de Android (Capacitor) o en el .exe los archivos ya vienen dentro
 // de la app y el service worker sobra (ver plataforma.js).

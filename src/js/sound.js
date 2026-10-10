@@ -75,10 +75,20 @@ export function playTick(urgent) {
 }
 
 // ---------- Música ----------
+let primeraMusica = null; // la primera canción que se pidió (la espera la pantalla de carga)
 function musicaDePantalla() {
   if (!arrancada || !kindOn("music") || pantalla === "results") return;
-  musica(RONDAS.includes(pantalla) ? MUSICA.ronda : MUSICA.menu).catch((err) => console.warn("Música:", err));
+  const pedido = musica(RONDAS.includes(pantalla) ? MUSICA.ronda : MUSICA.menu).catch((err) => console.warn("Música:", err));
+  primeraMusica ??= pedido;
   if (pantalla !== "round") acelerar(false);
+}
+/**
+ * La app instalada abre con la música sonando (usuario, 10-10-2026): la
+ * pantalla de carga espera a que empiece, como mucho `maxMs`.
+ */
+export function esperarMusica(maxMs) {
+  if (!primeraMusica) return Promise.resolve();
+  return Promise.race([primeraMusica, new Promise((resolve) => setTimeout(resolve, maxMs))]);
 }
 /** router.js avisa cada vez que se dibuja una pantalla. */
 export function onScreen(screen) {
@@ -139,8 +149,10 @@ const CLIC = "button, select, #players-list input, input[type=text], #battle-car
 export function initSound() {
   musicaEncendida = kindOn("music");
   usarVolumenes(() => ({ efectos: volumen("effects") / 100, musica: volumen("music") / 100 }));
-  precargar(Object.values(EFECTOS).concat(TICK.map((f) => [{ f }])), Object.values(MUSICA));
-  if (esAppInstalada()) arrancar(); // la música suena apenas se abre la app
+  // En la app instalada la música suena apenas se abre, durante la pantalla de
+  // carga; los demás sonidos se cargan después, para no demorarla.
+  if (esAppInstalada()) arrancar();
+  precargar(Object.values(EFECTOS).concat(TICK.map((f) => [{ f }])), Object.values(MUSICA), primeraMusica ?? undefined);
   // Al salir de la app sin cerrarla no suena nada; al volver sigue donde iba
   alCambiarPrimerPlano((enSegundoPlano) => congelarAudio(enSegundoPlano));
   document.addEventListener("click", (e) => {

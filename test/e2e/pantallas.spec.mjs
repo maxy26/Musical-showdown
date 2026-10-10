@@ -51,8 +51,28 @@ test("Nombres repetidos: no deja confirmar", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Configurar partida" })).toBeVisible();
 });
 
+test("Grupal con menos de 4: avisa solo al confirmar", async ({ page }) => {
+  await page.locator('[data-battle="grupal"]').click();
+  await page.locator("#btn-play").click();
+  await expect(page.getByText(/se necesitan al menos 4/)).toHaveCount(0);
+  await page.locator("#players-list input").nth(0).fill("Ana");
+  await page.locator("#players-list input").nth(1).fill("Bruno");
+  await page.locator("#confirm-config").click();
+  await expect(page.getByText("Escribe al menos 4 nombres de jugador para jugar en Grupal (llevas 2).")).toBeVisible();
+});
+
 test("Ronda: sin el texto del modo arriba", async ({ page }) => {
   await configurarPartida(page, { jugadores: ["Ana", "Bruno"] });
   await palabraDeLaRonda(page);
   await expect(page.getByText(/MODO (INDIVIDUAL|GRUPAL)/)).toHaveCount(0);
+});
+
+test("Inicio: muestra la versión abajo a la derecha", async ({ page }) => {
+  const etiqueta = page.locator(".home-version-tag");
+  await expect(etiqueta).toHaveText(/^v\d+\.\d+$/);
+  await expect(etiqueta).toHaveCSS("opacity", "1"); // ya terminó la entrada de la pantalla
+  const caja = await etiqueta.boundingBox();
+  const vista = page.viewportSize();
+  expect(caja.x + caja.width).toBeGreaterThan(vista.width - 40);
+  expect(caja.y + caja.height).toBeGreaterThan(vista.height - 40);
 });

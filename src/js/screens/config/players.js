@@ -52,19 +52,16 @@ export function duplicateNameIndexes(names) {
 
 /**
  * Wire completo de la sección "Jugadores": alta/baja de filas, primera letra
- * de cada palabra en mayúscula al escribir (titleCaseName), y la nota en vivo
- * de Grupal (se necesitan 4+ jugadores escritos). El tipo de batalla se elige
+ * de cada palabra en mayúscula al escribir (titleCaseName), y la cantidad de
+ * nombres escritos. El tipo de batalla se elige
  * en el inicio y aquí nunca se cambia solo (opción A del usuario, 01-10-2026).
  */
 export function initPlayersSection(root, c) {
-  function refreshGroupAvailability() {
-    const typed = countTypedPlayers(c.players);
-    const note = root.querySelector("#group-note");
+  // Cantidad de nombres escritos, junto a "Jugadores". Si en Grupal faltan
+  // jugadores, se avisa al confirmar (index.js), no en la pantalla.
+  function refreshPlayerCount() {
     const cuenta = root.querySelector("#players-count");
-    if (cuenta) cuenta.textContent = typed;
-    if (!note) return;
-    note.hidden = !(c.battleType === "grupal" && typed < 4);
-    note.textContent = `Para jugar en Grupal se necesitan al menos 4 jugadores (llevas ${typed}).`;
+    if (cuenta) cuenta.textContent = countTypedPlayers(c.players);
   }
 
   // Nombres repetidos: los campos se marcan en rojo y aparece un mensaje
@@ -103,7 +100,7 @@ export function initPlayersSection(root, c) {
         e.target.value = titleCaseName(e.target.value);
         e.target.setSelectionRange(pos, pos);
         c.players[i] = e.target.value;
-        refreshGroupAvailability();
+        refreshPlayerCount();
         refreshDuplicates();
       };
       const removeBtn = row.querySelector("[data-remove]");
@@ -111,7 +108,7 @@ export function initPlayersSection(root, c) {
         removeBtn.onclick = () => {
           c.players.splice(i, 1);
           renderPlayers();
-          refreshGroupAvailability();
+          refreshPlayerCount();
         };
       }
       list.appendChild(row);
@@ -135,8 +132,8 @@ export function initPlayersSection(root, c) {
   root.querySelector("#add-player").onclick = () => {
     c.players.push("");
     renderPlayers(true);
-    refreshGroupAvailability();
+    refreshPlayerCount();
   };
 
-  return { refreshGroupAvailability, refreshDuplicates };
+  return { refreshPlayerCount, refreshDuplicates };
 }
