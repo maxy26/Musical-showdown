@@ -99,6 +99,21 @@ test("Ronda: sin el texto del modo arriba", async ({ page }) => {
   await expect(page.getByText(/MODO (INDIVIDUAL|GRUPAL)/)).toHaveCount(0);
 });
 
+test("Aviso que llega en una notificación: aparece en la campana sin esperar a GitHub", async ({ page }) => {
+  await expect(page.locator(".aviso-globito")).toBeHidden();
+  // Lo mismo que hace main.js al recibir una notificación (alRecibir)
+  await page.evaluate(async () => {
+    const { agregarAvisoRecibido, idsSinLeer } = await import("/js/avisos.js");
+    const { avisosLlegaron } = await import("/js/screens/menu.js");
+    const aviso = agregarAvisoRecibido(JSON.stringify({ id: "prueba-e2e", tipo: "promo", fecha: "2026-10-11",
+      titulo: "Aviso por notificación", texto: "Llegó sin esperar a GitHub" }), "1.0");
+    avisosLlegaron(idsSinLeer([aviso]));
+  });
+  await expect(page.locator(".aviso-globito")).toHaveText("1");
+  await page.locator("#btn-notifications").click();
+  await expect(page.getByRole("heading", { name: "Aviso por notificación" })).toBeVisible();
+});
+
 test("Inicio: muestra la versión abajo a la derecha", async ({ page }) => {
   const etiqueta = page.locator(".home-version-tag");
   await expect(etiqueta).toHaveText(/^v\d+\.\d+$/);

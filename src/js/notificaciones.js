@@ -10,7 +10,10 @@
  *     los de avisos/avisos.json con "importante": true. Los envía GitHub
  *     Actions con build/notificar.js; los demás quedan solo en la campana.
  *   - Con la app cerrada o en segundo plano, Android muestra la notificación
- *     solo. Al tocarla se abre la app con el panel de la campana.
+ *     solo; con la app abierta, también (presentationOptions de
+ *     capacitor.config.ts). Al tocarla se abre la app con el panel de la campana.
+ *   - La notificación trae el aviso: al recibirla con la app abierta, o al
+ *     tocarla, se agrega a la campana sin esperar a GitHub (avisos.js).
  *
  * Complementos: @capacitor/push-notifications (permiso y registro) y
  * @capacitor-community/fcm (temas), llamados con nativo() de plataforma.js.
@@ -59,12 +62,20 @@ async function activar(pedir) {
 }
 
 /**
- * Se llama al arrancar (main.js). `alTocar()` se llama cuando se abre la app
- * tocando una notificación.
+ * Se llama al arrancar (main.js). `alRecibir(datosDelAviso)` se llama con el
+ * aviso que trae la notificación (texto JSON, ver build/notificar.js) cuando
+ * llega con la app abierta o cuando se abre la app tocándola; después de
+ * tocarla se llama además a `alTocar()`.
  */
-export function iniciarNotificaciones(alTocar) {
+export function iniciarNotificaciones({ alRecibir, alTocar }) {
   if (!hayNotificaciones()) return;
-  window.Capacitor.nativeCallback("PushNotifications", "addListener", { eventName: "pushNotificationActionPerformed" }, () => alTocar());
+  const escuchar = (evento, fn) => window.Capacitor.nativeCallback("PushNotifications", "addListener", { eventName: evento }, fn);
+  escuchar("pushNotificationReceived", (n) => { if (n?.data?.aviso) alRecibir(n.data.aviso); });
+  escuchar("pushNotificationActionPerformed", (accion) => {
+    const datos = accion?.notification?.data?.aviso;
+    if (datos) alRecibir(datos);
+    alTocar();
+  });
 
   // Primera vez: se pide el permiso de Android. Después, solo se anota si ya está dado.
   const pedir = !yaSePidio();

@@ -47,12 +47,17 @@ async function tokenDeAcceso(cuenta) {
   return (await r.json()).access_token;
 }
 
-/** Mensaje de FCM para el tema de los avisos importantes. */
-function mensaje(titulo, texto) {
+/**
+ * Mensaje de FCM para el tema de los avisos importantes. `data.aviso` lleva el
+ * aviso completo: la app lo agrega a la campana al recibirlo, sin esperar a
+ * GitHub (agregarAvisoRecibido de src/js/avisos.js).
+ */
+function mensaje({ titulo, texto, aviso }) {
   return {
     message: {
       topic: TEMA,
       notification: { title: titulo, body: texto },
+      data: { aviso: JSON.stringify(aviso) },
       android: { priority: "high", notification: { channel_id: CANAL } },
     },
   };
@@ -61,7 +66,7 @@ function mensaje(titulo, texto) {
 async function enviar(avisos, prueba) {
   if (avisos.length === 0) { console.log("No hay avisos importantes nuevos para enviar."); return; }
   if (prueba) {
-    for (const a of avisos) console.log("[prueba] Enviaría:", JSON.stringify(mensaje(a.titulo, a.texto)));
+    for (const a of avisos) console.log("[prueba] Enviaría:", JSON.stringify(mensaje(a)));
     return;
   }
   if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
@@ -74,7 +79,7 @@ async function enviar(avisos, prueba) {
     const r = await fetch(`https://fcm.googleapis.com/v1/projects/${cuenta.project_id}/messages:send`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(mensaje(a.titulo, a.texto)),
+      body: JSON.stringify(mensaje(a)),
     });
     if (!r.ok) throw new Error(`Firebase rechazó "${a.titulo}" (${r.status}): ${await r.text()}`);
     console.log(`✔ Enviada: ${a.titulo}`);
@@ -93,11 +98,14 @@ async function principal() {
   const avisosJs = await import(pathToFileURL(path.join(__dirname, "..", "src", "js", "avisos.js")).href);
 
   if (modo === "version" && resto[0]) {
-    const version = resto[0].replace(/^v/i, "");
-    await enviar([{ titulo: `Versión ${version} disponible`, texto: "Toca para ver la novedad y descargarla." }], prueba);
+    // Se envía después de publicar la Release (compilar.yml): el botón ya puede descargarla.
+    // El texto es el de la primera línea de la Release (mismo que muestra la campana).
+    const aviso = avisosJs.avisoDeVersion({ tag: resto[0], fecha: new Date().toISOString(),
+      texto: "Nueva versión de Musical Showdown: descarga el APK para Android o el .exe para Windows." });
+    await enviar([{ titulo: aviso.titulo, texto: "Toca para ver la novedad y descargarla.", aviso }], prueba);
   } else if (modo === "avisos" && resto.length === 2) {
     const nuevos = avisosJs.importantesNuevos(leerJson(resto[0]), leerJson(resto[1]));
-    await enviar(nuevos.map((a) => ({ titulo: a.titulo, texto: a.texto || "Toca para verlo." })), prueba);
+    await enviar(nuevos.map((aviso) => ({ titulo: aviso.titulo, texto: aviso.texto || "Toca para verlo.", aviso })), prueba);
   } else {
     console.error("Uso: node build/notificar.js version v1.15 | avisos <antes.json> <ahora.json> [--prueba]");
     process.exit(1);

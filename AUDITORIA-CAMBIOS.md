@@ -13,6 +13,44 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 10): el aviso viaja dentro de la notificación
+
+**Pruebas en el celular (1.18):** la Prueba 1 llegó con la app cerrada y con el
+ícono ♫; la Prueba 2 llegó con la app abierta. Las dos se enviaron directo
+desde la PC (sin `avisos.json`), por eso no aparecieron en la campana.
+
+**Pedido del usuario:** que lo que llega como notificación cuente en la campana
+sin esperar a GitHub (revisa cada 3 minutos y `avisos.json` puede tardar unos 5
+en verse). Preguntó si con las actualizaciones se puede descargar enseguida:
+sí, porque la notificación de versión se envía después de publicar la Release.
+
+**Qué se hizo:**
+- `build/notificar.js`: cada mensaje lleva `data.aviso` (el aviso completo en
+  JSON). La versión usa `avisoDeVersion()` (mismo id `version-vX` que la
+  campana, con el botón "⬇️ Descargar" a la Release).
+- `avisos.js`: `avisoDeVersion()` (lo usan la campana y la notificación),
+  `avisoRecibido()`, `unirConRecibidos()` y `agregarAvisoRecibido()`. Los
+  recibidos se guardan aparte (`avisos-recibidos`) por 24 horas; después manda
+  GitHub. Uno de una versión ya instalada no se agrega.
+- `notificaciones.js`: escucha `pushNotificationReceived` (app abierta) y
+  `pushNotificationActionPerformed` (al tocarla); `main.js` agrega el aviso y
+  actualiza el globito.
+- Pruebas: 3 nuevas en `avisos.test.js` y una de pantallas (aviso recibido →
+  globito "1" → aparece en la campana).
+
+**Cómo se verificó:** lint sin errores; `npm test`: 141 bien; `npm run
+test:e2e`: 30 bien; `notificar.js version v1.19 --prueba` muestra el aviso en
+`data`; `build:apk` y `build:desktop` sin errores.
+
+**Publicación:** versión **1.19** (`npm run android:release`: versionCode
+19 → 20, misma firma, `dist/MusicalShowdown-v1.19.apk`), commit, etiqueta
+`v1.19` y envío a GitHub.
+
+**Qué quedó abierto:** con la 1.19 instalada, probar en el celular que el
+aviso aparezca en la campana con la app abierta y al tocar la notificación.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 9): notificaciones con la app abierta
 
 **Problema:** la notificación de prueba del ícono no apareció. Firebase la

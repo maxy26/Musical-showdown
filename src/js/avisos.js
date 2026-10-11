@@ -16,6 +16,7 @@ export const URL_VERSIONES = "https://api.github.com/repos/maxy26/Musical-showdo
 export const URL_AVISOS = "https://raw.githubusercontent.com/maxy26/Musical-showdown/main/avisos/avisos.json";
 const CLAVE_GUARDADOS = "musical-showdown:avisos";
 const CLAVE_LEIDOS = "musical-showdown:avisos-leidos";
+const CLAVE_RECIBIDOS = "musical-showdown:avisos-recibidos"; // [{ aviso, recibido }] (ver agregarAvisoRecibido)
 
 export const TIPOS = {
   version: { icono: "⬆️", nombre: "Actualización" },
@@ -53,20 +54,29 @@ function primeraLinea(texto) {
   return (linea || "").replace(/^[-+*] /, "").replace(/[*_`]/g, "").trim();
 }
 
+/**
+ * Aviso de una versión publicada. Lo usan la campana (versiones de GitHub) y la
+ * notificación de la versión nueva (build/notificar.js), con el mismo id: así
+ * el aviso no se repite cuando llega por los dos lados.
+ */
+export function avisoDeVersion({ tag, fecha, texto, url }) {
+  return {
+    id: "version-" + tag,
+    tipo: "version",
+    fecha: String(fecha || "").slice(0, 10),
+    titulo: `Versión ${tag.replace(/^v/i, "")} disponible`,
+    texto: texto || "Hay una versión nueva del juego.",
+    boton: { texto: "⬇️ Descargar", url: url || `https://github.com/maxy26/Musical-showdown/releases/tag/${tag}` },
+    importante: true, // las actualizaciones siempre son importantes (salen fuera de la app)
+  };
+}
+
 /** Versiones publicadas (respuesta de GitHub) más nuevas que la instalada → avisos. */
 export function avisosDeVersiones(releases, versionInstalada) {
   return (Array.isArray(releases) ? releases : [])
     .filter((r) => !r.draft && !r.prerelease && compararVersiones(r.tag_name, versionInstalada) > 0)
     .slice(0, 1) // solo la más nueva
-    .map((r) => ({
-      id: "version-" + r.tag_name,
-      tipo: "version",
-      fecha: (r.published_at || "").slice(0, 10),
-      titulo: `Versión ${r.tag_name.replace(/^v/i, "")} disponible`,
-      texto: primeraLinea(r.body) || "Hay una versión nueva del juego.",
-      boton: { texto: "⬇️ Descargar", url: r.html_url },
-      importante: true, // las actualizaciones siempre son importantes (salen fuera de la app)
-    }));
+    .map((r) => avisoDeVersion({ tag: r.tag_name, fecha: r.published_at, texto: primeraLinea(r.body), url: r.html_url }));
 }
 
 /** Avisos del archivo avisos.json, solo los que tienen lo necesario. */
@@ -91,6 +101,36 @@ export function importantesNuevos(antes, ahora) {
 /** Junta y ordena (los más nuevos arriba). */
 export function unirAvisos(...listas) {
   return listas.flat().sort((a, b) => b.fecha.localeCompare(a.fecha));
+}
+
+// ---------- Avisos que llegan dentro de una notificación (usuario, 11-10-2026) ----------
+// La notificación trae el aviso completo (build/notificar.js) y la app lo agrega
+// a la campana al recibirla, sin esperar a GitHub (avisos.json puede tardar unos
+// minutos en verse). Se guardan HORAS_RECIBIDOS horas; después manda lo que
+// diga GitHub (si el aviso se borró de avisos.json, deja de verse).
+export const HORAS_RECIBIDOS = 24;
+
+/** El aviso que viene en una notificación (texto JSON) → aviso, o null si no sirve. */
+export function avisoRecibido(datos) {
+  let a;
+  try { a = typeof datos === "string" ? JSON.parse(datos) : datos; } catch { return null; }
+  if (!a || !a.id || !TIPOS[a.tipo] || !a.titulo || !/^\d{4}-\d{2}-\d{2}/.test(a.fecha || "")) return null;
+  return { id: String(a.id), tipo: a.tipo, fecha: a.fecha.slice(0, 10), titulo: a.titulo, texto: a.texto || "",
+    boton: a.boton?.texto && a.boton?.url ? { texto: a.boton.texto, url: a.boton.url } : null, importante: true };
+}
+
+/**
+ * Suma a `avisos` los recibidos por notificación que todavía valen: de menos de
+ * HORAS_RECIBIDOS horas, que no estén ya en la lista y, si son de una versión,
+ * más nueva que la instalada.
+ */
+export function unirConRecibidos(avisos, recibidos, versionInstalada, ahora = Date.now()) {
+  const ids = new Set(avisos.map((a) => a.id));
+  const extra = (Array.isArray(recibidos) ? recibidos : [])
+    .filter((r) => r && r.aviso && ahora - r.recibido < HORAS_RECIBIDOS * 3600 * 1000 && !ids.has(r.aviso.id))
+    .filter((r) => r.aviso.tipo !== "version" || compararVersiones(r.aviso.id.replace(/^version-/, ""), versionInstalada) > 0)
+    .map((r) => r.aviso);
+  return extra.length ? unirAvisos(avisos, extra) : avisos;
 }
 
 // ---------- Red y almacenamiento ----------
@@ -120,8 +160,9 @@ let estado = null; // { avisos, sinRed }
 export async function cargarAvisos(versionInstalada, forzar = false) {
   if (estado && !forzar) return estado;
   const [versiones, archivo] = await Promise.allSettled([traer(URL_VERSIONES), traer(URL_AVISOS)]);
+  const recibidos = leer(CLAVE_RECIBIDOS, []);
   if (versiones.status === "rejected" && archivo.status === "rejected") {
-    estado = { avisos: leer(CLAVE_GUARDADOS, []), sinRed: true };
+    estado = { avisos: unirConRecibidos(leer(CLAVE_GUARDADOS, []), recibidos, versionInstalada), sinRed: true };
     return estado;
   }
   const guardados = leer(CLAVE_GUARDADOS, []);
@@ -129,9 +170,28 @@ export async function cargarAvisos(versionInstalada, forzar = false) {
     : guardados.filter((a) => a.tipo === "version");
   const delArchivo = archivo.status === "fulfilled" ? avisosDelArchivo(archivo.value)
     : guardados.filter((a) => a.tipo !== "version");
-  estado = { avisos: unirAvisos(deVersiones, delArchivo), sinRed: false };
-  guardar(CLAVE_GUARDADOS, estado.avisos);
+  const deGitHub = unirAvisos(deVersiones, delArchivo);
+  guardar(CLAVE_GUARDADOS, deGitHub); // los recibidos por notificación se guardan aparte
+  estado = { avisos: unirConRecibidos(deGitHub, recibidos, versionInstalada), sinRed: false };
   return estado;
+}
+
+/**
+ * Agrega a la campana el aviso que llegó dentro de una notificación. Devuelve el
+ * aviso si quedó en la campana (no, por ejemplo, si es de una versión que ya
+ * está instalada), o null.
+ */
+export function agregarAvisoRecibido(datos, versionInstalada) {
+  const aviso = avisoRecibido(datos);
+  if (!aviso) return null;
+  const ahora = Date.now();
+  const recibidos = leer(CLAVE_RECIBIDOS, [])
+    .filter((r) => r?.aviso && r.aviso.id !== aviso.id && ahora - r.recibido < HORAS_RECIBIDOS * 3600 * 1000);
+  recibidos.push({ aviso, recibido: ahora });
+  guardar(CLAVE_RECIBIDOS, recibidos);
+  const actual = avisosActuales();
+  estado = { ...actual, avisos: unirConRecibidos(actual.avisos, recibidos, versionInstalada, ahora) };
+  return estado.avisos.some((a) => a.id === aviso.id) ? aviso : null;
 }
 /** Avisos ya cargados (o los guardados, si todavía no se cargaron). */
 export function avisosActuales() {

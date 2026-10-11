@@ -3,7 +3,7 @@ import { initSound, esperarMusica } from "./sound.js";
 import { applySettings } from "./settings.js";
 import { initTapFeedback } from "./tapFeedback.js";
 import { esAppInstalada } from "./plataforma.js";
-import { revisarAvisosSeguido } from "./avisos.js";
+import { revisarAvisosSeguido, agregarAvisoRecibido, idsSinLeer } from "./avisos.js";
 import { avisosLlegaron } from "./screens/menu.js";
 import { APP_VERSION } from "./version.js";
 import { iniciarTeclado } from "./teclado.js";
@@ -30,10 +30,18 @@ const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
 // (como mucho 4 segundos; en la web la música espera el primer toque).
 Promise.all([minTime, fontsReady, esperarMusica(4000)]).then(() => {
   hideLoader();
-  // Android: la primera vez pregunta si se quieren notificaciones (notificaciones.js).
-  // Al abrir la app tocando una, se muestra la campana si se está en el inicio.
-  iniciarNotificaciones(() => {
-    if (state.screen === "menu") document.querySelector("#btn-notifications")?.click();
+  // Android: la primera vez pide el permiso de notificaciones (notificaciones.js).
+  // El aviso que trae una notificación se agrega a la campana (globito y campana
+  // que se sacude); al abrir la app tocándola, se muestra la campana si se está
+  // en el inicio.
+  iniciarNotificaciones({
+    alRecibir: (datos) => {
+      const aviso = agregarAvisoRecibido(datos, APP_VERSION);
+      if (aviso) avisosLlegaron(idsSinLeer([aviso]));
+    },
+    alTocar: () => {
+      if (state.screen === "menu") document.querySelector("#btn-notifications")?.click();
+    },
   });
 });
 
