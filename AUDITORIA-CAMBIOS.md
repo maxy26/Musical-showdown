@@ -13,6 +13,33 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 8): ícono de las notificaciones
+
+**Pedido del usuario:** le llegaron la notificación de prueba y "Versión 1.16
+disponible", pero el ícono chico salía como un cuadrado blanco o gris.
+
+**Qué se hizo:** `res/drawable/ic_notificacion.xml` (dibujo vectorial de dos
+corcheas ♫, un solo color, como pide Android), `colorNotificacion` (#FFD23F,
+dorado del juego) en `res/values/colors.xml`, y en `AndroidManifest.xml` los
+meta-data `default_notification_icon` y `default_notification_color` de
+Firebase. Antes se revisó una vista previa: la primera versión del dibujo tenía
+un corte en las cabezas de las notas (trazos en sentidos opuestos) y se
+corrigió.
+
+**Cómo se verificó:** `build:apk` sin errores; `aapt dump xmltree`: los dos
+meta-data están en el manifiesto del APK.
+
+**Publicación:** versión **1.17** (`npm run android:release`: versionCode
+17 → 18, misma firma, `dist/MusicalShowdown-v1.17.apk`), commit, etiqueta
+`v1.17` y envío a GitHub.
+
+**Qué quedó abierto:** que el usuario confirme el ícono con la notificación
+"Versión 1.17 disponible". También se le explicó que la clave de firma de Android **no** está en
+git (está en `platforms/android/keystore/`, fuera de git, y como secreto en
+GitHub) y que conviene guardar los dos `.json` de Firebase en OneDrive.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 7): notificación de prueba recibida
 
 **Resultado:** el usuario confirmó que le llegó al celular la notificación de

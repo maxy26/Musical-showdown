@@ -60,6 +60,13 @@
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
+- [ ] 🔴 **Guardar en OneDrive los dos archivos de Firebase** (11-10-2026):
+  `google-services.json` y la clave privada
+  `musical-showdown-4542a-firebase-adminsdk-….json` siguen en Descargas. Los
+  secretos de GitHub no se pueden volver a descargar, así que no sirven de
+  copia. La clave privada conviene guardarla en el Almacén personal de OneDrive.
+  Después, borrarlos de Descargas (la copia que usa el proyecto está en
+  `platforms/android/android/app/`).
 - [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
   **07-10-2026: el usuario ya subió una copia a la nube**; falta protegerla con
   contraseña (Almacén personal de OneDrive o un ZIP con 7-Zip y AES-256), porque
@@ -116,10 +123,10 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟢 **Revisar el ícono chico de las notificaciones** (10-10-2026). Android
-  usa el ícono de la app; si en la barra sale un cuadrado blanco o gris, hay que
-  hacer un ícono de una sola tinta (`default_notification_icon`). Preguntarle
-  al usuario cómo se ve.
+- [ ] 🟢 **Revisar el ícono chico de las notificaciones** (10-10-2026). Salía
+  como un cuadrado blanco o gris; el 11-10-2026 se hizo `ic_notificacion.xml`
+  (♫, dorado). Falta publicarlo en una versión y que el usuario confirme cómo se
+  ve en el celular.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
