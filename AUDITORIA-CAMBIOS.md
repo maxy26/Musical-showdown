@@ -13,6 +13,34 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 9): notificaciones con la app abierta
+
+**Problema:** la notificación de prueba del ícono no apareció. Firebase la
+aceptó, pero el usuario tenía la app abierta en pantalla: en ese caso Android
+no la muestra y se la pasa a la app, y `@capacitor/push-notifications` solo la
+muestra si `presentationOptions` incluye `"alert"` (revisado en
+`PushNotificationsPlugin.fireNotification`). "Versión 1.17 disponible" sí le
+llegó (con la app cerrada).
+
+**Decisión del usuario:** que los avisos importantes salgan arriba también con
+la app abierta.
+
+**Qué se hizo:** `platforms/android/capacitor.config.ts`:
+`plugins.PushNotifications.presentationOptions: ['alert', 'sound']`.
+`CLAUDE.md` al día.
+
+**Cómo se verificó:** `build:apk` sin errores; la opción está en
+`assets/capacitor.config.json` del APK. En el celular, cuando se publique.
+
+**Publicación:** versión **1.18** (`npm run android:release`: versionCode
+18 → 19, misma firma, `dist/MusicalShowdown-v1.18.apk`), commit, etiqueta
+`v1.18` y envío a GitHub.
+
+**Qué quedó abierto:** con la 1.18 instalada, mandar dos pruebas (app cerrada y
+app abierta) y que el usuario confirme el ícono.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 8): ícono de las notificaciones
 
 **Pedido del usuario:** le llegaron la notificación de prueba y "Versión 1.16
@@ -33,8 +61,13 @@ meta-data están en el manifiesto del APK.
 17 → 18, misma firma, `dist/MusicalShowdown-v1.17.apk`), commit, etiqueta
 `v1.17` y envío a GitHub.
 
-**Qué quedó abierto:** que el usuario confirme el ícono con la notificación
-"Versión 1.17 disponible". También se le explicó que la clave de firma de Android **no** está en
+GitHub Actions compiló y publicó la Release v1.17 sin errores. Con la 1.17
+instalada, se envió una notificación de prueba ("🔔 Prueba del ícono")
+directo desde la PC con `build/notificar.js avisos` (archivos temporales en el
+scratchpad y la clave de Descargas en una variable de entorno que se borró
+después), sin tocar `avisos.json`. Firebase respondió "Enviada".
+
+**Qué quedó abierto:** que el usuario confirme cómo se ve el ícono. También se le explicó que la clave de firma de Android **no** está en
 git (está en `platforms/android/keystore/`, fuera de git, y como secreto en
 GitHub) y que conviene guardar los dos `.json` de Firebase en OneDrive.
 
