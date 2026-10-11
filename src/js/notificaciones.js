@@ -1,9 +1,11 @@
 /**
  * Notificaciones fuera de la app (pedido del usuario, 10-10-2026). Solo en la
  * app de Android, con Firebase Cloud Messaging:
- *   - Al abrir la app por primera vez se pregunta una sola vez si se quieren
- *     recibir. Con "Sí" se pide el permiso del sistema (Android 13+), se
- *     registra el celular y se anota en el tema TEMA.
+ *   - Al abrir la app por primera vez se pide directamente el permiso del
+ *     sistema (Android 13+), una sola vez y sin ventana propia del juego
+ *     (usuario, 11-10-2026). Con el permiso dado, se registra el celular y se
+ *     anota en el tema TEMA en cada arranque; si se da después desde los
+ *     ajustes del celular, también.
  *   - Lo que llega a ese tema son los avisos importantes: las actualizaciones y
  *     los de avisos/avisos.json con "importante": true. Los envía GitHub
  *     Actions con build/notificar.js; los demás quedan solo en la campana.
@@ -14,14 +16,14 @@
  * @capacitor-community/fcm (temas), llamados con nativo() de plataforma.js.
  */
 import { nativo } from "./plataforma.js";
-import { showConfirm } from "./screens/modals.js";
 import { CON_FIREBASE } from "./version.js";
 
 export const TEMA = "importantes";
-const CLAVE = "musical-showdown:notificaciones"; // "si" | "no" (ya se preguntó)
+// Con cualquier valor, el permiso ya se pidió (la 1.15 guardaba "si" / "no")
+const CLAVE = "musical-showdown:notificaciones";
 
-function leer() {
-  try { return window.localStorage.getItem(CLAVE); } catch { return null; }
+function yaSePidio() {
+  try { return window.localStorage.getItem(CLAVE) !== null; } catch { return true; }
 }
 function guardar(valor) {
   try { window.localStorage.setItem(CLAVE, valor); } catch { /* sin almacenamiento */ }
@@ -39,10 +41,13 @@ function hayNotificaciones() {
   return nombres.includes("PushNotifications") && nombres.includes("FCM");
 }
 
-/** Pide el permiso, registra el celular y lo anota en el tema de los avisos importantes. */
-async function activar() {
+/**
+ * Con permiso, registra el celular y lo anota en el tema de los avisos
+ * importantes. Con `pedir`, si no hay permiso, lo pide (ventana de Android).
+ */
+async function activar(pedir) {
   let { receive } = await nativo("PushNotifications", "checkPermissions");
-  if (receive !== "granted") ({ receive } = await nativo("PushNotifications", "requestPermissions"));
+  if (receive !== "granted" && pedir) ({ receive } = await nativo("PushNotifications", "requestPermissions"));
   if (receive !== "granted") return;
   // Canal con prioridad alta: la notificación aparece arriba de la pantalla
   // (mismo id que usa build/notificar.js)
@@ -61,17 +66,8 @@ export function iniciarNotificaciones(alTocar) {
   if (!hayNotificaciones()) return;
   window.Capacitor.nativeCallback("PushNotifications", "addListener", { eventName: "pushNotificationActionPerformed" }, () => alTocar());
 
-  const respuesta = leer();
-  // Ya dijo que sí: se vuelve a anotar en cada arranque (por si cambió el registro)
-  if (respuesta === "si") { activar().catch(() => {}); return; }
-  if (respuesta === "no") return;
-  // Primera vez: se pregunta una sola vez (usuario, 10-10-2026). "Ahora no" no vuelve a preguntar.
-  guardar("no");
-  showConfirm({
-    title: "¿Activar notificaciones?",
-    message: "Te avisaremos cuando haya una versión nueva del juego.",
-    yesText: "Sí",
-    noText: "Ahora no",
-    onYes: () => { guardar("si"); activar().catch(() => {}); },
-  });
+  // Primera vez: se pide el permiso de Android. Después, solo se anota si ya está dado.
+  const pedir = !yaSePidio();
+  if (pedir) guardar("pedido");
+  activar(pedir).catch(() => {});
 }

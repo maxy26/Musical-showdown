@@ -13,6 +13,35 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 6): permiso de notificaciones sin ventana propia
+
+**Pedido del usuario:** al instalar la 1.15 vio primero "¿Activar
+notificaciones?" (ventana del juego) y después el permiso de Android. Quiere
+solo el permiso de Android.
+
+**Qué se hizo:** `notificaciones.js`: sin `showConfirm`; la primera vez se pide
+directo el permiso de Android (una sola vez). En los arranques siguientes solo
+se anota el celular si el permiso ya está dado (también si se da después desde
+los ajustes del celular). Compatible con lo que guardaba la 1.15. `CLAUDE.md`
+al día. Se guardó como preferencia: pedir permisos sin ventana propia.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 138 bien; `npm run
+test:e2e`: 28 bien; `build:apk` y `build:desktop` sin errores. En el celular,
+cuando se publique la próxima versión.
+
+**Publicación:** con la app cerrada en el celular del usuario, se publicó la
+**1.16** (`npm run android:release`: versionCode 16 → 17, misma firma,
+`dist/MusicalShowdown-v1.16.apk`) junto con el aviso de prueba
+`prueba-notificacion-1` (`"importante": true`) en `avisos.json`. Al subir a
+`main` se envía el aviso, y al subir la etiqueta `v1.16`, "Versión 1.16
+disponible".
+
+**Qué quedó abierto:** que el usuario confirme si le llegaron las dos
+notificaciones con la app cerrada; después, borrar el aviso de prueba de
+`avisos.json`.
+
+---
+
 ## 2026-10-10 — Sesión 8 (parte 5): Firebase configurado y versión 1.15
 
 **Qué se hizo:** el usuario creó el proyecto de Firebase

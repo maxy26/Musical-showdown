@@ -1,5 +1,13 @@
 [
   {
+    "id": "prueba-notificacion-1",
+    "tipo": "novedad",
+    "fecha": "2026-10-11",
+    "titulo": "🔔 Notificación de prueba",
+    "texto": "Si ves esto fuera de la app, las notificaciones funcionan.",
+    "importante": true
+  },
+  {
     "id": "bienvenida-avisos",
     "tipo": "novedad",
     "fecha": "2026-10-07",
