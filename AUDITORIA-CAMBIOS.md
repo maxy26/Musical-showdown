@@ -13,6 +13,50 @@
 
 ---
 
+## 2026-10-10 — Sesión 8 (parte 2): versión 1.14 publicada
+
+**Pedido del usuario:** commit y publicar la 1.14 con los géneros nuevos.
+`npm run android:release`: versionCode 14 → 15, versionName 1.14, misma firma
+del proyecto (SHA-256 e0e0a02f…), `dist/MusicalShowdown-v1.14.apk`. Después el
+commit, la etiqueta `v1.14` y el envío a GitHub para que Actions compile y
+publique la Release (así la app instalada avisa de la actualización).
+
+---
+
+## 2026-10-10 — Sesión 8: géneros con "Todos" y "Más"
+
+**Pedido del usuario:** en vez de un botón "Seleccionar todos", dos botones:
+"Todos" (marca todos los géneros disponibles; predeterminado) y "Más" (hoja con
+el estilo de "Modos de juego" que muestra cada género con artistas de ejemplo).
+Con "Más", en Clásico y Alternativo 1 se elige un solo género; en Alternativo 2,
+uno o varios. También pidió que todo lo que ve (preguntas, permisos y
+descripciones de comandos) esté en español.
+
+**Qué se hizo:**
+- `screens/config/genres.js` (nuevo): botones `#genres-all` / `#genres-more`
+  (el de "Más" muestra lo elegido: "Más: Rock"), hoja "Elige un género" (tocar
+  un género lo elige y cierra) o "Elige uno o varios géneros" en Alternativo 2
+  (se marcan y se confirma con "Listo (N)"; si estaba "Todos", se parte de
+  cero). `fixGenresForMode()` vuelve a "Todos" si quedaron varios géneros
+  (no todos) fuera de Alternativo 2, o ninguno.
+- `data/songs.js`: `availableGenres()` (géneros con canciones) y
+  `genreArtists()` (artistas de la base de ejemplo, sin repetir).
+- `state.js`: los géneros empiezan en "Todos" (antes, solo Pop).
+- `screens/config/index.js`: usa el módulo nuevo. `css/styles.css`: colores de
+  "Todos" / "Más" y de cada género en la hoja; se quitaron los colores de las
+  fichas viejas. `sw.js`: archivo nuevo en `ASSETS`, caché v21.
+- Pruebas: `test/generos.test.js` (5) y 2 pruebas de pantallas nuevas.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 136 bien, 1 pendiente
+conocido; `npm run test:e2e`: 28 bien. Capturas en celular y PC: la primera
+mostraba "✓ Elegido" en todos los géneros (el CSS de `.home-tag` le ganaba a
+`hidden`); corregido y cubierto por la prueba. `build:desktop` y `build:apk`
+sin errores (`dist/windows/Musical Showdown.exe`, `dist/android/Musical-Showdown.apk`).
+
+**Qué quedó abierto:** que el usuario lo vea en el `.exe` y en el celular.
+
+---
+
 ## 2026-10-10 — Sesión 7 (parte 4): versión 1.13 publicada
 
 **Pedido del usuario:** el APK 1.12 instalado no avisaba de una actualización.

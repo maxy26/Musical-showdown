@@ -1,5 +1,4 @@
 import { state } from "../../state.js";
-import { GENRES, genreName } from "../../data/songs.js";
 import { el } from "../../utils.js";
 import { render } from "../../router.js";
 import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
@@ -13,6 +12,7 @@ import { modesFor, modeName, usesRoundTime, allowsNoTime, DEFAULT_ROUND_TIME } f
 import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
 import { countTypedPlayers, initPlayersSection, cleanName, padPlayers, fitPlayers } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
+import { genresFieldHTML, bindGenres, fixGenresForMode } from "./genres.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
 
 /**
@@ -45,6 +45,7 @@ export function screenConfig() {
   const typedCount = countTypedPlayers(c.players);
   const isGroup = c.battleType === "grupal";
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
+  c.genres = fixGenresForMode(c.genres, c.mode); // varios géneros solo en Alternativo 2
 
   const root = el(`<div class="screen">
     <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
@@ -59,9 +60,7 @@ export function screenConfig() {
 
       <div class="field">
         <label>Géneros musicales</label>
-        <div class="chip-group" id="genres">
-          ${GENRES.map((g) => `<button class="chip ${c.genres.includes(g) ? "active" : ""}" data-genre="${g}">${genreName(g)}</button>`).join("")}
-        </div>
+        ${genresFieldHTML(c)}
       </div>
 
       <!-- Opciones en filas compactas: nombre a la izquierda, control a la derecha (03-10-2026) -->
@@ -159,12 +158,7 @@ export function screenConfig() {
   };
 
   // ---------- Géneros y opciones de Alternativo 2 ----------
-  root.querySelectorAll("[data-genre]").forEach((b) => (b.onclick = () => {
-    const g = b.dataset.genre;
-    if (c.genres.includes(g)) c.genres = c.genres.filter((x) => x !== g);
-    else c.genres.push(g);
-    render();
-  }));
+  bindGenres(root, c, render);
 
   // Alternativo 2: multiplicadores, intentos, puntos y relevos (alt2Options.js).
   // En Alternativo 1 los multiplicadores ya no se eligen: siempre están activos.

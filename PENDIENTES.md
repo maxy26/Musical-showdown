@@ -120,10 +120,6 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟡 **Botón "Seleccionar todos" en Géneros musicales** (pedido del usuario,
-  08-10-2026). Un botón más en la lista de géneros de "Configurar partida"
-  que marque todos los disponibles. El usuario quiere profundizarlo después
-  (por ejemplo, qué cuenta como "disponible" y si el mismo botón desmarca).
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -196,6 +192,11 @@
 
 ## ✅ Resueltos
 
+- [x] **Botón "Seleccionar todos" en Géneros musicales** (pedido del usuario,
+  08-10-2026; resuelto 10-10-2026). Quedó como dos botones: "Todos"
+  (predeterminado) y "Más" (hoja con cada género y artistas de ejemplo; uno
+  solo en Clásico y Alternativo 1, varios en Alternativo 2). Ver la auditoría
+  del 10-10-2026 (sesión 8).
 - [x] **Quitar el texto innecesario, colores nuevos y ✕ roja** (pedido del
   usuario, 10-10-2026; resuelto 10-10-2026). Aprobado sobre una maqueta "antes /
   después" de 16 pantallas. Ver la auditoría del 10-10-2026 (parte 2).

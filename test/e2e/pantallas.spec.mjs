@@ -61,6 +61,38 @@ test("Grupal con menos de 4: avisa solo al confirmar", async ({ page }) => {
   await expect(page.getByText("Escribe al menos 4 nombres de jugador para jugar en Grupal (llevas 2).")).toBeVisible();
 });
 
+test("Géneros en Clásico: 'Todos' por defecto y 'Más' elige uno solo", async ({ page }) => {
+  await page.locator("#btn-play").click();
+  await expect(page.locator("#genres-all")).toHaveClass(/active/);
+  await page.locator("#genres-more").click();
+  await expect(page.getByRole("heading", { name: "Elige un género" })).toBeVisible();
+  await expect(page.locator('.genre-item[data-genre="salsa"]')).toContainText("Marc Anthony");
+  await expect(page.locator(".genre-item.is-chosen")).toHaveCount(0); // con "Todos" no hay uno elegido
+  await expect(page.locator('.genre-item[data-genre="pop"] .home-tag')).toBeHidden();
+  await page.locator('.genre-item[data-genre="rock"]').click();
+  await expect(page.locator("#genres-more")).toHaveText("Más: Rock");
+  await expect(page.locator("#genres-all")).not.toHaveClass(/active/);
+  await page.locator("#genres-all").click();
+  await expect(page.locator("#genres-all")).toHaveClass(/active/);
+  await expect(page.locator("#genres-more")).toHaveText("Más");
+});
+
+test("Géneros en Alternativo 2: 'Más' elige varios", async ({ page }) => {
+  await page.locator("#btn-modes").click();
+  await page.getByRole("button", { name: /Elegir Alternativo 2/ }).click();
+  await page.locator("#btn-play").click();
+  await page.locator("#genres-more").click();
+  await expect(page.getByRole("heading", { name: "Elige uno o varios géneros" })).toBeVisible();
+  await expect(page.locator("#genres-done")).toBeDisabled();
+  await page.locator('.genre-item[data-genre="pop"]').click();
+  await page.locator('.genre-item[data-genre="salsa"]').click();
+  await expect(page.locator(".genre-item.is-chosen")).toHaveCount(2);
+  await expect(page.locator('.genre-item[data-genre="salsa"] .home-tag')).toBeVisible();
+  await expect(page.locator("#genres-done")).toHaveText("Listo (2)");
+  await page.locator("#genres-done").click();
+  await expect(page.locator("#genres-more")).toHaveText("Más: Pop, Salsa");
+});
+
 test("Ronda: sin el texto del modo arriba", async ({ page }) => {
   await configurarPartida(page, { jugadores: ["Ana", "Bruno"] });
   await palabraDeLaRonda(page);

@@ -88,3 +88,14 @@ const GENRE_NAMES = {
 export function genreName(id) {
   return GENRE_NAMES[id] || id;
 }
+
+/** Géneros que tienen al menos una canción (los que marca "Todos"). */
+export function availableGenres() {
+  return GENRES.filter((g) => SONG_DB.some((s) => s.genre === g));
+}
+
+/** Artistas de ejemplo de un género, sin repetir (para la hoja "Más"). */
+export function genreArtists(id, max = 4) {
+  const artists = [...new Set(SONG_DB.filter((s) => s.genre === id).map((s) => s.artist))];
+  return artists.slice(0, max);
+}

@@ -4,6 +4,7 @@
  * y `resetState()` para reiniciarlo (nueva partida / volver al inicio).
  */
 import { ALT2_DEFAULTS } from "./screens/config/modes.js";
+import { availableGenres } from "./data/songs.js";
 
 function freshState() {
   return {
@@ -12,7 +13,7 @@ function freshState() {
       players: ["", ""],
       battleType: "individual", // individual | grupal
       mode: "clasico", // clasico | alternativo1 | alternativo2 (reglas: CONTEXTO, sección 3)
-      genres: ["pop"],
+      genres: availableGenres(), // "Todos" es lo predeterminado (usuario, 10-10-2026; ver config/genres.js)
       targetScore: 2000,
       targetScoreMode: "preset", // "preset" | "custom"
       roundTime: 30, // 0 = sin tiempo

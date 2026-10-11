@@ -838,14 +838,19 @@ select{pointer-events:none;}
 .field label{color:var(--gold);}
 /* Resumen (Individual · Clásico) con el color del tipo de batalla */
 .config-summary{background:linear-gradient(135deg,var(--individual-from),var(--individual-to));border:none;color:#fff;}
-/* Géneros: cada uno con su color al elegirlo */
+/* Géneros: "Todos" en rosa y dorado, "Más" en turquesa (config/genres.js) */
 .chip{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.08);}
 .chip.active{color:#141833;border-color:transparent;}
-.chip.active[data-genre="pop"]{background:linear-gradient(135deg,#FF5C7A,#FF8A65);}
-.chip.active[data-genre="rock"]{background:linear-gradient(135deg,#FF8A3D,#FFB347);}
-.chip.active[data-genre="reggaeton"]{background:linear-gradient(135deg,#2EC4B6,#5FE0C8);}
-.chip.active[data-genre="salsa"]{background:linear-gradient(135deg,#FFD23F,#FFE680);}
-.chip.active[data-genre="balada"]{background:linear-gradient(135deg,#8E7CFF,#B9A8FF);}
+#genres-all.active{background:linear-gradient(135deg,#FF5C7A,#FFD23F);}
+#genres-more.active{background:linear-gradient(135deg,#2EC4B6,#5FE0C8);}
+/* Hoja "Más": cada género con su color en la franja y el nombre */
+.genre-item{--genre:#FF5C7A;border-left:5px solid var(--genre);}
+.genre-item .manual-name{color:var(--genre);}
+.genre-item .home-tag[hidden]{display:none;}
+.genre-item[data-genre="rock"]{--genre:#FF8A3D;}
+.genre-item[data-genre="reggaeton"]{--genre:#2EC4B6;}
+.genre-item[data-genre="salsa"]{--genre:#FFD23F;}
+.genre-item[data-genre="balada"]{--genre:#B9A8FF;}
 /* Filas de opciones con una franja de color a la izquierda */
 .opt-row{border-left:4px solid var(--pink);background:rgba(255,255,255,.04);}
 .opt-row:nth-child(5n+2){border-left-color:var(--teal);}
