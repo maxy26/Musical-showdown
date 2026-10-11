@@ -639,6 +639,8 @@ npm run build:android
   `#FFC857`, verde azulado `#3AC7A0` (equipo B). Tipografía: `Unbounded`
   para títulos/números grandes, `Inter` para texto normal (Google
   Fonts).
+- **Actualización 10-10-2026:** el paquete se cambió a `com.musicalshowdown.app`
+  a pedido del usuario (ver AUDITORIA-CAMBIOS.md). Lo que sigue es el historial.
 - El `appId`/paquete de Android quedó como `com.palabracantada.app`
   (nombre técnico interno, del nombre anterior del juego) — no se
   renombró al cambiar el nombre visible a "Musical Showdown" para no

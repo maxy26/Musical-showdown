@@ -86,11 +86,17 @@ jobs:
       # encima de otra. Sin los secretos, se compila con la firma de prueba.
       KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
       KEYSTORE_PROPS: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
+      # Configuración de Firebase (notificaciones, src/js/notificaciones.js).
+      # Sin este secreto el APK funciona igual, pero sin notificaciones.
+      GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES_JSON }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Configuración de Firebase
+        if: env.GOOGLE_SERVICES != ''
+        run: printf '%s' "$GOOGLE_SERVICES" > platforms/android/android/app/google-services.json
       # Gradle 8.14 y el plugin de Android 8.13 requieren Java 17 o superior.
       - uses: actions/setup-java@v4
         with:
@@ -139,3 +145,38 @@ jobs:
           body: |
             Nueva versión de Musical Showdown: descarga el APK para Android o el .exe para Windows.
           generate_release_notes: true
+      # Notificación "Versión X disponible" a los celulares (build/notificar.js).
+      # Sin el secreto FIREBASE_SERVICE_ACCOUNT no envía nada.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Notificar la versión nueva
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node build/notificar.js version "${{ github.ref_name }}"
+
+  avisos:
+    name: Notificar avisos importantes
+    # Al subir a main un avisos/avisos.json con avisos "importante": true nuevos
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Enviar los avisos importantes nuevos
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTES: ${{ github.event.before }}
+        run: |
+          # Sin la versión anterior no se sabe cuáles son nuevos: no se envía nada
+          # (así no se repiten avisos ya enviados)
+          if ! git show "$ANTES:avisos/avisos.json" > "$RUNNER_TEMP/antes.json" 2>/dev/null; then
+            echo "No se encontró la versión anterior de avisos.json: no se envía nada."
+            exit 0
+          fi
+          node build/notificar.js avisos "$RUNNER_TEMP/antes.json" avisos/avisos.json

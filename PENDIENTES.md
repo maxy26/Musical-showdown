@@ -41,10 +41,6 @@
 
 ## 🐛 Bugs e inconsistencias
 
-- [ ] 🟢 **El nombre técnico de Android sigue siendo `com.palabracantada.app`**
-  (nombre anterior del juego). Renombrarlo es delicado porque afecta
-  las rutas de Java. Solo hacerlo si el usuario lo pide
-  (contexto, sección 7).
 
 ## 🔧 Entorno / herramientas
 
@@ -120,6 +116,14 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
+- [ ] 🔴 **Terminar de configurar las notificaciones (Firebase)** (pedido del
+  usuario, 10-10-2026; el código ya está). Falta: crear el proyecto de Firebase
+  (paquete `com.musicalshowdown.app`), copiar `google-services.json` a
+  `platforms/android/android/app/` y cargar en GitHub los secretos
+  `GOOGLE_SERVICES_JSON` y `FIREBASE_SERVICE_ACCOUNT`. Después, probar en el
+  celular: la pregunta de la primera vez, que llegue con la app cerrada y que el
+  ícono chico de la notificación se vea bien (Android usa el ícono de la app; si
+  sale un cuadrado blanco, hay que hacer un ícono de una sola tinta).
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -191,6 +195,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] **El nombre técnico de Android era `com.palabracantada.app`** (nombre
+  anterior del juego; resuelto 10-10-2026 a pedido del usuario): ahora es
+  `com.musicalshowdown.app`. Android lo toma como otra app: hay que desinstalar
+  la vieja (hasta la 1.14) e instalar la nueva. Ver la auditoría (sesión 8, parte 4).
 
 - [x] **Botón "Seleccionar todos" en Géneros musicales** (pedido del usuario,
   08-10-2026; resuelto 10-10-2026). Quedó como dos botones: "Todos"

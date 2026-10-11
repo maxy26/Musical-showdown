@@ -1,4 +1,4 @@
-package com.palabracantada.app;
+package com.musicalshowdown.app;
 
 import com.getcapacitor.BridgeActivity;
 

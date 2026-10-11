@@ -65,6 +65,7 @@ export function avisosDeVersiones(releases, versionInstalada) {
       titulo: `Versión ${r.tag_name.replace(/^v/i, "")} disponible`,
       texto: primeraLinea(r.body) || "Hay una versión nueva del juego.",
       boton: { texto: "⬇️ Descargar", url: r.html_url },
+      importante: true, // las actualizaciones siempre son importantes (salen fuera de la app)
     }));
 }
 
@@ -73,7 +74,18 @@ export function avisosDelArchivo(lista) {
   return (Array.isArray(lista) ? lista : [])
     .filter((a) => a && a.id && TIPOS[a.tipo] && a.titulo && /^\d{4}-\d{2}-\d{2}/.test(a.fecha || ""))
     .map((a) => ({ id: String(a.id), tipo: a.tipo, fecha: a.fecha.slice(0, 10), titulo: a.titulo, texto: a.texto || "",
-      boton: a.boton?.texto && a.boton?.url ? { texto: a.boton.texto, url: a.boton.url } : null }));
+      boton: a.boton?.texto && a.boton?.url ? { texto: a.boton.texto, url: a.boton.url } : null,
+      importante: a.importante === true }));
+}
+
+/**
+ * Avisos importantes del archivo que no estaban en la versión anterior (o que
+ * antes no eran importantes): son los que se envían como notificación fuera de
+ * la app (build/notificar.js). Así cada uno se envía una sola vez.
+ */
+export function importantesNuevos(antes, ahora) {
+  const yaEnviados = new Set(avisosDelArchivo(antes).filter((a) => a.importante).map((a) => a.id));
+  return avisosDelArchivo(ahora).filter((a) => a.importante && !yaEnviados.has(a.id));
 }
 
 /** Junta y ordena (los más nuevos arriba). */

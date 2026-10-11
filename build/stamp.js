@@ -15,6 +15,9 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const APP_GRADLE = path.join(ROOT, "platforms", "android", "android", "app", "build.gradle");
+// Configuración de Firebase para las notificaciones (no se sube a git; en GitHub
+// Actions sale del secreto GOOGLE_SERVICES_JSON)
+const GOOGLE_SERVICES = path.join(ROOT, "platforms", "android", "android", "app", "google-services.json");
 
 /** versionName y versionCode actuales de Android. */
 function androidVersion() {
@@ -37,7 +40,8 @@ function stampBuild(wwwDir, platformLabel) {
   fs.writeFileSync(path.join(wwwDir, "js", "version.js"),
     `// Generado al compilar (build/stamp.js). No editar: se reescribe en cada build.\n` +
     `export const APP_VERSION = ${JSON.stringify(name)};\n` +
-    `export const BUILD_INFO = ${JSON.stringify(`${platformLabel} · ${fecha} · compilación ${code}`)};\n`);
+    `export const BUILD_INFO = ${JSON.stringify(`${platformLabel} · ${fecha} · compilación ${code}`)};\n` +
+    `export const CON_FIREBASE = ${fs.existsSync(GOOGLE_SERVICES)};\n`);
 
   const swPath = path.join(wwwDir, "sw.js");
   const sw = fs.readFileSync(swPath, "utf8");

@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.palabracantada.app',
+  appId: 'com.musicalshowdown.app',
   appName: 'Musical Showdown',
   webDir: 'www',
   backgroundColor: '#141833',

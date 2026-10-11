@@ -13,6 +13,11 @@ platforms/android/android/capacitor-cordova-android-plugins/build/
 # Clave de firma de Android (secreta; hacer copia de seguridad fuera del repo)
 platforms/android/keystore/
 
+# Firebase (notificaciones): configuración y clave de la cuenta de servicio.
+# En GitHub Actions salen de los secretos GOOGLE_SERVICES_JSON y FIREBASE_SERVICE_ACCOUNT.
+platforms/android/android/app/google-services.json
+*firebase-adminsdk*.json
+
 # Android Studio / Gradle locales
 platforms/android/android/local.properties
 platforms/android/android/.idea/

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { compararVersiones, fechaRelativa, avisosDeVersiones, avisosDelArchivo, unirAvisos, avisosNuevos, MINUTOS_REVISION } from "../src/js/avisos.js";
+import { compararVersiones, fechaRelativa, avisosDeVersiones, avisosDelArchivo, unirAvisos, avisosNuevos, importantesNuevos, MINUTOS_REVISION } from "../src/js/avisos.js";
 
 test("compararVersiones entiende 1.10 > 1.9 y la v del comienzo", () => {
   assert.ok(compararVersiones("1.10", "1.9") > 0);
@@ -54,6 +54,25 @@ test("avisos del archivo: descarta los incompletos y ordena por fecha", () => {
 test("el archivo avisos/avisos.json del repositorio es válido", () => {
   const archivo = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "avisos", "avisos.json"), "utf8"));
   assert.equal(avisosDelArchivo(archivo).length, archivo.length, "hay avisos incompletos en avisos.json");
+});
+
+test("importantes: las actualizaciones siempre; los del archivo solo con importante: true", () => {
+  assert.equal(avisosDeVersiones([{ tag_name: "v2.0", published_at: "2026-11-01T00:00:00Z", html_url: "u" }], "1.0")[0].importante, true);
+  const lista = avisosDelArchivo([
+    { id: "a", tipo: "novedad", fecha: "2026-10-01", titulo: "Normal" },
+    { id: "b", tipo: "promo", fecha: "2026-10-05", titulo: "Importante", importante: true },
+    { id: "c", tipo: "promo", fecha: "2026-10-05", titulo: "Texto en vez de sí", importante: "true" },
+  ]);
+  assert.deepEqual(lista.map((a) => a.importante), [false, true, false]);
+});
+
+test("importantesNuevos: cada aviso importante se envía una sola vez", () => {
+  const a = { id: "a", tipo: "novedad", fecha: "2026-10-01", titulo: "A", importante: true };
+  const b = { id: "b", tipo: "promo", fecha: "2026-10-05", titulo: "B" };
+  assert.deepEqual(importantesNuevos([], [a, b]).map((x) => x.id), ["a"]);
+  assert.deepEqual(importantesNuevos([a], [a, b]), []); // ya se envió
+  assert.deepEqual(importantesNuevos([a, b], [a, { ...b, importante: true }]).map((x) => x.id), ["b"]); // pasó a importante
+  assert.deepEqual(importantesNuevos([a], [{ ...a, titulo: "A corregido" }]), []); // corregir el texto no lo reenvía
 });
 
 test("avisosNuevos: solo los sin leer que no estaban antes", () => {

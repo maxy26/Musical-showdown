@@ -7,6 +7,8 @@ import { revisarAvisosSeguido } from "./avisos.js";
 import { avisosLlegaron } from "./screens/menu.js";
 import { APP_VERSION } from "./version.js";
 import { iniciarTeclado } from "./teclado.js";
+import { iniciarNotificaciones } from "./notificaciones.js";
+import { state } from "./state.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
@@ -26,7 +28,14 @@ const minTime = new Promise((resolve) => setTimeout(resolve, 900));
 const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
 // En la app instalada, la pantalla de carga se va cuando ya suena la música
 // (como mucho 4 segundos; en la web la música espera el primer toque).
-Promise.all([minTime, fontsReady, esperarMusica(4000)]).then(hideLoader);
+Promise.all([minTime, fontsReady, esperarMusica(4000)]).then(() => {
+  hideLoader();
+  // Android: la primera vez pregunta si se quieren notificaciones (notificaciones.js).
+  // Al abrir la app tocando una, se muestra la campana si se está en el inicio.
+  iniciarNotificaciones(() => {
+    if (state.screen === "menu") document.querySelector("#btn-notifications")?.click();
+  });
+});
 
 // En la app de Android (Capacitor) o en el .exe los archivos ya vienen dentro
 // de la app y el service worker sobra (ver plataforma.js).

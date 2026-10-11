@@ -4,10 +4,12 @@
   "description": "Musical Showdown - proyecto Android (Capacitor)",
   "private": true,
   "dependencies": {
+    "@capacitor-community/fcm": "^6.0.1",
     "@capacitor/android": "^6.0.0",
     "@capacitor/app": "^6.0.3",
     "@capacitor/core": "^6.0.0",
     "@capacitor/filesystem": "^6.0.4",
+    "@capacitor/push-notifications": "^6.0.5",
     "@capacitor/share": "^6.0.4"
   },
   "devDependencies": {

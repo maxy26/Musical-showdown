@@ -22,4 +22,8 @@ Cada aviso:
   la versión es más nueva que la instalada.
 - `id`: no repetir; si cambia, el aviso vuelve a aparecer como nuevo.
 - `boton` es opcional; abre el enlace en el navegador.
+- `importante` es opcional. Con `"importante": true`, además de la campana, el
+  aviso llega como **notificación al celular** (Android), aunque la app esté
+  cerrada. Se envía una sola vez, al subir el cambio a `main` (GitHub Actions,
+  `build/notificar.js`). Las actualizaciones siempre son importantes.
 - Un aviso al que le falte `id`, `tipo`, `titulo` o `fecha` no se muestra.

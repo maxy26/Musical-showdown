@@ -6,3 +6,5 @@
  */
 export const APP_VERSION = "1.2";
 export const BUILD_INFO = "desarrollo";
+// ¿Se compiló con google-services.json (Firebase)? Sin él no hay notificaciones (notificaciones.js).
+export const CON_FIREBASE = false;

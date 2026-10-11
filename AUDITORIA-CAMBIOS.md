@@ -13,6 +13,90 @@
 
 ---
 
+## 2026-10-10 — Sesión 8 (parte 5): Firebase configurado y versión 1.15
+
+**Qué se hizo:** el usuario creó el proyecto de Firebase
+(`musical-showdown-4542a`), registró la app con `com.musicalshowdown.app` y
+cargó en GitHub los secretos `GOOGLE_SERVICES_JSON` y
+`FIREBASE_SERVICE_ACCOUNT`. Se revisó el proyecto y el paquete de los dos
+archivos sin mostrar la clave privada; `google-services.json` se copió a
+`platforms/android/android/app/` (fuera de git). `npm run android:release`:
+versionCode 15 → 16, versionName 1.15, misma firma (SHA-256 e0e0a02f…),
+`dist/MusicalShowdown-v1.15.apk` con `CON_FIREBASE = true`. Commit, etiqueta
+`v1.15` y envío a GitHub.
+
+**Qué quedó abierto:** en el celular, desinstalar la versión vieja
+(`com.palabracantada.app`) e instalar la 1.15; probar la pregunta de la primera
+vez y que llegue una notificación con la app cerrada (la de la 1.15 sale antes
+de que el celular se anote, así que habrá que probar con la próxima versión o
+con un aviso importante en `avisos.json`). La clave privada sigue en Descargas
+hasta que el usuario la guarde.
+
+---
+
+## 2026-10-10 — Sesión 8 (parte 4): nombre técnico de Android `com.musicalshowdown.app`
+
+**Pedido del usuario:** al registrar la app en Firebase preguntó si el paquete
+podía ser `com.musicalshowdown.app` en vez de `com.palabracantada.app` (nombre
+anterior del juego). Se le explicó que Android la toma como otra app (hay que
+desinstalar la vieja; se reinician los ajustes guardados en el celular, no se
+pierde nada del juego) y que conviene hacerlo antes de configurar Firebase.
+Aceptó.
+
+**Qué se hizo:** `capacitor.config.ts` (`appId`), `app/build.gradle`
+(`namespace` y `applicationId`), `res/values/strings.xml` (`package_name` y
+`custom_url_scheme`) y `MainActivity.java` (paquete; movido con `git mv` a
+`java/com/musicalshowdown/app/`). La clave de firma es la misma.
+`PENDIENTES.md` y `CONTEXTO-MUSICAL-SHOWDOWN.md` al día.
+
+**Cómo se verificó:** `build:apk` sin errores; `aapt dump badging`:
+`package: name='com.musicalshowdown.app'`, actividad
+`com.musicalshowdown.app.MainActivity`, nombre visible "Musical Showdown".
+
+**Qué quedó abierto:** registrar la app en Firebase con
+`com.musicalshowdown.app`; al publicar la próxima versión, desinstalar la vieja
+en el celular antes de instalar la nueva.
+
+---
+
+## 2026-10-10 — Sesión 8 (parte 3): notificaciones fuera de la app (Firebase)
+
+**Pedido del usuario:** que la app muestre notificaciones fuera de la app,
+separadas en importantes y no importantes; las importantes (como una
+actualización) son las que salen fuera. Decisiones: **Firebase Cloud Messaging**
+(push; se le explicó por qué es mejor que revisar en segundo plano), **solo
+Android**, importantes = actualizaciones + avisos con `"importante": true`, y el
+permiso se pide **una sola vez, al abrir la app la primera vez**.
+
+**Qué se hizo:**
+- `src/js/notificaciones.js` (nuevo): la primera vez pregunta "¿Activar
+  notificaciones?" (Sí / Ahora no; no vuelve a preguntar). Con "Sí": permiso del
+  sistema, canal "Avisos importantes" con prioridad alta (aparece arriba de la
+  pantalla), registro y tema `importantes`. Al tocar una notificación se abre la
+  campana. Complementos `@capacitor/push-notifications` 6 y
+  `@capacitor-community/fcm` 6 (temas), llamados con `nativo()`.
+- `avisos.js`: campo `importante` (versiones siempre; archivo solo con `true`) e
+  `importantesNuevos()` (cada aviso se envía una sola vez).
+- `build/notificar.js` (nuevo): envía al tema con la API v1 de FCM (token
+  firmado con `crypto`, sin librerías). `--prueba` muestra sin enviar.
+- `compilar.yml`: el APK incluye `google-services.json` del secreto
+  `GOOGLE_SERVICES_JSON`; al publicar una versión se notifica; job nuevo
+  `avisos` envía los importantes nuevos al cambiar `avisos.json` en `main`
+  (secreto `FIREBASE_SERVICE_ACCOUNT`).
+- `build/stamp.js` + `version.js`: `CON_FIREBASE` (sin `google-services.json` la
+  app no ofrece notificaciones, porque Firebase fallaría).
+- `.gitignore`: `google-services.json` y la clave de la cuenta de servicio.
+  `avisos/LEEME.md`, `main.js`, `sw.js` (v22), pruebas en `avisos.test.js`.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 138 bien, 1 pendiente
+conocido; `npm run test:e2e`: 28 bien; `notificar.js --prueba` elige solo los
+avisos importantes nuevos; el APK pide `POST_NOTIFICATIONS` (aapt).
+
+**Qué quedó abierto:** el usuario tiene que crear el proyecto de Firebase y
+cargar los secretos; después, probar en el celular (ver `PENDIENTES.md`).
+
+---
+
 ## 2026-10-10 — Sesión 8 (parte 2): versión 1.14 publicada
 
 **Pedido del usuario:** commit y publicar la 1.14 con los géneros nuevos.
