@@ -116,14 +116,10 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🔴 **Terminar de configurar las notificaciones (Firebase)** (pedido del
-  usuario, 10-10-2026; el código ya está). Falta: crear el proyecto de Firebase
-  (paquete `com.musicalshowdown.app`), copiar `google-services.json` a
-  `platforms/android/android/app/` y cargar en GitHub los secretos
-  `GOOGLE_SERVICES_JSON` y `FIREBASE_SERVICE_ACCOUNT`. Después, probar en el
-  celular: la pregunta de la primera vez, que llegue con la app cerrada y que el
-  ícono chico de la notificación se vea bien (Android usa el ícono de la app; si
-  sale un cuadrado blanco, hay que hacer un ícono de una sola tinta).
+- [ ] 🟢 **Revisar el ícono chico de las notificaciones** (10-10-2026). Android
+  usa el ícono de la app; si en la barra sale un cuadrado blanco o gris, hay que
+  hacer un ícono de una sola tinta (`default_notification_icon`). Preguntarle
+  al usuario cómo se ve.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -195,6 +191,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] **Notificaciones fuera de la app con Firebase** (pedido del usuario,
+  10-10-2026; resuelto 11-10-2026). Proyecto `musical-showdown-4542a`, secretos
+  cargados en GitHub. Probado en el celular del usuario con la 1.15: la
+  notificación de prueba llegó con la app cerrada.
 
 - [x] **El nombre técnico de Android era `com.palabracantada.app`** (nombre
   anterior del juego; resuelto 10-10-2026 a pedido del usuario): ahora es

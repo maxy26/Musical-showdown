@@ -13,6 +13,19 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 7): notificación de prueba recibida
+
+**Resultado:** el usuario confirmó que le llegó al celular la notificación de
+prueba con la app cerrada: Firebase funciona de punta a punta (GitHub Actions →
+FCM → tema `importantes` → Android). Se borró el aviso `prueba-notificacion-1`
+de `avisos.json` y se marcó como resuelto en `PENDIENTES.md`.
+
+**Qué quedó abierto:** que el usuario diga cómo se ve el ícono chico y si le
+llegó "Versión 1.16 disponible"; guardar la clave privada de Firebase fuera de
+Descargas.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 6): permiso de notificaciones sin ventana propia
 
 **Pedido del usuario:** al instalar la 1.15 vio primero "¿Activar
