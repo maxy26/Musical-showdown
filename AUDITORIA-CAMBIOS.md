@@ -13,6 +13,42 @@
 
 ---
 
+## 2026-10-11 — Sesión 8 (parte 11): diagnóstico en el celular — la campana funciona
+
+**Problema reportado:** con la 1.19, la "Prueba A" (app abierta, en el inicio)
+no apareció en la campana.
+
+**Diagnóstico (celular OPPO CPH2695, Android 16, conectado por USB):**
+- Con la 1.19 normal, `logcat` mostró que Firebase entrega el mensaje a la app.
+- Se instaló por `adb install -r` una copia de la 1.19 con
+  `webContentsDebuggingEnabled` y `loggingBehavior: 'production'` (cambio
+  **temporal** en `capacitor.config.ts`, revertido enseguida; misma firma y
+  versión). Los registros muestran los oyentes `pushNotificationReceived` y
+  `pushNotificationActionPerformed` registrados y el evento entregado. También
+  el de `appStateChange` (que nunca se había comprobado).
+- Inspección de la página por CDP (`adb forward` + Playwright
+  `connectOverCDP`): la "Prueba A" estaba guardada en `avisos-recibidos` y
+  **marcada como leída**, o sea que el panel se abrió con ella adentro. No se
+  encontró falla en el código.
+- Prueba en vivo (app abierta en el inicio): a los 4 s, globito "1" y campana
+  sacudiéndose; el usuario lo confirmó. Prueba B (app cerrada, tocar la
+  notificación): se abrió la app con la campana y el aviso adentro; confirmado.
+
+**Al terminar:** se reinstaló la 1.19 normal (`dist/MusicalShowdown-v1.19.apk`),
+se quitó el `adb forward`, se regeneró la copia de Android sin la
+configuración de diagnóstico y el script de inspección se borró. Sin cambios
+de código.
+
+**Qué quedó abierto:** el usuario puede apagar la Depuración USB. Esta entrada
+se sube con el próximo commit.
+
+**Después:** a pedido del usuario se borraron de Descargas
+`google-services.json` y la clave de la cuenta de servicio de Firebase (se le
+explicó que no necesitan copia porque se pueden regenerar; la clave de firma de
+Android sí). La copia del proyecto de `google-services.json` sigue en su lugar.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 10): el aviso viaja dentro de la notificación
 
 **Pruebas en el celular (1.18):** la Prueba 1 llegó con la app cerrada y con el

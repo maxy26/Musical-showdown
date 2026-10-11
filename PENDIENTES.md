@@ -60,13 +60,6 @@
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
-- [ ] 🔴 **Guardar en OneDrive los dos archivos de Firebase** (11-10-2026):
-  `google-services.json` y la clave privada
-  `musical-showdown-4542a-firebase-adminsdk-….json` siguen en Descargas. Los
-  secretos de GitHub no se pueden volver a descargar, así que no sirven de
-  copia. La clave privada conviene guardarla en el Almacén personal de OneDrive.
-  Después, borrarlos de Descargas (la copia que usa el proyecto está en
-  `platforms/android/android/app/`).
 - [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
   **07-10-2026: el usuario ya subió una copia a la nube**; falta protegerla con
   contraseña (Almacén personal de OneDrive o un ZIP con 7-Zip y AES-256), porque
@@ -198,6 +191,14 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] **Archivos de Firebase en Descargas** (resuelto 11-10-2026): se borraron
+  a pedido del usuario. No necesitan copia: `google-services.json` se vuelve a
+  bajar de Firebase (y el proyecto tiene la suya en
+  `platforms/android/android/app/`), y la clave de la cuenta de servicio se
+  genera de nuevo en Firebase y se carga en el secreto `FIREBASE_SERVICE_ACCOUNT`.
+  Para mandar pruebas desde la PC hay que generar una clave nueva (o usar un
+  aviso con `"importante": true` en `avisos.json`).
 
 - [x] **Notificaciones fuera de la app con Firebase** (pedido del usuario,
   10-10-2026; resuelto 11-10-2026). Proyecto `musical-showdown-4542a`, secretos
