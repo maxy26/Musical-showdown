@@ -18,6 +18,13 @@
 > ejemplo, la fuente legal de letras o la firma del `.exe`) se dejan **para el
 > final**, aunque sean críticos. Se sigue con el resto.
 
+## 📦 Listo para la próxima versión (sin publicar)
+
+> Cambios terminados que se juntan para sacar una actualización notable
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.21**.
+
+- (vacía)
+
 ## 🎵 Canciones y letras (antes de publicar)
 
 - [ ] 🟡 **Resolver la parte legal de las letras** (sin audio): qué fuente se
@@ -49,14 +56,12 @@
   instalación, que descarga el binario. No afecta la compilación. Si hace
   falta, aprobarlo con `npm install-scripts approve electron --prefix
   platforms/desktop` y reinstalar.
-- [ ] 🟢 **Aviso de Node al correr el lint:** `eslint.config.js` usa
-  `export` pero el `package.json` raíz no declara `"type": "module"`.
-  Arreglo sencillo: renombrarlo a `eslint.config.mjs`. No conviene poner
-  `"type": "module"` en la raíz, porque los scripts de `build/` usan `require`.
-- [ ] 🟢 **`npm audit` reporta vulnerabilidades** en las dependencias de
-  desarrollo de `platforms/desktop`. Hay que revisarlas antes de
-  aplicar `npm audit fix --force`, porque este puede cambiar versiones
-  mayores de Electron o electron-builder.
+- [ ] 🟢 **Quedan 8 avisos moderados de `npm audit` en `platforms/desktop`**
+  (12-10-2026): todos vienen de `sprintf-js`, que usa `global-agent` → 
+  `@electron/get`, una herramienta de descarga **que solo se usa al compilar**
+  (no va dentro del `.exe`). El "arreglo" que propone npm es bajar
+  electron-builder a 26.5.0, así que no conviene. Revisar cuando salga una
+  versión nueva de electron-builder que lo corrija.
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
@@ -75,10 +80,22 @@
 - [ ] 🟡 **Probar el `.exe` portátil en otra PC con Windows.** En esta PC ya
   se comprobó que abre. El `.exe` se descomprime en una carpeta temporal cada
   vez que se abre, así que puede tardar unos segundos en arrancar.
-- [ ] 🟢 **Windows SmartScreen en otros equipos.** El `.exe` no está firmado,
-  así que en otra PC Windows mostrará "Windows protegió su PC" y habrá que
-  hacer clic en "Más información → Ejecutar de todas formas". Para quitar el
-  aviso hace falta un certificado de firma de código, que cuesta dinero.
+- [ ] 🟡 **Instalar sin avisos de "app no segura" (Android y PC)** (pedido del
+  usuario, 12-10-2026; junta el pendiente anterior de Windows SmartScreen).
+  Que al instalar el juego el celular o la PC lo reconozcan como seguro y no
+  pidan permiso para ignorar un aviso.
+  - **Android:** el aviso sale porque el APK no viene de una tienda (pide
+    "instalar apps de origen desconocido" y a veces Play Protect lo marca).
+    Solución: publicarlo en **Google Play** (cuenta de desarrollador con pago
+    único de 25 dólares; ficha con fotos, descripción y política de
+    privacidad).
+  - **Windows:** "Windows protegió su PC" (SmartScreen) porque el `.exe` no está
+    firmado. Soluciones: **firmar el `.exe`** con un certificado de firma de
+    código (pago anual; el aviso puede tardar en desaparecer hasta que el
+    programa gane reputación) o publicarlo en la **Microsoft Store** (revisar
+    el costo actual de la cuenta).
+  - Tiene costo, así que va **al final** según el orden acordado (07-10-2026),
+    junto con la decisión de publicar el juego.
 
 ## ✨ Mejoras visuales y de lógica
 
@@ -153,11 +170,20 @@
   diga cómo lo quiere (por ejemplo, botones directos sin buscar, deslizar,
   un solo toque…); mostrarle opciones en maqueta antes de programar.
 
-- [ ] 🟢 **Empate al llegar al objetivo por la penalización del relevo.** Con
+- [x] ~~🟢 **Empate al llegar al objetivo por la penalización del relevo.**~~
+  **Descartado por el usuario (12-10-2026):** "es prácticamente imposible que
+  lleguen dos al puntaje objetivo, teniendo en cuenta que gana el primero que
+  llegue". Si alguna vez pasara, seguir ese principio: gana el que llegó primero.
+  Texto original: Con
   la penalización en vivo, al terminar la ronda dos equipos podrían pasar el
   objetivo. Se programó que gana el que tiene más puntos; si quedan con los
   mismos puntos, hoy gana el primero de la lista. Preguntar al usuario qué
   debe pasar en ese empate exacto (desempate, ronda extra, ganan los dos…).
+
+- [ ] 🟡 **Editar los textos del juego** (pedido del usuario, 12-10-2026). El
+  usuario quiere revisar y editar los textos (por ejemplo, los de las ayudas y
+  los (?), donde ya cambió 14 frases el 12-10-2026). Lo va a profundizar más
+  adelante: antes de hacer nada, preguntarle qué textos y cómo los quiere.
 
 > No inventar reglas: preguntar antes (instrucción 21).
 
@@ -165,13 +191,22 @@
 > por completo con preguntas antes de programarla.
 
 
-- [ ] 🟢 **El reloj sigue corriendo con una ayuda abierta** (detectado el
-  11-10-2026): si durante la ronda se abre un (?) o la ❓, el tiempo no se
-  detiene. Preguntarle al usuario si quiere que se pause mientras está abierta.
 
 ---
 
 ## ✅ Resueltos
+
+- [x] **Aviso de Node al correr el lint** (resuelto 12-10-2026):
+  `eslint.config.js` → `eslint.config.mjs`.
+- [x] **Vulnerabilidades de `npm audit` en `platforms/desktop`** (resuelto
+  12-10-2026): de 19 (1 crítica, 14 altas) a 8 moderadas que solo afectan a una
+  herramienta de compilación. Electron 33 → 44 y electron-builder 25 → 26; se
+  comprobó que el `.exe` compila y abre (inicio, versión, `app://`).
+
+- [x] **El reloj seguía corriendo con una ayuda abierta** (detectado el
+  11-10-2026; resuelto el 12-10-2026, publicado en la versión 1.21): ahora, si
+  durante la ronda se abre un (?) o la ❓, el reloj se
+  detiene y sigue desde el mismo segundo al cerrarla (decisión del usuario).
 
 - [x] **Botoncitos de ayuda (?) y ayuda de cada modo** (pedido del usuario,
   03-10-2026; probado en 6 vueltas y confirmado el 12-10-2026, versión 1.20).

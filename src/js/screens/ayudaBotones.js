@@ -11,6 +11,7 @@ import { state } from "../state.js";
 import { efecto, efectoSuave } from "../sound.js";
 import { modeName } from "./config/modes.js";
 import { GROUP_TERMS } from "../groups.js";
+import { pausarRondaMientras } from "./modals.js";
 
 // ---------- Dibujitos para las tarjetas ----------
 const PUNTOS = (n, gastados) => `<span class="tip-puntos">${Array.from({ length: n }, (_, i) => `<span class="tip-punto${i < gastados ? " gastado" : ""}"></span>`).join("")}</span>`;
@@ -210,7 +211,8 @@ function abrirAyuda(clave) {
   overlay.querySelector("h3").textContent = a.titulo;
   overlay.querySelector(".tip-modo").textContent = etiqueta;
   overlay.querySelector(".tip-frase").textContent = porModo(a.frase, c);
-  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); };
+  const reanudar = pausarRondaMientras(); // el reloj no corre mientras se lee la ayuda
+  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); reanudar(); };
   // X para cerrar (ventana informativa) y también tocando afuera
   const x = document.createElement("button");
   x.type = "button";

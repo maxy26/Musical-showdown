@@ -9,10 +9,12 @@ import { efecto, efectoSuave } from "../sound.js";
  * Con `side: "left"` (Ajustes) en el celular entra desde la izquierda y ocupa el
  * alto de la pantalla (usuario, 05-10-2026); en PC sigue la ventana centrada.
  *
- * @param {{title: string, body: HTMLElement, side?: "left"}} props
+ * `alCerrar` se llama una vez al cerrarla (por ejemplo, para reanudar el reloj).
+ *
+ * @param {{title: string, body: HTMLElement, side?: "left", alCerrar?: () => void}} props
  * @returns {() => void} función para cerrarla desde afuera
  */
-export function openSheet({ title, body, side }) {
+export function openSheet({ title, body, side, alCerrar }) {
   const back = document.createElement("div");
   back.className = side === "left" ? "sheet-back sheet-left" : "sheet-back";
   back.innerHTML = `
@@ -26,11 +28,15 @@ export function openSheet({ title, body, side }) {
   back.querySelector(".sheet-body").append(body);
 
   const onKey = (e) => { if (e.key === "Escape") close(); };
+  let cerrada = false;
   function close() {
+    if (cerrada) return;
+    cerrada = true;
     efectoSuave("cerrar");
     document.removeEventListener("keydown", onKey);
     back.classList.add("is-closing");
     setTimeout(() => back.remove(), 180);
+    alCerrar?.();
   }
   back.addEventListener("click", (e) => { if (e.target === back) close(); });
   back.querySelector(".sheet-close").onclick = close;

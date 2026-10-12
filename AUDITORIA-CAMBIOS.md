@@ -13,6 +13,89 @@
 
 ---
 
+## 2026-10-12 — Sesión 8 (parte 21): versión 1.21
+
+**Pedido del usuario:** publicar lo hecho antes de seguir con el próximo
+pendiente (con eso confirmó el cambio del reloj).
+
+**Qué incluye la 1.21:** el reloj se detiene mientras una ayuda está abierta
+en la ronda; la versión de PC con Electron 44 y electron-builder 26 (sin
+vulnerabilidades críticas ni altas); `eslint.config.mjs` (interno).
+
+**Publicación:** `npm run android:release` (versionCode 21 → 22, 1.21, misma
+firma), `build:desktop`, commit, etiqueta `v1.21` y envío a GitHub. Lista
+"Listo para la próxima versión" vaciada; "en prueba" → versión 1.21 en
+`PENDIENTES.md` y `CONTEXTO-MUSICAL-SHOWDOWN.md`. Se le abrió la versión final.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 20): pendientes técnicos (lint y Electron 44)
+
+**Pedido del usuario:** hacer los dos pendientes técnicos chicos (se suman a
+la próxima versión, sin publicar).
+
+**Qué se hizo:**
+- `eslint.config.js` → `eslint.config.mjs` (con `git mv`): ya no sale el aviso
+  de Node "Module type … is not specified". Se actualizaron las menciones en
+  `CONTEXTO-MUSICAL-SHOWDOWN.md` e `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`.
+- `platforms/desktop`: `npm audit` daba 19 vulnerabilidades (1 crítica en
+  `tar`, 14 altas; entre ellas el propio Electron 33). Se revisó que el `.exe`
+  usa APIs que siguen en Electron 44 (`protocol.handle`, `net.fetch`) y se
+  actualizó **Electron 33 → 44.7.0** y **electron-builder 25 → 26.15.3**
+  (`package.json` y `package-lock.json`). Quedan 8 moderadas de `sprintf-js`
+  (herramienta de descarga usada solo al compilar; el arreglo propuesto era
+  bajar de versión): anotado como pendiente 🟢.
+
+**Cómo se verificó:** `npm run lint` sin el aviso y sin errores; `build:desktop`
+con Electron 44.7.0; se abrió el `.exe` y, conectando a la ventana, se
+comprobó que carga `app://juego/index.html`, quita la pantalla de carga y
+muestra el inicio con "v1.20" (`Electron/44.7.0`).
+
+**Qué quedó abierto:** que el usuario pruebe el `.exe`. El cambio de Electron
+se suma a "Listo para la próxima versión".
+
+**Después:** el usuario pidió anotar que la app se instale sin avisos de "no
+segura" en Android y PC. Se le explicó por qué pasa y las soluciones (Google
+Play en Android; firma de código o Microsoft Store en Windows) y se agregó a
+`PENDIENTES.md` como "Instalar sin avisos de app no segura", junto con el
+pendiente anterior de SmartScreen. Tiene costo: va al final.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 19): el reloj se detiene con una ayuda abierta (en prueba)
+
+**Pedido del usuario:** siguiente pendiente. Se le preguntó y eligió que el
+reloj **se detenga** mientras una ayuda está abierta durante la ronda.
+
+**Qué se hizo:** `modals.js` → `pausarRondaMientras()`: si la ronda está
+corriendo, marca `state.round.paused` (el reloj ya la respeta, y esos segundos
+no cuentan para el desempate del MVP) y devuelve la función que la reanuda.
+La usan `openHelp()` (❓ general y de modo) y los (?) de `ayudaBotones.js`.
+`sheet.js` → `openSheet()` acepta `alCerrar` (se llama una sola vez al
+cerrar). Prueba de pantallas nueva: en una ronda de Alternativo 1, con un (?)
+abierto el reloj no se mueve; al cerrarlo vuelve a correr.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 141 bien; `npm run
+test:e2e` (de a una): 38 bien. Juego de prueba abierto al usuario; sin publicar.
+
+**Después:** el usuario preguntó por qué no aparecía la cuenta regresiva antes
+de la ronda. No era un error: en los datos del `.exe` el ajuste "Cuenta antes
+de cada ronda" estaba guardado en "No" (0); se le explicó cómo volver a
+activarlo en Ajustes. Pidió anotar en pendientes **editar los textos del
+juego**, para profundizarlo más adelante (agregado a `PENDIENTES.md`).
+
+**Nueva forma de publicar:** el usuario pidió no publicar por cada cambio
+mínimo, sino juntar varios para una actualización notable. Instrucción 28 en
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, regla en `CLAUDE.md` y sección nueva
+"📦 Listo para la próxima versión" en `PENDIENTES.md` (por ahora: el reloj).
+
+**Pendiente del empate exacto** (dos equipos pasan el objetivo con los mismos
+puntos por la penalización del relevo): el usuario lo descartó por ser
+prácticamente imposible ("gana el primero que llegue"). Se le explicó el único
+caso posible; queda anotado el principio por si pasara.
+
+---
+
 ## 2026-10-12 — Sesión 8 (parte 18): ayudas confirmadas y versión 1.20
 
 **El usuario confirmó la prueba.** Se quitaron las marcas "PRUEBA" de los

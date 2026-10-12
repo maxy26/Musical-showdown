@@ -14,7 +14,7 @@
 2. **Cada entrega debe mantener la estructura de monorepo** descrita en
    `CONTEXTO-MUSICAL-SHOWDOWN.md` (sección 6): `src/`, `platforms/`,
    `build/`, `test/`, `dist/`, `README.md`, `package.json`,
-   `eslint.config.js`. No volver a la versión anterior de "tres copias
+   `eslint.config.mjs`. No volver a la versión anterior de "tres copias
    sueltas en carpetas Web/Windows/Android".
 3. Después de tocar `src/`, **siempre correr los dos builds** antes de
    entregar algo (`npm run build:desktop` y `npm run build:android`),
@@ -145,6 +145,12 @@
     este archivo, `CLAUDE.md`, `README.md` y `avisos/LEEME.md`. Lo que esté en
     prueba se anota como "en prueba", y se corrigen las frases que el cambio
     deja viejas.
+28. **Juntar cambios antes de publicar** (12-10-2026): no publicar una versión
+    por cada cambio mínimo. Los cambios confirmados se acumulan (lista "Listo
+    para la próxima versión" en `PENDIENTES.md`) mientras se sigue con los
+    pendientes, y se publica cuando hay una actualización buena y notable.
+    Ayudar al usuario a detectarlo: avisar si algo es chico para publicarlo
+    solo, y proponer publicar cuando lo acumulado valga la pena.
 
 ## Cuando falte información
 

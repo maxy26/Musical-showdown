@@ -110,8 +110,8 @@ const historieta = (vinetas) => `<ol class="story story-${vinetas.length}">${vin
 
 const tarjeta = (p) => `<div class="ayuda-tarjeta"><span class="ayuda-tarjeta-art">${p.art}</span><span class="ayuda-tarjeta-texto">${p.text}</span></div>`;
 
-/** Abre la ayuda del modo y tipo de batalla. */
-export function abrirAyudaModo(mode, battleType) {
+/** Abre la ayuda del modo y tipo de batalla. `alCerrar` se llama al cerrarla (reanuda el reloj). */
+export function abrirAyudaModo(mode, battleType, alCerrar) {
   const a = AYUDAS_MODO[`${mode}-${battleType}`];
   const body = el(`<div class="manual">
     <article class="manual-item">
@@ -136,6 +136,6 @@ export function abrirAyudaModo(mode, battleType) {
       <p class="ayuda-linea">🏆 Gana el primero que llega al puntaje objetivo.</p>
     </article>
   </div>`);
-  openSheet({ title: `${modeName(mode)} · ${battleType === "grupal" ? "Grupal" : "Individual"}`, body });
+  openSheet({ title: `${modeName(mode)} · ${battleType === "grupal" ? "Grupal" : "Individual"}`, body, alCerrar });
   body.querySelectorAll(".story").forEach(animateStory);
 }

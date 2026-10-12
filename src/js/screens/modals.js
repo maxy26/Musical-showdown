@@ -23,6 +23,19 @@ function addCloseButton(overlay, onClose) {
   overlay.querySelector(".modal").prepend(x);
 }
 
+/**
+ * Detiene el reloj de la ronda mientras está abierta una ayuda (❓ o (?))
+ * y devuelve la función que lo reanuda al cerrarla (usuario, 12-10-2026). Si la
+ * ronda no está corriendo (otra pantalla, la cuenta inicial o ya en pausa), no
+ * hace nada.
+ */
+export function pausarRondaMientras() {
+  const r = state.round;
+  if (state.screen !== "round" || r.phase !== "counting" || r.paused) return () => {};
+  r.paused = true;
+  return () => { if (state.screen === "round") r.paused = false; };
+}
+
 export function openPause() {
   clearInterval(state.round.timerId);
   state.round.paused = true;
@@ -80,8 +93,9 @@ export function openPause() {
 export function openHelp() {
   // Dentro de un modo (fuera del inicio), la ❓ explica ese modo (11-10-2026)
   const c = state.config;
+  const reanudar = pausarRondaMientras(); // el reloj no corre mientras se lee la ayuda
   if (state.screen !== "menu" && hayAyudaModo(c.mode, c.battleType)) {
-    abrirAyudaModo(c.mode, c.battleType);
+    abrirAyudaModo(c.mode, c.battleType, reanudar);
     return;
   }
   const body = el(`<div class="manual">
@@ -118,7 +132,7 @@ export function openHelp() {
   </div>`);
   // El manual de modos se abre solo para leer: desde la ayuda no se cambia el modo
   body.querySelector("#help-modes").onclick = () => openSheet({ title: "Modos de juego", body: buildModesManual({}) });
-  openSheet({ title: "Cómo se juega", body });
+  openSheet({ title: "Cómo se juega", body, alCerrar: reanudar });
   animateStory(body.querySelector(".story"));
 }
 

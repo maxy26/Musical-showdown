@@ -148,6 +148,21 @@ test("(?) de una opción: explica solo el modo que se juega", async ({ page }) =
   await expect(page.locator(".ayuda-tip")).toHaveCount(0);
 });
 
+test("Ronda con reloj: el tiempo se detiene mientras una ayuda está abierta", async ({ page }) => {
+  await page.locator("#btn-modes").click();
+  await page.getByRole("button", { name: /Elegir Alternativo 1/ }).click();
+  await configurarPartida(page, { jugadores: ["Ana", "Bruno"] });
+  await palabraDeLaRonda(page);
+  const reloj = page.locator(".clock span");
+  await page.locator('[data-ayuda="ronda"]').click();
+  const alAbrir = await reloj.textContent();
+  await page.waitForTimeout(2500);
+  await expect(reloj).toHaveText(alAbrir); // no se movió
+  await page.locator(".ayuda-tip .modal-close").click();
+  await page.waitForTimeout(2500);
+  await expect(reloj).not.toHaveText(alAbrir); // vuelve a correr
+});
+
 test("Inicio: muestra la versión abajo a la derecha", async ({ page }) => {
   const etiqueta = page.locator(".home-version-tag");
   await expect(etiqueta).toHaveText(/^v\d+\.\d+$/);

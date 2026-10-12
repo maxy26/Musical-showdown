@@ -48,7 +48,7 @@
   completo y el porqué): `src/` es la ÚNICA fuente de verdad del juego;
   `platforms/desktop` y `platforms/android` son envoltorios nativos
   delgados; `build/` arma cada plataforma automáticamente a partir de
-  `src/`; `test/` tiene pruebas con `node --test`; hay un `eslint.config.js`
+  `src/`; `test/` tiene pruebas con `node --test`; hay un `eslint.config.mjs`
   y el proyecto es un repositorio git con commits.
 
 ## 3. Reglas de diseño (resumen de las 39 originales + cambios posteriores)
@@ -486,6 +486,8 @@
     rueda de "Personalizado…"). Confirmada el 12-10-2026 (versión 1.20).
   *(Antes: un solo modal que mostraba cada elemento de la UI con una
   explicación corta.)*
+  - **El reloj se detiene** mientras una ayuda está abierta durante la ronda
+    y sigue desde el mismo segundo al cerrarla (usuario, 12-10-2026; versión 1.21).
 - **Ubicación de botones** (regla explícita del usuario): fuera de la
   pantalla inicial, el botón de ayuda (❓, redondo) va **a la derecha**
   del botón de menú/volver (pantallas de configuración y organizar
@@ -592,7 +594,7 @@ MusicalShowdown/
 ├── test/
 │   └── gameLogic.test.js      pruebas con `node --test` (lógica pura)
 │
-├── eslint.config.js            lint básico sobre src/
+├── eslint.config.mjs            lint básico sobre src/
 ├── package.json                 scripts: build:desktop, build:android,
 │                                  build:all, test, lint
 ├── README.md
