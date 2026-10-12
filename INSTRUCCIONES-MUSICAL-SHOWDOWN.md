@@ -152,6 +152,18 @@
     Ayudar al usuario a detectarlo: avisar si algo es chico para publicarlo
     solo, y proponer publicar cuando lo acumulado valga la pena.
 
+## Música de terceros y YouTube (12-10-2026)
+
+29. **El juego nunca reproduce, descarga ni guarda música de terceros.** Para
+    escuchar una canción solo se **abre un enlace** a la búsqueda de YouTube
+    (`urlYoutube` en `screens/verify.js`, con `abrirEnlace`), fuera del juego.
+    No agregar: descargar o extraer audio de YouTube (va contra sus condiciones
+    y los derechos de autor), reproducir YouTube dentro del juego (salvo con su
+    reproductor oficial y revisando antes sus reglas) ni el **logo** de YouTube
+    (solo el texto "YouTube" y un ▶ común). Mostrar títulos y artistas está
+    bien. Lo delicado son las **letras** guardadas por dentro (ver
+    `PENDIENTES.md`, parte legal de las letras).
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**

@@ -527,6 +527,39 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .ayuda-modo{display:flex;flex-direction:column;gap:2px;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.06);}
 .ayuda-modo b{font-family:var(--font-fun-title);font-size:16px;}
 .ayuda-modo span{font-size:13px;color:var(--fun-text-dim);}
+/* Pantalla "¡Ana canta!" (verify.js): pantalla completa con el color de quien canta */
+.canta-lado-a{--group-color:var(--pink);}
+.canta-lado-b{--group-color:var(--teal);}
+.canta-capa{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;justify-content:center;gap:22px;
+  padding:24px 18px calc(24px + env(safe-area-inset-bottom));text-align:center;
+  background:var(--stage-bg); /* respaldo si el navegador no entiende color-mix */
+  background:radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--group-color) 55%, transparent), transparent 65%), var(--stage-bg);
+  animation:fadein .25s ease both;}
+.canta-centro{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.canta-mic{font-size:72px;line-height:1;animation:canta-mic 1.1s ease-in-out infinite alternate;}
+.canta-nombre{margin:0;font-family:var(--font-fun-title);font-size:clamp(34px, 9vw, 64px);font-weight:700;color:#fff;
+  text-shadow:0 4px 0 rgba(0,0,0,.25), 0 0 30px var(--group-color);animation:pop-in .5s cubic-bezier(.3,1.6,.5,1) both;}
+.canta-equipo{margin:0;font-size:18px;font-weight:800;color:var(--group-color);}
+.canta-palabra{margin:6px 0 0;padding:8px 22px;border-radius:16px;background:#fff;color:#141833;
+  font-family:var(--font-fun-title);font-size:28px;font-weight:700;letter-spacing:.02em;}
+.canta-botones{display:flex;gap:12px;width:100%;max-width:520px;margin:0 auto;}
+.canta-botones .btn{font-size:18px;padding:16px 12px;}
+.canta-extra{display:flex;justify-content:space-between;gap:12px;width:100%;max-width:520px;margin:0 auto;}
+@keyframes canta-mic{from{transform:rotate(-10deg) scale(1);}to{transform:rotate(10deg) scale(1.08);}}
+/* Búsqueda: sugerencia en gris dentro del campo (verify.js copia la letra y los márgenes del campo) */
+.busqueda-campo{position:relative;}
+.busqueda-fantasma{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;pointer-events:none;
+  white-space:pre;overflow:hidden;border-style:solid;border-color:transparent;box-sizing:border-box;}
+.busqueda-fantasma .escrito{color:transparent;}
+.busqueda-fantasma .resto{color:var(--text-dim);opacity:.75;}
+.busqueda-sugerencia{margin:-6px 0 10px;font-size:13.5px;color:var(--text-dim);}
+.busqueda-sugerencia b{color:var(--text);}
+.tecla{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:6px;border:1px solid rgba(255,255,255,.3);font-size:11.5px;font-weight:800;}
+/* Resultados de la búsqueda con el botón ▶ de YouTube */
+.result-item-youtube{cursor:pointer;}
+.result-item-youtube{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.btn-youtube{flex:none;padding:8px 14px;}
+
 /* Tarjetas de puntos de la ayuda de cada modo (ayudaModos.js) */
 .ayuda-tarjetas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
 .ayuda-tarjetas-una{grid-template-columns:1fr;}
@@ -565,6 +598,7 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .tip-rueda b{font-size:15px;padding:1px 8px;border-radius:6px;background:rgba(255,210,63,.18);color:var(--gold);}
 .tip-x{font-size:16px;width:30px;height:30px;display:inline-grid;place-items:center;border-radius:50%;color:#FF6B6B;border:2px solid rgba(255,107,107,.6);}
 .tip-puntos{display:inline-flex;gap:4px;}
+.tip-gris{color:var(--text-dim);opacity:.75;}
 .tip-punto{width:13px;height:13px;border-radius:50%;background:var(--gold);display:inline-block;}
 .tip-punto.gastado{background:rgba(255,255,255,.18);}
 .manual-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}

@@ -117,7 +117,7 @@ const AYUDAS = {
       [PILL("AMOR"), "La canción tiene que tener esta palabra"],
       ...(c.mode !== "clasico" ? [[`<span>🕐</span>${NUM("18s")}`, "Segundos que quedan (rojo en los últimos 5)"]] : []),
       ...(c.mode !== "clasico" ? [[`${PILL("×3")}<span>=</span>${NUM("300", "mas")}`, "Si sale, la ronda vale 100 × ese número"]] : []),
-      [BOTON("Ana"), "El moderador toca a quien va a cantar"],
+      [BOTON("Ana"), "El que quiere cantar toca su nombre: el primero gana el turno"],
       ...(c.mode !== "alternativo1" ? [[BOTON("⏹️ Finalizar ronda"), c.mode === "clasico" ? "Termina la ronda: nadie gana ni pierde puntos" : "Solo sin tiempo: termina como si nadie acertara"]] : []),
     ],
   },
@@ -141,15 +141,17 @@ const AYUDAS = {
   },
   buscar: {
     titulo: "Buscar canción",
-    frase: "Busca la canción que se cantó.",
+    frase: "Para comprobar la canción si hay dudas.",
     tarjetas: [
-      [`<span class="tip-lista">Col▏</span>`, "Escribe 3 letras o más del nombre"],
-      [`<span>🎵</span>${PILL("Color Esperanza")}`, "Tócala y después “Confirmar”"],
+      [`<span class="tip-lista">Col▏</span>`, "Escribe 3 letras o más: aparecen las canciones con la palabra de la ronda"],
+      [`<span class="tip-lista">des<span class="tip-gris">pacito</span></span>`, "Toca la canción (o Tab ↹ en PC) para completar el nombre"],
+      [`${PILL("Color Esperanza")}${BOTON("▶")}`, "▶ la abre en YouTube para escucharla"],
+      [`<span class="tip-lista">Enter ↵</span><span>➜</span><span>▶</span>`, "Enter busca el nombre en YouTube"],
     ],
   },
   decision: {
     titulo: "Correcta o Incorrecta",
-    frase: "El moderador escucha y decide.",
+    frase: "El moderador escucha y decide. Si hay dudas, “🔎 Buscar canción”; “← Volver” si se tocó sin querer.",
     tarjetas: {
       clasico: [
         [`<span>✅</span>${NUM("+100", "mas")}`, "Gana 100 y la ronda termina"],

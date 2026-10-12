@@ -13,6 +13,80 @@
 
 ---
 
+## 2026-10-12 — Sesión 8 (parte 24): versión 1.22
+
+**Pedido del usuario:** publicar. **Qué incluye la 1.22:** la pantalla "¡Ana
+canta!" (el jugador pide cantar con su botón; ❌ / ✅ directos; "← Volver"), la
+búsqueda opcional con YouTube (▶ por canción, Enter, sugerencia en gris, Tab y
+tocar la canción completan el nombre), y la regla 29 (el juego nunca reproduce
+ni descarga música). **Publicación:** marcas "en prueba" → versión 1.22 en el
+código, `PENDIENTES.md` y `CONTEXTO`; lista "Listo para la próxima versión"
+vaciada; `npm run android:release`, `build:desktop`, commit, etiqueta `v1.22`
+y envío a GitHub; se le abrió la versión final.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 23): completar el nombre de la canción (en prueba)
+
+**Pedido del usuario:** al escribir "des", Enter buscaba "des" en YouTube.
+Quiere que tocar la canción complete su nombre, que Tab (PC) también lo
+complete, y ver la sugerencia de la canción a la que se quiere llegar.
+
+**Qué se hizo:** `screens/verify.js`: `sugerencia()` (la primera canción
+encontrada; si empieza con lo escrito, lo que falta va en gris dentro del campo
+—`.busqueda-fantasma`, que copia la letra, los márgenes y el borde del campo—;
+si coincide por otra parte, va en una línea debajo con "Tab ↹"),
+`textoParaYoutube()` (con el nombre exacto de una canción busca nombre +
+artista). Tocar una canción escribe su nombre; Tab completa; ▶ sigue abriendo
+esa canción. (?) de la búsqueda actualizado. Pruebas: `test/busqueda.test.js`
+(4) y la prueba de pantallas de YouTube ahora prueba Tab, Enter y el clic.
+
+**Cómo se verificó:** lint sin errores; `npm test`: 145 bien; `npm run
+test:e2e` (de a una): 42 bien; capturas en celular y PC ("gaso" + "lina" en gris,
+alineado).
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 22): "¡Ana canta!", búsqueda opcional y YouTube (en prueba)
+
+**Pedidos del usuario:**
+1. Regla de qué cuenta como correcta: la palabra tiene que estar en el
+   **fragmento cantado**, no solo en la canción (salvo que diga el nombre de la
+   canción). Anotada en `PENDIENTES.md` (voz) y `CONTEXTO` ("Durante la ronda").
+2. Pulsador: el jugador toca **su mismo botón con el nombre**. Al tocarlo, una
+   pantalla completa indica quién canta; la búsqueda no se abre sola sino con un
+   botón; y desde la búsqueda, un enlace a YouTube para escuchar la canción
+   (sin que el juego reproduzca música).
+
+**Qué se hizo:**
+- `screens/verify.js`: `screenVerify()` es ahora la pantalla **"¡Ana canta!"**
+  (`.canta-capa`, color del lado o del equipo, micrófono animado, palabra,
+  ❌ / ✅ que llaman a `resolveAnswer`, "← Volver" que restaura el estado previo
+  al toque con `antesDelToque`, "🔎 Buscar canción"). La búsqueda es una ventana
+  aparte (`abrirBusqueda`) con ▶ por canción y "▶ Buscar en YouTube"; Enter
+  busca lo escrito (`urlYoutube`, `abrirEnlace`). Se quitaron "Confirmar" y la
+  ventana "¿La respuesta es correcta?".
+- `round.js`: guarda `antesDelToque`. `teclado.js`: el Enter de un buscador
+  (`enterkeyhint=search`) no pausa la edición. Textos de ayuda: el jugador toca
+  su nombre, búsqueda con YouTube, viñeta de "Cómo se juega".
+- Pruebas de pantallas: `responder()` usa el flujo nuevo; 2 nuevas ("← Volver"
+  y YouTube con ▶ y Enter, sin salir a internet).
+
+**Cómo se verificó:** lint sin errores; `npm test`: 141 bien; `npm run
+test:e2e` (de a una): 42 bien; capturas en celular, PC y Grupal.
+
+**Qué quedó abierto:** que el usuario lo pruebe y confirme; se suma a "Listo
+para la próxima versión".
+
+**Después:** el usuario preguntó si el enlace a YouTube es legal. Se le
+explicó (sin ser asesoría legal) que un enlace a la búsqueda pública no copia ni
+reproduce música; que no hay que descargar o extraer audio, reproducir YouTube
+dentro del juego sin su reproductor oficial, ni usar su logo; y que lo delicado
+son las letras guardadas. A su pedido quedó como **instrucción 29** en
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md` y como regla clave en `CLAUDE.md`.
+
+---
+
 ## 2026-10-12 — Sesión 8 (parte 21): versión 1.21
 
 **Pedido del usuario:** publicar lo hecho antes de seguir con el próximo
@@ -26,6 +100,13 @@ vulnerabilidades críticas ni altas); `eslint.config.mjs` (interno).
 firma), `build:desktop`, commit, etiqueta `v1.21` y envío a GitHub. Lista
 "Listo para la próxima versión" vaciada; "en prueba" → versión 1.21 en
 `PENDIENTES.md` y `CONTEXTO-MUSICAL-SHOWDOWN.md`. Se le abrió la versión final.
+
+**Después:** al pasar al pendiente "Correcta / Incorrecta", el usuario aclaró
+que quiere hacerlo **automático con detección por IA**, como parte del
+pendiente crítico de reconocimiento de voz (Vosk). Se juntaron los dos
+pendientes en `PENDIENTES.md`; queda anotado que cambia lo decidido el 04-10
+(el moderador confirmaba) y que hay que preguntarle si el moderador puede
+corregir a la IA.
 
 ---
 

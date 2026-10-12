@@ -426,6 +426,12 @@
   posibilidad de mover jugadores durante la partida.
 
 ### Durante la ronda
+- **Qué cuenta como respuesta correcta** (regla del usuario, 12-10-2026):
+  la palabra tiene que estar **en el fragmento que se cantó**, no solo en algún
+  lugar de la canción. Si se canta una canción que tiene la palabra pero un
+  fragmento donde no aparece, el punto **no vale**, salvo que diga el nombre
+  de la canción (por confirmar: si el título tiene la palabra). Hoy lo decide
+  el moderador; más adelante lo hará la IA de voz (ver `PENDIENTES.md`).
 - Antes de cada ronda hay una **mini pantalla de carga** de 1.5s
   (mismo estilo visual que la pantalla de carga inicial: micrófono
   rebotando, nombre del enfrentamiento, barra de progreso) — reemplaza
@@ -447,12 +453,23 @@
   bloqueada el resto de la partida.) Las palabras de la ronda pueden
   repetirse, como siempre: el usuario decidió no agregar una regla de
   "palabra no repetida".
-- **Interfaz de verificación**: una sola caja de búsqueda (por nombre o
-  por fragmento cantado). **Solo aparecen las canciones que llevan la
-  palabra de la ronda** (07-10-2026: si la palabra es "despacito", buscar "la
-  bicicleta" no la encuentra). Muestra resultados (nombre y artista, sin la
-  letra) y botones Correcta/Incorrecta que decide el moderador (no hay
-  reconocimiento de voz automático).
+- **Quién canta y verificación** (cambiado por el usuario el 12-10-2026;
+  versión 1.22): el **jugador que quiere cantar toca su nombre** (el pulsador es ese
+  mismo botón; el primero gana el turno y el reloj se detiene). Sale una
+  pantalla completa **"¡Ana canta!"** con el color de su lado o equipo, la
+  palabra y los botones **❌ Incorrecta / ✅ Correcta**, que decide el
+  moderador. **"← Volver"** deshace el toque si fue sin querer (no gasta el
+  intento). La búsqueda ya no se abre sola: **"🔎 Buscar canción"** la abre por
+  si hay dudas; **solo aparecen las canciones que llevan la palabra de la
+  ronda** (07-10-2026), y cada una tiene **▶**, que la abre en **YouTube**.
+  Mientras se escribe, lo que falta del nombre de la primera canción se ve en
+  gris ("des**pacito**"); **tocar la canción** o **Tab** (PC) completa el
+  nombre, y **Enter** lo busca en YouTube (con el nombre exacto de una canción,
+  nombre + artista). El juego no reproduce ni descarga música, solo abre el
+  enlace (instrucción 29). Más adelante lo decidirá la IA de voz (ver
+  `PENDIENTES.md`).
+  *(Antes: al tocar el nombre se abría la búsqueda; se elegía la canción,
+  "Confirmar" y luego Correcta / Incorrecta.)*
 - **Respuesta incorrecta**: no bloquea la canción, no hay límite de
   intentos, se puede volver a intentar cualquier participante de esa
   ronda.

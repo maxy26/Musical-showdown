@@ -21,6 +21,7 @@ Reglas clave de las instrucciones:
 - No inventar reglas para Alternativo 1 y 2 ni para la rotación grupal; preguntar antes.
 - Después de cada cambio, por mínimo que sea, compilar y abrirle el juego al usuario para que lo pruebe; publicar una versión solo cuando lo confirme (instrucciones 23 a 26).
 - Con cada cambio, actualizar **todos** los `.md` que correspondan (auditoría, pendientes, contexto, instrucciones, este archivo, `README.md`, `avisos/LEEME.md`), no solo la auditoría (instrucción 27).
+- El juego nunca reproduce ni descarga música de terceros: solo abre enlaces a la búsqueda de YouTube, sin su logo (instrucción 29).
 - No publicar por cada cambio mínimo: acumular los cambios confirmados (lista "Listo para la próxima versión" en `PENDIENTES.md`) y publicar cuando haya una actualización notable (instrucción 28).
 
 ## Proyecto

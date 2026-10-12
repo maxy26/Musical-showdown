@@ -21,7 +21,7 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.21**.
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.22**.
 
 - (vacía)
 
@@ -129,12 +129,21 @@
     (40 MB). Carga en 3,5 s sin internet. Con una frase **hablada** de Color
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
+  - **12-10-2026:** el usuario aclaró que el pendiente "Cambiar la forma de
+    marcar si la canción es correcta o incorrecta" es parte de este: quiere que
+    sea **automático, mediante la detección de una IA** (se juntaron los dos
+    pendientes). Cambia lo decidido el 04-10 ("el juego sugiere y el moderador
+    confirma"): **preguntarle** si el moderador puede corregir a la IA cuando
+    se equivoca. Sigue para el final según el orden acordado (07-10-2026).
+  - **Regla del usuario (12-10-2026) — qué cuenta como correcta:** la IA
+    compara con la letra original y verifica que la palabra esté **en el
+    fragmento cantado / escuchado**, no solo en algún lugar de la canción. Si
+    canta una canción que tiene "Amor" pero un fragmento donde no está, **el
+    punto no vale**, a menos que diga el nombre de la canción (supuesto: vale si
+    el título tiene la palabra, como "Amor Eterno"; confirmarlo con el
+    usuario). El usuario espera que la IA no se equivoque; depende de qué tan
+    bien entienda voz **cantada**: probar primero la página de prueba cantando.
 
-- [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
-  30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
-  pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
-  la velocidad del MVP se mide hasta que el moderador toca ese botón. Definir
-  con el usuario si quiere un "pulsador" para los jugadores y cómo funcionaría.
 
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
@@ -164,11 +173,6 @@
     la misma red Wi-Fi (aunque no tenga internet; sirve el punto de acceso de
     un celular), internet (posible servidor) o Bluetooth (solo entre apps
     instaladas y más complejo).
-- [ ] 🟡 **Cambiar la forma de marcar si la canción es correcta o incorrecta**
-  (pedido del usuario, 07-10-2026). Hoy: se busca la canción, se elige,
-  "Confirmar" y luego "❌ Incorrecta" / "✅ Correcta". Falta que el usuario
-  diga cómo lo quiere (por ejemplo, botones directos sin buscar, deslizar,
-  un solo toque…); mostrarle opciones en maqueta antes de programar.
 
 - [x] ~~🟢 **Empate al llegar al objetivo por la penalización del relevo.**~~
   **Descartado por el usuario (12-10-2026):** "es prácticamente imposible que
@@ -195,6 +199,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] **Botón para que los jugadores pidan cantar** (anotado por el usuario,
+  30-09-2026; hecho el 12-10-2026, versión 1.22): el pulsador es el mismo botón
+  con el nombre; lo toca el jugador. Al tocarlo sale la pantalla "¡Ana canta!"
+  con ❌ / ✅ directos, "← Volver", "🔎 Buscar canción" opcional y ▶ YouTube.
 
 - [x] **Aviso de Node al correr el lint** (resuelto 12-10-2026):
   `eslint.config.js` → `eslint.config.mjs`.

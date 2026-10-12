@@ -217,6 +217,8 @@ function alPresionar(e) {
   // ---------- Enter ----------
   if (e.key === "Enter" && ruleta && !enZona?.matches("button")) return; // la ruleta confirma sola
   if (e.key === "Enter" && enZona) {
+    // En un buscador, Enter lo maneja el propio campo (ej. buscar en YouTube)
+    if (enZona.matches("input[enterkeyhint=search]")) return;
     if (enZona.matches("input[type=text]")) {
       // Enter apaga / enciende la edición del nombre
       e.preventDefault();

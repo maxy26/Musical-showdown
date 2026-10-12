@@ -156,11 +156,13 @@ export function screenRound() {
 }
 
 function openVerification(side) {
+  // Para "← Volver" en "¡Ana canta!" (si se tocó sin querer): cómo estaba antes del toque
+  state.round.antesDelToque = { attempted: { ...state.round.attempted }, answeredAt: { ...state.round.answeredAt } };
   state.round.paused = true;
   state.round.selected = side;
   state.round.attempted = { ...state.round.attempted, [side]: true }; // Alternativo 1: ya no puede pedir relevo
   // Velocidad para el MVP: segundos desde que apareció la palabra hasta que
-  // se tocó el botón de este lado (hoy lo toca el moderador).
+  // se tocó el botón de este lado (lo toca el jugador que quiere cantar).
   state.round.answeredAt = { ...state.round.answeredAt, [side]: state.round.elapsed || 0 };
   state.verify = { query: "", results: [], selectedSong: null };
   state.screen = "verify";

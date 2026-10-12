@@ -140,7 +140,7 @@ export function openHelp() {
 const AYUDA_RONDA = [
   { art: `<span class="fx-word">AMOR</span>`, text: "Sale la palabra" },
   { art: `<span class="fx-pop">🙋</span><span class="fx-mic">🎤</span>`, text: "Alguien canta una canción con esa palabra" },
-  { art: `<span class="fx-pop">🔎</span><span class="fx-pop fx-late">🎵</span>`, text: "El moderador busca la canción" },
+  { art: `<span class="fx-pop">✅</span><span class="fx-pop fx-late">❌</span>`, text: "El moderador escucha y decide si es correcta" },
   { art: `<span class="fx-pop">✅</span><span class="fx-points fx-late">+100</span>`, text: "Si es correcta, suma puntos" },
 ];
 

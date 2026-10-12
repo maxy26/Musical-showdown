@@ -42,13 +42,9 @@ export function cancionConLaPalabra(page) {
   });
 }
 
-/** Toca al jugador de arriba, busca la canción y la elige. Queda en "¿La respuesta es correcta?". */
+/** El jugador de arriba toca su nombre: queda en la pantalla "¡… canta!" con ❌ / ✅. */
 export async function responder(page) {
-  const titulo = await cancionConLaPalabra(page);
-  expect(titulo, "debe haber una canción con la palabra de la ronda").toBeTruthy();
   await page.locator("#btn-a").click();
-  await page.locator("#q").fill(titulo);
-  await page.locator(".result-item").first().click();
-  await page.locator("#confirm").click();
-  await expect(page.getByRole("heading", { name: "¿La respuesta es correcta?" })).toBeVisible();
+  await expect(page.locator(".canta-nombre")).toContainText("canta!");
+  await expect(page.locator("#yes")).toBeVisible();
 }
