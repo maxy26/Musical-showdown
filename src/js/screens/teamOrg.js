@@ -6,6 +6,7 @@ import { openHelp, showWarning, showConfirm } from "./modals.js";
 import { muteButtonHTML } from "../sound.js";
 import { GROUP_TERMS, groupCountOptions, distributeRandom, groupName, defaultGroupName } from "../groups.js";
 import { MAX_NAME_LENGTH, cleanName, duplicateNameIndexes } from "./config/players.js";
+import { botonAyuda, conectarAyudas } from "./ayudaBotones.js";
 
 /**
  * Organizar grupos (modo Grupal). Reglas en CONTEXTO-MUSICAL-SHOWDOWN.md,
@@ -30,7 +31,7 @@ export function screenTeamOrg() {
 
   const root = el(`<div class="screen">
     <div class="top-bar"><h2>Organizar ${plural}</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Configuración</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
-    <div class="card">
+    <div class="card con-esquina">${botonAyuda("equipos", true)}
       <div class="config-2col">
         <div class="field">
           <label>Cantidad de ${plural}</label>
@@ -183,6 +184,7 @@ export function screenTeamOrg() {
   };
   root.querySelector("#back").onclick = () => { state.screen = "config"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
+  conectarAyudas(root); // botoncito (?)
   root.querySelector("#confirm-teams").onclick = () => {
     if (refreshNameErrors()) {
       root.querySelector("#group-names-error").scrollIntoView({ behavior: "smooth", block: "center" });

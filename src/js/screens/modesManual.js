@@ -44,7 +44,8 @@ const MODE_GUIDES = {
   alternativo2: {
     facts: ["👥 Solo en Grupal", "⚙️ Tú eliges las reglas", "📞 Relevo comodín"],
     story: [
-      { art: `<span class="fx-mix"><b>Clásico</b><i>＋</i><b>Alt. 1</b></span>`, text: "Una mezcla de los dos modos" },
+      // Cada modo se explica sin nombrar a los otros (usuario, 11-10-2026)
+      { art: `<span class="fx-pop">👥</span><span class="fx-arrow">➜</span><span class="fx-pop fx-late">🎤</span>`, text: "Equipos contra equipos; cada jugador sale en orden" },
       { art: `<span class="fx-pop">⚙️</span>`, text: "Tú eliges: reloj, intentos, multiplicadores y si se resta" },
       { art: `<span class="fx-pop">🙋</span><span class="fx-arrow">➜</span><span class="fx-pop fx-late">📞</span>`, text: "Comodín: un compañero responde por ti" },
       { art: `<span class="fx-pop">🎯</span><b class="fx-points fx-late">5</b>`, text: "Cada jugador tiene sus intentos (5 si no se cambia)" },
@@ -68,7 +69,7 @@ export function modeAllowed(modeId, battleType) {
 }
 
 /** Enciende las viñetas una por una, en bucle, mientras el manual esté abierto. */
-function animateStory(story) {
+export function animateStory(story) {
   const frames = [...story.querySelectorAll(".frame")];
   let i = 0;
   const paint = () => {
@@ -81,7 +82,9 @@ function animateStory(story) {
 }
 
 /**
- * @param {{battleType: string, current: string, onChoose: (modeId: string) => void}} props
+ * Sin `onChoose` el manual es solo para leer (desde la ayuda "Cómo se juega"):
+ * no se elige modo ni se marca el elegido.
+ * @param {{battleType?: string, current?: string, onChoose?: (modeId: string) => void}} props
  */
 export function buildModesManual({ battleType, current, onChoose }) {
   const list = document.createElement("div");
@@ -90,12 +93,12 @@ export function buildModesManual({ battleType, current, onChoose }) {
     const guide = MODE_GUIDES[id];
     const name = modeName(id);
     const allowed = modeAllowed(id, battleType);
-    const chosen = id === current;
+    const chosen = Boolean(onChoose) && id === current;
     const item = document.createElement("article");
     // Se elige tocando la tarjeta completa o el botón (usuario, 04-10-2026). Un
     // modo que no existe en el tipo de batalla actual (Alternativo 2 en
     // Individual) también se puede elegir: quien llama cambia a Grupal.
-    item.className = `manual-item${chosen ? " is-chosen" : " is-selectable"}`;
+    item.className = `manual-item${chosen ? " is-chosen" : onChoose ? " is-selectable" : ""}`;
     item.innerHTML = `
       <div class="manual-top">
         <h3 class="manual-name">${name}</h3>
@@ -109,8 +112,8 @@ export function buildModesManual({ battleType, current, onChoose }) {
       <ul class="manual-more" hidden>${guide.more.map((t) => `<li>${t}</li>`).join("")}</ul>
       <div class="manual-actions">
         <button type="button" class="manual-toggle pressable" aria-expanded="false">Ver más</button>
-        <button type="button" class="manual-choose pressable" ${chosen ? "disabled" : ""}>
-          ${chosen ? "✓ Modo elegido" : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>
+        ${onChoose ? `<button type="button" class="manual-choose pressable" ${chosen ? "disabled" : ""}>
+          ${chosen ? "✓ Modo elegido" : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>` : ""}
       </div>`;
     const more = item.querySelector(".manual-more");
     const toggle = item.querySelector(".manual-toggle");
@@ -119,7 +122,7 @@ export function buildModesManual({ battleType, current, onChoose }) {
       toggle.textContent = more.hidden ? "Ver más" : "Ver menos";
       toggle.setAttribute("aria-expanded", String(!more.hidden));
     };
-    if (!chosen) {
+    if (onChoose && !chosen) {
       item.onclick = (e) => {
         if (e.target.closest(".manual-toggle")) return; // "Ver más" no elige el modo
         onChoose(id);

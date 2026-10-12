@@ -1,6 +1,7 @@
 import { el } from "../../utils.js";
 import { alt2Options, ALT2_LIMITS, ALL_MULTIPLIERS } from "./modes.js";
 import { maxRelaysPerRound } from "../../relay.js";
+import { botonAyuda } from "../ayudaBotones.js";
 
 /**
  * Opciones de Alternativo 2 en "Configurar partida" (usuario, 03-10-2026):
@@ -25,21 +26,21 @@ function stepper(id, value, label) {
   </div>`;
 }
 
-/** Texto de la fila de relevos: "3 en total · 1 por ronda" o, con 0, "0 · todos con penalización". */
+/** Texto de la fila de relevos: "3 en total · 1 por ronda" o, con 0, "Sin relevos". */
 export function relaySummary(o) {
-  return o.relaysTotal === 0 ? "0 · todos con penalización" : `${o.relaysTotal} en total · ${o.relaysPerRound} por ronda`;
+  return o.relaysTotal === 0 ? "Sin relevos" : `${o.relaysTotal} en total · ${o.relaysPerRound} por ronda`;
 }
 
 /** Filas de las opciones de Alternativo 2 (van dentro de `.opts`). */
 export function alt2RowsHTML(c) {
   const o = alt2Options(c);
   return `
-    <div class="opt-row"><span>✨ Multiplicadores</span>${yesNo("multipliers", c.multipliers.length > 0)}</div>
-    <div class="opt-row"><span>🎯 Intentos</span>${stepper("attempts", o.attempts, "intentos")}</div>
-    <div class="opt-row"><span>😢 El perdedor resta</span>${yesNo("loserLoses", o.loserLoses)}</div>
-    <div class="opt-row"><span>⌛ Si nadie acierta, ambos restan</span>${yesNo("noneLoseHalf", o.noneLoseHalf)}</div>
+    <div class="opt-row"><span>✨ Multiplicadores</span>${yesNo("multipliers", c.multipliers.length > 0)}${botonAyuda("multiplicadores")}</div>
+    <div class="opt-row"><span>🎯 Intentos</span>${stepper("attempts", o.attempts, "intentos")}${botonAyuda("intentos")}</div>
+    <div class="opt-row"><span>😢 El perdedor resta</span>${yesNo("loserLoses", o.loserLoses)}${botonAyuda("perdedor")}</div>
+    <div class="opt-row"><span>⌛ Si nadie acierta, ambos restan</span>${yesNo("noneLoseHalf", o.noneLoseHalf)}${botonAyuda("nadie")}</div>
     <div class="opt-row"><span>🔁 Relevos por equipo</span>
-      <button type="button" class="relay-open pressable" id="relay-settings">${relaySummary(o)} ✎</button></div>`;
+      <button type="button" class="relay-open pressable" id="relay-settings">${relaySummary(o)} ✎</button>${botonAyuda("relevosConfig")}</div>`;
 }
 
 /** Guarda un cambio de las opciones de Alternativo 2 (los relevos por ronda no pasan de los intentos). */
@@ -76,7 +77,7 @@ export function bindAlt2Options(root, c, rerender) {
 }
 
 /**
- * Ventanita de relevos: total de la partida (0 a 7; con 0 todos son de más; cuenta las
+ * Ventanita de relevos: total de la partida (0 a 7; con 0, "Sin relevos"; cuenta las
  * rondas en que se usan) y máximo por ronda (de 1 hasta los intentos). "Listo" guarda.
  */
 function openRelaySettings(c, rerender) {
@@ -101,7 +102,7 @@ function openRelaySettings(c, rerender) {
     draft.perRound = Math.min(Math.max(1, draft.perRound), maxPerRound);
     const total = overlay.querySelector('[data-stepper="total"]');
     const perRound = overlay.querySelector('[data-stepper="perRound"]');
-    total.querySelector("output").textContent = draft.total;
+    total.querySelector("output").textContent = draft.total === 0 ? "Sin relevos" : draft.total;
     perRound.querySelector("output").textContent = draft.total === 0 ? "—" : draft.perRound;
     total.querySelector('[data-step="-1"]').disabled = draft.total <= minTotal;
     total.querySelector('[data-step="1"]').disabled = draft.total >= maxTotal;

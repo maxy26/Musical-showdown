@@ -3,6 +3,7 @@ import { SONG_DB } from "../data/songs.js";
 import { el, normalizeForSearch, escapeHtml } from "../utils.js";
 import { render } from "../router.js";
 import { resolveAnswer, currentSinger } from "../gameLogic.js";
+import { botonAyuda, conectarAyudas } from "./ayudaBotones.js";
 
 /** Letras mínimas para buscar (usuario, 04-10-2026: con 1 o 2 letras no se muestra nada). */
 export const MIN_SEARCH_LETTERS = 3;
@@ -71,7 +72,7 @@ export function screenVerify() {
   const who = currentSinger(r.selected);
 
   const root = el(`<div class="modal-backdrop">
-    <div class="modal">
+    <div class="modal con-esquina">${botonAyuda("buscar", true)}
       <h2>🔎 Buscar canción</h2>
       <p class="panel-title">Palabra: <strong style="color:var(--gold);">${r.word.toUpperCase()}</strong> · Responde: ${who}</p>
       <div class="field">
@@ -134,6 +135,7 @@ export function screenVerify() {
   };
 
   renderResults();
+  conectarAyudas(root); // botoncito (?)
   return root;
 }
 
@@ -141,7 +143,7 @@ function openJudgeDecision() {
   const v = state.verify;
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal">
+  overlay.innerHTML = `<div class="modal con-esquina">${botonAyuda("decision", true)}
     <h2>¿La respuesta es correcta?</h2>
     <p class="panel-title">🎵 ${v.selectedSong.title} — ${v.selectedSong.artist}</p>
     <div class="btn-row" style="margin-top:18px;">
@@ -152,4 +154,5 @@ function openJudgeDecision() {
   document.getElementById("app").appendChild(overlay);
   overlay.querySelector("#yes").onclick = () => { overlay.remove(); resolveAnswer(true); };
   overlay.querySelector("#no").onclick = () => { overlay.remove(); resolveAnswer(false); };
+  conectarAyudas(overlay); // botoncito (?)
 }

@@ -1,7 +1,12 @@
 import { state, resetState } from "../state.js";
-import { efecto, efectoSuave } from "../sound.js";
+import { efecto } from "../sound.js";
 import { render } from "../router.js";
 import { startTimer } from "../gameLogic.js";
+import { el } from "../utils.js";
+import { openSheet } from "./sheet.js";
+import { buildModesManual, animateStory } from "./modesManual.js";
+import { modeName } from "./config/modes.js";
+import { hayAyudaModo, abrirAyudaModo } from "./ayudaModos.js";
 
 /**
  * X para cerrar en la esquina superior derecha. Va solo en las ventanas que
@@ -66,84 +71,71 @@ export function openPause() {
   };
 }
 
+/**
+ * Ayuda "Cómo se juega" (rediseño aprobado por el usuario sobre una maqueta,
+ * 11-10-2026): un resumen breve y general del juego, con el mismo estilo que
+ * "Modos de juego" (hoja e historieta). Lo que hace cada botón se explicará
+ * en botoncitos de ayuda junto a cada uno (ver PENDIENTES.md).
+ */
 export function openHelp() {
-  const overlay = document.createElement("div");
-  overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal help-modal">
-    <h2>Cómo se juega</h2>
+  // Dentro de un modo (fuera del inicio), la ❓ explica ese modo (11-10-2026)
+  const c = state.config;
+  if (state.screen !== "menu" && hayAyudaModo(c.mode, c.battleType)) {
+    abrirAyudaModo(c.mode, c.battleType);
+    return;
+  }
+  const body = el(`<div class="manual">
+    <article class="manual-item">
+      <p class="ayuda-linea">🎤 Sale una palabra: canta una canción que la tenga.</p>
+    </article>
 
-    <p class="help-section-title">Durante la ronda</p>
+    <article class="manual-item">
+      <div class="manual-top"><h3 class="manual-name">Una ronda</h3></div>
+      <ol class="story story-4">${AYUDA_RONDA.map((s, n) => `
+        <li class="frame"><span class="frame-num">${n + 1}</span>
+          <span class="frame-art">${s.art}</span><span class="frame-text">${s.text}</span></li>`).join("")}
+      </ol>
+    </article>
 
-    <div class="help-row">
-      <div class="help-visual"><button class="name-btn mini" disabled>MICHAEL<span class="score">700 pts</span></button></div>
-      <div class="help-text"><strong>Nombre y puntaje</strong>El moderador toca este botón para indicar quién va a responder.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual"><div class="progress-track mini"><div class="progress-fill" style="width:45%;background:linear-gradient(90deg,var(--pink),#FF8A65);"></div></div></div>
-      <div class="help-text"><strong>Barra de progreso</strong>Qué tan cerca está ese jugador (o equipo) del puntaje objetivo.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual"><div class="clock mini">🕐 <span>18s</span></div></div>
-      <div class="help-text"><strong>Reloj</strong>Tiempo restante para responder. En rojo cuando quedan 5 segundos o menos.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual"><div class="word mini">AMOR</div></div>
-      <div class="help-text"><strong>Palabra de la ronda</strong>La canción que se cante debe contener esta palabra exacta.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual"><div class="multiplier mini">×2</div></div>
-      <div class="help-text"><strong>Multiplicador</strong>Si aparece, los puntos de esa ronda se multiplican al acertar.</div>
-    </div>
-
-    <div class="help-row">
-      <div class="help-visual"><button class="icon-btn mini" disabled>⏸ Pausa</button></div>
-      <div class="help-text"><strong>Botón de pausa</strong>Detiene el tiempo y abre un menú con ayuda o salir de la partida.</div>
-    </div>
-
-    <p class="help-section-title">Verificando una canción</p>
-
-    <div class="help-row">
-      <div class="help-visual help-visual-wide">
-        <input type="text" class="mini" disabled placeholder="Nombre o fragmento (mín. 3 letras)">
+    <article class="manual-item">
+      <div class="manual-top"><h3 class="manual-name">Individual o Grupal</h3></div>
+      <div class="manual-facts">
+        <span class="manual-fact">👤 Individual: cada uno por su cuenta</span>
+        <span class="manual-fact">👥 Grupal: por equipos (4 jugadores o más)</span>
       </div>
-      <div class="help-text"><strong>Buscar canción</strong>Mientras se escribe aparecen las canciones, por nombre o por el fragmento que se cantó. Hacen falta al menos 3 letras, y solo aparecen las canciones que llevan la palabra de la ronda.</div>
-    </div>
+    </article>
 
-    <div class="help-row">
-      <div class="help-visual help-visual-wide">
-        <div class="result-item mini" style="width:100%;">
-          <div class="r-title">🎵 Amor</div>
-          <div class="r-artist">Rocío Dúrcal</div>
-        </div>
-      </div>
-      <div class="help-text"><strong>Resultado</strong>El moderador elige la canción correcta entre los resultados encontrados.</div>
-    </div>
+    <article class="manual-item">
+      <div class="manual-top"><h3 class="manual-name">Modos de juego</h3></div>
+      ${AYUDA_MODOS.map((m) => `<div class="ayuda-modo"><b>${modeName(m.id)}</b><span>${m.text}</span></div>`).join("")}
+      <div class="manual-actions"><button type="button" class="manual-choose pressable" id="help-modes">📖 Ver modos de juego</button></div>
+    </article>
 
-    <div class="help-row">
-      <div class="help-visual help-visual-wide">
-        <div class="btn-row" style="width:100%;">
-          <button class="btn btn-danger mini" disabled>❌ Incorrecta</button>
-          <button class="btn btn-primary mini" disabled>✅ Correcta</button>
-        </div>
-      </div>
-      <div class="help-text"><strong>Decisión final</strong>El moderador confirma si la respuesta fue correcta o incorrecta.</div>
-    </div>
-
-    <p class="help-section-title">Cómo se gana</p>
-    <p class="help-plain">El primer jugador (o equipo) que alcance o supere el puntaje objetivo gana la partida de inmediato. No hay empates ni desempates.</p>
-
-    <button class="btn btn-primary btn-block" id="close" style="margin-top:14px;">Entendido</button>
-  </div>`;
-  document.getElementById("app").appendChild(overlay);
-  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); };
-  overlay.querySelector("#close").onclick = cerrar;
-  addCloseButton(overlay, cerrar);
-  efecto("abrir");
+    <article class="manual-item">
+      <div class="manual-top"><h3 class="manual-name">Cómo se gana</h3></div>
+      <p class="ayuda-linea">🏆 Gana el primero que llega al puntaje objetivo.</p>
+    </article>
+  </div>`);
+  // El manual de modos se abre solo para leer: desde la ayuda no se cambia el modo
+  body.querySelector("#help-modes").onclick = () => openSheet({ title: "Modos de juego", body: buildModesManual({}) });
+  openSheet({ title: "Cómo se juega", body });
+  animateStory(body.querySelector(".story"));
 }
+
+/** Las 4 viñetas de "Una ronda" (mismos efectos que el manual de modos). */
+const AYUDA_RONDA = [
+  { art: `<span class="fx-word">AMOR</span>`, text: "Sale la palabra" },
+  { art: `<span class="fx-pop">🙋</span><span class="fx-mic">🎤</span>`, text: "Alguien canta una canción con esa palabra" },
+  { art: `<span class="fx-pop">🔎</span><span class="fx-pop fx-late">🎵</span>`, text: "El moderador busca la canción" },
+  { art: `<span class="fx-pop">✅</span><span class="fx-points fx-late">+100</span>`, text: "Si es correcta, suma puntos" },
+];
+
+/** Una línea por modo, sin nombrar a los otros (usuario, 11-10-2026). */
+const AYUDA_MODOS = [
+  { id: "clasico", text: "Sin reloj · 1 intento cada uno" },
+  { id: "alternativo1", text: "Con reloj · se suma y se resta" },
+  { id: "alternativo2", text: "Solo Grupal · tú eliges las reglas" },
+];
 
 /**
  * Ventana de advertencia propia (reemplaza al alert() nativo del navegador,

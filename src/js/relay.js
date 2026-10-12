@@ -41,7 +41,10 @@ export function relayRules(config) {
   }
   if (config.mode === "alternativo2") {
     const o = alt2Options(config);
-    return { total: Math.max(0, o.relaysTotal), perRound: o.relaysPerRound, lifeline: true };
+    // Con 0 relevos se juega "Sin relevos": no hay botón (usuario 11-10-2026;
+    // antes, con 0, todos los relevos eran de más con penalización)
+    if (o.relaysTotal <= 0) return null;
+    return { total: o.relaysTotal, perRound: o.relaysPerRound, lifeline: true };
   }
   return null;
 }

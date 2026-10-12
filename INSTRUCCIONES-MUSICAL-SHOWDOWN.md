@@ -107,10 +107,12 @@
 20. Multiplicadores: exactamente 4 (×2, ×3, ×4, ×5), que se activan o
     desactivan todos juntos con el selector de dos opciones "✨ Con
     multiplicadores | Sin multiplicadores" (diseño B elegido por el usuario
-    el 30-09-2026). **Solo existen en Alternativo 1** (y en Alternativo 2
-    mientras no tenga reglas); en Clásico no hay multiplicadores ni reloj.
-    En Alternativo 1 el tiempo por ronda es obligatorio (no hay "Sin
-    tiempo"). Puntaje objetivo y tiempo por ronda: el valor
+    el 30-09-2026). En Clásico no hay multiplicadores ni reloj. En
+    **Alternativo 1** los multiplicadores están **siempre activos** (desde el
+    03-10-2026 no se desactivan) y el tiempo por ronda es obligatorio (no hay
+    "Sin tiempo"). En **Alternativo 2** se elige "Sí / No" en Configurar
+    partida (actualizado el 12-10-2026; antes decía que solo existían en
+    Alternativo 1). Puntaje objetivo y tiempo por ronda: el valor
     personalizado se elige en un **selector de rueda** (`valuePicker.js`),
     igual para puntaje y tiempo: se desliza con el dedo (Android) o con las
     flechas ↑ ↓ del teclado (PC), y se confirma con Enter o con "Listo". Al
@@ -119,6 +121,31 @@
     dígito, cajas con flechas, ventana con botones ▲ / ▼) salvo pedido
     explícito.
 
+## Forma de trabajo con el usuario (pedidas entre el 10 y el 12-10-2026)
+
+23. **Todo en español**, también las preguntas, los pedidos de permiso y la
+    descripción de cada comando que se ejecuta.
+24. **Probar antes de publicar:** después de **cada cambio, por mínimo que
+    sea**, compilar y **abrirle el juego** (`dist/windows/Musical Showdown.exe`)
+    para que lo pruebe. Para el celular, una copia firmada sin subir la versión
+    (`dist/MusicalShowdown-PRUEBA-….apk`, se instala encima; si el celular
+    está conectado por USB, instalarla con `adb install -r`). Lo que está en
+    prueba **no está confirmado**: no hacer commit de versión ni publicar
+    (`android:release`, etiqueta `v*`) hasta que el usuario lo confirme. Una
+    vez publicado, abrirle también la versión final. Antes de recompilar,
+    cerrar el juego si está abierto.
+25. **Permisos del sistema** (notificaciones, micrófono, cámara…): pedirlos
+    directo con la ventana del celular, **sin** una ventana propia del juego
+    antes.
+26. **Los modos de juego están terminados** (11-10-2026): no proponer cambios
+    a sus reglas. Si un pendiente toca una regla, preguntar solo lo puntual.
+27. **Documentos siempre al día** (12-10-2026): con cada cambio, actualizar
+    todos los `.md` que correspondan, no solo la auditoría:
+    `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+    este archivo, `CLAUDE.md`, `README.md` y `avisos/LEEME.md`. Lo que esté en
+    prueba se anota como "en prueba", y se corrigen las frases que el cambio
+    deja viejas.
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**
@@ -126,7 +153,8 @@
     definió el usuario el 28-09-2026 (contexto, sección 3). Se programan
     **tal cual**: ante cualquier caso que no cubran, **preguntar**; el
     usuario pidió expresamente que no se asuma nada. **Alternativo 2**
-    sigue sin reglas: preguntar antes de inventar cualquier cosa.
+    tiene reglas desde el 03-10-2026 (contexto, sección 3). En los tres
+    modos: ante cualquier caso no cubierto, preguntar antes de inventar.
 22. Si se toca la base de canciones (`src/js/data/songs.js`), recordar
     que es un mock temporal — no asumir que se pueden agregar letras
     reales completas de canciones con derechos de autor sin antes

@@ -13,6 +13,7 @@ import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
 import { countTypedPlayers, initPlayersSection, cleanName, padPlayers, fitPlayers } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { genresFieldHTML, bindGenres, fixGenresForMode } from "./genres.js";
+import { botonAyuda, conectarAyudas } from "../ayudaBotones.js";
 import { distributeRandom, maxGroups } from "../../groups.js";
 
 /**
@@ -52,14 +53,14 @@ export function screenConfig() {
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
-        <label>Jugadores <span class="players-count" id="players-count">${typedCount}</span></label>
+        <label class="fila-ayuda"><span>Jugadores <span class="players-count" id="players-count">${typedCount}</span></span>${botonAyuda("jugadores")}</label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
         <button class="btn btn-secondary add-player-btn" id="add-player">+ Añadir jugador</button>
       </div>
 
       <div class="field">
-        <label>Géneros musicales</label>
+        <label class="fila-ayuda"><span>Géneros musicales</span>${botonAyuda("generos")}</label>
         ${genresFieldHTML(c)}
       </div>
 
@@ -70,7 +71,7 @@ export function screenConfig() {
             ${TARGET_SCORE_PRESETS.map((v) => `<option value="${v}" ${c.targetScoreMode === "preset" && v === c.targetScore ? "selected" : ""}>${v} pts</option>`).join("")}
             ${customValueOption(c.targetScoreMode === "custom", `${c.targetScore} pts`)}
             <option value="custom">Personalizado…</option>
-          </select>
+          </select>${botonAyuda("puntaje")}
         </div>
         ${usesRoundTime(c.mode) ? `
         <div class="opt-row"><span>⏱️ Tiempo por ronda</span>
@@ -78,7 +79,7 @@ export function screenConfig() {
             ${ROUND_TIME_PRESETS.filter((o) => o.value !== 0 || allowsNoTime(c.mode)).map((o) => `<option value="${o.value}" ${c.roundTimeMode === "preset" && o.value === c.roundTime ? "selected" : ""}>${o.label}</option>`).join("")}
             ${customValueOption(c.roundTimeMode === "custom", formatCustomTime(c.roundTime))}
             <option value="custom">Personalizado…</option>
-          </select>
+          </select>${botonAyuda("tiempo")}
         </div>` : ""}
         ${c.mode === "alternativo2" ? alt2RowsHTML(c) : ""}
       </div>
@@ -100,6 +101,7 @@ export function screenConfig() {
 
   root.querySelector("#back").onclick = () => { state.screen = "menu"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
+  conectarAyudas(root); // botoncitos (?)
   filasCompletas(root);
 
   // ---------- Puntaje objetivo y tiempo: predeterminado vs. personalizado ----------
@@ -140,7 +142,7 @@ export function screenConfig() {
       openValuePicker({
         title: "Tiempo por ronda",
         value: c.roundTime > 0 ? c.roundTime : 90, // "Sin tiempo" no tiene valor: se parte de 1:30
-        min: 5, max: 120, step: 5, // máximo 2 minutos; 0:00 sería "Sin tiempo"
+        min: 5, max: 120, step: 1, // de 1 en 1 (usuario 11-10-2026); máximo 2 minutos; 0:00 sería "Sin tiempo"
         formatItem: (t) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`,
         describe: formatCustomTime,
         onAccept: (t) => {

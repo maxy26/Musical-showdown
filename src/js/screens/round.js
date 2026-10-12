@@ -11,6 +11,7 @@ import { muteButtonHTML } from "../sound.js";
 import { ICONS } from "../icons.js";
 import { openSheet } from "./sheet.js";
 import { settingsBody } from "./menu.js";
+import { botonAyuda, conectarAyudas } from "./ayudaBotones.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -39,16 +40,15 @@ export function screenRound() {
       `<span class="relay-dot ${i < left ? "on" : ""}">🔁</span>`).join("");
     const extra = left > relays.total ? `<span class="relay-extra">+${left - relays.total}</span>` : "";
     // Alternativo 2: también cuántos le quedan en esta ronda (el total cuenta rondas).
-    // Con 0 en total (Alternativo 2), todos los relevos son de más.
-    const inRound = relays.total === 0
-      ? `<span class="relay-round">0 · con penalización</span>`
-      : relays.lifeline
-        ? `<span class="relay-round" title="Relevos que le quedan en esta ronda">Ronda: ${relaysLeftThisRound(r.relaysThisRound?.[side] || 0, left, relays.perRound)}</span>`
-        : "";
+    // Con 0 en total no hay relevos (relayRules devuelve null).
+    const inRound = relays.lifeline
+      ? `<span class="relay-round" title="Relevos que le quedan en esta ronda">Ronda: ${relaysLeftThisRound(r.relaysThisRound?.[side] || 0, left, relays.perRound)}</span>`
+      : "";
     return `<div class="relay-bar">
       <span class="relay-icons" title="Relevos que le quedan (en total)">${icons}${extra}</span>${inRound}
       <button type="button" class="btn btn-secondary relay-btn" data-relay="${side}">Relevo</button>
       <button type="button" class="icon-btn icon-btn-round relay-adjust" data-relay-adjust="${side}" title="Agregar o quitar relevos">±</button>
+      ${botonAyuda("relevoRonda")}
     </div>`;
   }
 
@@ -78,7 +78,8 @@ export function screenRound() {
         ${relayBar("A")}
       </div>
 
-      <div class="center-stage">
+      <div class="center-stage con-esquina">
+        ${r.phase === "intro" ? "" : botonAyuda("ronda", true)}
         ${r.phase === "intro" ? `
           <div class="round-loading">
             <div class="round-loading-mic">🎤</div>
@@ -149,6 +150,7 @@ export function screenRound() {
     yesText: "Sí, finalizar",
     onYes: finishRoundManual,
   });
+  conectarAyudas(root); // botoncitos (?)
 
   return root;
 }

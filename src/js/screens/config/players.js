@@ -118,10 +118,27 @@ export function initPlayersSection(root, c) {
       list.lastElementChild.querySelector("input").focus({ preventScroll: true });
     }
     list.onscroll = () => updateScrollShadows(list);
-    requestAnimationFrame(() => updateScrollShadows(list)); // cuando ya está en pantalla
+    requestAnimationFrame(() => { // cuando ya está en pantalla
+      fijarAlto(list);
+      updateScrollShadows(list);
+    });
     refreshDuplicates();
   }
   renderPlayers();
+
+  /**
+   * La lista mide lo justo para los espacios con los que empieza (2 en
+   * Individual, 4 en Grupal) y no crece al añadir jugadores: los demás se ven
+   * desplazando por dentro (usuario 12-10-2026).
+   */
+  function fijarAlto(list) {
+    const ultima = list.children[minPlayerRows(c.battleType) - 1];
+    if (!ultima) return;
+    const estilo = window.getComputedStyle(list);
+    const alto = ultima.getBoundingClientRect().bottom - list.getBoundingClientRect().top + list.scrollTop
+      + parseFloat(estilo.paddingBottom) + parseFloat(estilo.borderBottomWidth);
+    list.style.height = `${Math.round(alto)}px`;
+  }
 
   // Difuminado arriba / abajo cuando quedan nombres fuera de la vista
   function updateScrollShadows(list) {

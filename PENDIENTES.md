@@ -68,9 +68,6 @@
   en git. Si se pierde, las versiones nuevas no se podrán instalar encima de
   las anteriores (habrá que desinstalar). Pedirle al usuario que la guarde en un
   lugar seguro (Drive, memoria USB).
-- [ ] 🟡 **Probar el APK en un teléfono Android real.** Se descarga desde
-  GitHub Actions ("Artifacts" → `musical-showdown-android`). Para instalarlo
-  hay que permitir "instalar apps de origen desconocido".
 - [ ] 🟡 **Probar la versión de Linux en un equipo con Linux real.** El
   `.AppImage` sale de GitHub Actions. Para abrirlo: darle permiso de
   ejecución (`chmod +x Musical-Showdown.AppImage`) y hacer doble clic. En
@@ -116,10 +113,6 @@
     Esperanza la entendió palabra por palabra y encontró la canción (8
     palabras). Falta que el usuario la pruebe **cantando**.
 
-- [ ] 🟢 **Revisar el ícono chico de las notificaciones** (10-10-2026). Salía
-  como un cuadrado blanco o gris; el 11-10-2026 se hizo `ic_notificacion.xml`
-  (♫, dorado). Falta publicarlo en una versión y que el usuario confirme cómo se
-  ve en el celular.
 - [ ] 🟡 **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026). Hoy no hay forma de que los jugadores presionen un botón para
   pedir el turno: el moderador toca el nombre de quien va a responder. Por eso
@@ -171,26 +164,37 @@
 > El usuario pidió ir **con calma, paso a paso y a fondo**: definir cada idea
 > por completo con preguntas antes de programarla.
 
-- [ ] 🟡 **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026): darle
-  un resumen de cómo funciona hoy Clásico y luego modificarlo según lo que decida.
 
-- [ ] 🟡 **Botón de ayuda en cada opción** (pedido del usuario, 03-10-2026).
-  Poner un pequeño botón de ayuda junto a cada opción de la configuración (tiempo,
-  multiplicadores, intentos, cuánto resta el perdedor, etc.) que explique cómo
-  funciona esa opción en particular. La idea es que reemplace a la ayuda general
-  de arriba a la derecha (❓), para que sea más directo y simple de leer. El
-  usuario quiere verlo más adelante: antes de hacerlo, preguntarle el diseño y
-  si se quita la ayuda general.
-- [ ] 🟡 **Actualizar la ayuda "Cómo se juega"** (pedido del usuario,
-  29-09-2026). Hoy describe solo la ronda clásica. Debe explicar lo nuevo:
-  equipos múltiples y sus nombres, los modos (Clásico, Alternativo 1 y 2, con
-  sus reglas cuando estén definidas), el selector de rueda del valor
-  personalizado y cómo mover e intercambiar jugadores. Conviene hacerlo al
-  terminar de definir Alternativo 1 y 2.
+- [ ] 🟢 **El reloj sigue corriendo con una ayuda abierta** (detectado el
+  11-10-2026): si durante la ronda se abre un (?) o la ❓, el tiempo no se
+  detiene. Preguntarle al usuario si quiere que se pause mientras está abierta.
 
 ---
 
 ## ✅ Resueltos
+
+- [x] **Botoncitos de ayuda (?) y ayuda de cada modo** (pedido del usuario,
+  03-10-2026; probado en 6 vueltas y confirmado el 12-10-2026, versión 1.20).
+  (?) chico, blanco/gris, al costado derecho de cada sección o ventana, con una
+  frase corta y tarjetas con imagen; la ❓ del inicio explica todo el juego y,
+  dentro de un modo, ese modo (5 combinaciones). Cada texto explica solo el
+  modo que se juega. Con la versión: "Sin relevos" con 0 en Alternativo 2,
+  tiempo personalizado de 1 en 1 y lista de jugadores con alto fijo. Ver la
+  auditoría (sesión 8, partes 13 a 18).
+
+- [x] **Actualizar la ayuda "Cómo se juega"** (pedido del usuario, 29-09-2026;
+  resuelto 11-10-2026): ahora es un resumen breve y general del juego (hoja con
+  historieta, aprobado sobre una maqueta). Ver la auditoría (sesión 8, parte 12).
+
+- [x] **Revisar y modificar Clásico** (pedido del usuario, 30-09-2026; cerrado
+  11-10-2026): se le dio el resumen y respondió que los modos de juego ya están
+  hechos y no hay que cambiarlos.
+
+- [x] **Ícono chico de las notificaciones** (10-10-2026; resuelto 11-10-2026):
+  `ic_notificacion.xml` (♫, dorado) desde la 1.17; el usuario confirmó que se
+  ven las notas en la barra.
+- [x] **Probar el APK en un teléfono Android real** (resuelto 11-10-2026): el
+  usuario instala y usa las versiones en su celular (OPPO CPH2695, Android 16).
 
 - [x] **Archivos de Firebase en Descargas** (resuelto 11-10-2026): se borraron
   a pedido del usuario. No necesitan copia: `google-services.json` se vuelve a

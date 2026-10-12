@@ -13,6 +13,214 @@
 
 ---
 
+## 2026-10-12 — Sesión 8 (parte 18): ayudas confirmadas y versión 1.20
+
+**El usuario confirmó la prueba.** Se quitaron las marcas "PRUEBA" de los
+comentarios del código (10 archivos de `src/`) y de los documentos:
+`PENDIENTES.md` (el pendiente de los (?) pasa a Resueltos; queda uno nuevo 🟢:
+el reloj sigue corriendo con una ayuda abierta en la ronda),
+`CONTEXTO-MUSICAL-SHOWDOWN.md` y `CLAUDE.md` (confirmado, versión 1.20).
+
+**Publicación:** versión **1.20** (`npm run android:release`), commit, etiqueta
+`v1.20` y envío a GitHub; después se le abrió al usuario la versión final.
+La 1.20 incluye todo lo hecho desde la 1.19: la ayuda "Cómo se juega" nueva, la
+ayuda de cada modo, los (?), "Sin relevos" con 0, el tiempo personalizado de 1
+en 1, la lista de jugadores con alto fijo y los documentos al día.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 17): PRUEBA — textos finales de las ayudas
+
+**Pedido del usuario:** cambiar 14 textos por los suyos (con la ortografía
+corregida) y quitar 4 tarjetas.
+
+**Qué se hizo:**
+- `ayudaBotones.js`: Géneros ("Eliges todos los géneros", "Eliges solo un
+  género" / "Eliges uno o varios géneros"); Puntaje y Tiempo ("Elige … con los
+  valores predeterminados…", "Personalizado: elige … con más flexibilidad…");
+  Sin tiempo ("Al elegir “Sin tiempo”, las rondas se terminan en cualquier
+  momento con el botón “Finalizar ronda”"); Multiplicadores ("Los puntos se
+  multiplican al azar durante todo el juego, desde ×2 hasta ×5"); Relevos (el
+  relevo entre jugadores del mismo equipo, y `RELEVO_DE_MAS`: "El relevo de más
+  sanciona al equipo: resta la mitad de los puntos en juego y suma esa misma
+  mitad al equipo contrario", usado también en el (?) del botón Relevo).
+  Tarjetas quitadas: "Listo" en puntaje y en tiempo, y en Relevos por equipo,
+  "elegir cuántos" y "Sin relevos".
+- `ayudaModos.js`: puntos negativos ("se muestran en color rojo"), relevo de
+  más de Alternativo 1 ("se aplica una sanción, que se explica al
+  confirmarlo") y las opciones de Alternativo 2 con el nombre de la opción en
+  otro color (`.ayuda-opcion`, turquesa).
+
+**Cómo se verificó:** lint sin errores; `npm test`: 141 bien; `npm run
+test:e2e` (de a una): 36 bien; capturas de tiempo, relevos y la ayuda de
+Alternativo 2. APK de prueba `dist/MusicalShowdown-PRUEBA-ayudas-6.apk`.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 16): PRUEBA — (?) con imágenes y muy breves
+
+**Pedido del usuario:** el puntaje objetivo y el tiempo por ronda, explicados
+"con imágenes de manera muy breve" en vez del paso a paso en texto; los demás
+(?) también con imágenes, los que lo merecen.
+
+**Qué se hizo:** `ayudaBotones.js` reescrito: cada (?) tiene una frase corta y
+tarjetas con dibujito y pocas palabras (mismo estilo que las tarjetas de
+"Puntos" de la ayuda de cada modo). Dibujitos nuevos en CSS: la lista (`2000
+pts ▾`), la rueda de "Personalizado…" (1900 / **2000** / 2100), botones,
+fichas, la ✕ roja e intentos (puntos que se gastan). Se borraron los estilos de
+los textos largos (`.tip-img`, `.tip-texto`, `.tip-hueco`).
+
+**Cómo se verificó:** lint sin errores; `npm test`: 141 bien; `npm run
+test:e2e` (de a una): 36 bien; capturas de puntaje, tiempo, multiplicadores,
+intentos, relevos y jugadores. APK de prueba
+`dist/MusicalShowdown-PRUEBA-ayudas-5.apk`.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 15): PRUEBA — cuarta vuelta de las ayudas
+
+**Pedidos del usuario:**
+1. Lista de jugadores: el tamaño de antes (justo para los espacios iniciales),
+   pero que no crezca al añadir jugadores. → `players.js` → `fijarAlto()`: mide
+   los primeros 2 (Individual) o 4 (Grupal) espacios y deja ese alto fijo; el
+   CSS vuelve a `max-height`.
+2. Explicar bien cómo se personaliza el puntaje (y el tiempo). → (?) con
+   "Personalizado…, paso a paso", rango y qué pasa después.
+3. Cada (?) responde "¿qué hace?" y "¿qué pasa si pongo esta opción?" ("Si
+   eliges Sí / No", "Qué pasa si lo cambio"). Se reescribieron todos los textos
+   de `ayudaBotones.js`. Dato verificado en el código: con multiplicadores, sale
+   uno en más o menos la mitad de las rondas.
+4. Ayudas de cada modo más atractivas, como la del inicio. → `ayudaModos.js`
+   rehecho: frase grande + fichas, "Una ronda" (historieta), "Puntos" en
+   tarjetas con imagen y número, "Cómo se gana".
+5. Alternativo 1 Grupal: la sección "Relevos" se queda, explicada con una
+   historieta de 4 viñetas y una tarjeta del relevo de más.
+
+**Cómo se verificó:** lint sin errores (se corrigió un `getComputedStyle` sin
+`window.`); `npm test`: 141 bien; pruebas de pantallas (de a una, por poca
+memoria libre): 36 bien con 2 textos de prueba actualizados; capturas de la
+lista (2 espacios fijos con 5 jugadores) y de la ayuda de Alternativo 1 Grupal.
+APK de prueba `dist/MusicalShowdown-PRUEBA-ayudas-4.apk`.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 14): documentos al día
+
+**Pedido del usuario:** revisar que todos los `.md` estén actualizados con lo
+trabajado. No lo estaban del todo; se corrigió:
+- `PENDIENTES.md`: el pendiente de los (?) refleja que está en el juego como
+  prueba, los cambios de las 3 vueltas, la pregunta abierta (sección "Relevos"
+  de Alternativo 1 Grupal) y que el reloj no se detiene con la ayuda abierta.
+- `CONTEXTO-MUSICAL-SHOWDOWN.md`: "Sin relevos" con 0 (en prueba), tiempo
+  personalizado de 1 en 1 (en prueba) y la ayuda en tres niveles.
+- `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas 20 y 21 corregidas (decían que
+  los multiplicadores solo existían en Alternativo 1 y que Alternativo 2 no
+  tenía reglas) y sección nueva "Forma de trabajo" (23 a 26): todo en español,
+  probar antes de publicar, permisos sin ventana propia, modos terminados.
+- `CLAUDE.md`: las ayudas (`ayudaModos.js`, `ayudaBotones.js`) y la regla de
+  probar antes de publicar.
+- `README.md`: estaba del 21-09 (archivos que ya no existen, sin APK ni pruebas
+  de pantallas, modos "por definir"); reescrito sin listar cada archivo.
+- Después, el usuario pidió mantener **siempre** al día todos estos archivos:
+  instrucción 27 nueva en `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` y regla clave en
+  `CLAUDE.md`.
+
+---
+
+## 2026-10-11 — Sesión 8 (parte 13): PRUEBA — botoncitos (?) y ayuda de cada modo (sin confirmar)
+
+**Pedido del usuario:** llevar al juego lo de la maqueta `maqueta-botones` para
+probarlo ("son parte de pruebas y nada está confirmado"). También pidió: abrirle
+el juego después de cada cambio, por mínimo que sea, y publicar solo cuando lo
+confirme (guardado en la memoria).
+
+**Qué se hizo (solo en el juego de prueba, sin commit ni versión):**
+- `screens/ayudaBotones.js` (nuevo): (?) chico, blanco/gris, al costado derecho
+  de cada sección o ventana; ventanita (`.modal` con X, se cierra tocando
+  afuera) con título, modo que se juega, imagen y texto solo de ese modo.
+  Puestos en Configurar partida (jugadores, géneros, puntaje, tiempo, opciones
+  de Alternativo 2), la ronda (centro y barra de relevos), Buscar canción,
+  ¿La respuesta es correcta? y Organizar equipos.
+- `screens/ayudaModos.js` (nuevo): la ❓ fuera del inicio abre la ayuda del modo
+  (Clásico Individual/Grupal, Alternativo 1 Individual/Grupal, Alternativo 2
+  Grupal). `openHelp()` de `modals.js` elige cuál.
+- `teclado.js`: tocar el (?) de una fila con lista no abre la lista.
+- `css/styles.css` (estilos del (?) y su ventanita), `sw.js` (v23), 2 pruebas
+  de pantallas nuevas.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 141 bien; `npm run
+test:e2e`: 36 bien; capturas del juego real (Alternativo 2, equipos, ronda de
+Alternativo 1 Grupal, ventanita de Relevo). `build:desktop` y copia firmada de
+prueba `dist/MusicalShowdown-PRUEBA-ayudas.apk` (1.19, se instala encima).
+
+**Qué quedó abierto:** que el usuario lo pruebe y confirme; nada publicado.
+Observación: abrir un (?) o la ❓ durante la ronda no detiene el reloj.
+
+**Segunda prueba (mismo día), pedidos del usuario:** sin sección "Duelos" en
+ninguna ayuda de modo; "Una ronda" empieza con cómo se arma el duelo (al azar o
+por turnos, según el modo); sin "Lo que eliges" en Alternativo 2; los (?) se
+enfocan en cómo funciona cada cosa (por ejemplo, "Tiempo por ronda" ya no
+explica qué pasa al acabarse el tiempo) y son más detallados, con párrafos con
+título en negrita; "Relevos por equipo" separa qué es, el botón, cómo se cuentan,
+el relevo de más y "con 0 en total". Lint, 141 pruebas y 36 de pantallas bien;
+APK de prueba `dist/MusicalShowdown-PRUEBA-ayudas-2.apk`.
+
+**Tercera prueba (mismo día), pedidos del usuario:**
+- "Finalizar ronda": "se puede terminar la ronda en cualquier momento; nadie
+  gana ni pierde puntos" (ayuda de modo y (?) de la ronda en Clásico).
+- Sin sección "Quién canta" (Clásico Grupal): va en la viñeta del sorteo.
+- (?) "Tiempo por ronda" con los textos del usuario, y el tiempo personalizado
+  se elige **de 1 en 1** (5 s a 2 min), no de 5 en 5 (`config/index.js`).
+- Sin sección "Relevo comodín" en la ayuda de Alternativo 2: se explica solo en
+  el (?) "Relevos por equipo".
+- **Regla cambiada a pedido del usuario:** en Alternativo 2, con 0 relevos se
+  juega **"Sin relevos"** (no hay botón Relevo; `relayRules` devuelve null).
+  Antes, con 0, todos los relevos eran de más con penalización (04-10-2026).
+  `relaySummary` y la ventanita muestran "Sin relevos"; pruebas de
+  `alternativo2.test.js` y `relevo.test.js` actualizadas.
+- Lista de jugadores con **alto fijo** desde el principio (no crece al añadir);
+  prueba de pantallas actualizada.
+- Verificación: lint sin avisos; `npm test`: 141 bien; `npm run test:e2e`: 36
+  bien (el primer intento tardó 11 min y falló por falta de memoria: la PC
+  tenía 0,6 GB libres con Minecraft abierto; se repitió al cerrarlo). APK de
+  prueba `dist/MusicalShowdown-PRUEBA-ayudas-3.apk`.
+
+---
+
+## 2026-10-11 — Sesión 8 (parte 12): nueva ayuda "Cómo se juega"
+
+**Pedido del usuario:** actualizar la ayuda general. Se le recomendaron dos
+niveles (ayuda general breve + botoncitos junto a cada botón) y se le mostró una
+maqueta (scratchpad `maqueta-ayuda`). La aprobó con cambios: un resumen breve y
+general, **sin** mencionar el botoncito; los botoncitos serán **(?)**, explicarán
+solo el modo que se está jugando y llevarán imágenes (anotado en
+`PENDIENTES.md`). Además: cada modo se explica sin nombrar a los otros.
+
+**Qué se hizo:**
+- `screens/modals.js` → `openHelp()`: hoja (`openSheet`) con 5 partes: la idea
+  del juego en una línea, "Una ronda" en 4 viñetas animadas (`animateStory`),
+  Individual o Grupal, una línea por modo con "📖 Ver modos de juego" y cómo se
+  gana. Se borró la ayuda vieja (explicación botón por botón, con textos
+  desactualizados como "No hay empates ni desempates").
+- `screens/modesManual.js`: `buildModesManual()` sin `onChoose` es solo para
+  leer (sin "Elegir"; desde la ayuda no se cambia el modo); `animateStory`
+  exportado. La primera viñeta de Alternativo 2 decía "Clásico + Alt. 1 — Una
+  mezcla de los dos modos": ahora "Equipos contra equipos; cada jugador sale en
+  orden".
+- `css/styles.css`: `.ayuda-linea` y `.ayuda-modo`; se borraron los estilos sin
+  uso de la ayuda vieja (`.help-*`, versiones `.mini`) y de la viñeta mezcla
+  (`.fx-mix`, `join-left/right`).
+- Prueba de pantallas nueva: la ayuda y el manual solo para leer.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 141 bien; `npm run
+test:e2e`: 32 bien; capturas del juego real (inicio, manual y desde la pausa,
+en celular y PC) iguales a la maqueta.
+
+**Qué quedó abierto:** los botoncitos (?) (siguiente pendiente). La ❓ sigue en
+todas las pantallas hasta que estén.
+
+---
+
 ## 2026-10-11 — Sesión 8 (parte 11): diagnóstico en el celular — la campana funciona
 
 **Problema reportado:** con la 1.19, la "Prueba A" (app abierta, en el inicio)

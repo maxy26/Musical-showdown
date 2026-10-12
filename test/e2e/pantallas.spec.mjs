@@ -24,9 +24,9 @@ test("Lista de jugadores: con muchos jugadores se desplaza por dentro", async ({
   for (let i = 0; i < 10; i++) await page.locator("#add-player").click();
   await expect(page.locator("#players-list .player-row")).toHaveCount(12);
 
-  // La caja no crece sin fin: tiene alto fijo y se desplaza por dentro
+  // La caja tiene siempre el mismo alto (no cambia al añadir) y se desplaza por dentro
   const alto = (await lista.boundingBox()).height;
-  expect(alto).toBeGreaterThan(altoInicial);
+  expect(alto).toBeCloseTo(altoInicial, 0);
   expect(alto).toBeLessThanOrEqual(266);
   expect(await lista.evaluate((l) => l.scrollHeight > l.clientHeight)).toBe(true);
 
@@ -112,6 +112,40 @@ test("Aviso que llega en una notificación: aparece en la campana sin esperar a 
   await expect(page.locator(".aviso-globito")).toHaveText("1");
   await page.locator("#btn-notifications").click();
   await expect(page.getByRole("heading", { name: "Aviso por notificación" })).toBeVisible();
+});
+
+test("Ayuda 'Cómo se juega': resumen general y manual de modos solo para leer", async ({ page }) => {
+  await page.locator("#btn-help").click();
+  await expect(page.getByRole("heading", { name: "Cómo se juega" })).toBeVisible();
+  await expect(page.getByText("Sale una palabra: canta una canción que la tenga.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Una ronda" })).toBeVisible();
+  await expect(page.getByText("Gana el primero que llega al puntaje objetivo.")).toBeVisible();
+  // Textos de la ayuda vieja que ya no van
+  await expect(page.getByText("No hay empates ni desempates")).toHaveCount(0);
+  await page.getByRole("button", { name: "📖 Ver modos de juego" }).click();
+  await expect(page.getByRole("heading", { name: "Modos de juego", level: 2 })).toBeVisible();
+  await expect(page.getByRole("button", { name: /^Elegir/ })).toHaveCount(0); // desde la ayuda no se cambia el modo
+  await expect(page.getByText("Una mezcla de los dos modos")).toHaveCount(0);
+});
+
+test("❓ dentro de un modo: explica ese modo (Clásico · Individual)", async ({ page }) => {
+  await page.locator("#btn-play").click();
+  await page.locator("#help").click();
+  await expect(page.getByRole("heading", { name: "Clásico · Individual" })).toBeVisible();
+  await expect(page.getByText("Si fallan los dos, nadie suma")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Duelos" })).toHaveCount(0); // sin sección "Duelos" (usuario, 11-10-2026)
+});
+
+test("(?) de una opción: explica solo el modo que se juega", async ({ page }) => {
+  await page.locator("#btn-play").click();
+  await page.locator('[data-ayuda="puntaje"]').click();
+  await expect(page.getByRole("heading", { name: "Puntaje objetivo" })).toBeVisible();
+  await expect(page.locator(".tip-modo")).toHaveText("Clásico");
+  await expect(page.getByText("El primero que llega gana. Cada acierto suma 100.")).toBeVisible();
+  await expect(page.getByText("Personalizado: elige el puntaje objetivo con más flexibilidad, de 100 hasta 9900 puntos")).toBeVisible();
+  await expect(page.locator(".lista-teclado")).toHaveCount(0); // no abre la lista de puntajes
+  await page.locator(".ayuda-tip .modal-close").click();
+  await expect(page.locator(".ayuda-tip")).toHaveCount(0);
 });
 
 test("Inicio: muestra la versión abajo a la derecha", async ({ page }) => {

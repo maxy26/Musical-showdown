@@ -1,109 +1,87 @@
 # Musical Showdown
 
 Juego de fiesta/familiar: el sistema muestra una palabra y hay que cantar
-cualquier canción que la contenga. Disponible para Web, Windows y Android.
+cualquier canción que la contenga. Disponible para Web, Windows, Linux y
+Android. Tres modos de juego (Clásico, Alternativo 1 y Alternativo 2), en
+Individual o Grupal.
+
+## 📥 Descargar
+
+Las versiones publicadas están en la sección **Releases** del repositorio:
+APK para Android, `.exe` para Windows (portátil, no hace falta instalar) y
+`.AppImage` para Linux. La app avisa sola cuando hay una versión nueva.
 
 ## 📁 Estructura del proyecto
 
 ```
-MusicalShowdown/
-├── src/                    ← ÚNICA fuente de verdad del juego (HTML/CSS/JS)
-│   ├── index.html
-│   ├── manifest.json       (PWA)
-│   ├── sw.js                (service worker, offline)
-│   ├── css/styles.css
-│   ├── icons/               (íconos de la app, todos los tamaños)
-│   ├── audio/                (clic, ticks, ambiente)
+Musical_Showdown/
+├── src/          ← ÚNICA fuente de verdad del juego (HTML/CSS/JS, sin bundler)
+│   ├── index.html, sw.js (service worker), manifest.json (PWA)
+│   ├── css/, fonts/, icons/, audio/ (sonidos CC0, créditos en CREDITOS.txt)
 │   └── js/
-│       ├── main.js           punto de entrada
-│       ├── router.js         registro de pantallas + render()
-│       ├── state.js           estado global de la partida
-│       ├── gameLogic.js       reglas: palabras, puntaje, temporizador
-│       ├── sound.js            gestor de audio
-│       ├── utils.js             helpers genéricos
-│       ├── data/songs.js         base de canciones (mock)
-│       └── screens/
-│           ├── menu.js, teamOrg.js, round.js, verify.js,
-│           │   roundResult.js, results.js, modals.js
-│           └── config/            (pantalla de configuración, dividida)
-│               ├── index.js         orquestador de la pantalla
-│               ├── players.js        sección de jugadores
-│               ├── modes.js           modos de juego disponibles
-│               ├── presets.js          valores predeterminados
-│               └── valueBox.js         caja de valor reutilizable (▲▼ + Enter)
-│
-├── platforms/               ← "envoltorios" nativos, NO duplican el juego
-│   ├── desktop/                Electron: main.js, ícono, package.json
-│   └── android/                 Capacitor: capacitor.config.ts, proyecto
-│                                  nativo android/, package.json
-│
-├── build/                    ← scripts que arman cada plataforma desde src/
-│   ├── build-desktop.js
-│   └── build-android.js
-│
-├── test/                      ← pruebas automatizadas (node --test)
-│   └── gameLogic.test.js
-│
-└── dist/                       ← SALIDA de los builds (generado, no editar)
-    └── windows/                  Musical Showdown.exe listo para usar
+│       ├── main.js, router.js, state.js, gameLogic.js, pairing.js, relay.js…
+│       ├── avisos.js, notificaciones.js   (campana y notificaciones)
+│       ├── data/songs.js                  (base de canciones de ejemplo)
+│       └── screens/                        (cada pantalla; config/ = Configurar partida)
+├── platforms/    ← "envoltorios" nativos, NO duplican el juego
+│   ├── desktop/      Electron (Windows y Linux)
+│   └── android/      Capacitor (proyecto nativo en android/)
+├── build/        ← scripts que arman cada plataforma desde src/
+├── avisos/       ← avisos.json: novedades de la campana (ver avisos/LEEME.md)
+├── test/         ← pruebas: lógica (node --test) y pantallas (test/e2e, Playwright)
+└── dist/         ← salida de los builds (generado, no editar)
 ```
 
-**Por qué así:** antes el juego vivía copiado tres veces (una por
-plataforma) y era fácil que una quedara desactualizada respecto a las
-otras. Ahora `src/` es la única fuente de verdad; `platforms/` solo
-contiene lo específico de cada plataforma (íconos nativos, manifest,
-config de Electron/Capacitor), y los scripts de `build/` arman cada
-versión automáticamente a partir de `src/` — así no hay que acordarse de
-copiar archivos a mano, y nada queda desincronizado.
+**Por qué así:** `src/` es la única fuente de verdad; `platforms/` solo tiene
+lo propio de cada plataforma, y los scripts de `build/` arman cada versión a
+partir de `src/`, así nada queda desincronizado.
 
-## 🚀 Cómo trabajar en cada versión
+## 🚀 Cómo trabajar
 
-### Web (jugar en el navegador)
+### Web
 ```bash
 cd src
 python3 -m http.server 8000
 # abrir http://localhost:8000
 ```
-También puedes arrastrar la carpeta `src/` a https://app.netlify.com/drop
-para tener un enlace público.
 
 ### Windows (.exe)
-Ya viene compilado en `dist/windows/Musical Showdown.exe` — ábrelo
-directamente, es portable.
-
-Para volver a compilarlo (por ejemplo tras un cambio en `src/`):
 ```bash
 npm install --prefix platforms/desktop   # solo la primera vez
-npm run build:desktop
+npm run build:desktop                     # -> dist/windows/Musical Showdown.exe
 ```
 
 ### Android (.apk)
-1. `npm install --prefix platforms/android` (solo la primera vez)
-2. `npm run build:android` — esto sincroniza `src/` dentro del proyecto
-   nativo **y corrige automáticamente** un problema conocido de Capacitor
-   (ver comentario en `build/build-android.js`).
-3. Abre Android Studio → "Open" → selecciona `platforms/android/android`.
-4. Espera el "Gradle sync".
-5. **Build → Generate App Bundles or APKs → Generate APKs**.
+```bash
+npm install --prefix platforms/android   # solo la primera vez
+npm run build:apk                         # APK de prueba (firma de depuración)
+npm run android:release                   # APK para publicar: sube la versión y firma con la clave del proyecto
+```
+La clave de firma (`platforms/android/keystore/`) y `google-services.json`
+(Firebase, notificaciones) no están en git.
+
+### En la nube
+GitHub Actions (`.github/workflows/compilar.yml`) corre las pruebas y compila
+Windows, Linux y Android en cada envío a `main`. Al subir una etiqueta `v*`
+publica la Release y envía la notificación de versión nueva.
 
 ## 🧪 Pruebas
 
 ```bash
-npm test
+npm run lint
+npm test            # lógica del juego
+npm run test:e2e    # pantallas, en tamaño celular y PC
 ```
-Cubren la lógica pura del juego (selección de jugadores, formato de
-tiempo, selección ponderada de palabras, identidad de canciones).
 
-## 🗂️ Control de versiones
+## 📚 Documentación del proyecto
 
-El proyecto es un repositorio git desde ahora. Cada entrega nueva se
-puede comparar contra la anterior con `git log` / `git diff` en vez de
-depender solo de la memoria de la conversación.
+- `CLAUDE.md`: guía técnica de la arquitectura y los comandos.
+- `CONTEXTO-MUSICAL-SHOWDOWN.md`: reglas del juego y decisiones de diseño.
+- `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas de trabajo.
+- `PENDIENTES.md`: lo que falta hacer.
+- `AUDITORIA-CAMBIOS.md`: historial de cambios, el más reciente arriba.
 
 ## Pendiente / próximos pasos
 
-- Modo Alternativo 1 y Alternativo 2: reglas exactas aún por definir.
-- Reglas exactas de rotación grupal por modo.
-- Reemplazar `src/js/data/songs.js` (base local de ejemplo) por una
-  fuente/API real de letras, una vez decidida cuál permite legalmente el
-  uso necesario.
+Ver `PENDIENTES.md`. Lo principal: la fuente legal de letras de canciones
+(`src/js/data/songs.js` es una base de ejemplo) y la búsqueda de canciones por voz.

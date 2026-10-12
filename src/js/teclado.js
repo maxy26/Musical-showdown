@@ -175,6 +175,7 @@ function teclaEnLista(e) {
 
 /** Lista desplegable que está bajo el toque (o la de la fila tocada, en PC). */
 function listaBajo(e) {
+  if (e.target.closest?.(".ayuda-btn")) return null; // el (?) de la fila abre su ayuda, no la lista
   const fila = e.target.closest(".opt-row.row-click");
   if (fila?.querySelector("select")) return fila.querySelector("select");
   return [...zonaActiva().querySelectorAll("select")].find((s) => {

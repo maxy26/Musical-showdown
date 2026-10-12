@@ -110,9 +110,12 @@
         total** (0 a 7) y **como máximo por ronda** (1 hasta
         los intentos). Valor de entrada: 3 en total y 1 por ronda. Alternativo 1
         sigue con 3 fijos y 1 por ronda.
-      - **Con 0 en total** (04-10-2026, para que funcione como Alternativo 1 sin
-        relevos): el botón sigue y **todos** los relevos son de más (aviso y
-        penalización). En la ronda dice "0 · con penalización".
+      - **Con 0 en total — "Sin relevos"** (cambiado por el usuario el
+        11-10-2026; confirmado el 12-10-2026, versión 1.20): el equipo juega sin
+        relevos y en la ronda no aparece el botón "Relevo". La ventanita y la
+        fila de Configurar partida dicen "Sin relevos".
+        *(Antes, 04-10-2026: con 0, el botón seguía y todos los relevos eran de
+        más, con aviso y penalización; en la ronda decía "0 · con penalización".)*
       - **Conteo (usuario, 04-10-2026):** el total cuenta las **rondas** en que
         se usan relevos. Apenas se usa el primero de la ronda se descuenta 1 del
         total; en esa ronda se pueden usar los que faltan hasta el máximo por
@@ -320,6 +323,10 @@
   cómo se escriba ("mIKE rUIZ" → "Mike Ruiz"). Así lo pidió el usuario el
   28-09-2026, en lugar de las MAYÚSCULAS de antes, y es igual para los
   nombres de grupos. Máximo **20 letras**.
+- **Tamaño de la lista** (usuario, 12-10-2026, versión 1.20): mide lo justo para
+  los espacios con los que empieza (2 en Individual, 4 en Grupal) y **no crece**
+  al tocar "+ Añadir jugador"; los demás se ven desplazando dentro del
+  recuadro.
 - **Nombres repetidos no permitidos** (28-09-2026): los campos repetidos se
   marcan en rojo, aparece un mensaje de error antes del botón "Añadir
   jugador" y no se puede confirmar la configuración hasta corregirlo. Se
@@ -352,7 +359,7 @@
     (ej. "3500 pts" o "1 min 40 seg"). Si coincide con uno predeterminado,
     se selecciona ese.
   - Reglas: puntaje de 100 a 9900, de 100 en 100; tiempo de 5 seg a 2 min, de
-    5 en 5.
+    1 en 1 (cambiado por el usuario el 11-10-2026, versión 1.20; antes, de 5 en 5).
 - **Tiempo por ronda**: lista desplegable de 5 en 5 segundos hasta 60
   ("1 min"), más "Sin tiempo", más "Personalizado". En personalizado
   hay dos cajas (minutos 0–2, segundos 0–55 de 5 en 5), mismo patrón de
@@ -460,12 +467,25 @@
   guardado de partidas). Al salir se vuelve a **"Configurar partida"** con
   todo lo elegido (jugadores, tipo de batalla, modo, géneros, puntaje y
   tiempo), para empezar otra rápido (usuario, 08-10-2026).
-- **Ayuda ("Cómo se juega")**: es un modal **visual, no solo texto** —
-  muestra cada elemento real de la UI (el botón de jugador, la barra de
-  progreso, el reloj, la palabra, el multiplicador, el botón de pausa,
-  el buscador, un resultado, los botones de
-  correcta/incorrecta) junto a una explicación corta de qué hace cada
-  uno. Pensado para ser "a prueba de tontos".
+- **Ayuda (rediseñada el 11-10-2026)**: tres niveles, todos "a prueba de
+  tontos" y sin nombrar a otros modos:
+  - **❓ en el inicio — "Cómo se juega"**: resumen breve de todo el juego
+    (hoja con historieta: la idea, una ronda en 4 viñetas, Individual o
+    Grupal, una línea por modo con "Ver modos de juego" solo para leer, y
+    cómo se gana). Aprobada y en el juego.
+  - **❓ dentro de un modo** (Configurar partida, equipos, ronda, pausa):
+    explica ese modo, una por combinación (Clásico Individual y Grupal,
+    Alternativo 1 Individual y Grupal, Alternativo 2 Grupal), con el mismo
+    estilo que la del inicio: frase grande, fichas, "Una ronda" en historieta,
+    "Puntos" en tarjetas con imagen y "Cómo se gana". En Alternativo 1 Grupal,
+    además "Relevos" con historieta. Confirmada el 12-10-2026 (versión 1.20).
+  - **(?) junto a cada sección o botón**: chico, blanco/gris, al costado
+    derecho; responde "¿qué hace?" y "¿qué pasa si elijo esto?" en el modo que
+    se juega, **con imágenes y muy breve**: una frase corta y tarjetas con
+    dibujito y pocas palabras (el puntaje y el tiempo muestran la lista y la
+    rueda de "Personalizado…"). Confirmada el 12-10-2026 (versión 1.20).
+  *(Antes: un solo modal que mostraba cada elemento de la UI con una
+  explicación corta.)*
 - **Ubicación de botones** (regla explícita del usuario): fuera de la
   pantalla inicial, el botón de ayuda (❓, redondo) va **a la derecha**
   del botón de menú/volver (pantallas de configuración y organizar
