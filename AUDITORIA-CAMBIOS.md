@@ -33,7 +33,23 @@
   `PENDIENTES.md`) y lista "Listo para la próxima versión" vaciada.
 - `npm run android:release`, `build:desktop`, commit, etiqueta `v1.23` y envío
   a GitHub (la Release y la notificación las hace GitHub Actions).
-- Se le abrió la versión final.
+- Se le abrió la versión final (PC). El celular ya no estaba conectado por
+  cable: la 1.23 se instala desde `dist/MusicalShowdown-v1.23.apk` o desde la
+  Release.
+
+**Incidente al publicar (resuelto):**
+- El primer `git commit` falló: PowerShell partió el mensaje, que traía
+  comillas y emojis.
+- El mismo comando siguió y subió la etiqueta `v1.23` apuntando al commit de
+  la 1.22 (`6634ead`). GitHub Actions empezó a publicarla.
+- Se borró la etiqueta en GitHub y aquí. El usuario canceló la ejecución
+  (38329327010, "cancelled" antes de compilar).
+- Después se hizo el commit bien (`3026d83`, mensaje desde un archivo con
+  `git commit -F`) y se subió la etiqueta correcta. Ejecución 38329658020:
+  todo bien, Release v1.23 con `.exe`, `.AppImage` y `.apk`.
+- **Regla desde ahora:** el mensaje del commit va siempre en un archivo
+  (`-F`), y la etiqueta se crea y se sube recién después de comprobar que el
+  commit existe.
 
 ---
 
