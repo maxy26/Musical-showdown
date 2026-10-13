@@ -3,73 +3,212 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Musical Showdown · Política de privacidad</title>
+<title>Política de privacidad · Musical Showdown</title>
+<meta name="description" content="Política de privacidad de Musical Showdown: qué información usa el juego, para qué y cómo la protege.">
+<link rel="icon" href="../icono.png">
 <!--
-  Política de privacidad para las tiendas (12-10-2026). Se publica con GitHub
-  Pages: https://maxy26.github.io/Musical-showdown/privacidad/
-  Si el juego empieza a usar algo nuevo (permisos, servicios), actualizar
-  esta página y la fecha.
+  Política de privacidad para las tiendas (12-10-2026; rediseño 13-10-2026).
+  Se publica con GitHub Pages: https://maxy26.github.io/Musical-showdown/privacidad/
+  Si el juego empieza a usar algo nuevo (permisos, servicios, anuncios,
+  compras), actualizar esta página y la fecha.
 -->
 <style>
-  :root{color-scheme:dark;--fondo:#141833;--tarjeta:#1f2550;--oro:#FFD23F;--texto:#eef0ff;--suave:#b9bde0;}
-  body{margin:0;background:var(--fondo);color:var(--texto);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;}
-  main{max-width:760px;margin:0 auto;padding:32px 16px 48px;}
-  h1{margin:0 0 4px;font-size:30px;}
-  h2{margin:32px 0 8px;font-size:20px;color:var(--oro);}
-  p,li{color:var(--texto);}
-  .fecha{color:var(--suave);margin:0 0 24px;}
-  .tarjeta{background:var(--tarjeta);border-radius:16px;padding:16px 20px;}
-  a{color:var(--oro);}
-  ul{padding-left:22px;}
+  :root{
+    --fondo:#f6f7fb;--tarjeta:#ffffff;--texto:#1d2140;--suave:#5b6080;--linea:#e4e6f0;
+    --marca:#141833;--acento:#e0a800;--acento-suave:#fff6d6;--enlace:#3346c8;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--fondo:#0f1229;--tarjeta:#181c3d;--texto:#eef0ff;--suave:#aeb3d6;--linea:#2a2f5c;
+      --acento:#ffd23f;--acento-suave:#2a2a3d;--enlace:#9fb0ff;color-scheme:dark;}
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--fondo);color:var(--texto);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+  a{color:var(--enlace);}
+  header{background:var(--marca);color:#fff;}
+  .cab{max-width:880px;margin:0 auto;padding:28px 20px 32px;display:flex;align-items:center;gap:16px;}
+  .cab img{width:56px;height:56px;border-radius:14px;flex:none;}
+  .cab .marca{font-size:14px;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin:0;}
+  .cab h1{margin:2px 0 0;font-size:clamp(24px,4vw,32px);line-height:1.2;}
+  main{max-width:880px;margin:-16px auto 0;padding:0 20px 48px;}
+  .tarjeta{background:var(--tarjeta);border:1px solid var(--linea);border-radius:16px;padding:24px;margin-bottom:20px;}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--suave);font-size:14px;margin:0 0 14px;}
+  .resumen{background:var(--acento-suave);border-left:4px solid var(--acento);border-radius:12px;padding:16px 18px;margin:0;}
+  .resumen ul{margin:8px 0 0;padding-left:20px;}
+  nav h2{font-size:16px;margin:0 0 8px;}
+  nav ol{margin:0;padding-left:22px;columns:2;column-gap:32px;}
+  nav li{break-inside:avoid;}
+  @media (max-width:600px){nav ol{columns:1;}}
+  section{scroll-margin-top:16px;}
+  section h2{font-size:20px;margin:0 0 8px;}
+  section p,section li{margin:0 0 10px;}
+  section ul{padding-left:20px;margin:0 0 10px;}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0 4px;}
+  th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--linea);}
+  th{color:var(--suave);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+  .tabla{overflow-x:auto;}
+  footer{color:var(--suave);font-size:14px;text-align:center;padding:8px 20px 40px;}
 </style>
 </head>
 <body>
-<main>
-  <h1>🎤 Musical Showdown</h1>
-  <p class="fecha">Política de privacidad · Última actualización: 12 de octubre de 2026</p>
+<header>
+  <div class="cab">
+    <img src="../icono.png" alt="">
+    <div>
+      <p class="marca">Musical Showdown</p>
+      <h1>Política de privacidad</h1>
+    </div>
+  </div>
+</header>
 
+<main>
   <div class="tarjeta">
-    <p><strong>En pocas palabras:</strong> Musical Showdown no tiene cuentas de usuario, no vende datos y no guarda información personal en servidores. El micrófono solo mide el volumen y no graba. La cámara solo lee el código QR para vincular dispositivos.</p>
+    <p class="meta"><span><strong>Vigente desde:</strong> 13 de octubre de 2026</span><span><strong>Se aplica a:</strong> Musical Showdown para Android, Windows, Linux y web, incluida la versión demo</span></p>
+    <div class="resumen">
+      <strong>En resumen</strong>
+      <ul>
+        <li>No hay cuentas de usuario y no pedimos tu nombre, correo ni teléfono.</li>
+        <li>Lo que escribes en el juego (nombres de jugadores, ajustes) se queda en tu dispositivo.</li>
+        <li>El micrófono, si lo usas, solo mide el volumen: no graba ni envía audio.</li>
+        <li>La cámara solo lee el código QR para vincular dispositivos.</li>
+        <li>No vendemos ni compartimos tus datos con fines comerciales.</li>
+      </ul>
+    </div>
   </div>
 
-  <h2>Quién es responsable</h2>
-  <p>Musical Showdown es un juego desarrollado de forma independiente. Para cualquier consulta sobre esta política, escribe a <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a>.</p>
+  <nav class="tarjeta" aria-label="Contenido">
+    <h2>Contenido</h2>
+    <ol>
+      <li><a href="#responsable">Responsable</a></li>
+      <li><a href="#dispositivo">Información en tu dispositivo</a></li>
+      <li><a href="#permisos">Permisos y para qué se usan</a></li>
+      <li><a href="#vincular">Vincular un celular con la PC</a></li>
+      <li><a href="#terceros">Servicios de terceros</a></li>
+      <li><a href="#compras">Compras dentro del juego</a></li>
+      <li><a href="#anuncios">Anuncios</a></li>
+      <li><a href="#ninos">Menores de edad</a></li>
+      <li><a href="#derechos">Tus derechos y cómo borrar tus datos</a></li>
+      <li><a href="#seguridad">Seguridad</a></li>
+      <li><a href="#cambios">Cambios en esta política</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ol>
+  </nav>
 
-  <h2>Información que se guarda en tu dispositivo</h2>
-  <ul>
-    <li><strong>Ajustes del juego</strong> (sonido, animaciones, cuenta regresiva) y los <strong>avisos</strong> ya leídos.</li>
-    <li>Los <strong>nombres de jugadores y equipos</strong> que escribes para una partida. Solo están en tu dispositivo mientras juegas.</li>
-    <li>Si vinculaste un celular con una PC, la dirección de esa PC en tu red, para poder reconectar.</li>
-  </ul>
-  <p>Nada de esto se envía a servidores del juego. Si desinstalas la app o borras sus datos, se borra.</p>
+  <div class="tarjeta">
+    <section id="responsable">
+      <h2>1. Responsable</h2>
+      <p>Musical Showdown es un juego desarrollado de forma independiente. Para cualquier consulta sobre privacidad puedes escribir a <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a>.</p>
+    </section>
+  </div>
 
-  <h2>Micrófono</h2>
-  <p>Al tocar el nombre de un jugador, el juego escucha durante unos segundos para saber si alguien está cantando. <strong>Solo mide el volumen del sonido</strong>: no graba, no guarda, no transcribe y no envía el audio a ningún lado. Si no das el permiso, el juego funciona igual.</p>
+  <div class="tarjeta">
+    <section id="dispositivo">
+      <h2>2. Información que se guarda en tu dispositivo</h2>
+      <p>El juego guarda en tu propio dispositivo, y en ningún servidor nuestro:</p>
+      <ul>
+        <li>Tus <strong>ajustes</strong>: sonido, animaciones y cuenta regresiva.</li>
+        <li>Los <strong>nombres de jugadores y equipos</strong> de la partida en curso.</li>
+        <li>Los <strong>avisos</strong> que ya leíste.</li>
+        <li>Si vinculaste un celular con una PC, la <strong>dirección de esa PC en tu red</strong> y una clave para reconectar.</li>
+      </ul>
+      <p>Se borra al borrar los datos de la app o al desinstalarla.</p>
+    </section>
+  </div>
 
-  <h2>Cámara</h2>
-  <p>La cámara se usa únicamente para leer el código QR que muestra la PC al vincular un celular como control. Las imágenes se procesan en el momento dentro del dispositivo y no se guardan ni se envían. Si no das el permiso, puedes vincular escribiendo el código.</p>
+  <div class="tarjeta">
+    <section id="permisos">
+      <h2>3. Permisos y para qué se usan</h2>
+      <div class="tabla">
+        <table>
+          <thead><tr><th>Permiso</th><th>Para qué</th><th>Qué pasa con la información</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Micrófono</strong></td><td>Saber si alguien está cantando al tocar su nombre (función de pago, no está en la demo).</td><td>Solo se mide el volumen en el momento. No se graba, no se guarda y no se envía.</td></tr>
+            <tr><td><strong>Cámara</strong></td><td>Leer el código QR que muestra la PC para usar el celular como control.</td><td>La imagen se procesa en el momento dentro del dispositivo y no se guarda ni se envía.</td></tr>
+            <tr><td><strong>Notificaciones</strong> (Android)</td><td>Avisarte de versiones nuevas y novedades importantes.</td><td>Ver "Servicios de terceros" (Firebase).</td></tr>
+            <tr><td><strong>Red local e internet</strong></td><td>Vincular dispositivos en tu Wi-Fi, mostrar avisos y abrir enlaces.</td><td>Ver "Vincular" y "Servicios de terceros".</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Todos los permisos son opcionales: si no los das, el juego sigue funcionando sin esa función.</p>
+    </section>
+  </div>
 
-  <h2>Vincular un celular con la PC</h2>
-  <p>Cuando vinculas dispositivos, la PC y el celular se comunican <strong>directamente dentro de tu red Wi-Fi</strong>, sin pasar por internet. Entre ellos viaja solo lo necesario para la partida (lo que se ve en pantalla y lo que se toca). Nadie fuera de tu red recibe esos datos.</p>
+  <div class="tarjeta">
+    <section id="vincular">
+      <h2>4. Vincular un celular con la PC</h2>
+      <p>Cuando usas el celular como control de la PC, los dos dispositivos se comunican <strong>directamente dentro de tu red Wi-Fi</strong>, sin pasar por internet ni por servidores nuestros. Entre ellos viaja solo lo necesario para la partida (lo que se ve en pantalla y lo que se toca). Si pasas una partida del celular a la PC, se envían los datos de esa partida (nombres y puntajes) a tu PC.</p>
+    </section>
+  </div>
 
-  <h2>Notificaciones (Android)</h2>
-  <p>Para avisarte de actualizaciones y novedades importantes, la app de Android usa <strong>Firebase Cloud Messaging</strong>, un servicio de Google. Para eso Google asigna a tu dispositivo un identificador de notificaciones. El juego no lo asocia con tu nombre ni con ningún otro dato. Puedes desactivar las notificaciones en los ajustes de Android. Más información en la <a href="https://policies.google.com/privacy?hl=es" rel="noopener">política de privacidad de Google</a>.</p>
+  <div class="tarjeta">
+    <section id="terceros">
+      <h2>5. Servicios de terceros</h2>
+      <ul>
+        <li><strong>Firebase Cloud Messaging (Google)</strong>, solo en Android: envía las notificaciones. Google asigna a tu dispositivo un identificador de notificaciones, que no asociamos con tu identidad. Puedes desactivarlas en los ajustes de Android. <a href="https://policies.google.com/privacy?hl=es" rel="noopener">Política de privacidad de Google</a>.</li>
+        <li><strong>GitHub</strong>: el juego consulta una página pública para mostrar avisos y versiones nuevas, como cualquier página web. No se envían datos personales. <a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">Declaración de privacidad de GitHub</a>.</li>
+        <li><strong>YouTube</strong>: el botón para escuchar una canción abre la búsqueda en tu navegador. El juego no reproduce ni descarga música; lo que hagas en YouTube se rige por las políticas de YouTube y Google.</li>
+        <li><strong>Tiendas</strong> (Microsoft Store, Google Play): si instalaste el juego desde una tienda, esta puede recopilar datos según su propia política.</li>
+      </ul>
+    </section>
+  </div>
 
-  <h2>Conexión a internet</h2>
-  <ul>
-    <li>Para mostrar avisos y versiones nuevas, el juego consulta una página pública de <strong>GitHub</strong>, como cualquier página web. No envía datos personales.</li>
-    <li>El botón para escuchar una canción abre la búsqueda en <strong>YouTube</strong> en tu navegador. El juego no reproduce ni descarga música. Lo que hagas en YouTube se rige por las políticas de YouTube y Google.</li>
-    <li>Sin internet el juego funciona igual.</li>
-  </ul>
+  <div class="tarjeta">
+    <section id="compras">
+      <h2>6. Compras dentro del juego</h2>
+      <p>Algunas funciones (como el modo Alternativo 2 y escuchar el canto) se desbloquean con una compra o suscripción. El pago lo procesa la tienda (Google Play o Microsoft Store): <strong>nosotros no recibimos ni guardamos tus datos de pago</strong>. El juego solo consulta a la tienda si la compra está activa.</p>
+    </section>
+  </div>
 
-  <h2>Compartir el podio</h2>
-  <p>La imagen del podio se crea dentro de tu dispositivo. Solo se comparte si tú lo eliges, con la app que elijas.</p>
+  <div class="tarjeta">
+    <section id="anuncios">
+      <h2>7. Anuncios</h2>
+      <p>Hoy el juego no muestra anuncios. Si en el futuro la versión gratis para celular los incluye, actualizaremos esta política antes, explicaremos qué servicio se usa y, donde la ley lo exija, te pediremos tu consentimiento.</p>
+    </section>
+  </div>
 
-  <h2>Niños</h2>
-  <p>Musical Showdown es un juego para toda la familia. No pide ni recopila datos personales de nadie, incluidos niños.</p>
+  <div class="tarjeta">
+    <section id="ninos">
+      <h2>8. Menores de edad</h2>
+      <p>Musical Showdown es un juego para toda la familia y no pide datos personales a nadie, incluidos niños. Si eres madre, padre o tutor y crees que se nos envió información de un menor, escríbenos y la eliminaremos.</p>
+    </section>
+  </div>
 
-  <h2>Cambios en esta política</h2>
-  <p>Si el juego cambia en algo que afecte tu privacidad, actualizaremos esta página y la fecha de arriba.</p>
+  <div class="tarjeta">
+    <section id="derechos">
+      <h2>9. Tus derechos y cómo borrar tus datos</h2>
+      <p>Como no guardamos datos personales en servidores, toda tu información está en tu dispositivo y la controlas tú:</p>
+      <ul>
+        <li><strong>Borrar:</strong> borra los datos de la app (Android: Ajustes → Apps → Musical Showdown → Almacenamiento) o desinstálala.</li>
+        <li><strong>Notificaciones:</strong> desactívalas en los ajustes del sistema.</li>
+        <li><strong>Permisos:</strong> puedes quitarlos cuando quieras en los ajustes del sistema.</li>
+      </ul>
+      <p>Si tienes una consulta sobre tus derechos de privacidad según las leyes de tu país, escríbenos.</p>
+    </section>
+  </div>
+
+  <div class="tarjeta">
+    <section id="seguridad">
+      <h2>10. Seguridad</h2>
+      <p>Las conexiones con servicios en internet usan cifrado (https). La vinculación entre dispositivos solo funciona dentro de tu red y con un código que cambia cada minuto.</p>
+    </section>
+  </div>
+
+  <div class="tarjeta">
+    <section id="cambios">
+      <h2>11. Cambios en esta política</h2>
+      <p>Si el juego cambia en algo que afecte tu privacidad, actualizaremos esta página y la fecha de vigencia.</p>
+    </section>
+  </div>
+
+  <div class="tarjeta">
+    <section id="contacto">
+      <h2>12. Contacto</h2>
+      <p>Correo: <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a></p>
+    </section>
+  </div>
 </main>
+
+<footer>© 2026 Musical Showdown · <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a></footer>
 </body>
 </html>
