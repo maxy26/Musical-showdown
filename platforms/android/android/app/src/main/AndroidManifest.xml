@@ -3,6 +3,7 @@
 
     <application
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -21,6 +22,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- QR de "Vincular" escaneado con la cámara del celular (fuera del juego):
+                 abre la app y sigue con la vinculación (12-10-2026; ver src/js/vinculo.js) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="maxy26.github.io" android:pathPrefix="/Musical-showdown/vincular" />
             </intent-filter>
 
         </activity>
@@ -47,4 +57,11 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Usar como control (12-10-2026): la camara lee el QR de la PC; la conexion con la PC es dentro de la red Wi-Fi (ws://, sin cifrar, por eso usesCleartextTraffic) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <!-- Al tocar un nombre, el micrófono escucha 3 segundos si alguien canta (src/js/voz.js, 12-10-2026): solo mide el volumen, no graba -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
 </manifest>

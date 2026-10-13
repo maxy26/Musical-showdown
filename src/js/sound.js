@@ -77,7 +77,7 @@ export function playTick(urgent) {
 // ---------- Música ----------
 let primeraMusica = null; // la primera canción que se pidió (la espera la pantalla de carga)
 function musicaDePantalla() {
-  if (!arrancada || !kindOn("music") || pantalla === "results") return;
+  if (!arrancada || !kindOn("music") || pantalla === "results" || pantalla === "control") return;
   const pedido = musica(RONDAS.includes(pantalla) ? MUSICA.ronda : MUSICA.menu).catch((err) => console.warn("Música:", err));
   primeraMusica ??= pedido;
   if (pantalla !== "round") acelerar(false);
@@ -99,6 +99,8 @@ export function onScreen(screen) {
     efecto("podio");
     return;
   }
+  // Celular usado como control: la música suena en la pantalla grande
+  if (screen === "control") { pararMusica(600); return; }
   musicaDePantalla();
 }
 /** Cada ronda nueva repite la entrada de la música. */
@@ -133,7 +135,12 @@ function pintarBotonesMusica() {
     b.setAttribute("aria-label", on ? "Quitar la música" : "Poner la música");
   });
 }
-function alternarMusica() {
+/** ¿Suena la música de fondo? (el celular vinculado muestra 🔊 / 🔇 según la PC) */
+export function musicaActiva() {
+  return kindOn("music");
+}
+/** Pone o quita la música (botón 🔊; también desde el celular vinculado, ver vinculo.js). */
+export function alternarMusica() {
   const encender = !kindOn("music");
   // Si estaba en 0, al encender vuelve a un volumen que se oiga
   saveSetting(encender && volumen("music") === 0 ? { music: true, musicVol: 50 } : { music: encender });

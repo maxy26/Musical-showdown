@@ -21,7 +21,7 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.22**.
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.23** (12-10-2026: celular + PC vinculados, 3 segundos escuchando, puntos animados, reloj grande, arreglo de Android 15/16; ver AUDITORÍA, partes 26 a 29).
 
 - (vacía)
 
@@ -96,6 +96,21 @@
     el costo actual de la cuenta).
   - Tiene costo, así que va **al final** según el orden acordado (07-10-2026),
     junto con la decisión de publicar el juego.
+  - **Tiendas gratis vs. pagas (se le explicó al usuario el 12-10-2026):**
+    - Android: el aviso solo se va instalando desde una tienda que trae el
+      celular. **Google Play** (25 dólares una vez) lo quita en todos los
+      Android con Google; **Galaxy Store** (gratis) solo en Samsung;
+      **AppGallery** (gratis) solo en Huawei; itch.io o páginas de descarga no
+      lo quitan. Las cuentas nuevas de persona en Google Play tienen que hacer
+      antes una **prueba cerrada con al menos 12 personas durante 14 días**.
+    - Windows: la **Microsoft Store** firma la app y quita SmartScreen; para
+      personas la cuenta hoy es gratis (confirmarlo al registrarse). Se puede
+      empaquetar con electron-builder (destino de la Store).
+    - Al publicar en una tienda: hace falta **política de privacidad** (hay
+      Firebase), **clasificación por edad** y resolver **lo legal de las
+      letras**; las actualizaciones pasan por la revisión de la tienda; y si
+      Google Play firma con su clave, los APK de GitHub ya no se instalan encima
+      (elegir un solo camino y llevar los avisos de versión a la tienda).
 
 ## ✨ Mejoras visuales y de lógica
 
@@ -173,6 +188,95 @@
     la misma red Wi-Fi (aunque no tenga internet; sirve el punto de acceso de
     un celular), internet (posible servidor) o Bluetooth (solo entre apps
     instaladas y más complejo).
+  - **12-10-2026, decisión del usuario ("por ahora"):** **misma red Wi-Fi, sin
+    internet**: los dos dispositivos conectados a la misma red (router o zona
+    Wi-Fi de un celular, aunque no tenga datos), emparejados con QR y hablándose
+    directo entre ellos, sin servidor. Faltan: qué hace el segundo dispositivo y
+    si la animación de audio usa el micrófono.
+  - **Idea principal del usuario (12-10-2026) — qué se vincula con qué:**
+    celular ↔ PC, celular ↔ TV (Android), PC ↔ TV (Android). **No** se vinculan
+    dos del mismo tipo (celular-celular, PC-PC, TV-TV).
+  - Consecuencias a tener en cuenta (explicadas al usuario):
+    - **TV con Android:** hoy el juego no está preparado para Android TV
+      (aparecer en el menú de la TV, manejarse con el control remoto). Hay que
+      adaptarlo; la navegación con flechas que ya existe (`teclado.js`) ayuda.
+    - **QR:** escanea el que tiene cámara (el celular). Entre **PC y TV**, que
+      normalmente no tienen cámara, hace falta otra forma: por ejemplo, un
+      **código corto** que se escribe en el otro dispositivo.
+    - Hay que saber de qué tipo es cada dispositivo (celular, PC o TV) para
+      no dejar vincular dos iguales.
+  - **Qué muestra cada uno (usuario, 12-10-2026):**
+    1. **Control** (el celular, o la PC si se vincula PC ↔ TV): toda la pantalla
+       son **los dos botones de los jugadores** (los pulsadores con su nombre),
+       sin la palabra ni el tiempo.
+    2. **Pantalla grande** (PC o TV): el resto de la ronda: **el tiempo, la
+       palabra** y los demás botones.
+    3. La animación **"¡Ana canta!"** sale también en la pantalla grande;
+       mientras tanto, en el control se ve **el tiempo** o, sin tiempo,
+       **"Finalizar ronda"**.
+    4. La animación **usa el micrófono** para oír al que canta; el micrófono es
+       siempre el del **celular** (o el de la **PC** si se vincula PC ↔ TV). Base
+       para la futura IA de voz.
+    5. Mientras alguien canta, **❌ / ✅, "🔎 Buscar canción" y "← Volver" van en
+       el control**, junto al tiempo o a "Finalizar ronda": el moderador decide
+       desde su mano.
+    6. La voz **no** se escucha por los parlantes de la pantalla grande: solo
+       mueve la animación (así no se acopla el sonido).
+    7. **Puntajes y relevos en la pantalla grande**; la **pausa en el control**,
+       junto a los botones de los jugadores o equipos (interpretación; el usuario
+       puede corregirla).
+  - **Etapas acordadas (12-10-2026):**
+    1. **Celular + PC — HECHA, versión 1.23 (12-10-2026).** Ver
+       AUDITORÍA, partes 26 y 27; probada en el celular del usuario.
+       - "📱 Vincular" en la ronda de la PC muestra el QR y un código de 6
+         números que cambia cada minuto. El reloj se detiene mientras está
+         abierta.
+       - En el celular, el botón a la izquierda de Ajustes escanea el QR o
+         permite escribir el código.
+       - El QR también se puede escanear con la cámara del celular, fuera de
+         la app.
+       - Al revés: "📱 Vincular" en la ronda del celular muestra un código; en
+         el inicio de la PC (botón a la izquierda de Ajustes) se escribe y la
+         partida pasa a la PC.
+       - El celular muestra los dos botones y la pausa; mientras alguien
+         canta, ❌ / ✅, el tiempo o "Finalizar", Buscar y Volver.
+       - Los relevos y las ventanas (relevo, ayuda) se manejan en la PC.
+  - [ ] 🟢 **Ajustar el volumen mínimo que cuenta como voz** (`UMBRAL_VOZ` en `src/js/microfono.js`) si al probar cantando no detecta bien o detecta ruido (usuario, 12-10-2026).
+  - [ ] 🟢 **Que la cámara del celular abra la app con el QR en cualquier
+    celular** (usuario, 12-10-2026). **En espera (usuario, 12-10-2026): se hace
+    cuando la app esté publicada en Play Store**, porque el enlace de descarga
+    de GitHub es temporal. Entonces la página `docs/vincular/` y el respaldo
+    del enlace (`browser_fallback_url`) deben llevar a Play Store, y se revisa
+    si conviene otro dominio. La app ya está preparada
+    (`AndroidManifest.xml`, `docs/vincular/`, `docs/assetlinks.json`). Falta
+    publicar en GitHub, con el OK del usuario:
+    1. Activar **GitHub Pages** en el repositorio (Settings → Pages → rama
+       `main`, carpeta `/docs`): así, sin la app instalada, se abre la página
+       que lleva a descargarla.
+    2. Crear el repositorio público **`maxy26.github.io`** con el archivo
+       `.well-known/assetlinks.json` (copia de `docs/assetlinks.json`, con la
+       huella de la clave del proyecto). Sin él, Android abre el enlace en el
+       navegador en vez de la app. Funciona sin internet una vez que Android
+       lo verificó, cuando se instala la app.
+    - Mientras tanto, en un celular se puede activar a mano: Ajustes de
+      Android → Apps → Musical Showdown → Abrir de forma predeterminada →
+      agregar el enlace.
+  - Ojo, Windows: la red Wi-Fi de la PC del usuario está marcada como
+    **pública**; el permiso del Firewall tiene que ser para esa red (al
+    usuario ya le funciona).
+    2. Micrófono: la animación de "¡X canta!" se mueve con la voz (celular).
+    3. Android TV como pantalla grande (adaptar a la TV y al control remoto;
+       la TV necesita abrir la conexión desde un complemento nativo).
+    4. PC como control de la TV, con un código corto en vez de QR.
+
+- [ ] 🟡 **Mejorar la vinculación de dispositivos: por internet, con servidor**
+  (pedido del usuario, 12-10-2026). La partida en dos dispositivos empieza
+  "por ahora" con la misma red Wi-Fi sin internet. Más adelante, cambiarla (o
+  sumarle) la conexión **por internet con un servidor**, para que funcione
+  aunque los dispositivos estén en redes distintas (por ejemplo, uno con datos
+  móviles). Puede tener **costo** (servidor propio o un servicio de terceros),
+  así que va **al final** según el orden acordado (07-10-2026). Antes de
+  hacerlo, mostrarle al usuario opciones y costos.
 
 - [x] ~~🟢 **Empate al llegar al objetivo por la penalización del relevo.**~~
   **Descartado por el usuario (12-10-2026):** "es prácticamente imposible que

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Musical Showdown · Vincular</title>
+<meta name="robots" content="noindex">
+<!--
+  Página del QR de "📱 Vincular" (12-10-2026; ver src/js/vinculo.js).
+  Si la app está instalada, Android la abre directo y esta página no se ve.
+  Si no (o si el enlace se abrió en el navegador), ofrece abrir la app con
+  el mismo código o descargarla. Se publica con GitHub Pages (carpeta docs/).
+-->
+<style>
+  :root{color-scheme:dark;--fondo:#141833;--oro:#FFD23F;--texto:#fff;}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--fondo);color:var(--texto);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-align:center;padding:16px;box-sizing:border-box;}
+  main{max-width:420px;display:flex;flex-direction:column;gap:16px;}
+  h1{margin:0;font-size:28px;}
+  p{margin:0;line-height:1.5;opacity:.9;}
+  a.boton{display:block;padding:16px;border-radius:999px;font-weight:800;font-size:18px;text-decoration:none;}
+  .principal{background:var(--oro);color:#141833;}
+  .secundario{border:2px solid rgba(255,255,255,.4);color:#fff;}
+  .nota{font-size:14px;opacity:.7;}
+</style>
+</head>
+<body>
+<main>
+  <div style="font-size:64px">🎤</div>
+  <h1>Musical Showdown</h1>
+  <p>Este código vincula tu celular con la partida que se ve en la PC.</p>
+  <a class="boton principal" id="abrir" href="#">Abrir en la app</a>
+  <a class="boton secundario" href="https://github.com/maxy26/Musical-showdown/releases/latest">¿No la tienes? Descárgala</a>
+  <p class="nota">Después de instalarla, vuelve a escanear el código de la PC.</p>
+</main>
+<script>
+  // Abre la app con el mismo enlace (y el código); si no está instalada, va a la descarga.
+  var descarga = "https://github.com/maxy26/Musical-showdown/releases/latest";
+  var destino = location.host + location.pathname + location.search;
+  var intento = "intent://" + destino + "#Intent;scheme=https;package=com.musicalshowdown.app;S.browser_fallback_url=" +
+    encodeURIComponent(descarga) + ";end";
+  document.getElementById("abrir").href = /android/i.test(navigator.userAgent) ? intento : descarga;
+</script>
+</body>
+</html>

@@ -10,6 +10,9 @@ import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } fr
 import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO } from "../version.js";
 import { esAppInstalada, salirDeLaApp, abrirEnlace } from "../plataforma.js";
+import { puedeSerPantalla, puedeSerControl, controlConectado } from "../vinculo.js";
+import { preguntarDesvincular } from "./control.js";
+import { abrirSeguirPartidaCelular, abrirEscanear } from "./vincular.js";
 import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, fechaRelativa } from "../avisos.js";
 
 /**
@@ -85,6 +88,16 @@ const SETTINGS = [
   { key: "clock", title: "Sonido del reloj" },
 ];
 
+/**
+ * Botón a la izquierda de Ajustes (usuario, 12-10-2026): en el celular, escanear
+ * la partida que está en la PC; en la PC, seguir una partida que empezó en el
+ * celular (se escribe su código). En la web no aparece.
+ */
+function botonVincularInicio() {
+  if (puedeSerPantalla()) return `<button type="button" class="home-round-btn pressable" id="btn-vincular" aria-label="Seguir una partida del celular" title="Seguir una partida del celular">${ICONS.link()}</button>`;
+  if (puedeSerControl()) return `<button type="button" class="home-round-btn pressable" id="btn-vincular" aria-label="Escanear la partida de la PC">${ICONS.scan()}</button>`;
+  return "";
+}
 /** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
 export function settingsBody() {
   const body = el(`<div class="home-settings">
@@ -109,6 +122,7 @@ export function settingsBody() {
         <button type="button" data-step="1" aria-label="Más segundos">+</button>
       </div>
     </div>
+    ${controlConectado() ? `<button type="button" class="btn btn-secondary btn-block" id="btn-desvincular">📺 Desvincular de la PC</button>` : ""}
     ${esAppInstalada() ? `<button type="button" class="btn btn-danger btn-block home-exit" id="btn-exit">🚪 Salir del juego</button>` : ""}
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
@@ -131,6 +145,9 @@ export function settingsBody() {
     });
   };
   // Salir del juego (solo en la app de Android y en el .exe): pregunta antes.
+  // Celular usado como control (control.js): deja de serlo y vuelve al inicio
+  const desvincular = body.querySelector("#btn-desvincular");
+  if (desvincular) desvincular.onclick = preguntarDesvincular;
   const salir = body.querySelector("#btn-exit");
   if (salir) salir.onclick = () => showConfirm({
     title: "¿Salir del juego?",
@@ -169,7 +186,10 @@ export function screenMenu() {
 
   const root = el(`<div class="screen home">
     <header class="home-header">
-      <button type="button" class="home-round-btn pressable" id="btn-settings" aria-label="Ajustes">${ICONS.settings()}</button>
+      <div class="home-header-right">
+        ${botonVincularInicio()}
+        <button type="button" class="home-round-btn pressable" id="btn-settings" aria-label="Ajustes">${ICONS.settings()}</button>
+      </div>
       <div class="home-header-right">
         <button type="button" class="home-round-btn pressable" id="btn-notifications" aria-label="Notificaciones">${ICONS.bell()}<span class="aviso-globito" hidden></span></button>
         <button type="button" class="home-round-btn pressable" id="btn-help" aria-label="Cómo se juega">${ICONS.help()}</button>
@@ -264,6 +284,9 @@ export function screenMenu() {
 
   // ---------- Encabezado ----------
   root.querySelector("#btn-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
+  // Dos dispositivos: el celular escanea la partida de la PC; la PC sigue una partida del celular
+  const vincular = root.querySelector("#btn-vincular");
+  if (vincular) vincular.onclick = () => (puedeSerPantalla() ? abrirSeguirPartidaCelular() : abrirEscanear());
   root.querySelector("#btn-notifications").onclick = () => {
     openSheet({ title: "Notificaciones", body: notificationsBody() });
     pintarGlobito(root);

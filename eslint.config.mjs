@@ -1,4 +1,6 @@
 export default [
+  // src/js/lib: librerías de terceros copiadas tal cual (ver LICENCIAS.txt)
+  { ignores: ["src/js/lib/**"] },
   {
     files: ["src/**/*.js"],
     ignores: ["src/sw.js"],
@@ -19,6 +21,7 @@ export default [
         alert: "readonly",
         confirm: "readonly",
         requestAnimationFrame: "readonly",
+        URLSearchParams: "readonly",
       },
     },
     rules: {

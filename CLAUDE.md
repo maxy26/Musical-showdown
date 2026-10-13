@@ -58,6 +58,7 @@ Particularidades al compilar en Windows:
 - `build:android` requiere TypeScript **5** en `platforms/android` para leer `capacitor.config.ts`. TypeScript 7 no es compatible con Capacitor 6.
 - npm 11 muestra advertencias de "install-scripts" para esbuild y electron. Se pueden ignorar para compilar.
 - `build:apk` llama a `gradlew.bat` con su ruta completa, porque algunas consolas de Windows no buscan programas en la carpeta actual. En esta PC el SDK está en `%LOCALAPPDATA%\Android\Sdk` (`android/local.properties`) y Java 17 en `C:\Program Files\Java\jdk-17`.
+- El `.exe` portátil se descomprime siempre en `%TEMP%\MusicalShowdown` (`portable.unpackDirName` en `platforms/desktop/package.json`). Si no, usaba una carpeta al azar en cada apertura y el Firewall de Windows volvía a pedir (o bloqueaba) el permiso de red de "Vincular".
 - Para que el usuario vea los cambios: después de cambios de lógica o visuales, compilar (`build:desktop` y `build:apk`) y abrirle el `.exe`. Para recompilar hay que cerrar el juego si está abierto, porque Windows no deja reemplazar un `.exe` en uso.
 
 En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"`, así que las pruebas ESM y los archivos de `src/` dependen de la detección automática de sintaxis ESM de Node.
@@ -97,6 +98,28 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 - Ayuda (11-10-2026): la ❓ del inicio abre "Cómo se juega" (`openHelp()` de `screens/modals.js`, resumen de todo el juego); en las demás pantallas, `openHelp()` abre la ayuda del modo (`screens/ayudaModos.js`, una por modo y tipo de batalla). Los botoncitos (?) de cada sección están en `screens/ayudaBotones.js` (`botonAyuda(clave, esquina)` + `conectarAyudas(root)`; en `AYUDAS`, cada uno tiene una `frase` corta y `tarjetas` [dibujito, texto], fijos o por modo). Confirmadas por el usuario el 12-10-2026 (versión 1.20). Durante la ronda, abrir una ayuda detiene el reloj (`pausarRondaMientras()` de `modals.js`; `openSheet` acepta `alCerrar`). Cada texto explica solo el modo que se juega, sin nombrar a los otros.
 - Tipografías (Unbounded, Inter, Fredoka, Nunito) incluidas en `src/fonts/` y cargadas desde `css/fuentes.css` (licencia OFL en `fonts/LICENCIAS.txt`): el juego no usa Google Fonts, así se ve igual sin internet.
 - Teclado (`teclado.js`, `iniciarTeclado()` en `main.js`): las flechas recorren la pantalla hacia donde apuntan (`vecinoEn`; dentro de una ventana abierta, solo esa ventana), Enter es un clic y Backspace es "volver" (`botonVolver`). Las listas desplegables (`select`) no reciben toques (CSS): con teclado, mouse o dedo se abre la lista propia del juego (`abrirLista`), que se cierra con Backspace / Esc o tocando afuera.
+- Dos dispositivos, etapa 1 (12-10-2026, versión 1.23): la PC es la pantalla grande y el celular es el control.
+  - `vinculo.js`:
+    - La PC (`.exe`) abre un servidor WebSocket en la red local. Lo hacen `platforms/desktop/main.js` y `preload.js`, que expone solo `window.vinculoPC`.
+      - `main.js` usa la librería `ws`, el puerto 47821 y acepta un celular a la vez.
+      - El código es de 6 números y cambia cada minuto. Al conectarse, el celular recibe una "llave" para reconectar.
+      - UDP 47822: la PC contesta a `MSV1 BUSCAR <código>` y, si se escribió el código del celular, a `MSV1 COMPARTE <código>`.
+    - La PC le manda al celular `armarEstado()` cada vez que cambia `#app` (MutationObserver) y hace lo que el celular pide (`ACCIONES`). "Compartir partida": el celular manda `copiaDePartida()` y la PC la toma con `recibirPartida()`.
+    - El celular busca la PC con el complemento nativo propio `VinculoPlugin.java` (UDP broadcast, registrado en `MainActivity.java`), llamado con `nativo("Vinculo", "buscar", …)`.
+  - `screens/control.js` (pantalla `"control"`): lo que ve el celular.
+  - `screens/vincular.js`: las ventanas para vincular.
+    - Botones: "📱 Vincular" en la ronda de la PC y del celular (`round.js`) y uno a la izquierda de Ajustes en el inicio (`menu.js`).
+    - El QR se dibuja con `lib/qrcode.js` y se lee con la cámara y `lib/jsqr.js`.
+    - El QR es el enlace `https://maxy26.github.io/Musical-showdown/vincular/?…`: `AndroidManifest.xml` lo abre con la app e `iniciarEnlacesDeVinculo()` sigue la conexión.
+    - Sin la app, se ve la página `docs/vincular/` (GitHub Pages). Para que Android abra el enlace directo hace falta `assetlinks.json` en `maxy26.github.io` (ver `PENDIENTES.md`).
+  - Voz (12-10-2026): al tocar un nombre, `voz.js` (`empezarEscucha` / `resultadoVoz`) espera 3 s.
+    - Sin voz, vuelve a la ronda con `deshacerToque` y descuenta del reloj lo que corrió a mitad de velocidad.
+    - `microfono.js` (`escucharVoz`) solo mide el volumen, sin grabar.
+    - Si hay celular vinculado, escucha el celular: ve `escuchando` / `toque` en el estado y contesta con la acción `"voz"`.
+  - `MainActivity.java` deja el espacio de la barra de estado, la barra de navegación y el teclado (Android 15/16 dibuja la app debajo y el WebView no da `safe-area-inset`).
+  - Las librerías de terceros van en `src/js/lib/` sin cambios, con `LICENCIAS.txt`; ESLint las ignora.
+  - Android necesita `CAMERA`, `usesCleartextTraffic` y `allowMixedContent` (la conexión es `ws://`).
+  - Sin internet: los dos dispositivos tienen que estar en la misma red Wi-Fi.
 - `router.js` no repite la animación de entrada al redibujar la misma pantalla (clase `sin-entrada`): eso causaba parpadeo al tocar Sí / No o + / −.
 - `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.

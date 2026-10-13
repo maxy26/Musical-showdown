@@ -926,3 +926,82 @@ select{pointer-events:none;}
 /* Aparece cuando termina la entrada de la pantalla: mientras la pantalla se mueve,
    un elemento "fixed" se mueve con ella y se vería saltar */
 @keyframes version-aparece{from{opacity:0;}to{opacity:1;}}
+
+/* ---------- Partida en dos dispositivos (etapa 1, 12-10-2026; vinculo.js) ---------- */
+.canta-control{margin:0 auto;padding:12px 20px;border-radius:16px;background:rgba(0,0,0,.25);color:#fff;font-weight:800;text-align:center;}
+.vincular{display:flex;flex-direction:column;gap:12px;}
+.vincular-pasos{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;line-height:1.4;}
+.vincular-qr{align-self:center;width:min(210px,60vw);min-height:60px;padding:10px;border-radius:16px;background:#fff;display:grid;place-items:center;}
+.vincular-qr svg{display:block;width:100%;height:auto;}
+.vincular-datos{margin:0;text-align:center;}
+.vincular-estado{margin:0;text-align:center;font-weight:800;color:var(--gold);}
+.vincular-estado.is-ok{color:var(--teal);}
+.vincular-error{margin:0;padding:10px 12px;border-radius:12px;background:rgba(255,92,122,.18);color:#fff;}
+.vincular-camara{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:1;}
+.vincular-camara video{width:100%;height:100%;object-fit:cover;display:block;}
+.vincular-mira{position:absolute;inset:18%;border:3px solid #fff;border-radius:16px;box-shadow:0 0 0 999px rgba(0,0,0,.35);}
+.control-screen{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;gap:10px;padding:10px 12px;box-sizing:border-box;}
+.control-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.control-estado{font-weight:800;font-size:14px;opacity:.85;}
+.control-salir{padding:8px 14px;}
+.control-aviso{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 12px;}
+.control-aviso h2{margin:0;}
+.control-aviso p{margin:0;opacity:.9;line-height:1.4;}
+.control-aviso .btn{max-width:360px;}
+.control-icono{font-size:64px;line-height:1;}
+.control-ronda{flex:1;display:flex;flex-direction:column;gap:10px;}
+.control-lado{flex:1;display:flex;flex-direction:column;gap:8px;}
+.control-lado-a{transform:rotate(180deg);} /* para el que está enfrente */
+.canta-lado-a.control-lado,.canta-lado-b.control-lado{--group-soft:color-mix(in srgb, var(--group-color) 45%, transparent);}
+.control-jugador{flex:1;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  border:3px solid var(--group-color);border-radius:24px;color:#fff;font:inherit;cursor:pointer;
+  background:var(--stage-bg);
+  background:linear-gradient(160deg, color-mix(in srgb, var(--group-color) 40%, transparent), rgba(37,42,85,.9) 70%);
+  box-shadow:0 6px 0 rgba(0,0,0,.3);}
+.control-jugador:active:not(:disabled){transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.3);}
+.control-jugador:disabled{opacity:.5;cursor:default;}
+.control-nombre{font-family:var(--font-fun-title);font-size:clamp(26px,8vw,40px);font-weight:700;}
+.control-medio{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.control-medio .clock{margin:0;}
+.control-canta{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:12px;border-radius:24px;
+  background:var(--stage-bg);
+  background:radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--group-color) 55%, transparent), transparent 70%);}
+.control-canta .clock{margin:0;}
+.control-screen.screen{position:fixed;inset:0;height:auto;min-height:0;max-width:none;margin:0;overflow:hidden;
+  padding:calc(12px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));}
+.control-ronda .control-lado{min-height:0;}
+.vincular-codigo{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.vincular-codigo-num{font-family:var(--font-fun-title);font-size:clamp(36px,10vw,52px);font-weight:700;letter-spacing:.08em;color:var(--gold);}
+.vincular-codigo-barra{width:min(240px,70%);height:6px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden;}
+.vincular-codigo-barra span{display:block;height:100%;width:100%;background:var(--gold);}
+.vincular-codigo-nota{font-size:13px;opacity:.7;}
+.vincular-campo{font-size:24px;letter-spacing:.15em;text-align:center;}
+/* Reloj grande y bien visible (usuario, 12-10-2026): en la ronda y en "¡X canta!" de la pantalla grande */
+.clock.reloj-grande{font-family:var(--font-fun-title);font-size:clamp(34px,6vw,58px);font-weight:700;color:#fff;margin:0 0 8px;
+  padding:6px 26px;border-radius:999px;background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 2px rgba(255,255,255,.12);line-height:1.15;}
+.clock.reloj-grande.sin-reloj{font-family:inherit;font-size:20px;font-weight:800;color:var(--text-dim);padding:4px 16px;}
+.clock.reloj-grande.warn{color:#fff;background:var(--red);box-shadow:0 0 24px rgba(255,92,122,.6);}
+.canta-capa .clock.reloj-grande{margin-bottom:4px;}
+/* Con un celular vinculado, los nombres de la pantalla grande no se tocan */
+.name-btn.solo-control{cursor:default;pointer-events:none;}
+/* Celular de control: cuenta antes de la ronda y barra de arriba */
+.control-cuenta{font-family:var(--font-fun-title);font-size:min(45vw,220px);font-weight:700;color:var(--gold);line-height:1;}
+.control-top .top-bar-actions{display:flex;gap:6px;align-items:center;}
+.control-top .icon-btn:disabled{opacity:.45;}
+.control-estado{white-space:nowrap;}
+/* Puntos de la ronda (usuario, 12-10-2026): lo que ganó o perdió cada uno, animado, y cómo queda */
+.puntos-ronda{margin:16px auto 8px;max-width:440px;display:flex;flex-direction:column;gap:10px;}
+.puntos-fila{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;
+  background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);animation:puntos-entra .45s cubic-bezier(.3,1.4,.5,1) both;}
+.puntos-fila:nth-child(2){animation-delay:.12s;}
+.puntos-fila.sube{box-shadow:inset 0 0 0 2px rgba(46,196,182,.7);background:rgba(46,196,182,.14);}
+.puntos-fila.baja{box-shadow:inset 0 0 0 2px rgba(255,92,122,.7);background:rgba(255,92,122,.14);}
+.puntos-nombre{text-align:left;font-weight:800;font-size:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.puntos-delta{font-family:var(--font-fun-title);font-size:28px;font-weight:700;color:var(--text-dim);animation:puntos-pop .6s .3s cubic-bezier(.3,1.8,.5,1) both;}
+.puntos-fila.sube .puntos-delta{color:var(--teal);}
+.puntos-fila.baja .puntos-delta{color:#FF6B6B;}
+.puntos-total{font-weight:700;opacity:.9;white-space:nowrap;}
+.puntos-total b{font-family:var(--font-fun-title);font-size:24px;font-variant-numeric:tabular-nums;}
+@keyframes puntos-entra{from{opacity:0;transform:translateY(14px) scale(.96);}to{opacity:1;transform:none;}}
+@keyframes puntos-pop{0%{opacity:0;transform:scale(.3);}70%{opacity:1;transform:scale(1.25);}100%{transform:scale(1);}}
+html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation:none;}

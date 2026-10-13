@@ -5,6 +5,8 @@ import { render } from "../router.js";
 import { resolveAnswer, currentSinger } from "../gameLogic.js";
 import { botonAyuda, conectarAyudas } from "./ayudaBotones.js";
 import { abrirEnlace } from "../plataforma.js";
+import { hayControl } from "../vinculo.js";
+import { effectiveRoundTime } from "./config/modes.js";
 
 /** Letras mínimas para buscar (usuario, 04-10-2026: con 1 o 2 letras no se muestra nada). */
 export const MIN_SEARCH_LETTERS = 3;
@@ -88,14 +90,19 @@ export function screenVerify() {
   const grupo = r.selected === "A" ? r.groupA : r.groupB;
   const color = grupo === null || grupo === undefined ? `canta-lado-${r.selected === "A" ? "a" : "b"}` : `group-color-${grupo % 5}`;
 
+  // El tiempo también se ve aquí, del mismo tamaño que en la ronda (usuario, 12-10-2026)
+  const reloj = effectiveRoundTime(c) > 0
+    ? `<div class="clock reloj-grande ${r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${r.timeLeft}s</span></div>` : "";
   const root = el(`<div class="canta-capa ${color}">
-    ${botonAyuda("decision", true)}
+    ${hayControl() ? "" : botonAyuda("decision", true)}
     <div class="canta-centro">
+      ${reloj}
       <div class="canta-mic">🎤</div>
       <h2 class="canta-nombre">¡${escapeHtml(who)} canta!</h2>
       ${equipo && equipo !== who ? `<p class="canta-equipo">${escapeHtml(equipo)}</p>` : ""}
       <p class="canta-palabra">${escapeHtml(r.word.toUpperCase())}</p>
     </div>
+    ${hayControl() ? "" : `
     <div class="canta-botones">
       <button class="btn btn-danger btn-block" id="no">❌ Incorrecta</button>
       <button class="btn btn-primary btn-block" id="yes">✅ Correcta</button>
@@ -103,22 +110,26 @@ export function screenVerify() {
     <div class="canta-extra">
       <button class="btn btn-ghost" id="back">← Volver</button>
       <button class="btn btn-secondary" id="buscar">🔎 Buscar canción</button>
-    </div>
+    </div>`}
   </div>`);
+  // Con un celular vinculado, ❌ / ✅, "Buscar" y "Volver" están en el celular (vinculo.js)
+  conectarAyudas(root); // botoncito (?)
+  if (hayControl()) return root;
 
   root.querySelector("#yes").onclick = () => resolveAnswer(true);
   root.querySelector("#no").onclick = () => resolveAnswer(false);
   root.querySelector("#buscar").onclick = () => abrirBusqueda();
-  root.querySelector("#back").onclick = () => {
-    // Se tocó sin querer: la ronda sigue como estaba (este lado no gastó su intento)
-    Object.assign(state.round, state.round.antesDelToque || {});
-    state.round.paused = false;
-    state.round.selected = null;
-    state.screen = "round";
-    render();
-  };
-  conectarAyudas(root); // botoncito (?)
+  root.querySelector("#back").onclick = deshacerToque;
   return root;
+}
+
+/** "← Volver": se tocó sin querer, la ronda sigue como estaba (este lado no gastó su intento). */
+export function deshacerToque() {
+  Object.assign(state.round, state.round.antesDelToque || {});
+  state.round.paused = false;
+  state.round.selected = null;
+  state.screen = "round";
+  render();
 }
 
 /**
@@ -151,7 +162,7 @@ export function textoParaYoutube(texto, resultados) {
  * - ▶ abre esa canción en YouTube; Enter o "▶ Buscar en YouTube" buscan lo
  *   escrito (con el nombre exacto de una canción, nombre + artista).
  */
-function abrirBusqueda() {
+export function abrirBusqueda() {
   const r = state.round;
   const v = state.verify;
   const root = el(`<div class="modal-backdrop">

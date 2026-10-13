@@ -512,6 +512,59 @@
   A su derecha va el botón 🔊/🔇, que solo quita o pone la música (volvió
   el 05-10-2026 con esa función); en la ronda va además la tuerca de Ajustes.
 
+### Partida en dos dispositivos (etapa 1, 12-10-2026, versión 1.23)
+- **La PC es la pantalla grande y el celular es el control** (cambios del
+  usuario del 12-10-2026):
+  - En la **ronda de la PC**, "📱 Vincular" muestra un QR y un **código de 6
+    números que cambia cada minuto**. El reloj se detiene mientras está
+    abierto, y la ventana se cierra sola al conectarse el celular.
+  - En el **inicio del celular**, el botón a la izquierda de Ajustes escanea
+    el QR o permite escribir el código.
+  - El QR también se puede escanear con la **cámara del celular** fuera del
+    juego: abre la app (o la página para descargarla) y sigue con la
+    vinculación. Para que funcione en cualquier celular falta publicar la
+    verificación del enlace: queda para cuando la app esté en Play Store.
+  - **Al revés**: si la partida empezó en el celular, "📱 Vincular" (en su
+    ronda) muestra un código. En el **inicio de la PC** (botón a la izquierda
+    de Ajustes) se escribe ese código y la partida pasa a la PC, en pausa; el
+    celular queda de control.
+- Los dos tienen que estar en la **misma red Wi-Fi**. No hace falta internet:
+  sirve un router sin internet o la zona Wi-Fi de un celular. La primera vez,
+  Windows pide permiso de red para el juego: hay que permitirlo para el tipo
+  de red que use la PC (en la PC del usuario, "pública").
+- **Control (celular):**
+  - Arriba, como en la ronda: **pausa, ❓, 🔊** (la música de la PC) y
+    **Ajustes** (ahí está "Desvincular").
+  - En la ronda, solo los **dos botones de los jugadores** a pantalla completa
+    (el de arriba girado, para el que está enfrente).
+  - Mientras alguien canta: "Finalizar ronda" (sin tiempo), **❌ / ✅**, "🔎
+    Buscar canción" (se busca en el celular) y "← Volver". Sin el tiempo, la
+    palabra ni quién canta (usuario, 12-10-2026).
+  - La cuenta antes de cada ronda, igual que la PC. Después: "Continuar ronda"
+    o "Siguiente enfrentamiento".
+- **Pantalla grande (PC):** el tiempo (grande), la palabra, los puntajes, los
+  relevos y "¡X canta!" (también con el tiempo grande). Con un celular
+  vinculado, ❌ / ✅ no salen en la PC y los nombres no se pueden tocar ahí.
+  Configurar, organizar equipos, los relevos y el podio se manejan en la PC.
+- **3 segundos escuchando** (usuario, 12-10-2026): al tocar un nombre, el reloj
+  se ve detenido, pero por dentro corre a mitad de velocidad durante 3
+  segundos mientras el micrófono escucha.
+  - Si oye voz, sigue "¡X canta!".
+  - Si no oye nada, vuelve a la ronda y el reloj sigue normal, con ese tiempo
+    descontado.
+  - Micrófono: el del celular con PC + celular y con TV + celular; el de la
+    PC con PC + TV; sin vincular, el del mismo dispositivo.
+  - Sin micrófono o sin permiso, sigue "¡X canta!". Solo se mide el volumen,
+    no se graba.
+- **Puntos de la ronda** (usuario, 12-10-2026): al responder (✅ o ❌), la
+  pantalla grande muestra a cada uno lo que ganó o perdió (animado) y cómo
+  queda; al fallar, cómo quedan los dos.
+- **Ayudas de la ronda** (usuario, 12-10-2026): la ❓ roja de la ronda abre la
+  ayuda de la ronda (antes un (?) en el centro, que se quitó). Una ayuda abierta
+  en el celular también detiene el reloj de la PC.
+- Próximas etapas: el micrófono mueve la animación; Android TV como pantalla
+  grande; la PC como control de la TV (ver `PENDIENTES.md`).
+
 ### Resultados y "jugar de nuevo"
 - **Podio** (usuario, 30-09-2026; programado el 01-10-2026), en **todos los
   modos**: el ganador arriba, y debajo un podio con los **3 mejores puestos**

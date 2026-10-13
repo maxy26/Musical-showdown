@@ -7,6 +7,7 @@ import { screenRound } from "./screens/round.js";
 import { screenVerify } from "./screens/verify.js";
 import { screenRoundResult, screenRoundResultIncorrect } from "./screens/roundResult.js";
 import { screenResults } from "./screens/results.js";
+import { screenControl } from "./screens/control.js";
 
 const SCREENS = {
   "menu": screenMenu,
@@ -18,6 +19,7 @@ const SCREENS = {
   "round-result": screenRoundResult,
   "round-result-incorrect": screenRoundResultIncorrect,
   "results": screenResults,
+  "control": screenControl, // celular usado como control de la PC (vinculo.js)
 };
 
 let pantallaAnterior = null;

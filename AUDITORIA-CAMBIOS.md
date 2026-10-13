@@ -13,6 +13,291 @@
 
 ---
 
+## 2026-10-12 — Sesión 8 (parte 29): versión 1.23
+
+**Pedido del usuario:** "listo, publícalo".
+
+**Qué incluye la 1.23:**
+- Celular + PC vinculados (etapa 1): "📱 Vincular" en la ronda, código que
+  cambia cada minuto, QR, escanear o escribir el código, pasar la partida del
+  celular a la PC y el celular como control.
+- 3 segundos escuchando con el micrófono al tocar un nombre.
+- Puntos animados y "cómo quedan".
+- Reloj grande y ❓ de la ronda.
+- Cuenta regresiva en las dos pantallas.
+- Arreglo de Android 15/16 (barra de la hora).
+- `.exe` con carpeta fija (un solo permiso del Firewall).
+
+**Publicación:**
+- Marcas "en prueba" cambiadas a versión 1.23 (`CLAUDE.md`, `CONTEXTO`,
+  `PENDIENTES.md`) y lista "Listo para la próxima versión" vaciada.
+- `npm run android:release`, `build:desktop`, commit, etiqueta `v1.23` y envío
+  a GitHub (la Release y la notificación las hace GitHub Actions).
+- Se le abrió la versión final.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 28): PRUEBA — ajustes antes de la 1.23 (reloj, control, ayudas)
+
+**Pedido del usuario** (lista de cambios antes de publicar la 1.23). Hecho:
+- **Reloj más grande y visible** (`.clock.reloj-grande`, en rojo los últimos
+  5 s). También en "¡X canta!" de la pantalla grande, del mismo tamaño.
+- **Celular de control:**
+  - Ya no muestra el tiempo, la palabra ni quién canta. Mientras alguien
+    canta quedan "Finalizar ronda" (sin tiempo), ❌ / ✅, Buscar y Volver.
+  - Arriba tiene pausa, ❓, 🔊 (pone o quita la música de la PC) y Ajustes;
+    "Desvincular" está en Ajustes.
+  - Muestra la cuenta antes de cada ronda, igual que la PC.
+- **PC vinculada:**
+  - Sin "El moderador decide desde el celular".
+  - Los nombres no se tocan en la PC; el celular pide el turno con
+    `pedirTurno()` de `round.js`.
+- **Ayudas:**
+  - La ❓ roja de la ronda ahora abre la ayuda de la ronda (lo del (?) del
+    centro, que se quitó).
+  - En el celular: ❓ arriba y el (?) de "Correcta o Incorrecta", con el modo
+    de la partida de la PC.
+  - Abrir una ayuda en el celular detiene el reloj de la PC (acciones
+    `ayudaAbierta` / `ayudaCerrada`).
+- **`.exe`:**
+  - El juego portátil se descomprimía cada vez en una carpeta temporal
+    distinta, y Windows pedía (o bloqueaba) el permiso de red en cada
+    apertura.
+  - Ahora usa siempre `%TEMP%\MusicalShowdown` (`unpackDirName` en
+    `platforms/desktop/package.json`): el permiso se pide una sola vez.
+- Durante las pruebas se había dejado en "No" la cuenta antes de la ronda del
+  `.exe` del usuario. Se volvió a poner en 3 s (lo predeterminado).
+
+**Archivos:**
+- `round.js`, `verify.js`, `control.js`, `menu.js`
+- `ayudaBotones.js` (`abrirAyuda` exportada, con `alCerrar`)
+- `vinculo.js` (observa todo el documento; manda la cuenta, la música, el modo
+  y la batalla)
+- `sound.js` (`musicaActiva`, `alternarMusica`)
+- `styles.css`, `platforms/desktop/package.json`
+- Pruebas: `vinculo.test.js` y la prueba de pantallas del reloj con la ayuda.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 153 bien; pruebas de
+pantallas: 42 bien. La prueba con el celular quedó frenada porque Windows
+bloqueó la carpeta nueva del juego. Hace falta el OK del usuario
+(administrador) para permitirla.
+
+**Aclarado por el usuario y hecho (mismo día):**
+- **3 segundos escuchando** (`voz.js`, `microfono.js`): al tocar un nombre, el
+  reloj se ve detenido, pero por dentro corre a mitad de velocidad durante 3
+  segundos mientras el micrófono escucha.
+  - Si oye voz, sigue "¡X canta!".
+  - Si no oye nada, vuelve a la ronda (como "Volver") con ese tiempo
+    descontado.
+  - Micrófono: el del celular con PC + celular (y TV + celular, más
+    adelante), el de la PC con PC + TV (más adelante) y, sin vincular, el del
+    mismo dispositivo.
+  - Sin micrófono o sin permiso, sigue "¡X canta!" como antes.
+  - Solo mide el volumen: no graba nada.
+  - Android: permisos `RECORD_AUDIO` y `MODIFY_AUDIO_SETTINGS`, pedidos
+    directo por Android la primera vez.
+- **Puntos más animados y "cómo quedan"** (`roundResult.js`, `tablaPuntos`):
+  una fila por jugador o equipo.
+  - El +/− aparece de golpe y el puntaje sube o baja hasta el nuevo.
+  - También al responder mal (cómo quedan, ±0).
+  - Vinculado y sin vincular.
+- Prueba nueva `test/voz.test.js`. `sw.js` v25 con los dos archivos nuevos.
+- **Verificado en el celular del usuario con el `.exe`:**
+  - vinculó por el enlace y la cuenta regresiva salió en el celular;
+  - Android pidió el micrófono directo;
+  - en silencio, a los 3 s volvió sola a la ronda;
+  - ✅ desde el celular mostró los puntos animados.
+- Lint sin avisos; `npm test`: 158 bien; pruebas de pantallas: 42 bien. El
+  usuario permitió el `.exe` en el Firewall (carpeta fija).
+- **Abierto:** que el usuario pruebe cantando de verdad (el volumen mínimo,
+  `UMBRAL_VOZ`, puede necesitar ajuste). Nada publicado.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 27): PRUEBA — vincular desde la ronda, código dinámico, QR que abre la app y compartir partida
+
+**Pedido del usuario:**
+- Que al escanear el QR con la cámara del celular (fuera de la app) se abra
+  la app o se mande a instalarla.
+- El botón de vincular, en la pantalla de la ronda (con el reloj detenido) y
+  ya no en Ajustes.
+- Un código de vinculación dinámico (para la TV) y poder vincular escribiendo
+  el código.
+- En el inicio del celular, un botón a la izquierda de Ajustes para escanear
+  una partida de la PC.
+- "Compartir partida" en el celular: da un código para escribirlo en la PC.
+
+**Qué se hizo:**
+- **Código de vinculación**: 6 números, cambia cada minuto (también vale el
+  anterior) y reemplaza a "dirección + código de 4". Lo maneja
+  `platforms/desktop/main.js`.
+- **Encontrar la PC sin dirección**: complemento nativo propio
+  `VinculoPlugin.java` (registrado en `MainActivity.java`).
+  - El celular grita por UDP a toda la red (puerto 47822, `MSV1 BUSCAR
+    <código>`) y la PC que tiene ese código le contesta con su puerto.
+  - Al revés (`MSV1 COMPARTE <código>` → `MSV1 PC …`) se usa para pasar la
+    partida del celular a la PC.
+  - La PC le da al celular una "llave" para "Reconectar" aunque el código ya
+    haya cambiado.
+- **QR = enlace** `https://maxy26.github.io/Musical-showdown/vincular/?ips=…&p=…&c=…`.
+  - `AndroidManifest.xml` tiene el `intent-filter` (autoVerify) que abre la
+    app, y `vincular.js` → `iniciarEnlacesDeVinculo()` (getLaunchUrl /
+    appUrlOpen) sigue con la conexión.
+  - Si la app no está instalada: página `docs/vincular/index.html` (GitHub
+    Pages) con "Abrir en la app" y "Descárgala" (releases).
+  - `docs/assetlinks.json`: el archivo que confirma que el enlace es de la app
+    (ver Qué quedó abierto).
+- **Botones**:
+  - Ronda de la PC: "📱 Vincular" (QR + código; detiene el reloj y se cierra
+    sola al conectarse; dice "📱 Vinculado").
+  - Ronda del celular: "📤 Compartir" (muestra el código del celular).
+  - Inicio del celular, a la izquierda de Ajustes: escanear (cámara o
+    código).
+  - Inicio de la PC, mismo lugar: "Seguir partida del celular" (escribir el
+    código).
+  - Se quitaron de Ajustes.
+- **Compartir partida**: el celular manda la partida completa
+  (`copiaDePartida()`); la PC sigue desde el mismo punto, en pausa
+  (`recibirPartida`), y el celular queda de control.
+- **Android 15/16** (la app apunta a Android 16): el juego quedaba debajo de la
+  barra de la hora y de los botones de abajo. `MainActivity.java` ahora deja
+  ese espacio (y el del teclado), con el fondo del juego. Esto arregla todas
+  las pantallas, no solo las nuevas.
+- Enter / "→" del teclado en el campo del código conecta (`enterkeyhint="go"`,
+  también en `teclado.js`). Nuevos íconos `scan` y `link`.
+
+**Cómo se verificó:**
+- Lint sin avisos; `npm test`: 153 bien; pruebas de pantallas: 42 bien.
+- **Prueba real con el celular del usuario** (OPPO CPH2695, Android 16, misma
+  Wi-Fi) y el `.exe`:
+  1. Enlace del QR abierto en el celular → abrió la app y se conectó sola.
+  2. Tocar Beto en el celular → "¡Beto canta!" en la PC; ✅ en el celular →
+     "¡Correcto!".
+  3. Desvincular → inicio → botón escanear → escribir el código → encontró la
+     PC por la red y se conectó.
+  4. Partida en el celular → "📤 Compartir" → código escrito en la PC → la
+     partida pasó a la PC (en pausa) → "Continuar" desde el celular.
+- Sin el archivo de verificación de GitHub, el enlace se abrió en Firefox. Para
+  la prueba se marcó con adb como "de la app"
+  (`pm set-app-links-user-selection`).
+
+**Qué quedó abierto:**
+- Para que la cámara abra la app en cualquier celular (y la página para
+  instalarla) hay que publicar en GitHub dos cosas (ver `PENDIENTES.md`):
+  - activar GitHub Pages (carpeta `docs/`);
+  - crear el repositorio `maxy26.github.io` con
+    `.well-known/assetlinks.json`.
+- La red Wi-Fi de la PC del usuario ("DEKAMI 2") está marcada como **pública**
+  en Windows. El permiso que se dio al juego vale para redes públicas: ya
+  funciona.
+- Nada publicado.
+- **Decisión del usuario (mismo día):** lo de GitHub Pages y `assetlinks.json`
+  queda **en espera hasta publicar en Play Store** (el enlace de descarga de
+  GitHub es temporal). Anotado en `PENDIENTES.md`.
+- **Pedido del usuario (mismo día):** el botón de la ronda del celular se
+  llama **"📱 Vincular"**, igual que en la PC (antes "📤 Compartir"). La ventana
+  se llama "Vincular con la PC" y la ayuda de la PC dice "📱 Vincular".
+  Archivos: `round.js`, `vincular.js`. Lint sin avisos; `.exe` y APK de prueba
+  compilados, instalados en el celular y abiertos.
+- **El usuario confirmó la etapa 1 ("listo", 12-10-2026).** Pasó a "Listo para
+  la próxima versión" en `PENDIENTES.md`, junto con el arreglo de Android 15/16.
+  Sin publicar.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 26): PRUEBA — etapa 1 de dos dispositivos (celular + PC)
+
+**Pedido del usuario:** empezar la etapa 1 (celular como control, PC como
+pantalla grande; todavía sin micrófono).
+
+**Qué se hizo:**
+- **PC (`.exe`)**: `platforms/desktop/main.js` abre, al tocar Ajustes →
+  "📱 Vincular celular", un servidor WebSocket (`ws` 8.22.0, MIT) en el puerto
+  47821 (si está ocupado, otro) dentro de la red local. Pide un código de 4
+  números y acepta un solo celular. Las direcciones de redes virtuales
+  (VirtualBox, etc.) van al final. `preload.js` (nuevo) expone solo
+  `window.vinculoPC` (abrir, cerrar, enviar, alRecibir, alCambiar).
+- **Juego**: `src/js/vinculo.js` (nuevo).
+  - La PC le manda al celular lo que hay en pantalla (`armarEstado`), cada vez
+    que algo cambia en `#app`. Lo detecta un MutationObserver, también para el
+    reloj.
+  - Hace en la PC lo que toca el celular: tocar un jugador, pausa, continuar,
+    ✅ / ❌, volver, finalizar y siguiente.
+  - Del lado del celular: conexión (`conectarComoControl`), acciones
+    (`enviarAccion`) y la última PC guardada para "Reconectar".
+- **Pantalla del celular** `screens/control.js` (nueva, clave `"control"` en
+  `router.js`):
+  - Ronda: solo los dos botones a pantalla completa (el de arriba girado) y la
+    pausa.
+  - "¡X canta!": el tiempo o "Finalizar ronda", ❌ / ✅, "Buscar canción" (se
+    busca en el celular, con la palabra y los géneros de la PC) y "← Volver".
+  - También tiene pausa, resultado, podio, "Se perdió la conexión" +
+    "Reconectar" y "Desvincular".
+  - La música del celular se calla en esta pantalla (`sound.js`).
+- **Ventanas para vincular** `screens/vincular.js` (nueva):
+  - PC: QR (qrcode-generator 2.0.4, MIT), la dirección y el código, y "✅
+    Celular conectado" / "Desvincular celular".
+  - Celular: "📷 Escanear el código QR" (cámara + jsQR 1.4.0, Apache 2.0) o
+    dirección + código. Los errores se explican: código incorrecto, PC ocupada,
+    no se encuentra.
+  - Librerías en `src/js/lib/` con `LICENCIAS.txt`. ESLint las ignora
+    (`eslint.config.js` pasó a `eslint.config.mjs`).
+- Con un celular vinculado, el "¡X canta!" de la PC no muestra ❌ / ✅ ni
+  Buscar / Volver: dice "📱 El moderador decide desde el celular".
+  `deshacerToque()` y `abrirBusqueda()` de `verify.js` ahora se exportan.
+- **Android**: permiso de cámara (`CAMERA`, la cámara no es obligatoria),
+  `usesCleartextTraffic` (la conexión `ws://` dentro de la red) y
+  `allowMixedContent` en `capacitor.config.ts`.
+- `sw.js`: 6 archivos nuevos en `ASSETS`, `CACHE_NAME` v24. Nueva prueba
+  `test/vinculo.test.js` (QR, dirección escrita, lo que recibe el celular).
+
+**Cómo se verificó:**
+- Lint sin avisos; `npm test`: 152 bien; pruebas de pantallas: 42 bien.
+- Prueba real con el juego de PC (Electron) y un "celular" simulado:
+  - El código malo se rechaza y el bueno conecta.
+  - Funcionaron pausa, continuar, tocar, volver, incorrecta, continuar
+    ronda, correcta y siguiente.
+- Prueba con la pantalla del celular (navegador tamaño Pixel 7) conectada al
+  juego de PC en Alternativo 1:
+  - El reloj avanza.
+  - ✅ desde el celular da "¡Correcto!" en la PC, y la pausa se abre en la PC.
+  - Al cerrar la PC, el celular muestra "Se perdió la conexión".
+- `build:desktop` y copia firmada de prueba
+  `dist/MusicalShowdown-PRUEBA-control.apk` (1.22, se instala encima).
+
+**Qué quedó abierto:**
+- Que el usuario lo pruebe con su celular real. Sin probar todavía: la cámara
+  en Android y que Android deje conectarse por `ws://`.
+- La primera vez, Windows pide permiso de red para el juego: hay que elegir
+  "Redes privadas".
+- Nada publicado.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 25): dos dispositivos — cómo se conectan
+
+**Pedido del usuario:** empezar el pendiente "Partida en dos dispositivos
+vinculados". Se le explicó la diferencia entre Wi-Fi e internet; eligió, "por
+ahora", la **misma red Wi-Fi sin internet** (router o zona Wi-Fi de un celular,
+emparejando con QR, sin servidor). Pidió anotar como pendiente aparte
+**mejorar la vinculación por internet con un servidor** (posible costo: va al
+final). Ambos en `PENDIENTES.md`. Faltan definir: qué hace el segundo
+dispositivo y si la animación de audio usa el micrófono.
+
+**Idea principal del usuario:** vincular celular ↔ PC, celular ↔ TV (Android) y
+PC ↔ TV; nunca dos del mismo tipo. Anotada con sus consecuencias (adaptar el
+juego a Android TV; entre PC y TV, sin cámara, un código corto en vez de QR;
+detectar el tipo de dispositivo).
+
+**Diseño completo definido con el usuario** (en `PENDIENTES.md`): el control
+(celular, o PC frente a una TV) muestra los dos botones de los jugadores a
+pantalla completa y la pausa; mientras alguien canta, el tiempo o "Finalizar
+ronda", ❌ / ✅, "Buscar canción" y "← Volver". La pantalla grande muestra el
+tiempo, la palabra, los puntajes, los relevos y la animación "¡Ana canta!".
+El micrófono del control mueve la animación (la voz no sale por los parlantes).
+
+---
+
 ## 2026-10-12 — Sesión 8 (parte 24): versión 1.22
 
 **Pedido del usuario:** publicar. **Qué incluye la 1.22:** la pantalla "¡Ana
@@ -23,6 +308,15 @@ ni descarga música). **Publicación:** marcas "en prueba" → versión 1.22 en 
 código, `PENDIENTES.md` y `CONTEXTO`; lista "Listo para la próxima versión"
 vaciada; `npm run android:release`, `build:desktop`, commit, etiqueta `v1.22`
 y envío a GitHub; se le abrió la versión final.
+
+**Después:** el usuario preguntó qué pasa si publica en una tienda gratis para
+quitar el aviso de "app no segura", y qué es "resolver lo de las letras". Se le
+explicaron las tiendas (Google Play 25 USD una vez; Galaxy Store y AppGallery
+gratis solo en sus marcas; Microsoft Store gratis para personas, por confirmar)
+y lo que implica publicar (privacidad, edad, letras, firma de Google Play), y
+que las letras guardadas tienen derechos de autor (opciones: licencia, solo
+lista de palabras, servicio en línea, solo el moderador). Se agregó al pendiente
+"Instalar sin avisos de app no segura".
 
 ---
 

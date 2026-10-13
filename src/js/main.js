@@ -9,6 +9,7 @@ import { APP_VERSION } from "./version.js";
 import { iniciarTeclado } from "./teclado.js";
 import { iniciarNotificaciones } from "./notificaciones.js";
 import { state } from "./state.js";
+import { iniciarEnlacesDeVinculo } from "./screens/vincular.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
 render();
@@ -30,6 +31,7 @@ const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
 // (como mucho 4 segundos; en la web la música espera el primer toque).
 Promise.all([minTime, fontsReady, esperarMusica(4000)]).then(() => {
   hideLoader();
+  iniciarEnlacesDeVinculo(); // QR de la PC escaneado con la cámara del celular (vincular.js)
   // Android: la primera vez pide el permiso de notificaciones (notificaciones.js).
   // El aviso que trae una notificación se agrega a la campana (globito y campana
   // que se sacude); al abrir la app tocándola, se muestra la campana si se está

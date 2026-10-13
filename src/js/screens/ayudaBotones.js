@@ -195,7 +195,12 @@ export function conectarAyudas(root) {
 
 const porModo = (valor, c) => (typeof valor === "function" ? valor(c) : valor && !Array.isArray(valor) && typeof valor === "object" ? valor[c.mode] : valor);
 
-function abrirAyuda(clave) {
+/**
+ * Abre la ventanita de un (?). También la abre el ❓ de la ronda (clave "ronda").
+ * Con lCerrar avisa al cerrarla (el celular vinculado lo usa para que el reloj
+ * de la PC siga; ver control.js).
+ */
+export function abrirAyuda(clave, { alCerrar } = {}) {
   const c = state.config;
   const a = AYUDAS[clave];
   const tarjetas = porModo(a.tarjetas, c);
@@ -214,7 +219,7 @@ function abrirAyuda(clave) {
   overlay.querySelector(".tip-modo").textContent = etiqueta;
   overlay.querySelector(".tip-frase").textContent = porModo(a.frase, c);
   const reanudar = pausarRondaMientras(); // el reloj no corre mientras se lee la ayuda
-  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); reanudar(); };
+  const cerrar = () => { efectoSuave("cerrar"); overlay.remove(); reanudar(); alCerrar?.(); };
   // X para cerrar (ventana informativa) y también tocando afuera
   const x = document.createElement("button");
   x.type = "button";

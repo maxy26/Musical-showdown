@@ -11,7 +11,10 @@ const config: CapacitorConfig = {
     hostname: 'musicalshowdown.app',
   },
   android: {
-    backgroundColor: '#141833'
+    backgroundColor: '#141833',
+    // Usar como control (12-10-2026): la app (https://musicalshowdown.app) se conecta
+    // a la PC por ws:// dentro de la red Wi-Fi; sin esto Android lo bloquea.
+    allowMixedContent: true,
   },
   plugins: {
     // Con la app abierta en pantalla, Android no muestra la notificación: se la

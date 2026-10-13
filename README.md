@@ -21,6 +21,8 @@ Musical_Showdown/
 │   └── js/
 │       ├── main.js, router.js, state.js, gameLogic.js, pairing.js, relay.js…
 │       ├── avisos.js, notificaciones.js   (campana y notificaciones)
+│       ├── vinculo.js                     (celular como control de la PC, misma red Wi-Fi)
+│       ├── lib/                           (librerías de terceros sin cambios: QR; LICENCIAS.txt)
 │       ├── data/songs.js                  (base de canciones de ejemplo)
 │       └── screens/                        (cada pantalla; config/ = Configurar partida)
 ├── platforms/    ← "envoltorios" nativos, NO duplican el juego
@@ -28,6 +30,7 @@ Musical_Showdown/
 │   └── android/      Capacitor (proyecto nativo en android/)
 ├── build/        ← scripts que arman cada plataforma desde src/
 ├── avisos/       ← avisos.json: novedades de la campana (ver avisos/LEEME.md)
+├── docs/         ← página del QR de vincular (GitHub Pages) y assetlinks.json
 ├── test/         ← pruebas: lógica (node --test) y pantallas (test/e2e, Playwright)
 └── dist/         ← salida de los builds (generado, no editar)
 ```

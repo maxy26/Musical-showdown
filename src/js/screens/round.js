@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { finishRoundManual, attemptsLeft, relayCheck } from "../gameLogic.js";
-import { openPause, openHelp, showConfirm } from "./modals.js";
+import { openPause, showConfirm } from "./modals.js";
 import { effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
 import { relayRules, relaysLeftThisRound } from "../relay.js";
@@ -11,7 +11,11 @@ import { muteButtonHTML } from "../sound.js";
 import { ICONS } from "../icons.js";
 import { openSheet } from "./sheet.js";
 import { settingsBody } from "./menu.js";
-import { botonAyuda, conectarAyudas } from "./ayudaBotones.js";
+import { botonAyuda, conectarAyudas, abrirAyuda } from "./ayudaBotones.js";
+import { puedeSerPantalla, puedeSerControl, hayControl } from "../vinculo.js";
+import { abrirVincularPC, abrirCompartirPartida } from "./vincular.js";
+import { empezarEscucha } from "../voz.js";
+import { deshacerToque } from "./verify.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -62,6 +66,7 @@ export function screenRound() {
     <div class="top-bar">
       <span></span>
       <div class="top-bar-actions">
+        ${botonVincularRonda()}
         <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>
         ${muteButtonHTML()}
@@ -79,7 +84,6 @@ export function screenRound() {
       </div>
 
       <div class="center-stage con-esquina">
-        ${r.phase === "intro" ? "" : botonAyuda("ronda", true)}
         ${r.phase === "intro" ? `
           <div class="round-loading">
             <div class="round-loading-mic">🎤</div>
@@ -87,7 +91,7 @@ export function screenRound() {
             <div class="loader-bar"><div class="loader-bar-fill round-loading-fill"></div></div>
           </div>
         ` : `
-          <div class="clock ${roundTime > 0 && r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${roundTime > 0 ? r.timeLeft + "s" : "Sin tiempo"}</span></div>
+          <div class="clock reloj-grande ${roundTime > 0 ? "" : "sin-reloj"} ${roundTime > 0 && r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${roundTime > 0 ? r.timeLeft + "s" : "Sin tiempo"}</span></div>
           <div class="word-wrap">
             <div class="word">${r.word.toUpperCase()}</div>
             ${r.multiplier ? `<div class="multiplier">×${r.multiplier}</div>` : ""}
@@ -122,7 +126,9 @@ export function screenRound() {
       if (Number.isFinite(limit) && limit > 1) {
         btn.appendChild(el(`<span class="attempt-left">🎯 Quedan ${left}</span>`));
       }
-      btn.onclick = () => openVerification(side);
+      // Con un celular vinculado, los nombres se tocan en el celular (usuario, 12-10-2026)
+      btn.classList.toggle("solo-control", hayControl());
+      btn.onclick = () => { if (!hayControl()) openVerification(side); };
     }
   });
 
@@ -141,7 +147,10 @@ export function screenRound() {
   });
 
   root.querySelector("#pause").onclick = () => openPause();
-  root.querySelector("#help").onclick = () => openHelp();
+  const vincular = root.querySelector("#vincular");
+  if (vincular) vincular.onclick = () => (puedeSerPantalla() ? abrirVincularPC() : abrirCompartirPartida());
+  // ❓ de la ronda: explica la ronda (antes estaba en un (?) del centro; usuario, 12-10-2026)
+  root.querySelector("#help").onclick = () => abrirAyuda("ronda");
   root.querySelector("#round-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
   const fr = root.querySelector("#finish-round");
   if (fr) fr.onclick = () => showConfirm({
@@ -153,6 +162,24 @@ export function screenRound() {
   conectarAyudas(root); // botoncitos (?)
 
   return root;
+}
+
+/**
+ * Botón de la ronda para vincular (usuario, 12-10-2026): en la PC muestra el QR y
+ * el código para que el celular sea el control; en el celular, "Vincular" (igual que en la PC; usuario, 12-10-2026)
+ * pasa la partida a la PC. El reloj se detiene mientras está abierto.
+ */
+function botonVincularRonda() {
+  if (puedeSerPantalla()) return `<button class="icon-btn" id="vincular">📱 ${hayControl() ? "Vinculado" : "Vincular"}</button>`;
+  if (puedeSerControl()) return `<button class="icon-btn" id="vincular">📱 Vincular</button>`;
+  return "";
+}
+
+/** El celular vinculado pide el turno de un lado (vinculo.js): solo si ese lado puede tocar ahora. */
+export function pedirTurno(side) {
+  const r = state.round;
+  if (state.screen !== "round" || r.phase !== "counting" || r.paused || attemptsLeft(side) <= 0) return;
+  openVerification(side);
 }
 
 function openVerification(side) {
@@ -167,4 +194,6 @@ function openVerification(side) {
   state.verify = { query: "", results: [], selectedSong: null };
   state.screen = "verify";
   render();
+  // 3 segundos escuchando: si nadie canta, vuelve a la ronda (voz.js; usuario, 12-10-2026)
+  empezarEscucha({ conControl: hayControl(), alSilencio: deshacerToque });
 }

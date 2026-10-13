@@ -4,6 +4,38 @@ import { render } from "../router.js";
 import { startNextRound, attemptsLeft } from "../gameLogic.js";
 import { formatPoints, formatDelta } from "../scoring.js";
 
+/**
+ * Cómo quedan los puntos (usuario, 12-10-2026: "más animado y notable, y cómo
+ * quedan"): una fila por jugador o equipo con lo que ganó o perdió (aparece de
+ * golpe) y su puntaje, que sube o baja hasta el nuevo valor.
+ * `cambios`: [{ who, delta, newScore }].
+ */
+function tablaPuntos(cambios) {
+  return `<div class="puntos-ronda">${cambios.map((ch) => `
+    <div class="puntos-fila ${ch.delta > 0 ? "sube" : ch.delta < 0 ? "baja" : "igual"}">
+      <span class="puntos-nombre">${ch.who}</span>
+      <span class="puntos-delta">${ch.delta === 0 ? "±0" : formatDelta(ch.delta)}</span>
+      <span class="puntos-total"><b class="${ch.newScore < 0 ? "score-negative" : ""}" data-desde="${ch.newScore - ch.delta}" data-hasta="${ch.newScore}">${formatPoints(ch.newScore - ch.delta)}</b> pts</span>
+    </div>`).join("")}</div>`;
+}
+
+/** Los puntajes cuentan desde el valor anterior hasta el nuevo. */
+function animarPuntos(root) {
+  root.querySelectorAll("[data-hasta]").forEach((b) => {
+    const desde = Number(b.dataset.desde), hasta = Number(b.dataset.hasta);
+    if (desde === hasta) return;
+    const inicio = Date.now() + 450; // después de que aparece el +/−
+    const paso = () => {
+      const t = Math.min(1, Math.max(0, (Date.now() - inicio) / 900));
+      const suave = 1 - (1 - t) ** 3;
+      b.textContent = formatPoints(Math.round(desde + (hasta - desde) * suave));
+      b.classList.toggle("score-negative", Number(b.textContent.replace(/[^\d-]/g, "")) < 0);
+      if (t < 1) requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  });
+}
+
 export function screenRoundResultIncorrect() {
   const r = state.round;
   const who = r.lastResult.who;
@@ -19,10 +51,13 @@ export function screenRoundResultIncorrect() {
   } else {
     note = otherCanTry ? `Turno de ${other}` : `${who} ya no tiene intentos`;
   }
+  // Cómo quedan los dos (al fallar no cambian los puntos)
+  const quedan = [r.participantA, r.participantB].map((n) => ({ who: n, delta: 0, newScore: state.scores[n] ?? 0 }));
   const root = el(`<div class="screen">
     <div class="card result-banner">
       <div class="big">❌ Respuesta incorrecta</div>
       <p class="small-note">${note}</p>
+      ${tablaPuntos(quedan)}
       <button class="btn btn-primary" id="continue">Continuar ronda</button>
     </div>
   </div>`);
@@ -40,13 +75,8 @@ export function screenRoundResult() {
   const result = r.lastResult;
   const changes = result.changes || [];
   const anyLoss = changes.some((ch) => ch.delta < 0);
-  // Una línea por lado con su cambio de puntos (solo si alguien ganó o perdió).
-  const lines = changes.some((ch) => ch.delta !== 0) ? `<div class="score-changes">${changes.map((ch) => `
-      <div class="score-change">
-        <span>${ch.who}</span>
-        <span>${formatPoints(ch.newScore - ch.delta)} → <b class="${ch.newScore < 0 ? "score-negative" : ""}">${formatPoints(ch.newScore)}</b>
-          <span class="delta ${ch.delta < 0 ? "delta-negative" : ch.delta > 0 ? "delta-positive" : ""}">${formatDelta(ch.delta)}</span></span>
-      </div>`).join("")}</div>` : "";
+  // Una fila por lado: lo que ganó o perdió y cómo queda (también con ±0)
+  const lines = changes.length ? tablaPuntos(changes) : "";
   let content;
   if (result.type === "timeout") {
     content = `<div class="big">⏰ ¡Tiempo agotado!</div>
@@ -66,6 +96,7 @@ export function screenRoundResult() {
     <button class="btn btn-primary" id="next" style="margin-top:10px;">Siguiente enfrentamiento</button>
   </div></div>`);
 
+  animarPuntos(root);
   root.querySelector("#next").onclick = () => {
     // Gana el que llegó al objetivo; si con la penalización del relevo llegaron
     // varios, el que tiene más puntos.

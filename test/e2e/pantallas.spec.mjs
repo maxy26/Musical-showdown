@@ -148,13 +148,15 @@ test("(?) de una opción: explica solo el modo que se juega", async ({ page }) =
   await expect(page.locator(".ayuda-tip")).toHaveCount(0);
 });
 
-test("Ronda con reloj: el tiempo se detiene mientras una ayuda está abierta", async ({ page }) => {
+test("Ronda con reloj: la ❓ explica la ronda y el tiempo se detiene mientras está abierta", async ({ page }) => {
   await page.locator("#btn-modes").click();
   await page.getByRole("button", { name: /Elegir Alternativo 1/ }).click();
   await configurarPartida(page, { jugadores: ["Ana", "Bruno"] });
   await palabraDeLaRonda(page);
+  await expect(page.locator('[data-ayuda="ronda"]')).toHaveCount(0); // el (?) del centro pasó a la ❓ (usuario, 12-10-2026)
   const reloj = page.locator(".clock span");
-  await page.locator('[data-ayuda="ronda"]').click();
+  await page.locator("#help").click();
+  await expect(page.getByRole("heading", { name: "La ronda" })).toBeVisible();
   const alAbrir = await reloj.textContent();
   await page.waitForTimeout(2500);
   await expect(reloj).toHaveText(alAbrir); // no se movió

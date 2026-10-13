@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.musicalshowdown.app",
+      "sha256_cert_fingerprints": [
+        "E0:E0:A0:2F:DE:8D:1B:E8:BB:9A:7D:7A:F7:B7:AA:E9:7A:A4:38:74:BA:D4:D5:9D:A8:48:68:6B:6E:F5:D7:30"
+      ]
+    }
+  }
+]
