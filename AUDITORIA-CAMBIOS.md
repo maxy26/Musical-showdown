@@ -13,6 +13,196 @@
 
 ---
 
+## 2026-10-13 — Sesión 8 (parte 34): versión 1.24 (GitHub)
+
+**Pedido del usuario:** "publica la nueva versión; la mantendremos ahí". En la
+Microsoft Store se subirá primero una **demo gratis** (ver parte 35).
+
+**Qué incluye la 1.24:**
+- Catálogo sin letras: 200 canciones en 10 géneros, búsqueda solo por
+  nombre y rondas mitad palabra clave y mitad compartida.
+- Enlace a la política de privacidad en Ajustes.
+- Preparación para tiendas: `TIENDAS.md`, imágenes, paquete de la Microsoft
+  Store y enlaces a la tienda en la versión de tienda.
+
+**Publicación:**
+- Lista "Listo para la próxima versión" vaciada.
+- `npm run android:release`, `build:desktop`, commit con el mensaje en un
+  archivo (`-F`), comprobación del commit, etiqueta `v1.24` y envío a
+  GitHub.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 33): Microsoft Store — identidad, enlaces a la tienda y política publicada
+
+**Del usuario:**
+- **Galaxy Store descartada por ahora:** Samsung exige ser "Corporate
+  Commercial Seller", es decir, una empresa registrada. Para Android se usará
+  Google Play.
+- Creó la cuenta de la Microsoft Store (individual), reservó "Musical
+  Showdown" y pasó la identidad y el Store ID (`9PP0CFQWMWKT`).
+- Correo del juego: `showdownmusical@gmail.com`.
+- Se le explicó: Gmail "Para mi uso personal", nombre "Musical Showdown",
+  teléfono personal (privado), mismo correo en las tiendas, cómo crear la
+  cuenta Microsoft y la de desarrollador.
+
+**Qué se hizo:**
+- `platforms/desktop/tienda-microsoft.json`: la identidad del paquete (no es
+  secreta). El `.appx` sale con `MusicalShowdown.MusicalShowdown`, el editor
+  `CN=A04D9DC2-…` y la versión del juego.
+- **Enlaces a la tienda:** `src/js/tienda.js` (nuevo) y `TIENDA` en
+  `version.js`, que escribe `build/stamp.js` ("microsoft" solo en
+  `build:store-windows`).
+  - En esa versión, el aviso de "Actualización" dice "🛍️ Abrir la Microsoft
+    Store" y "Compartir el podio" invita a la Microsoft Store.
+  - Las versiones de GitHub siguen igual.
+  - `sw.js` v26; prueba en `compartir.test.js`.
+- **Política de privacidad** con el correo y **publicada**: commit solo de
+  `docs/privacidad/index.html` (`2b50cce`), subido a `main`. Comprobada en
+  línea en https://maxy26.github.io/Musical-showdown/privacidad/.
+- `TIENDAS.md` con el correo y el desarrollador.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 158 bien; pruebas de
+pantallas: 42 bien; la página respondió en línea; `build:store-windows` (sello
+"Microsoft Store"), `build:desktop` y APK; se abrió el `.exe`.
+
+**Qué quedó abierto:**
+- Que el usuario pruebe y confirme.
+- La versión de la tienda debería salir como **1.24** junto con la release
+  de GitHub, porque la 1.23 de GitHub no tiene el catálogo nuevo.
+- Subir el paquete y llenar la ficha en Partner Center (guiado).
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 32): PRUEBA — preparación para tiendas (Galaxy Store y Microsoft Store)
+
+**Pedido del usuario:** dejar el juego lo más listo posible para publicar,
+empezando por Galaxy Store y Microsoft Store.
+
+**Qué se hizo:**
+- **Política de privacidad** `docs/privacidad/index.html` (GitHub Pages,
+  activado por el usuario).
+  - Explica micrófono (solo volumen, no graba), cámara (solo el QR), red local,
+    Firebase, GitHub, YouTube y que todo queda en el dispositivo.
+  - Tiene el correo como `CORREO_DEL_JUEGO`: **no se sube** hasta que el
+    usuario cree el correo del juego.
+  - Enlace "🔒 Política de privacidad" en Ajustes (`menu.js`,
+    `POLITICA_PRIVACIDAD`).
+- **`TIENDAS.md`** (nuevo): todo para copiar y pegar.
+  - Datos generales, descripción corta y larga, novedades.
+  - Permisos y por qué se piden; respuestas de privacidad y clasificación por
+    edad.
+  - Pasos de Galaxy Store y Microsoft Store.
+- **Imágenes** en `tiendas/imagenes/`: 6 capturas de celular (1080 × 2400),
+  6 de PC (1920 × 1080) y la imagen destacada de 1024 × 500.
+- **Paquete de la Microsoft Store:** `npm run build:store-windows` →
+  `dist/store/Musical Showdown.appx` (lo firma la Store).
+  - Destino `--store` en `build/build-desktop.js` y `appx` en
+    `platforms/desktop/package.json`.
+  - Íconos en `platforms/desktop/build/appx/`.
+  - Declara micrófono, red local e internet. La versión es la del juego
+    (1.23.0.0).
+  - La identidad (nombre del paquete y editor) se lee de
+    `platforms/desktop/tienda-microsoft.json` cuando el usuario tenga la
+    cuenta; sin ese archivo sale un paquete de prueba.
+- Respuestas al usuario: para el correo del juego, elegir "Para mi uso
+  personal" en Gmail (la otra opción ofrece Google Workspace, de pago).
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 157 bien; pruebas de
+pantallas: 42 bien. Se revisó el manifiesto del paquete (identidad, idiomas,
+permisos, versión). Capturas revisadas. `build:desktop` y APK de prueba; se
+abrió el `.exe`.
+
+**Qué quedó abierto (ver `PENDIENTES.md`):**
+- correo del juego → completar la política y subirla;
+- cuentas de Samsung y Microsoft;
+- datos de identidad de la Microsoft Store;
+- que el aviso de "Actualización" lleve a la tienda en las versiones de
+  tienda;
+- probar en Linux.
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 31): catálogo de 200 canciones en 10 géneros
+
+**Pedido del usuario:**
+- Dejar la app lo más lista posible para publicar: primero Galaxy Store y
+  Microsoft Store, después las demás tiendas.
+- Retomar el catálogo: aprobó las tandas de pop y rock "por ahora" y pidió
+  hacer lo mismo con los demás géneros hasta que pida retomar ese pendiente.
+
+**Qué se hizo:**
+- `data/songs.js`: tandas de pop (2) y rock en español (3), y tandas armadas
+  por Claude de salsa, balada, cumbia, bachata, merengue, regional mexicano y
+  trap y urbano (20 cada una). En total, **200 canciones**.
+  - Se quitaron los ejemplos viejos.
+  - `GENRES` pasa a 10 (`regional` = "Regional mexicano", `urbano` = "Trap y
+    urbano"); "Rock" pasa a llamarse "Rock en español".
+- Hoja "Más": colores para los 5 géneros nuevos (`styles.css`) y artistas de
+  ejemplo sin invitados (`artistaPrincipal()`).
+- Prueba de pantallas de géneros: "Más: Rock en español".
+- Se le explicó al usuario que GitHub Secrets no es una copia de seguridad
+  (no se puede descargar). La clave sigue en
+  `platforms/android/keystore/`. GitHub Pages quedó activado por el usuario.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 157 bien (sin repetidas,
+palabras en minúscula y con tilde); pruebas de pantallas: 42 bien; capturas
+de la hoja "Más" en celular y PC.
+
+**Qué quedó abierto:**
+- Revisar con el usuario las 7 tandas sin revisar cuando retome el
+  pendiente.
+- Política de privacidad, ficha de tiendas, imágenes, paquete MSIX (en
+  curso).
+
+---
+
+## 2026-10-12 — Sesión 8 (parte 30): catálogo sin letras (tanda 1: reggaetón) — confirmado por el usuario
+
+**Pedido del usuario:**
+- Que las canciones no se guarden en la app y "vengan de YouTube".
+- Se le explicó que YouTube no da letras y que su servicio oficial tiene
+  límites y exige su marca.
+- Eligió un **catálogo propio sin letras**: solo nombre, artista, género y
+  palabras sueltas.
+- Buscar solo por nombre.
+- Más adelante, una IA que reconozca la canción cantada buscando la letra en
+  internet (anotado en el pendiente de la IA de voz, al final).
+- Meta: las 100 mejores de cada género y más géneros (10 en total). Claude arma
+  las listas y el usuario las revisa de a 20.
+- Criterio del usuario: palabras de la parte más famosa o pegadiza, con una
+  palabra clave propia de cada canción, y la ronda mezclada mitad y mitad.
+
+**Qué se hizo:**
+- `data/songs.js`: formato nuevo `{ title, artist, genre, famous, clave,
+  palabras }`, sin letra, y `palabrasDe()`.
+  - Tanda 1 aprobada por el usuario: 20 canciones de reggaetón.
+  - Las canciones de los otros géneros quedan como ejemplo (sin letra) hasta
+    su tanda; se quitó la "versión en vivo".
+- `gameLogic.js` → `pickWeightedWord`:
+  - Mitad de las rondas sale una palabra clave y mitad una compartida
+    (`PARTE_CLAVE = 0.5`).
+  - Pesa más si la palabra está en más canciones y si la canción es famosa.
+- `screens/verify.js`: `searchSongs` busca solo por el nombre; `songHasWord`
+  mira la clave y las palabras.
+- Pruebas: `canciones.test.js` (sin letra, palabras correctas, sin repetidas),
+  `seleccion.test.js` (mitad y mitad, peso de las compartidas) y
+  `texto.test.js` (búsqueda solo por nombre).
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 157 bien (ya no queda la
+prueba pendiente de las letras); pruebas de pantallas: 42 bien.
+`build:desktop` y APK de prueba `dist/MusicalShowdown-PRUEBA.apk`; se abrió el
+`.exe`.
+
+**Qué quedó abierto:**
+- Las 49 tandas que faltan.
+- Se propuso la tanda 2 (pop, 20). El usuario dijo "por ahora déjalo así"
+  y pidió tener en cuenta la de reggaetón y la de pop para futuras
+  actualizaciones. Quedó anotada completa en `PENDIENTES.md`, **sin cargar**.
+- Nada publicado.
+
+---
+
 ## 2026-10-12 — Sesión 8 (parte 29): versión 1.23
 
 **Pedido del usuario:** "listo, publícalo".

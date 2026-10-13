@@ -70,7 +70,7 @@ test("Géneros en Clásico: 'Todos' por defecto y 'Más' elige uno solo", async 
   await expect(page.locator(".genre-item.is-chosen")).toHaveCount(0); // con "Todos" no hay uno elegido
   await expect(page.locator('.genre-item[data-genre="pop"] .home-tag')).toBeHidden();
   await page.locator('.genre-item[data-genre="rock"]').click();
-  await expect(page.locator("#genres-more")).toHaveText("Más: Rock");
+  await expect(page.locator("#genres-more")).toHaveText("Más: Rock en español");
   await expect(page.locator("#genres-all")).not.toHaveClass(/active/);
   await page.locator("#genres-all").click();
   await expect(page.locator("#genres-all")).toHaveClass(/active/);

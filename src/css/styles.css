@@ -897,6 +897,12 @@ select{pointer-events:none;}
 .genre-item[data-genre="reggaeton"]{--genre:#2EC4B6;}
 .genre-item[data-genre="salsa"]{--genre:#FFD23F;}
 .genre-item[data-genre="balada"]{--genre:#B9A8FF;}
+/* Géneros nuevos del catálogo (12-10-2026) */
+.genre-item[data-genre="cumbia"]{--genre:#7BD389;}
+.genre-item[data-genre="bachata"]{--genre:#FF7EB6;}
+.genre-item[data-genre="merengue"]{--genre:#4FC3F7;}
+.genre-item[data-genre="regional"]{--genre:#E6B35A;}
+.genre-item[data-genre="urbano"]{--genre:#C0C7D6;}
 /* Filas de opciones con una franja de color a la izquierda */
 .opt-row{border-left:4px solid var(--pink);background:rgba(255,255,255,.04);}
 .opt-row:nth-child(5n+2){border-left-color:var(--teal);}

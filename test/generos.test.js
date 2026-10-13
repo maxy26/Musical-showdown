@@ -18,7 +18,7 @@ test("Todos los géneros tienen canciones y artistas de ejemplo sin repetir", ()
     assert.ok(artistas.length > 0, `${g} sin artistas`);
     assert.equal(new Set(artistas).size, artistas.length);
   }
-  assert.deepEqual(genreArtists("pop"), ["Diego Torres", "Enrique Iglesias", "Carlos Vives & Shakira"]);
+  assert.equal(genreArtists("pop").length, 4, "como mucho 4 artistas de ejemplo");
 });
 
 test("Solo Alternativo 2 deja elegir varios géneros", () => {

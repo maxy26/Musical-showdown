@@ -2,8 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { state, resetState } from "../src/js/state.js";
-import { SONG_DB } from "../src/js/data/songs.js";
-import { pickWeightedWord } from "../src/js/gameLogic.js";
+import { SONG_DB, palabrasDe } from "../src/js/data/songs.js";
+import { pickWeightedWord, PARTE_CLAVE } from "../src/js/gameLogic.js";
 
 // Pruebas de la elección de palabra y de enfrentamiento (gameLogic.js).
 // Usan la base de ejemplo real (SONG_DB) y reinician el estado global en
@@ -12,9 +12,7 @@ import { pickWeightedWord } from "../src/js/gameLogic.js";
 /** Palabras que se pueden pedir con los géneros elegidos. */
 function palabrasPosibles() {
   const palabras = new Set();
-  SONG_DB
-    .filter((s) => state.config.genres.includes(s.genre))
-    .forEach((s) => Object.keys(s.words).filter((w) => s.words[w]).forEach((w) => palabras.add(w)));
+  SONG_DB.filter((s) => state.config.genres.includes(s.genre)).forEach((s) => palabrasDe(s).forEach((w) => palabras.add(w)));
   return palabras;
 }
 
@@ -25,29 +23,32 @@ function muestrear(fn, veces = 300) {
   return vistos;
 }
 
-// ---------- pickWeightedWord ----------
+// ---------- pickWeightedWord (catálogo sin letra, usuario 12-10-2026) ----------
 
 test("pickWeightedWord solo elige palabras de canciones de los géneros elegidos", () => {
   resetState();
   state.config.genres = ["pop"];
   const posibles = palabrasPosibles();
-  for (const palabra of muestrear(pickWeightedWord)) {
+  for (const palabra of muestrear(() => pickWeightedWord())) {
     assert.ok(posibles.has(palabra), `"${palabra}" no pertenece a ninguna canción de pop`);
   }
 });
 
-test("pickWeightedWord nunca elige una palabra marcada como false", () => {
+test("mitad y mitad: con azar bajo sale una palabra clave, con azar alto una compartida", () => {
   resetState();
-  state.config.genres = ["pop"];
-  // "cerrar" está en Color Esperanza con valor false.
-  assert.ok(!muestrear(pickWeightedWord).has("cerrar"));
+  state.config.genres = ["reggaeton"];
+  const claves = new Set(SONG_DB.filter((s) => s.genre === "reggaeton").map((s) => s.clave));
+  const compartidas = new Set(SONG_DB.filter((s) => s.genre === "reggaeton").flatMap((s) => s.palabras));
+  for (let i = 0; i < 200; i++) {
+    assert.ok(claves.has(pickWeightedWord(() => PARTE_CLAVE - 0.01)), "palabra clave");
+    assert.ok(compartidas.has(pickWeightedWord(() => PARTE_CLAVE + 0.01)), "palabra compartida");
+  }
 });
 
 test("las canciones no se bloquean: siempre se pueden pedir todas las palabras de los géneros elegidos (01-10-2026)", () => {
   resetState();
   state.config.genres = ["reggaeton"];
-  // Despacito y Gasolina: todas sus palabras siguen disponibles, aunque ya se hayan cantado.
-  assert.deepEqual([...muestrear(pickWeightedWord, 500)].sort(), [...palabrasPosibles()].sort());
+  assert.deepEqual([...muestrear(() => pickWeightedWord(), 6000)].sort(), [...palabrasPosibles()].sort());
   assert.equal("usedSongs" in state, false, "ya no existe la lista de canciones usadas");
 });
 
@@ -57,20 +58,15 @@ test("pickWeightedWord devuelve null con un género sin canciones", () => {
   assert.equal(pickWeightedWord(), null);
 });
 
-test("pickWeightedWord da más peso a una palabra que está en más canciones", () => {
+test("una palabra compartida que está en más canciones sale más seguido", () => {
   resetState();
-  state.config.genres = ["pop"];
-  // "saber" está en 2 canciones (Color Esperanza y su versión en vivo) y
-  // "sol" solo en 1 (La Bicicleta); las tres son famosas y la palabra está
-  // en el coro, así que "saber" pesa el doble (12 contra 6).
-  // (No se puede probar aparte el peso del coro: en la base de ejemplo todas
-  // las palabras que se pueden pedir están en el coro.)
-  let saber = 0, sol = 0;
-  for (let i = 0; i < 3000; i++) {
+  state.config.genres = ["reggaeton"];
+  // "cabeza" está en Danza Kuduro y Mi Gente; "cuello", solo en Despacito.
+  let cabeza = 0, cuello = 0;
+  for (let i = 0; i < 6000; i++) {
     const p = pickWeightedWord();
-    if (p === "saber") saber++;
-    if (p === "sol") sol++;
+    if (p === "cabeza") cabeza++;
+    if (p === "cuello") cuello++;
   }
-  assert.ok(saber > sol, `se esperaba "saber" (${saber}) más veces que "sol" (${sol})`);
+  assert.ok(cabeza > cuello, `se esperaba "cabeza" (${cabeza}) más veces que "cuello" (${cuello})`);
 });
-

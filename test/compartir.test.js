@@ -10,3 +10,13 @@ test("el texto para compartir lleva el enlace de descargas de GitHub", () => {
   assert.equal(ENLACE_DESCARGA, "https://github.com/maxy26/Musical-showdown/releases");
   assert.ok(TEXTO_COMPARTIR.includes(ENLACE_DESCARGA));
 });
+
+test("instalado desde la Microsoft Store: la actualización y el enlace llevan a la tienda (12-10-2026)", async () => {
+  const { tiendaActual } = await import("../src/js/tienda.js");
+  const { avisoDeVersion } = await import("../src/js/avisos.js");
+  assert.equal(tiendaActual(""), null, "desde GitHub, sin tienda");
+  const ms = tiendaActual("microsoft");
+  assert.equal(ms.enlace, "https://apps.microsoft.com/detail/9PP0CFQWMWKT");
+  assert.equal(avisoDeVersion({ tag: "v1.24", tienda: ms }).boton.url, ms.enlace);
+  assert.match(avisoDeVersion({ tag: "v1.24" }).boton.url, /github\.com/, "sin tienda sigue yendo a GitHub");
+});

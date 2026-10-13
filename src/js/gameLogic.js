@@ -13,29 +13,33 @@ import { render } from "./router.js";
 import { playTick, efecto, nuevaRonda, cuenta, finTiempo } from "./sound.js";
 import { loadSettings, cuentaValida } from "./settings.js";
 
+/** Parte de las rondas en que sale una palabra clave (el resto, una compartida; usuario, 12-10-2026). */
+export const PARTE_CLAVE = 0.5;
+
 /**
- * Elige una palabra ponderando por: nº de canciones disponibles que la
- * contienen, si aparece en el coro (mayor peso) y si esas canciones son
- * reconocibles/famosas (mayor peso). Ver diseño, sección 14.
+ * Elige la palabra de la ronda entre las canciones de los géneros elegidos
+ * (catálogo sin letra, ver data/songs.js). La mitad de las veces sale la
+ * palabra clave de una canción ("despacito"); la otra mitad, una de las otras
+ * palabras de su parte famosa, con más peso si está en más canciones
+ * ("bailando", "cabeza"). Las canciones famosas pesan más.
+ * `azar` sirve para las pruebas.
  */
-export function pickWeightedWord() {
+export function pickWeightedWord(azar = Math.random) {
   const c = state.config;
   // Las canciones no se bloquean: una ya cantada se puede volver a cantar
   // (decisión del usuario, 01-10-2026).
   const available = SONG_DB.filter((s) => c.genres.includes(s.genre));
-  const wordScores = {};
+  if (available.length === 0) return null;
+  const sumar = (tabla, palabra, peso) => { tabla[palabra] = (tabla[palabra] || 0) + peso; };
+  const claves = {}, compartidas = {};
   available.forEach((s) => {
-    Object.keys(s.words).forEach((w) => {
-      if (!s.words[w]) return;
-      let weight = 1;
-      if (s.chorusWords.includes(w)) weight += 3;
-      if (s.famous) weight += 2;
-      wordScores[w] = (wordScores[w] || 0) + weight;
-    });
+    const peso = s.famous ? 3 : 1;
+    sumar(claves, s.clave, peso);
+    (s.palabras || []).forEach((w) => sumar(compartidas, w, peso));
   });
-  const words = Object.keys(wordScores);
-  if (words.length === 0) return null;
-  return weightedPick(words, words.map((w) => wordScores[w]));
+  const tabla = azar() < PARTE_CLAVE || Object.keys(compartidas).length === 0 ? claves : compartidas;
+  const words = Object.keys(tabla);
+  return weightedPick(words, words.map((w) => tabla[w]));
 }
 
 /**

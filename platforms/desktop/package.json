@@ -27,6 +27,14 @@
       ],
       "icon": "build-icon.ico"
     },
+    "appx": {
+      "applicationId": "MusicalShowdown",
+      "displayName": "Musical Showdown",
+      "backgroundColor": "#141833",
+      "languages": ["es-ES", "es-MX", "es-419"],
+      "capabilities": ["runFullTrust", "internetClient", "privateNetworkClientServer", "microphone"],
+      "artifactName": "Musical Showdown.appx"
+    },
     "portable": {
       "artifactName": "Musical Showdown.exe",
       "unpackDirName": "MusicalShowdown"

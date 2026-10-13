@@ -80,20 +80,11 @@ test("highlightWord no falla con palabras que tienen caracteres especiales", () 
 
 // ---------- searchSongs ----------
 
-test("searchSongs encuentra por fragmento sin tildes ni signos de puntuación", () => {
+test("searchSongs busca solo por el nombre, no por partes de la letra (usuario, 12-10-2026)", () => {
   resetState();
   state.config.genres = ["pop"];
-  // La letra dice "Que estás cansado de andar y de andar".
-  const titulos = searchSongs("que estas cansado, de andar").map((s) => s.title);
-  assert.ok(titulos.includes("Color Esperanza"));
-});
-
-test("searchSongs encuentra un fragmento que en la letra ocupa dos líneas", () => {
-  resetState();
-  state.config.genres = ["pop"];
-  // En la letra, "mirar" termina una línea y "Que estás" empieza la siguiente.
-  const titulos = searchSongs("con solo mirar que estas cansado").map((s) => s.title);
-  assert.ok(titulos.includes("Color Esperanza"));
+  assert.ok(searchSongs("esperanza").some((s) => s.title === "Color Esperanza"));
+  assert.deepEqual(searchSongs("que estas cansado de andar"), []);
 });
 
 test("searchSongs encuentra por nombre sin importar mayúsculas", () => {
@@ -123,10 +114,6 @@ test("searchSongs necesita al menos 3 letras (usuario, 04-10-2026)", () => {
 });
 
 test("de cada canción se muestra una sola versión por artista: la original", () => {
-  resetState();
-  state.config.genres = ["pop"];
-  const titulos = searchSongs("color esperanza").map((s) => s.title);
-  assert.deepEqual(titulos, ["Color Esperanza"]);
   assert.equal(baseSongTitle("Color Esperanza (en vivo)"), "color esperanza");
   assert.equal(baseSongTitle("Bailando - Versión acústica"), "bailando");
   // si el artista es distinto, quedan las dos
@@ -150,13 +137,11 @@ test("con la palabra de la ronda solo aparecen las canciones que la llevan", () 
   assert.ok(searchSongs("la bicicleta").some((s) => s.title === "La Bicicleta"));
 });
 
-test("songHasWord usa las palabras marcadas y la letra guardada (por dentro)", () => {
+test("songHasWord mira la palabra clave y las demás palabras de la canción, sin tildes ni mayúsculas", () => {
   const despacito = SONG_DB.find((s) => s.title === "Despacito");
   assert.equal(songHasWord(despacito, "despacito"), true);
+  assert.equal(songHasWord(despacito, "CUELLO"), true);
   assert.equal(songHasWord(despacito, "bicicleta"), false);
-  // Palabra entera en la letra, sin importar mayúsculas ni tildes
-  const color = SONG_DB.find((s) => s.title === "Color Esperanza");
-  assert.equal(songHasWord(color, "MIRAR"), true);
-  assert.equal(songHasWord(color, "mira"), false); // "mira" no es una palabra entera de la letra
-  assert.equal(songHasWord(color, "cerrar"), false); // marcada como que no está
+  const hawai = SONG_DB.find((s) => s.title === "Hawái");
+  assert.equal(songHasWord(hawai, "hawai"), true);
 });

@@ -37,13 +37,22 @@
   - **Windows**: empaquetado con Electron (app portable, sin instalador).
   - **Android**: empaquetado con Capacitor (el juego queda embebido en
     el `.apk`, no depende de ninguna URL ni de internet).
-- **Base de datos de canciones**: es un **mock local** (~9 canciones en
-  español, en `src/js/data/songs.js`) con género, letra, si la palabra
-  aparece en el coro y si la canción es "famosa" (para ponderar la
-  selección de palabras). **Pendiente**: reemplazar por una fuente/API
-  real de letras — hay que investigar cuál permite legalmente ese uso
-  (las letras tienen derechos de autor; no asumir que una fuente
-  gratuita permite copiarlas/redistribuirlas).
+- **Catálogo de canciones** (usuario, 12-10-2026): `src/js/data/songs.js`,
+  **sin letras**.
+  - De cada canción se guarda el nombre, el artista, el género, si es famosa
+    y palabras sueltas de su parte más famosa o pegadiza: una **palabra
+    clave** propia ("despacito", "kuduro") y otras palabras, algunas
+    compartidas con otras canciones ("bailando", "cabeza").
+  - En cada ronda, la mitad de las veces sale una palabra clave y la otra
+    mitad una compartida.
+  - "Buscar canción" busca **solo por el nombre**; YouTube es solo el enlace
+    para escucharla.
+  - Meta: las 100 mejores canciones en español de 10 géneros (pop, rock en
+    español, reggaetón, salsa, balada, cumbia, bachata, merengue, regional
+    mexicano y trap y urbano). Hoy hay 200 (20 por género, 12-10-2026); se
+    cargan por tandas de 20 que revisa el usuario.
+  - Más adelante, una IA que reconozca la canción cantada (ver
+    `PENDIENTES.md`).
 - **Estructura de carpetas** (monorepo — ver sección 6 para el detalle
   completo y el porqué): `src/` es la ÚNICA fuente de verdad del juego;
   `platforms/desktop` y `platforms/android` son envoltorios nativos

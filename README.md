@@ -23,14 +23,15 @@ Musical_Showdown/
 │       ├── avisos.js, notificaciones.js   (campana y notificaciones)
 │       ├── vinculo.js                     (celular como control de la PC, misma red Wi-Fi)
 │       ├── lib/                           (librerías de terceros sin cambios: QR; LICENCIAS.txt)
-│       ├── data/songs.js                  (base de canciones de ejemplo)
+│       ├── data/songs.js                  (catálogo de canciones, sin letras)
 │       └── screens/                        (cada pantalla; config/ = Configurar partida)
 ├── platforms/    ← "envoltorios" nativos, NO duplican el juego
 │   ├── desktop/      Electron (Windows y Linux)
 │   └── android/      Capacitor (proyecto nativo en android/)
 ├── build/        ← scripts que arman cada plataforma desde src/
 ├── avisos/       ← avisos.json: novedades de la campana (ver avisos/LEEME.md)
-├── docs/         ← página del QR de vincular (GitHub Pages) y assetlinks.json
+├── docs/         ← GitHub Pages: política de privacidad, página del QR de vincular y assetlinks.json
+├── tiendas/      ← imágenes para las fichas de las tiendas (ver TIENDAS.md)
 ├── test/         ← pruebas: lógica (node --test) y pantallas (test/e2e, Playwright)
 └── dist/         ← salida de los builds (generado, no editar)
 ```
@@ -83,8 +84,9 @@ npm run test:e2e    # pantallas, en tamaño celular y PC
 - `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas de trabajo.
 - `PENDIENTES.md`: lo que falta hacer.
 - `AUDITORIA-CAMBIOS.md`: historial de cambios, el más reciente arriba.
+- `TIENDAS.md`: textos, permisos y pasos para publicar en las tiendas.
 
 ## Pendiente / próximos pasos
 
-Ver `PENDIENTES.md`. Lo principal: la fuente legal de letras de canciones
-(`src/js/data/songs.js` es una base de ejemplo) y la búsqueda de canciones por voz.
+Ver `PENDIENTES.md`. Lo principal: completar el catálogo de canciones (`src/js/data/songs.js`,
+sin letras) y el reconocimiento de canciones por voz.

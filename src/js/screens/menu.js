@@ -98,6 +98,9 @@ function botonVincularInicio() {
   if (puedeSerControl()) return `<button type="button" class="home-round-btn pressable" id="btn-vincular" aria-label="Escanear la partida de la PC">${ICONS.scan()}</button>`;
   return "";
 }
+/** Dirección de la política de privacidad (docs/privacidad/index.html). */
+export const POLITICA_PRIVACIDAD = "https://maxy26.github.io/Musical-showdown/privacidad/";
+
 /** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
 export function settingsBody() {
   const body = el(`<div class="home-settings">
@@ -124,6 +127,7 @@ export function settingsBody() {
     </div>
     ${controlConectado() ? `<button type="button" class="btn btn-secondary btn-block" id="btn-desvincular">📺 Desvincular de la PC</button>` : ""}
     ${esAppInstalada() ? `<button type="button" class="btn btn-danger btn-block home-exit" id="btn-exit">🚪 Salir del juego</button>` : ""}
+    <button type="button" class="btn btn-ghost btn-block" id="btn-privacidad">🔒 Política de privacidad</button>
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
   const paint = () => {
@@ -148,6 +152,8 @@ export function settingsBody() {
   // Celular usado como control (control.js): deja de serlo y vuelve al inicio
   const desvincular = body.querySelector("#btn-desvincular");
   if (desvincular) desvincular.onclick = preguntarDesvincular;
+  // Política de privacidad (la piden las tiendas; página en docs/privacidad, GitHub Pages)
+  body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(POLITICA_PRIVACIDAD);
   const salir = body.querySelector("#btn-exit");
   if (salir) salir.onclick = () => showConfirm({
     title: "¿Salir del juego?",

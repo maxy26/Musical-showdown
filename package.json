@@ -6,6 +6,7 @@
   "scripts": {
     "build:desktop": "node build/build-desktop.js",
     "build:linux": "node build/build-desktop.js --linux",
+    "build:store-windows": "node build/build-desktop.js --store",
     "build:android": "node build/build-android.js",
     "build:apk": "node build/build-android.js --apk",
     "android:release": "node build/android-release.js",

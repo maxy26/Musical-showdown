@@ -4,6 +4,9 @@
  * Uso (desde la raíz del repo):
  *   npm run build:desktop   -> Windows: dist/windows/Musical Showdown.exe
  *   npm run build:linux     -> Linux:   dist/linux/Musical-Showdown.AppImage
+ *   npm run build:store-windows -> Microsoft Store: dist/store/Musical Showdown.appx
+ *     (paquete MSIX/APPX que firma la Store; identidad en
+ *     platforms/desktop/tienda-microsoft.json, ver TIENDAS.md)
  *
  * Ambas salidas son un solo archivo que se abre sin instalar. La versión de
  * Linux conviene compilarla en Linux (por ejemplo, en GitHub Actions).
@@ -11,7 +14,7 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const { stampBuild } = require("./stamp");
+const { stampBuild, androidVersion } = require("./stamp");
 
 const ROOT = path.join(__dirname, "..");
 const SRC = path.join(ROOT, "src");
@@ -24,8 +27,9 @@ const RAW_OUT = path.join(ROOT, "dist", ".desktop-raw");
 const TARGETS = {
   windows: { flag: "--win", file: "Musical Showdown.exe" },
   linux: { flag: "--linux", file: "Musical-Showdown.AppImage" },
+  store: { flag: "--win appx", file: "Musical Showdown.appx" },
 };
-const targetName = process.argv.includes("--linux") ? "linux" : "windows";
+const targetName = process.argv.includes("--linux") ? "linux" : process.argv.includes("--store") ? "store" : "windows";
 const target = TARGETS[targetName];
 const FINAL_OUT = path.join(ROOT, "dist", targetName);
 
@@ -38,7 +42,8 @@ console.log("== 1/4: copiando src/ -> platforms/desktop/www ==");
 fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
 // Versión visible y caché del service worker únicos por compilación (build/stamp.js).
-stampBuild(WWW, targetName === "linux" ? "PC Linux" : "PC Windows");
+stampBuild(WWW, { linux: "PC Linux", store: "Microsoft Store", windows: "PC Windows" }[targetName],
+  { tienda: targetName === "store" ? "microsoft" : "" }); // la versión de tienda enlaza a la tienda (tienda.js)
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
 // Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync
@@ -51,7 +56,19 @@ fs.writeFileSync(indexPath, html);
 
 console.log(`== 3/4: compilando con electron-builder (${targetName}) ==`);
 fs.rmSync(RAW_OUT, { recursive: true, force: true });
-run(`npx electron-builder ${target.flag} --x64`, DESKTOP);
+// Microsoft Store: la identidad del paquete la da Partner Center (no es secreta).
+// Sin el archivo se usan datos de prueba: el paquete sirve para revisar, no para subir.
+let identidad = "";
+if (targetName === "store") {
+  const archivo = path.join(DESKTOP, "tienda-microsoft.json");
+  const datos = fs.existsSync(archivo)
+    ? JSON.parse(fs.readFileSync(archivo, "utf8"))
+    : { identityName: "MusicalShowdown.Prueba", publisher: "CN=MusicalShowdownPrueba", publisherDisplayName: "Musical Showdown" };
+  if (!fs.existsSync(archivo)) console.warn("⚠ Sin platforms/desktop/tienda-microsoft.json: paquete de PRUEBA (no se puede subir a la Store).");
+  // La Store pide una versión mayor en cada envío: la misma del juego (1.23 → 1.23.0)
+  identidad = ` -c.appx.identityName="${datos.identityName}" -c.appx.publisher="${datos.publisher}" -c.appx.publisherDisplayName="${datos.publisherDisplayName}" -c.extraMetadata.version=${androidVersion().name}.0`;
+}
+run(`npx electron-builder ${target.flag} --x64${identidad}`, DESKTOP);
 
 console.log(`== 4/4: copiando el resultado a dist/${targetName} ==`);
 fs.rmSync(FINAL_OUT, { recursive: true, force: true });

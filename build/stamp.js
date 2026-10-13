@@ -31,7 +31,7 @@ function androidVersion() {
 const dos = (n) => String(n).padStart(2, "0");
 
 /** Escribe la versión y el nombre de caché únicos en la copia www/. */
-function stampBuild(wwwDir, platformLabel) {
+function stampBuild(wwwDir, platformLabel, { tienda = "" } = {}) {
   const { name, code } = androidVersion();
   const d = new Date();
   const fecha = `${dos(d.getDate())}-${dos(d.getMonth() + 1)}-${d.getFullYear()} ${dos(d.getHours())}:${dos(d.getMinutes())}`;
@@ -41,7 +41,8 @@ function stampBuild(wwwDir, platformLabel) {
     `// Generado al compilar (build/stamp.js). No editar: se reescribe en cada build.\n` +
     `export const APP_VERSION = ${JSON.stringify(name)};\n` +
     `export const BUILD_INFO = ${JSON.stringify(`${platformLabel} · ${fecha} · compilación ${code}`)};\n` +
-    `export const CON_FIREBASE = ${fs.existsSync(GOOGLE_SERVICES)};\n`);
+    `export const CON_FIREBASE = ${fs.existsSync(GOOGLE_SERVICES)};\n` +
+    `export const TIENDA = ${JSON.stringify(tienda)};\n`);
 
   const swPath = path.join(wwwDir, "sw.js");
   const sw = fs.readFileSync(swPath, "utf8");

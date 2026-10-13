@@ -24,6 +24,10 @@ Reglas clave de las instrucciones:
 - El juego nunca reproduce ni descarga música de terceros: solo abre enlaces a la búsqueda de YouTube, sin su logo (instrucción 29).
 - No publicar por cada cambio mínimo: acumular los cambios confirmados (lista "Listo para la próxima versión" en `PENDIENTES.md`) y publicar cuando haya una actualización notable (instrucción 28).
 
+## Tiendas
+
+Todo lo de las tiendas (textos, permisos, privacidad, clasificación, pasos) está en `TIENDAS.md`; las imágenes, en `tiendas/imagenes/`. La política de privacidad es `docs/privacidad/index.html` (GitHub Pages; enlace en Ajustes, `POLITICA_PRIVACIDAD` de `menu.js`). Si se agrega un permiso o un servicio, actualizar los dos. La versión de tienda se marca al compilar (`TIENDA` en `version.js`, lo escribe `build/stamp.js`); `tienda.js` → `tiendaActual()` hace que el aviso de actualización y "Compartir el podio" lleven a la tienda (Microsoft Store: Store ID `9PP0CFQWMWKT`). La identidad del paquete está en `platforms/desktop/tienda-microsoft.json`. Galaxy Store no acepta personas (solo empresas): Android irá por Google Play. El paquete de la Microsoft Store (`appx` en `platforms/desktop/package.json`) declara micrófono y red local, y toma la versión del juego.
+
 ## Proyecto
 
 Musical Showdown es un juego de fiesta/familiar: el sistema muestra una palabra y los jugadores deben cantar cualquier canción que la contenga. Se distribuye como PWA web, `.exe` de Windows (Electron) y app Android (Capacitor).
@@ -43,6 +47,7 @@ npm install --prefix platforms/desktop     # solo la primera vez
 npm run build:desktop                      # -> dist/windows/Musical Showdown.exe (un solo archivo, destino "portable")
 
 npm run build:linux                        # -> dist/linux/Musical-Showdown.AppImage (compilar en Linux o en GitHub Actions)
+npm run build:store-windows                # -> dist/store/Musical Showdown.appx (Microsoft Store; identidad en platforms/desktop/tienda-microsoft.json, ver TIENDAS.md)
 
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # deja el proyecto listo para Android Studio
@@ -81,7 +86,7 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
 - Para navegar: asignar `state.screen = "<clave>"` y luego llamar a `render()`. Para agregar una pantalla, registrarla en `SCREENS` dentro de `router.js`.
 - Cada archivo de `screens/` exporta una función `screenXxx()` que devuelve un nodo DOM. El nodo se crea con `el(cadenaHtml)` de `utils.js`, y los eventos se conectan con `root.querySelector(...).onclick`. La pantalla de configuración está dividida en submódulos dentro de `screens/config/`, coordinados por `index.js`.
 - `gameLogic.js` contiene las reglas:
-  - La palabra se elige ponderada por las canciones de los géneros elegidos, con más peso si está en el coro o si la canción es famosa.
+  - La palabra se elige entre las canciones de los géneros elegidos (`pickWeightedWord`, 12-10-2026): la mitad de las veces la palabra clave de una canción y la otra mitad una de sus palabras compartidas (`PARTE_CLAVE`), con más peso si está en más canciones o si la canción es famosa.
   - Emparejamientos (`pairing.js`, reglas en `CONTEXTO-MUSICAL-SHOWDOWN.md` sección 3): Clásico usa fases al azar / con ventaja según el equilibrio de puntos (60 % del promedio), siempre con equilibrio de partidos; Alternativo 1 sigue un orden fijo que se repite; Alternativo 2 (solo Grupal) empareja los grupos como Clásico y elige a los jugadores en orden como Alternativo 1. Sirven para jugadores y para grupos. Las reglas que cambian por modo (intentos, puntos, multiplicadores, opciones de Alternativo 2) están en `screens/config/modes.js`; el relevo, en `relay.js`. Los grupos del modo Grupal (cantidad, reparto, nombres, quién canta) están en `groups.js`. `resetMatchTracking()` reinicia todo al empezar cada partida.
   - El temporizador avanza con `setInterval`. `updateClockOnly()` actualiza `.clock` directamente en lugar de volver a renderizar.
   - El puntaje es 100 × multiplicador.
@@ -121,7 +126,11 @@ En desarrollo no hay bundler. El `package.json` raíz no tiene `"type": "module"
   - Android necesita `CAMERA`, `usesCleartextTraffic` y `allowMixedContent` (la conexión es `ws://`).
   - Sin internet: los dos dispositivos tienen que estar en la misma red Wi-Fi.
 - `router.js` no repite la animación de entrada al redibujar la misma pantalla (clase `sin-entrada`): eso causaba parpadeo al tocar Sí / No o + / −.
-- `data/songs.js` (`SONG_DB`) es una base local de ejemplo. Cada canción tiene `words` (mapa de palabra a booleano) y `chorusWords`. Se reemplazará por una fuente real de letras cuando se elija una que se pueda usar legalmente.
+- `data/songs.js` (`SONG_DB`) es el catálogo, **sin letras** (usuario, 12-10-2026).
+  - Cada canción: `title`, `artist`, `genre`, `famous`, `clave` (la palabra propia de la canción) y `palabras` (otras de su parte famosa); `palabrasDe()` las junta.
+  - "Buscar canción" busca solo por el nombre (`searchSongs`).
+  - Se llena por tandas de 20 (meta: 100 por género, 10 géneros; hoy 200 canciones; ver `PENDIENTES.md`). `GENRES` tiene 10 ids; `genreArtists` muestra solo el artista principal (`artistaPrincipal`).
+  - No guardar letras.
 - Los comentarios citan secciones de un documento de diseño externo ("diseño, sección N") que no está en el repositorio.
 
 **Service worker (`src/sw.js`):** solo se registra en la **web** (`main.js`, `esAppInstalada()` de `plataforma.js`); dentro de Android (Capacitor) y del `.exe` (app://) se borra al abrir, porque Capacitor no atiende sus peticiones y mostraba la versión vieja guardada. Usa "network-first", con una lista fija de precaché (`ASSETS`) y un `CACHE_NAME` versionado. Al agregar, mover o renombrar archivos en `src/`, actualizar `ASSETS` y subir la versión de `CACHE_NAME`. Si un solo archivo de la lista no existe, `cache.addAll` falla y el SW no se instala: la web deja de funcionar sin conexión, y no aparece ningún error visible. ESLint revisa `sw.js` aparte, como script clásico.

@@ -11,6 +11,7 @@
  * Solo se toca la red y el almacenamiento dentro de funciones: el módulo se
  * puede importar desde Node (pruebas).
  */
+import { tiendaActual } from "./tienda.js";
 
 export const URL_VERSIONES = "https://api.github.com/repos/maxy26/Musical-showdown/releases?per_page=5";
 export const URL_AVISOS = "https://raw.githubusercontent.com/maxy26/Musical-showdown/main/avisos/avisos.json";
@@ -59,14 +60,17 @@ function primeraLinea(texto) {
  * notificación de la versión nueva (build/notificar.js), con el mismo id: así
  * el aviso no se repite cuando llega por los dos lados.
  */
-export function avisoDeVersion({ tag, fecha, texto, url }) {
+export function avisoDeVersion({ tag, fecha, texto, url, tienda = tiendaActual() }) {
   return {
     id: "version-" + tag,
     tipo: "version",
     fecha: String(fecha || "").slice(0, 10),
     titulo: `Versión ${tag.replace(/^v/i, "")} disponible`,
     texto: texto || "Hay una versión nueva del juego.",
-    boton: { texto: "⬇️ Descargar", url: url || `https://github.com/maxy26/Musical-showdown/releases/tag/${tag}` },
+    // Instalado desde una tienda: la actualización se baja de la tienda (tienda.js)
+    boton: tienda
+      ? { texto: `🛍️ Abrir la ${tienda.nombre}`, url: tienda.enlace }
+      : { texto: "⬇️ Descargar", url: url || `https://github.com/maxy26/Musical-showdown/releases/tag/${tag}` },
     importante: true, // las actualizaciones siempre son importantes (salen fuera de la app)
   };
 }

@@ -1,5 +1,5 @@
 import { state } from "../state.js";
-import { SONG_DB } from "../data/songs.js";
+import { SONG_DB, palabrasDe } from "../data/songs.js";
 import { el, normalizeForSearch, escapeHtml } from "../utils.js";
 import { render } from "../router.js";
 import { resolveAnswer, currentSinger } from "../gameLogic.js";
@@ -37,22 +37,19 @@ export function onePerVersion(songs) {
 }
 
 /**
- * ¿La canción lleva la palabra de la ronda? La letra se usa solo por dentro, para
- * saber esto; ya no se muestra (usuario, 07-10-2026: mostrarla podría requerir
- * pagar derechos). Vale si la palabra está marcada en `words` o aparece entera
- * en la letra guardada (sin importar mayúsculas ni tildes).
+ * ¿La canción lleva la palabra de la ronda? Se mira en las palabras de su parte
+ * famosa (la clave y las demás; el catálogo ya no guarda la letra, usuario,
+ * 12-10-2026), sin importar mayúsculas ni tildes.
  */
 export function songHasWord(song, word) {
   if (!word) return true;
-  if (song.words?.[word] === true) return true;
   const w = normalizeForSearch(word);
-  return ` ${normalizeForSearch(song.lyric || "")} `.includes(` ${w} `);
+  return palabrasDe(song).some((p) => normalizeForSearch(p) === w);
 }
 
 /**
- * Busca por nombre o por fragmento de letra en los géneros elegidos. No
- * distingue mayúsculas, tildes ni signos de puntuación ("corazon" encuentra
- * "corazón"; "hay en tus ojos con solo mirar" ignora comas y saltos de línea).
+ * Busca **solo por el nombre** de la canción (usuario, 12-10-2026) en los
+ * géneros elegidos, sin importar mayúsculas, tildes ni signos de puntuación.
  * Hacen falta al menos 3 letras, y de cada canción se muestra una sola versión
  * por artista (la original). Con `word`, solo aparecen las canciones que llevan
  * esa palabra (usuario, 07-10-2026: si la palabra es "despacito", buscar "la
@@ -63,12 +60,9 @@ export function searchSongs(q, word) {
   q = normalizeForSearch(q);
   if (q.replace(/ /g, "").length < MIN_SEARCH_LETTERS) return [];
   return onePerVersion(SONG_DB.filter(
-    (s) => c.genres.includes(s.genre) &&
-      (normalizeForSearch(s.title).includes(q) || normalizeForSearch(s.lyric).includes(q)) &&
-      songHasWord(s, word)
+    (s) => c.genres.includes(s.genre) && normalizeForSearch(s.title).includes(q) && songHasWord(s, word)
   ));
 }
-
 /** Dirección de la búsqueda en YouTube (solo un enlace: el juego no reproduce ni descarga música). */
 export function urlYoutube(texto) {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(texto.trim())}`;

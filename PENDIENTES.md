@@ -21,30 +21,13 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.23** (12-10-2026: celular + PC vinculados, 3 segundos escuchando, puntos animados, reloj grande, arreglo de Android 15/16; ver AUDITORÍA, partes 26 a 29).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.24** (13-10-2026: catálogo sin letras con 200 canciones en 10 géneros, política de privacidad en Ajustes, preparación para tiendas; ver AUDITORÍA, partes 30 a 34).
 
 - (vacía)
 
 ## 🎵 Canciones y letras (antes de publicar)
 
-- [ ] 🟡 **Resolver la parte legal de las letras** (sin audio): qué fuente se
-  puede usar, qué se puede guardar dentro de la app (fragmentos o letra
-  completa), si hace falta licencia y cuál. Hasta entonces, `data/songs.js`
-  sigue siendo de ejemplo (instrucción 22). **El usuario decidió dejarlo para
-  después (28-09-2026)**: no bloquea los demás pendientes, solo el siguiente
-  (palabras que no están en la letra) y la publicación.
-  - **Decisión del usuario (07-10-2026):** la letra **ya no se muestra** en el
-    juego (podría requerir pagar); se guarda solo por dentro para saber si la
-    canción lleva la palabra, y la búsqueda solo trae canciones con la palabra
-    de la ronda (hecho, ver auditoría). Falta averiguar si guardar la letra
-    por dentro también necesita licencia (si es de pago, va al final).
-- [ ] 🟡 **Las palabras que se piden no siempre están en la letra guardada.**
-  De 25 palabras que el juego puede pedir en `data/songs.js`, solo 11
-  aparecen en el fragmento de letra de su canción. Ejemplo: puede pedir
-  "CIELO" diciendo que está en "Color Esperanza", pero el moderador no la ve
-  en la letra ni queda resaltada. Pasa porque las letras guardadas son
-  fragmentos cortos. Hay que resolverlo junto con la fuente real de letras:
-  por ejemplo, calcular `words` a partir de la letra en vez de escribirlo a mano.
+- Los dos pendientes de esta sección (la parte legal de las letras guardadas y las palabras que no estaban en la letra) quedaron **resueltos el 12-10-2026** con el catálogo sin letras: ver "Resueltos".
 
 ## 🐛 Bugs e inconsistencias
 
@@ -65,6 +48,33 @@
 
 ## 📦 Distribución a otros equipos (en pausa hasta decidir publicar)
 
+- [ ] 🔴 **Publicar en tiendas: primero Galaxy Store y Microsoft Store**
+  (usuario, 12-10-2026; después las demás).
+  - **Ya hecho:**
+    - política de privacidad;
+    - `TIENDAS.md` con todos los textos;
+    - imágenes en `tiendas/imagenes/`;
+    - paquete de la Microsoft Store (`npm run build:store-windows`).
+    Ver AUDITORÍA parte 32.
+  - **Hecho por el usuario (12-10-2026):**
+    - correo del juego `showdownmusical@gmail.com`;
+    - cuenta de la Microsoft Store (individual), con el nombre reservado,
+      Store ID `9PP0CFQWMWKT` e identidad en
+      `platforms/desktop/tienda-microsoft.json`.
+  - **Galaxy Store descartada por ahora:** Samsung solo acepta apps de
+    Android de empresas registradas ("Corporate Commercial Seller"). Para
+    Android, **Google Play**: 25 USD una vez, y las cuentas nuevas de persona
+    necesitan una prueba cerrada con 12 personas durante 14 días.
+  - **Hecho por Claude:** política de privacidad publicada (con el correo) y
+    enlaces a la tienda en la versión de la Microsoft Store (AUDITORÍA parte
+    33).
+  - **Falta:**
+    1. ~~Publicar la **1.24** en GitHub~~ (hecho el 13-10-2026). En la Microsoft Store va primero una **demo gratis** (ver "Demo para la Microsoft Store"); la 1.24 completa se sube aparte más adelante. Nota vieja: publicar la **1.24**
+       en GitHub y en la Microsoft Store a la vez (`npm run android:release`
+       sube la versión; después `npm run build:store-windows`).
+    2. Subir `dist/store/Musical Showdown.appx` y llenar la ficha en Partner
+       Center con `TIENDAS.md` y `tiendas/imagenes/` (Claude guía).
+    3. Google Play: más adelante, cuando el usuario decida pagar la cuenta.
 - [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
   **07-10-2026: el usuario ya subió una copia a la nube**; falta protegerla con
   contraseña (Almacén personal de OneDrive o un ZIP con 7-Zip y AES-256), porque
@@ -158,8 +168,51 @@
     el título tiene la palabra, como "Amor Eterno"; confirmarlo con el
     usuario). El usuario espera que la IA no se equivoque; depende de qué tan
     bien entienda voz **cantada**: probar primero la página de prueba cantando.
-
-
+  - **12-10-2026 — la letra no se guarda en la app:** el catálogo pasa a tener
+    solo nombre, artista, género y palabras sueltas (ver "Catálogo grande sin
+    letras"). El usuario quiere que la IA **busque la letra en internet** al
+    momento (él mencionó YouTube) para comprobar lo cantado, sin tenerla
+    descargada.
+    - Al reconocer la canción, la pantalla muestra su nombre; si no la
+      reconoce, queda la búsqueda por nombre.
+    - Ojo: YouTube no da letras (los subtítulos solo los descarga el dueño del
+      video), y leer letras de otros sitios tiene derechos de autor. Al llegar
+      aquí, mostrarle opciones: servicio de letras con licencia (por ejemplo
+      Musixmatch), reconocimiento de canciones cantadas (tipo SoundHound /
+      ACRCloud), costos y qué funciona sin internet. Va al final, según el
+      orden acordado.
+- [ ] 🟡 **Catálogo grande sin letras** (usuario, 12-10-2026).
+  - Cada canción: nombre, artista, género, si es famosa, palabras sueltas y
+    palabras del coro. **Sin letra.**
+  - "Buscar canción" busca **solo por el nombre**; YouTube sigue siendo solo el
+    enlace ▶.
+  - Meta: las **100 mejores canciones de cada género**, en español, y **más
+    géneros**.
+  - Las listas de palabras las arma Claude y **el usuario las revisa de a 20**
+    antes de que entren al juego. Una palabra equivocada haría que la canción
+    no aparezca al buscar.
+  - Al terminar, se resuelve también el pendiente legal de las letras guardadas
+    (sección de canciones).
+  - **Criterio (usuario, 12-10-2026):**
+    - Palabras de la parte más famosa o pegadiza (el coro).
+    - Una **palabra clave** propia de cada canción, más palabras compartidas.
+    - Ronda mezclada: mitad clave, mitad compartida.
+  - **Géneros (10):** pop, rock en español, reggaetón, salsa, balada, cumbia,
+    bachata, merengue, regional mexicano y trap/urbano.
+  - **Avance (12-10-2026):** formato nuevo hecho y confirmado (AUDITORÍA
+    parte 30). **200 canciones cargadas, 20 por género** (AUDITORÍA parte 31):
+    - Revisadas por el usuario: reggaetón, pop y rock en español (las aprobó
+      "por ahora").
+    - Armadas por Claude y cargadas sin revisión, a pedido del usuario:
+      salsa, balada, cumbia, bachata, merengue, regional mexicano y trap y
+      urbano.
+  - **En pausa hasta que el usuario pida retomarlo (12-10-2026):** "tenlo en
+    cuenta para las futuras actualizaciones oficiales; haz lo mismo con los
+    demás géneros hasta que te pida retomar el tema para modificar alguna
+    cosa". Al retomarlo:
+    - revisar con él las 10 tandas (sobre todo las 7 sin revisar);
+    - agregar palabras a las canciones que quedaron solo con la clave;
+    - seguir hasta 100 por género.
 - [ ] 🟡 **Probar el selector de rueda en un teléfono Android real.** El APK
   está en `dist/android/Musical-Showdown.apk` (se genera con
   `npm run build:apk`). El deslizamiento y el "lanzamiento" solo se probaron
@@ -303,6 +356,26 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] **Resolver la parte legal de las letras** — resuelto 12-10-2026: el catálogo ya no guarda letras, solo nombre, artista, género y palabras sueltas (AUDITORÍA parte 30). Queda aparte la IA que reconozca lo cantado (servicio de letras con licencia, al final). (sin audio): qué fuente se
+  puede usar, qué se puede guardar dentro de la app (fragmentos o letra
+  completa), si hace falta licencia y cuál. Hasta entonces, `data/songs.js`
+  sigue siendo de ejemplo (instrucción 22). **El usuario decidió dejarlo para
+  después (28-09-2026)**: no bloquea los demás pendientes, solo el siguiente
+  (palabras que no están en la letra) y la publicación.
+  - **Decisión del usuario (07-10-2026):** la letra **ya no se muestra** en el
+    juego (podría requerir pagar); se guarda solo por dentro para saber si la
+    canción lleva la palabra, y la búsqueda solo trae canciones con la palabra
+    de la ronda (hecho, ver auditoría). Falta averiguar si guardar la letra
+    por dentro también necesita licencia (si es de pago, va al final).
+- [x] **Las palabras que se piden no siempre están en la letra guardada.** — resuelto 12-10-2026: ya no hay letra guardada; cada palabra viene de la parte famosa de la canción y la revisa el usuario.
+  De 25 palabras que el juego puede pedir en `data/songs.js`, solo 11
+  aparecen en el fragmento de letra de su canción. Ejemplo: puede pedir
+  "CIELO" diciendo que está en "Color Esperanza", pero el moderador no la ve
+  en la letra ni queda resaltada. Pasa porque las letras guardadas son
+  fragmentos cortos. Hay que resolverlo junto con la fuente real de letras:
+  por ejemplo, calcular `words` a partir de la letra en vez de escribirlo a mano.
+
 
 - [x] **Botón para que los jugadores pidan cantar** (anotado por el usuario,
   30-09-2026; hecho el 12-10-2026, versión 1.22): el pulsador es el mismo botón
