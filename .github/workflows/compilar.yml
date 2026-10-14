@@ -1,0 +1,183 @@
+@@ -1,182 +0,0 @@
+# Compila Musical Showdown para Windows, Linux y Android en la nube.
+#
+# Cuándo corre:
+#   - Cada vez que se suben cambios a main (o se abre un pull request).
+#   - A mano, desde la pestaña "Actions" de GitHub (botón "Run workflow").
+#   - Al subir una etiqueta de versión (por ejemplo v1.1.0): además de
+#     compilar, crea una "Release" con los 3 archivos para descargar.
+#
+# Resultado: en la página de cada ejecución, sección "Artifacts", quedan
+# el .exe de Windows, el .AppImage de Linux y el .apk de Android.
+
+name: Compilar
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: 22
+
+jobs:
+  pruebas:
+    name: Pruebas y lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      # Pruebas de pantallas: el juego se abre en un navegador sin ventana
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+
+  windows:
+    name: Windows (.exe)
+    needs: pruebas
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci --prefix platforms/desktop
+      - run: npm run build:desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-windows
+          path: dist/windows/Musical Showdown.exe
+          if-no-files-found: error
+
+  linux:
+    name: Linux (.AppImage)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci --prefix platforms/desktop
+      - run: npm run build:linux
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-linux
+          path: dist/linux/Musical-Showdown.AppImage
+          if-no-files-found: error
+
+  android:
+    name: Android (.apk)
+    needs: pruebas
+    runs-on: ubuntu-latest
+    env:
+      # Clave de firma del proyecto, guardada como secretos del repositorio
+      # (Settings → Secrets and variables → Actions). Con ella, el APK se firma
+      # igual que con "npm run android:release" y las versiones se instalan una
+      # encima de otra. Sin los secretos, se compila con la firma de prueba.
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      KEYSTORE_PROPS: ${{ secrets.ANDROID_KEYSTORE_PROPERTIES }}
+      # Configuración de Firebase (notificaciones, src/js/notificaciones.js).
+      # Sin este secreto el APK funciona igual, pero sin notificaciones.
+      GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES_JSON }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Configuración de Firebase
+        if: env.GOOGLE_SERVICES != ''
+        run: printf '%s' "$GOOGLE_SERVICES" > platforms/android/android/app/google-services.json
+      # Gradle 8.14 y el plugin de Android 8.13 requieren Java 17 o superior.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci --prefix platforms/android
+      - run: chmod +x platforms/android/android/gradlew
+      # Con la clave del proyecto: APK firmado (release) en dist/android/Musical-Showdown.apk
+      - name: APK firmado con la clave del proyecto
+        if: env.KEYSTORE_B64 != '' && env.KEYSTORE_PROPS != ''
+        run: |
+          mkdir -p platforms/android/keystore
+          echo "$KEYSTORE_B64" | base64 -d > platforms/android/keystore/musical-showdown.jks
+          printf '%s\n' "$KEYSTORE_PROPS" > platforms/android/keystore/keystore.properties
+          MS_BUILD_LABEL=Android npm run build:android
+          (cd platforms/android/android && ./gradlew assembleRelease --no-daemon)
+          mkdir -p dist/android
+          cp platforms/android/android/app/build/outputs/apk/release/app-release.apk dist/android/Musical-Showdown.apk
+          rm -rf platforms/android/keystore
+      # Sin la clave: mismo comando que en la PC con firma de depuración (solo para probar).
+      - name: APK de prueba (firma de depuración)
+        if: env.KEYSTORE_B64 == '' || env.KEYSTORE_PROPS == ''
+        run: npm run build:apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: musical-showdown-android
+          path: dist/android/Musical-Showdown.apk
+          if-no-files-found: error
+
+  release:
+    name: Publicar versión
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, linux, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artefactos
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artefactos/*
+          # La primera línea es la que muestra el aviso de la campana (src/js/avisos.js).
+          body: |
+            Nueva versión de Musical Showdown: descarga el APK para Android o el .exe para Windows.
+          generate_release_notes: true
+      # Notificación "Versión X disponible" a los celulares (build/notificar.js).
+      # Sin el secreto FIREBASE_SERVICE_ACCOUNT no envía nada.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Notificar la versión nueva
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node build/notificar.js version "${{ github.ref_name }}"
+
+  avisos:
+    name: Notificar avisos importantes
+    # Al subir a main un avisos/avisos.json con avisos "importante": true nuevos
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Enviar los avisos importantes nuevos
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          ANTES: ${{ github.event.before }}
+        run: |
+          # Sin la versión anterior no se sabe cuáles son nuevos: no se envía nada
+          # (así no se repiten avisos ya enviados)
+          if ! git show "$ANTES:avisos/avisos.json" > "$RUNNER_TEMP/antes.json" 2>/dev/null; then
+            echo "No se encontró la versión anterior de avisos.json: no se envía nada."
+            exit 0
+          fi
+          node build/notificar.js avisos "$RUNNER_TEMP/antes.json" avisos/avisos.json
