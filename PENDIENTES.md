@@ -34,6 +34,15 @@
 
 ## 🔧 Entorno / herramientas
 
+- [ ] 🟡 **Menciones a Claude en el repositorio** (21-10-2026). La regla
+  global del usuario pide que no haya ninguna en los archivos del proyecto.
+  Hoy hay unas 40 referencias al archivo `CLAUDE.md` (que Claude Code
+  necesita), frases como "lo armó Claude" o "Claude guía" en los documentos y
+  dos comentarios en `src/js/data/songs.js` y `build/android-release.js`. Ya
+  están en el historial de git desde antes. Preguntarle al usuario si se
+  quitan (dejar `CLAUDE.md` solo en la PC, en `.gitignore`, y cambiar las
+  frases) o se dejan.
+
 - [ ] 🟢 **Electron no se puede ejecutar en modo desarrollo**
   (`npx electron .` en `platforms/desktop`). npm 11 bloqueó su script de
   instalación, que descarga el binario. No afecta la compilación. Si hace
@@ -76,6 +85,8 @@
        Center con `TIENDAS.md` y `tiendas/imagenes/` (Claude guía).
     3. Google Play: más adelante, cuando el usuario decida pagar la cuenta.
 - [ ] 🔴 **Demo gratis para la Microsoft Store** (usuario, 13-10-2026).
+  - **21-10-2026: es el pendiente elegido para seguir.** Se compiló de nuevo
+    (`npm run build:demo-windows`) y se le abrió al usuario para que la pruebe.
   - **EN PRUEBA** (AUDITORÍA partes 35 y 36):
     - se juega solo Clásico;
     - Alternativo 1 con 🔒 y el enlace a la versión completa;

@@ -13,6 +13,28 @@
 
 ---
 
+## 2026-10-21 — Flujo de compilación corregido; demo abierta para probar
+
+**Qué se hizo:**
+- Al enviar a `main` había cambios hechos desde la web de GitHub en
+  `.github/workflows/compilar.yml`. Su primera línea había quedado como
+  `@@ -1,182 +0,0 @@`, un resto de algo pegado, y eso rompía la compilación
+  (falló la ejecución de `c4ed1c3`). Se quitó esa línea (`94803c4`). También
+  se creó y se borró un `recuperar.yml` ("key recovery"); queda por confirmar
+  con el usuario que lo hizo él.
+- El usuario eligió seguir con la **demo de la Microsoft Store**: se compiló
+  (`npm run build:demo-windows`) y se le abrió.
+- Se revisaron las menciones a Claude en el repositorio y se anotaron en
+  `PENDIENTES.md` (Entorno), para decidir con el usuario.
+
+**Cómo se verificó:** la ejecución de GitHub Actions de `94803c4` salió bien:
+pruebas y lint, Windows, Linux y Android. "Publicar versión" se saltó porque
+no hay etiqueta.
+
+**Qué quedó abierto:** que el usuario confirme la demo o pida cambios.
+
+---
+
 ## 2026-10-21 — Se guarda en GitHub el trabajo de las partes 35 a 39 (sin versión nueva)
 
 **Pedido del usuario:** "publica lo que falte". Se le avisó que una versión

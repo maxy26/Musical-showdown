@@ -110,6 +110,9 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 ## Qué falta
 
 **Lo próximo**
+0. **Elegido el 21-10-2026:** que el usuario pruebe la **demo para la
+   Microsoft Store** (ya se le abrió) y la confirme; después, reservar su
+   nombre y subirla.
 1. **Terminar el diseño del sistema de pago.** El usuario lo pidió antes de
    seguir con Google Play.
 2. **Consola de Google Play** (Claude guía):
