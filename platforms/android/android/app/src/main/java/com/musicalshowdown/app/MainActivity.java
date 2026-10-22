@@ -15,6 +15,8 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         // Complemento propio: encontrar la PC con el código de vinculación (VinculoPlugin)
         registerPlugin(VinculoPlugin.class);
+        // Complemento propio: compras dentro del juego con Google Play (ComprasPlugin)
+        registerPlugin(ComprasPlugin.class);
         super.onCreate(savedInstanceState);
 
         // Android 15 y 16 dibujan la app debajo de la barra de la hora y de los botones

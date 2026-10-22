@@ -15,6 +15,7 @@ import { botonAyuda, conectarAyudas, abrirAyuda } from "./ayudaBotones.js";
 import { puedeSerPantalla, puedeSerControl, hayControl } from "../vinculo.js";
 import { abrirVincularPC, abrirCompartirPartida } from "./vincular.js";
 import { empezarEscucha } from "../voz.js";
+import { escuchaCanto } from "../edicion.js";
 import { deshacerToque } from "./verify.js";
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
@@ -195,5 +196,6 @@ function openVerification(side) {
   state.screen = "verify";
   render();
   // 3 segundos escuchando: si nadie canta, vuelve a la ronda (voz.js; usuario, 12-10-2026)
-  empezarEscucha({ conControl: hayControl(), alSilencio: deshacerToque });
+  // Escuchar el canto es de pago (versión completa) y no está en la demo (edicion.js)
+  if (escuchaCanto()) empezarEscucha({ conControl: hayControl(), alSilencio: deshacerToque });
 }

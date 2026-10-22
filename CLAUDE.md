@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Documentos de seguimiento (leer al iniciar cada conversación)
 
+- `ESTADO.md`: resumen del estado del proyecto (hecho, falta, decisiones). Actualizarlo cuando cambie algo importante.
 - `AUDITORIA-CAMBIOS.md`: registro cronológico de cada cambio hecho, con la entrada más reciente arriba. Indica en qué nos quedamos. **Agregar una entrada cada vez que se modifique el proyecto**, con fecha, qué se hizo, archivos tocados, cómo se verificó y qué quedó abierto.
 - `PENDIENTES.md`: lista de bugs, inconsistencias, mejoras e implementaciones por hacer, con prioridad. **Agregar cualquier problema que se detecte aunque no se resuelva en el momento.** Al resolver uno, marcarlo `[x]` con la fecha y moverlo a "Resueltos".
 - `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas de trabajo y decisiones ya tomadas que no deben revertirse. Es obligatorio respetarlas.
@@ -22,11 +23,26 @@ Reglas clave de las instrucciones:
 - Después de cada cambio, por mínimo que sea, compilar y abrirle el juego al usuario para que lo pruebe; publicar una versión solo cuando lo confirme (instrucciones 23 a 26).
 - Con cada cambio, actualizar **todos** los `.md` que correspondan (auditoría, pendientes, contexto, instrucciones, este archivo, `README.md`, `avisos/LEEME.md`), no solo la auditoría (instrucción 27).
 - El juego nunca reproduce ni descarga música de terceros: solo abre enlaces a la búsqueda de YouTube, sin su logo (instrucción 29).
+- Cada actualización se compila para PC y celular, en versión normal y personal (`build:personal`, todo desbloqueado, nunca se publica) (instrucción 30).
 - No publicar por cada cambio mínimo: acumular los cambios confirmados (lista "Listo para la próxima versión" en `PENDIENTES.md`) y publicar cuando haya una actualización notable (instrucción 28).
 
 ## Tiendas
 
-Todo lo de las tiendas (textos, permisos, privacidad, clasificación, pasos) está en `TIENDAS.md`; las imágenes, en `tiendas/imagenes/`. La política de privacidad es `docs/privacidad/index.html` (GitHub Pages; enlace en Ajustes, `POLITICA_PRIVACIDAD` de `menu.js`). Si se agrega un permiso o un servicio, actualizar los dos. La versión de tienda se marca al compilar (`TIENDA` en `version.js`, lo escribe `build/stamp.js`); `tienda.js` → `tiendaActual()` hace que el aviso de actualización y "Compartir el podio" lleven a la tienda (Microsoft Store: Store ID `9PP0CFQWMWKT`). La identidad del paquete está en `platforms/desktop/tienda-microsoft.json`. Galaxy Store no acepta personas (solo empresas): Android irá por Google Play. El paquete de la Microsoft Store (`appx` en `platforms/desktop/package.json`) declara micrófono y red local, y toma la versión del juego.
+Todo lo de las tiendas (textos, permisos, privacidad, clasificación, pasos) está en `TIENDAS.md`; las imágenes, en `tiendas/imagenes/`. La política de privacidad es `docs/privacidad/index.html` (GitHub Pages; enlace en Ajustes, `POLITICA_PRIVACIDAD` de `menu.js`). Si se agrega un permiso o un servicio, actualizar los dos. La versión de tienda se marca al compilar (`TIENDA` en `version.js`, lo escribe `build/stamp.js`); `tienda.js` → `tiendaActual()` hace que el aviso de actualización y "Compartir el podio" lleven a la tienda (Microsoft Store: Store ID `9PP0CFQWMWKT`). La identidad del paquete está en `platforms/desktop/tienda-microsoft.json`. Galaxy Store no acepta personas (solo empresas): Android irá por Google Play. **Ediciones y cobros** (13-10-2026): `EDICION` en `version.js` la escribe `build/stamp.js`. Hay tres valores:
+  - `"demo"`: con `--demo`.
+  - `"completa"`: todas las compilaciones normales.
+  - vacío: `src/` sin compilar (desarrollo y pruebas: todo abierto).
+
+  `edicion.js` tiene las reglas:
+  - `modoOculto` y `modoBloqueado`: la demo solo juega Clásico, ve Alternativo 1 con candado y no muestra Alternativo 2; en la completa, Alternativo 2 es de pago.
+  - `escuchaCanto`: escuchar el canto es de pago; en la demo, nunca.
+  - `conAnuncios`: solo la completa en el celular.
+
+  **Premium** (13-10-2026): una sola app gratis.
+  - La suscripción `premium` de Google Play desbloquea Alternativo 2, escuchar el canto y quita los anuncios.
+  - `compras.js` guarda el último estado para funcionar sin internet y revisa al abrir y al volver al juego (`main.js`). Llama al complemento propio `ComprasPlugin.java` (Google Play Billing 7.1.1, en `build.gradle`) con `nativo("Compras", …)`: `productos`, `comprar` y `consultar`.
+  - `screens/premium.js`: la ventana con los planes. El precio viene de la tienda, no se guarda en el juego.
+  - `premiumActivo()` (`edicion.js`): cuándo se ve "con Premium" (insignia en el inicio, "Premium activo" en Ajustes, Alternativo 2 con ⭐). En la completa, al pagar; en la personal, siempre. `anuncios.js` → `espacioAnuncio(lugar)` deja lugares vacíos e invisibles en el inicio, configurar, el resultado y el podio, nunca en la ronda. El paquete de la Microsoft Store (`appx` en `platforms/desktop/package.json`) declara micrófono y red local, y toma la versión del juego.
 
 ## Proyecto
 
@@ -48,11 +64,14 @@ npm run build:desktop                      # -> dist/windows/Musical Showdown.ex
 
 npm run build:linux                        # -> dist/linux/Musical-Showdown.AppImage (compilar en Linux o en GitHub Actions)
 npm run build:store-windows                # -> dist/store/Musical Showdown.appx (Microsoft Store; identidad en platforms/desktop/tienda-microsoft.json, ver TIENDAS.md)
+npm run build:demo-windows                 # -> dist/windows-demo/Musical Showdown.exe (demo: solo Clásico + espacios de anuncios)
+npm run build:store-demo                   # -> dist/store-demo/Musical Showdown.appx (demo para la Store; identidad en tienda-microsoft-demo.json)
+npm run build:personal                     # -> dist/personal/: .exe y APK del usuario con todo desbloqueado (NUNCA se publica; instrucción 30)
 
 npm install --prefix platforms/android     # solo la primera vez
 npm run build:android                      # deja el proyecto listo para Android Studio
 npm run build:apk                          # APK de prueba (firma de depuración): dist/android/Musical-Showdown.apk y Musical-Showdown-v<versión>.apk
-npm run android:release                    # APK para instalar en el celular: limpia todo, sube versionCode en 1, firma con la clave del proyecto -> dist/MusicalShowdown-v<versión>.apk
+npm run android:release                    # APK para instalar en el celular: limpia todo, sube versionCode en 1, firma con la clave del proyecto -> dist/MusicalShowdown-v<versión>.apk y .aab (Google Play)
 ```
 
 **Compilación en la nube:** `.github/workflows/compilar.yml` corre lint, pruebas y pruebas de pantallas, y compila Windows (`.exe`), Linux (`.AppImage`) y Android (`.apk`) en cada envío a `main`. El APK sale **firmado con la clave del proyecto** si el repositorio tiene los secretos `ANDROID_KEYSTORE_BASE64` (el `.jks` en base64) y `ANDROID_KEYSTORE_PROPERTIES` (el contenido de `keystore.properties`); si no, con firma de depuración (solo para probar). Los archivos quedan en la sección "Artifacts" de cada ejecución. Al subir una etiqueta `v*` (por ejemplo, `v1.1.0`), además publica una Release con los 3 archivos. Si se cambian los scripts de `build/` o las rutas de salida, actualizar también este archivo de flujo.

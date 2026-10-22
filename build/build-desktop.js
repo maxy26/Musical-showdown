@@ -31,7 +31,11 @@ const TARGETS = {
 };
 const targetName = process.argv.includes("--linux") ? "linux" : process.argv.includes("--store") ? "store" : "windows";
 const target = TARGETS[targetName];
-const FINAL_OUT = path.join(ROOT, "dist", targetName);
+// --demo: la demo gratis (solo Clásico jugable, Alternativo 1 con candado, sin escuchar el canto; src/js/edicion.js)
+const demo = process.argv.includes("--demo");
+// --personal: copia del dueño con todo desbloqueado (no se publica)
+const personal = process.argv.includes("--personal");
+const FINAL_OUT = path.join(ROOT, "dist", demo ? `${targetName}-demo` : personal ? `${targetName}-personal` : targetName);
 
 function run(cmd, cwd) {
   console.log(`\n$ ${cmd}`);
@@ -42,8 +46,8 @@ console.log("== 1/4: copiando src/ -> platforms/desktop/www ==");
 fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
 // Versión visible y caché del service worker únicos por compilación (build/stamp.js).
-stampBuild(WWW, { linux: "PC Linux", store: "Microsoft Store", windows: "PC Windows" }[targetName],
-  { tienda: targetName === "store" ? "microsoft" : "" }); // la versión de tienda enlaza a la tienda (tienda.js)
+stampBuild(WWW, { linux: "PC Linux", store: "Microsoft Store", windows: "PC Windows" }[targetName] + (demo ? " (demo)" : personal ? " (personal)" : ""),
+  { tienda: targetName === "store" ? (demo ? "microsoft-demo" : "microsoft") : "", edicion: demo ? "demo" : personal ? "personal" : "completa" }); // tienda.js y edicion.js
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
 // Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync
@@ -60,15 +64,18 @@ fs.rmSync(RAW_OUT, { recursive: true, force: true });
 // Sin el archivo se usan datos de prueba: el paquete sirve para revisar, no para subir.
 let identidad = "";
 if (targetName === "store") {
-  const archivo = path.join(DESKTOP, "tienda-microsoft.json");
+  // La demo es otro producto de la Store, con su propia identidad
+  const archivo = path.join(DESKTOP, demo ? "tienda-microsoft-demo.json" : "tienda-microsoft.json");
   const datos = fs.existsSync(archivo)
     ? JSON.parse(fs.readFileSync(archivo, "utf8"))
     : { identityName: "MusicalShowdown.Prueba", publisher: "CN=MusicalShowdownPrueba", publisherDisplayName: "Musical Showdown" };
   if (!fs.existsSync(archivo)) console.warn("⚠ Sin platforms/desktop/tienda-microsoft.json: paquete de PRUEBA (no se puede subir a la Store).");
   // La Store pide una versión mayor en cada envío: la misma del juego (1.23 → 1.23.0)
-  identidad = ` -c.appx.identityName="${datos.identityName}" -c.appx.publisher="${datos.publisher}" -c.appx.publisherDisplayName="${datos.publisherDisplayName}" -c.extraMetadata.version=${androidVersion().name}.0`;
+  identidad = ` -c.appx.identityName="${datos.identityName}" -c.appx.publisher="${datos.publisher}" -c.appx.publisherDisplayName="${datos.publisherDisplayName}" -c.extraMetadata.version=${androidVersion().name}.0${demo ? ' -c.appx.displayName="Musical Showdown Demo"' : ""}`;
 }
-run(`npx electron-builder ${target.flag} --x64${identidad}`, DESKTOP);
+// La copia personal se descomprime en otra carpeta: así puede abrirse junto a la normal
+const carpeta = personal ? ' -c.portable.unpackDirName=MusicalShowdownPersonal' : "";
+run(`npx electron-builder ${target.flag} --x64${identidad}${carpeta}`, DESKTOP);
 
 console.log(`== 4/4: copiando el resultado a dist/${targetName} ==`);
 fs.rmSync(FINAL_OUT, { recursive: true, force: true });
@@ -76,4 +83,4 @@ fs.mkdirSync(FINAL_OUT, { recursive: true });
 fs.copyFileSync(path.join(RAW_OUT, target.file), path.join(FINAL_OUT, target.file));
 fs.rmSync(RAW_OUT, { recursive: true, force: true });
 
-console.log(`\n✔ Listo: dist/${targetName}/${target.file}`);
+console.log(`\n✔ Listo: dist/${path.basename(FINAL_OUT)}/${target.file}`);

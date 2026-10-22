@@ -2,7 +2,8 @@ import { render } from "./router.js";
 import { initSound, esperarMusica } from "./sound.js";
 import { applySettings } from "./settings.js";
 import { initTapFeedback } from "./tapFeedback.js";
-import { esAppInstalada } from "./plataforma.js";
+import { esAppInstalada, alCambiarPrimerPlano } from "./plataforma.js";
+import { revisarCompras, alCambiarPremium } from "./compras.js";
 import { revisarAvisosSeguido, agregarAvisoRecibido, idsSinLeer } from "./avisos.js";
 import { avisosLlegaron } from "./screens/menu.js";
 import { APP_VERSION } from "./version.js";
@@ -17,6 +18,11 @@ initSound();
 initTapFeedback();
 iniciarTeclado(); // flechas, Enter, Backspace y la lista del juego (teclado.js)
 revisarAvisosSeguido(APP_VERSION, avisosLlegaron); // avisos nuevos con la app abierta
+// Premium (compras.js): se pregunta a Google Play al abrir y al volver al juego;
+// si cambia (compra o vencimiento), se redibuja fuera de la partida
+alCambiarPremium(() => { if (["menu", "config"].includes(state.screen)) render(); });
+revisarCompras();
+alCambiarPrimerPlano((enFondo) => { if (!enFondo) revisarCompras(); });
 
 function hideLoader() {
   const loader = document.getElementById("loader");

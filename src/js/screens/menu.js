@@ -8,9 +8,12 @@ import { buildModesManual, modeAllowed } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } from "../settings.js";
 import { refreshMusic, volumen } from "../sound.js";
-import { APP_VERSION, BUILD_INFO } from "../version.js";
+import { APP_VERSION, BUILD_INFO, EDICION } from "../version.js";
+import { abrirPremium } from "./premium.js";
 import { esAppInstalada, salirDeLaApp, abrirEnlace } from "../plataforma.js";
 import { puedeSerPantalla, puedeSerControl, controlConectado } from "../vinculo.js";
+import { espacioAnuncio } from "../anuncios.js";
+import { esDemo, modoBloqueado, modoOculto, premiumActivo } from "../edicion.js";
 import { preguntarDesvincular } from "./control.js";
 import { abrirSeguirPartidaCelular, abrirEscanear } from "./vincular.js";
 import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, fechaRelativa } from "../avisos.js";
@@ -127,6 +130,7 @@ export function settingsBody() {
     </div>
     ${controlConectado() ? `<button type="button" class="btn btn-secondary btn-block" id="btn-desvincular">📺 Desvincular de la PC</button>` : ""}
     ${esAppInstalada() ? `<button type="button" class="btn btn-danger btn-block home-exit" id="btn-exit">🚪 Salir del juego</button>` : ""}
+    ${EDICION === "completa" || EDICION === "personal" ? `<button type="button" class="btn ${premiumActivo() ? "btn-premium-activo" : "btn-primary"} btn-block" id="btn-premium">${premiumActivo() ? "⭐ Premium activo" : "⭐ Premium"}</button>` : ""}
     <button type="button" class="btn btn-ghost btn-block" id="btn-privacidad">🔒 Política de privacidad</button>
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
@@ -154,6 +158,8 @@ export function settingsBody() {
   if (desvincular) desvincular.onclick = preguntarDesvincular;
   // Política de privacidad (la piden las tiendas; página en docs/privacidad, GitHub Pages)
   body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(POLITICA_PRIVACIDAD);
+  const premium = body.querySelector("#btn-premium");
+  if (premium) premium.onclick = () => abrirPremium();
   const salir = body.querySelector("#btn-exit");
   if (salir) salir.onclick = () => showConfirm({
     title: "¿Salir del juego?",
@@ -188,7 +194,7 @@ export function settingsBody() {
 export function screenMenu() {
   const c = state.config;
   // Por si se llega con un modo que no existe en este tipo de batalla.
-  if (!modeAllowed(c.mode, c.battleType)) c.mode = "clasico";
+  if (!modeAllowed(c.mode, c.battleType) || modoBloqueado(c.mode) || modoOculto(c.mode)) c.mode = "clasico";
 
   const root = el(`<div class="screen home">
     <header class="home-header">
@@ -205,6 +211,7 @@ export function screenMenu() {
     <section class="home-stage">
       <span class="home-notes" aria-hidden="true"><i>♪</i><i>♫</i><i>♪</i><i>♬</i></span>
       <h1 class="home-title"><span>Musical</span><span>Showdown</span></h1>
+      ${premiumActivo() ? `<span class="premium-insignia">⭐ Premium</span>` : ""}
       <span class="home-floor" aria-hidden="true"></span>
     </section>
 
@@ -220,8 +227,9 @@ export function screenMenu() {
     <div class="home-mode">
       <button type="button" class="home-wide-btn pressable" id="btn-modes"><span class="home-wide-icon">${ICONS.book()}</span>Modos de juego</button>
       <p class="home-mode-label" id="mode-label"></p>
+      ${espacioAnuncio("inicio")}
     </div>
-    <p class="home-version-tag">v${APP_VERSION}</p>
+    <p class="home-version-tag">${esDemo() ? `Versión <span class="home-version-demo">· demo</span>` : EDICION === "personal" ? `v${APP_VERSION} <span class="home-version-demo">· personal</span>` : `v${APP_VERSION}`}</p>
   </div>`);
 
   // ---------- Tipo de batalla: interruptor + tarjeta con "Jugar" ----------

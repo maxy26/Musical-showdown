@@ -75,6 +75,75 @@
     2. Subir `dist/store/Musical Showdown.appx` y llenar la ficha en Partner
        Center con `TIENDAS.md` y `tiendas/imagenes/` (Claude guía).
     3. Google Play: más adelante, cuando el usuario decida pagar la cuenta.
+- [ ] 🔴 **Demo gratis para la Microsoft Store** (usuario, 13-10-2026).
+  - **EN PRUEBA** (AUDITORÍA partes 35 y 36):
+    - se juega solo Clásico;
+    - Alternativo 1 con 🔒 y el enlace a la versión completa;
+    - Alternativo 2 no aparece;
+    - no escucha el canto (solo "Buscar canción");
+    - sin anuncios; etiqueta "Versión · demo".
+    Falta que el usuario la confirme o pida cambios.
+  - Va como **otro producto** en Partner Center, "Musical Showdown Demo". El
+    producto "Musical Showdown" (`9PP0CFQWMWKT`) queda para la versión
+    completa, que se sube después.
+  - Falta: reservar el nombre de la demo y pasar su identidad y Store ID
+    (`platforms/desktop/tienda-microsoft-demo.json` y `"microsoft-demo"` en
+    `tienda.js`); `npm run build:store-demo`; llenar la ficha guiado.
+- [ ] 🔴 **Google Play: app gratis con Premium** (usuario, 13-10-2026; ya
+  tiene cuenta).
+  - **En pausa:** el usuario quiere terminar antes el **diseño del sistema de
+    pago**.
+  - Ya hecho: cómo se ve con Premium (AUDITORÍA parte 39) y la política de
+    privacidad nueva publicada.
+  - **Hecho (EN PRUEBA, AUDITORÍA parte 37):**
+    - el sistema de compras (`ComprasPlugin.java`, `compras.js`,
+      `screens/premium.js`);
+    - el `.aab` en `npm run android:release`.
+  - **Falta, en la consola de Google Play (Claude guía):**
+    1. crear la app y completar la configuración (privacidad, acceso,
+       anuncios, clasificación, público 13+, seguridad de datos);
+    2. perfil de pagos;
+    3. crear la suscripción `premium` con los planes `mensual` y `anual` y
+       una oferta de prueba de 7 días;
+    4. agregar cuentas de prueba de licencias;
+    5. subir el `.aab` a prueba cerrada con 15–20 verificadores;
+    6. probar la compra;
+    7. pedir la publicación después de 14 días con 12 o más inscritos.
+  - **Decidir:** si Google firma con su propia clave (Play App Signing), los
+    APK de GitHub ya no se instalan encima de la versión de Google Play.
+    Recomendado: al crear la app, subir **nuestra clave** como clave de firma,
+    para que las dos versiones sean compatibles.
+  - **Precio sugerido:** 1,99 USD al mes o 14,99 USD al año, con 7 días
+    gratis, más barato en Latinoamérica (se fija en la consola, por país).
+- [ ] 🟡 **Compras dentro de la app** (usuario, 13-10-2026): la versión
+  completa es gratis; **se cobra el modo Alternativo 2 y escuchar el canto**
+  (los 3 segundos y la futura IA que identifica la canción). Sin compra, solo
+  "Buscar canción". La regla ya está (`edicion.js`, `compras.js`); falta el
+  sistema de pago y definir precios.
+  - **Ojo:** mientras no haya compras, la versión completa compilada (GitHub
+    y tiendas) **no tiene Alternativo 2 ni la escucha del canto**. Avisarle al
+    usuario antes de publicar la próxima versión.
+  - Implementación:
+    - Microsoft Store: complementos ("add-ons") con la API de la Store desde
+      Electron;
+    - Google Play: Google Play Billing (complemento de Capacitor).
+  - Ojo: la versión completa sigue gratis en GitHub con todos los modos;
+    decidir qué pasa con ella cuando se cobre.
+- [ ] 🟡 **Anuncios reales** (usuario, 13-10-2026): **solo en la versión
+  completa del celular**; en la PC no.
+  - Los lugares ya están (`anuncios.js`: inicio, configurar, resultado y
+    podio; nunca en la ronda). Quedan vacíos e invisibles hasta que haya un
+    anuncio.
+  - Red: **AdMob** (complemento de Capacitor).
+  - Al poner anuncios hay que actualizar la política de privacidad (datos para
+    anuncios, consentimiento en Europa), la clasificación por edad
+    ("contiene anuncios") y `TIENDAS.md`. Cuidado con anuncios en un juego
+    para toda la familia (políticas para niños).
+- [ ] 🟡 **12 personas para Google Play** (usuario, 13-10-2026): tienen que
+  instalar el juego desde la **prueba cerrada de Google Play** (con su cuenta
+  de Google, invitadas desde la consola) y seguir 14 días. Quienes instalen
+  la demo de la Microsoft Store **no cuentan**. Primero hay que pagar la
+  cuenta de Google Play (25 USD).
 - [ ] 🔴 **Guardar una copia de la clave de firma de Android** (04-10-2026):
   **07-10-2026: el usuario ya subió una copia a la nube**; falta protegerla con
   contraseña (Almacén personal de OneDrive o un ZIP con 7-Zip y AES-256), porque

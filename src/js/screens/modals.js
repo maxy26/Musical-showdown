@@ -7,6 +7,7 @@ import { openSheet } from "./sheet.js";
 import { buildModesManual, animateStory } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { hayAyudaModo, abrirAyudaModo } from "./ayudaModos.js";
+import { modoOculto } from "../edicion.js";
 
 /**
  * X para cerrar en la esquina superior derecha. Va solo en las ventanas que
@@ -121,7 +122,7 @@ export function openHelp() {
 
     <article class="manual-item">
       <div class="manual-top"><h3 class="manual-name">Modos de juego</h3></div>
-      ${AYUDA_MODOS.map((m) => `<div class="ayuda-modo"><b>${modeName(m.id)}</b><span>${m.text}</span></div>`).join("")}
+      ${AYUDA_MODOS.filter((m) => !modoOculto(m.id)).map((m) => `<div class="ayuda-modo"><b>${modeName(m.id)}</b><span>${m.text}</span></div>`).join("")}
       <div class="manual-actions"><button type="button" class="manual-choose pressable" id="help-modes">📖 Ver modos de juego</button></div>
     </article>
 

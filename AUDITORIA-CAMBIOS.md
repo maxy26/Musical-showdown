@@ -13,6 +13,243 @@
 
 ---
 
+## 2026-10-21 — Se guarda en GitHub el trabajo de las partes 35 a 39 (sin versión nueva)
+
+**Pedido del usuario:** "publica lo que falte". Se le avisó que una versión
+nueva dejaría la completa sin Alternativo 2 ni la escucha del canto (el cobro
+todavía no funciona) y eligió **solo guardar en GitHub**: commit y envío a
+`main`, sin etiqueta ni Release. La demo y Premium siguen EN PRUEBA.
+**Cómo se verificó:** lint sin avisos; `npm test`: 168 bien.
+
+---
+
+## 2026-10-21 — ESTADO.md: resumen del proyecto
+
+**Pedido del usuario:** un resumen del estado del proyecto (qué está hecho, qué
+falta y decisiones importantes) en `ESTADO.md`. **Qué se hizo:** `ESTADO.md`
+nuevo, armado desde la auditoría y los pendientes; enlazado en `README.md` y
+`CLAUDE.md`. No se tocó el juego.
+
+---
+
+## 2026-10-13 — Sesión 8 (parte 39): PRUEBA — cómo se ve con Premium; política publicada
+
+**Del usuario:**
+- Publicar la política de privacidad nueva.
+- Actualizar la app del celular (ya conectado).
+- Todavía **no** seguir con la consola de Google Play: el diseño del sistema
+  de pago no está terminado.
+- Agregar en todas las versiones **cómo se ve cuando se paga Premium**, y que
+  su app personal se vea así.
+
+**Qué se hizo:**
+- **Política publicada:** commit solo de `docs/privacidad/index.html` y
+  `docs/icono.png` (`d528cf1`), subido a `main`; comprobada en línea.
+- `edicion.js` → `premiumActivo()`: en la versión completa al pagar; en la
+  copia personal, siempre. Con Premium:
+  - **Inicio:** insignia dorada "⭐ PREMIUM" sobre el título.
+  - **Ajustes:** "⭐ Premium activo" (borde dorado), también en la personal.
+  - **Modos de juego:** Alternativo 2 con la etiqueta "⭐ Premium".
+  - **Ventana Premium:** "✅ Ya tienes Premium" con "Ver o cancelar la
+    suscripción"; en la personal, "Premium activo (versión personal)".
+- Prueba nueva en `compras.test.js`.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 168 bien; pruebas de
+pantallas: 42 bien. Se compilaron la personal y la normal (PC y Android). La
+**personal se instaló en el celular del usuario**: la captura muestra la
+insignia "⭐ PREMIUM" y "v1.24 · personal". Se abrieron los dos `.exe`.
+
+---
+
+## 2026-10-13 — Sesión 8 (parte 38): versión personal del dueño y regla de compilar PC y celular
+
+**Del usuario:**
+- Confirmó los precios en USD: 1,99 al mes y 14,99 al año, con 7 días
+  gratis.
+- Pidió actualizar sus versiones de celular y PC, y tener las mismas versiones
+  **con todo desbloqueado para su uso personal**.
+- Regla nueva: **cada actualización se hace para los dos dispositivos**
+  (instrucción 30).
+
+**Qué se hizo:**
+- Edición **"personal"**: todo abierto, sin anuncios ni Premium. En el
+  inicio dice "v… · personal".
+- `--personal` en `build-desktop.js` (con su propia carpeta temporal,
+  `MusicalShowdownPersonal`, para abrirse junto a la normal) y en
+  `build-android.js`.
+- **`npm run build:personal`** (`build/build-personal.js`) →
+  `dist/personal/Musical Showdown (personal).exe` y
+  `MusicalShowdown-personal.apk`, firmado con la clave del proyecto. No se
+  publica; `dist/` no está en git.
+- Prueba nueva en `edicion.test.js`.
+- Instrucción 30 en `INSTRUCCIONES`, `CLAUDE.md` y memoria.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 167 bien. Se compilaron
+la personal (PC y Android) y la normal (`build:desktop` y APK firmado
+`dist/MusicalShowdown-PRUEBA.apk`). Se abrieron los dos `.exe`. El celular no
+estaba conectado.
+
+---
+
+## 2026-10-13 — Sesión 8 (parte 37): PRUEBA — Premium con Google Play (sistema de compras) y política de privacidad nueva
+
+**Del usuario:**
+- Pidió hacer el sistema de compras. Ya tiene cuenta de Google Play.
+- Eligió **una sola app gratis con Premium adentro**: Clásico y Alternativo 1
+  gratis, anuncios en el celular; Premium desbloquea Alternativo 2, escuchar
+  el canto y quita los anuncios.
+- Preguntas respondidas:
+  - el precio se fija por país en la consola (Google convierte e incluye
+    impuestos); recomendación: 1,99 USD al mes o 14,99 USD al año, con 7 días
+    gratis y más barato en Latinoamérica;
+  - la demo en Google Play no conviene como app aparte;
+  - el juego se puede publicar en todo el mundo (cuidados: consentimiento de
+    anuncios en Europa, público 13+, impuestos a cargo de la tienda);
+  - las 12 personas: es común lograrlo y, si no se llega, la app sigue en
+    prueba cerrada sin castigo;
+  - pidió una política de privacidad más profesional.
+
+**Qué se hizo:**
+- **`ComprasPlugin.java`** (nuevo), complemento propio con Google Play
+  Billing 7.1.1 (`build.gradle`; registrado en `MainActivity`):
+  - `productos`: planes y precio en la moneda del jugador;
+  - `comprar`: abre el pago de Google Play;
+  - `consultar`: qué suscripciones están activas;
+  - reconoce las compras para que Google no las devuelva.
+- **`compras.js`** reescrito:
+  - suscripción `premium` (`INCLUYE_PREMIUM`: alternativo2, voz y
+    sinAnuncios);
+  - guarda lo último que se supo para funcionar sin internet y revisa al
+    abrir el juego y al volver a él (`main.js`);
+  - `ordenarPlanes`, `textoPeriodo`, `textoPrueba`.
+- **`screens/premium.js`** (nuevo), ventana "Musical Showdown Premium":
+  - qué incluye, los planes con su precio y la prueba gratis;
+  - "Restaurar compras" y "Ver o cancelar la suscripción";
+  - en PC: "por ahora, desde la app de Android".
+  - Se abre desde Ajustes ("⭐ Premium", solo en la versión completa) y desde
+    el candado de Alternativo 2 ("⭐ Ver Premium").
+- `edicion.js`: Premium quita los anuncios.
+- `build/android-release.js` genera también el **`.aab`** para Google Play.
+- **Política de privacidad rediseñada** (`docs/privacidad/index.html` y
+  `docs/icono.png`):
+  - encabezado con el ícono, vigencia, resumen, índice y 12 secciones (tabla
+    de permisos, terceros, compras, anuncios, menores, derechos, seguridad);
+  - modo claro y oscuro. **Sin publicar todavía**: se le abrió al usuario
+    para que la apruebe.
+- `sw.js` v29; prueba nueva `test/compras.test.js` (4).
+
+**Cómo se verificó:**
+- Lint sin avisos; `npm test`: 166 bien; pruebas de pantallas: 42 bien.
+- Android compila con el complemento (APK y `.aab`).
+- El cobro real no se pudo probar: hace falta subir la app a Google Play y
+  crear la suscripción en la consola.
+
+**Qué quedó abierto:**
+- El usuario aprueba y publica la política.
+- Crear la app y la suscripción en la consola de Google Play (guiado).
+- Subir el `.aab` a una prueba interna o cerrada.
+- Probar la compra con una cuenta de prueba de licencias.
+
+---
+
+## 2026-10-13 — Sesión 8 (parte 36): PRUEBA — reglas de la demo, lo que se cobra y lugares de anuncios
+
+**Pedido del usuario (al ver la demo):**
+- El aviso del candado debe dar el **enlace de descarga** de la versión
+  completa.
+- Los anuncios son para la **versión final**, **solo en el celular**. No hay
+  que mostrar "Publicidad": el lugar queda vacío hasta que haya un anuncio.
+- La etiqueta debe decir **"versión · demo"**.
+- La demo, y también la versión completa gratis, **no escuchan el canto**:
+  solo "Buscar canción".
+- **Se cobra:** el modo **Alternativo 2** y la **IA** que escucha e
+  identifica lo cantado.
+- La demo muestra solo **Clásico** (se juega) y **Alternativo 1** (sin
+  jugar); **Alternativo 2 no aparece**.
+- Preguntó cómo funcionan las 12 personas de Google Play. Se le explicó:
+  inscripción en la prueba cerrada, 14 días seguidos, invitar a 15–20 y qué
+  pasa si alguien se sale o desinstala.
+
+**Qué se hizo:**
+- `edicion.js` reescrito:
+  - `EDICION`: "demo", "completa" (todas las compilaciones normales:
+    `build-desktop` y `build-android`) o vacío (desarrollo y pruebas: todo
+    abierto).
+  - `modoOculto`, `modoBloqueado` (demo: solo Clásico; completa: Alternativo
+    2 de pago) y `escuchaCanto` (demo nunca; completa solo con la compra).
+  - `conAnuncios`: completa y en el celular.
+- `compras.js` (nuevo): `tieneCompra()`, que todavía no hay compras, así que
+  nada está comprado.
+- `anuncios.js`: el lugar `[data-anuncio]` queda vacío e invisible
+  (`:empty{display:none}`); solo en la completa del celular.
+- `modesManual.js`: oculta Alternativo 2 en la demo; candado "🔒 Versión
+  completa" con "⬇️ Descargar la versión completa" (GitHub, última versión),
+  y en la completa "🔒 Desbloquear" / "Modo de pago".
+- "Cómo se juega" (`modals.js`) tampoco nombra Alternativo 2 en la demo.
+- `round.js`: los 3 segundos de escucha solo si `escuchaCanto()`.
+- Inicio: "Versión · demo". Si el modo elegido está oculto o bloqueado, vuelve
+  a Clásico.
+- `sw.js` v28; `test/edicion.test.js` reescrito (4 pruebas).
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 162 bien; pruebas de
+pantallas: 42 bien (en desarrollo todo sigue abierto). Capturas de la demo
+compilada: inicio sin recuadro, dos modos y el aviso con el botón de
+descarga.
+
+**Qué quedó abierto:**
+- **Ojo:** la próxima versión completa (GitHub y tiendas) ya no tendrá
+  Alternativo 2 ni la escucha del canto hasta que existan las compras.
+  Avisarle al usuario antes de publicarla.
+- Que el usuario confirme la demo; reservar "Musical Showdown Demo" en
+  Partner Center.
+
+---
+## 2026-10-13 — Sesión 8 (parte 35): PRUEBA — demo gratis para la Microsoft Store y espacios para anuncios
+
+**Pedido del usuario:**
+- Subir a la Microsoft Store una **demo gratis**, aparte de la versión
+  completa (la 1.24 se queda en GitHub y la completa irá después a la tienda
+  como otro producto).
+- La versión final será gratis, pero **cobrará por jugar otros modos** (no
+  por la app).
+- Agregar **anuncios** y tener su espacio en pantalla.
+- Ver la demo antes de subirla.
+- Objetivo del usuario: juntar las 12 personas activas que pide Google Play.
+  Se le aclaró que tienen que ser de la **prueba cerrada de Google Play**,
+  no de la Microsoft Store.
+
+**Qué se hizo (propuesta para que el usuario la vea):**
+- `src/js/edicion.js` y `EDICION` en `version.js` (los escribe
+  `build/stamp.js`):
+  - En la demo solo se juega **Clásico** (Individual o Grupal, todas las
+    canciones).
+  - Alternativo 1 y 2 se ven en "Modos de juego" con "🔒 Versión completa";
+    al tocarlos se explica (`avisoVersionCompleta` en `modesManual.js`).
+- `src/js/anuncios.js` → `espacioAnuncio(lugar)`: un recuadro "Publicidad"
+  (60 px en celular, 90 en PC). Va en el inicio, Configurar partida, el
+  resultado de la ronda y el podio, **nunca durante la ronda**. Por ahora es
+  solo el espacio, sin red de anuncios.
+- Etiqueta "v1.24 · Demo" en el inicio.
+- Compilación:
+  - `npm run build:demo-windows` → `dist/windows-demo/` (para mostrarla);
+  - `npm run build:store-demo` → paquete de la Store llamado "Musical
+    Showdown Demo", con identidad en `platforms/desktop/tienda-microsoft-demo.json`
+    (falta reservar el producto).
+- `tienda.js`: "microsoft-demo" sin enlace todavía (sigue yendo a GitHub).
+- Prueba nueva `test/edicion.test.js`; `sw.js` v27.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 161 bien; pruebas de
+pantallas: 42 bien (la versión completa no cambia). Capturas de la demo
+(inicio con "Publicidad", modos con candado, aviso de versión completa). Se le
+abrió la demo.
+
+**Qué quedó abierto:**
+- Que el usuario confirme la demo.
+- Reservar "Musical Showdown Demo" en Partner Center.
+- La red de anuncios real y las compras dentro de la app (`PENDIENTES.md`).
+
+---
+
 ## 2026-10-13 — Sesión 8 (parte 34): versión 1.24 (GitHub)
 
 **Pedido del usuario:** "publica la nueva versión; la mantendremos ahí". En la

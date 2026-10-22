@@ -1,3 +1,4 @@
+import { espacioAnuncio } from "../anuncios.js";
 import { state, resetState } from "../state.js";
 import { el, escapeHtml } from "../utils.js";
 import { render } from "../router.js";
@@ -105,5 +106,6 @@ export function screenResults() {
     render();
   };
 
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("podio")); // demo: espacio para un anuncio (anuncios.js)
   return root;
 }

@@ -1011,3 +1011,37 @@ select{pointer-events:none;}
 @keyframes puntos-entra{from{opacity:0;transform:translateY(14px) scale(.96);}to{opacity:1;transform:none;}}
 @keyframes puntos-pop{0%{opacity:0;transform:scale(.3);}70%{opacity:1;transform:scale(1.25);}100%{transform:scale(1);}}
 html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation:none;}
+/* Demo (edicion.js, 13-10-2026): modos con candado y espacios para anuncios */
+.home-tag-locked{background:rgba(255,255,255,.12);color:#fff;}
+.manual-item.is-locked{opacity:.75;cursor:pointer;}
+.manual-item.is-locked .manual-choose{background:rgba(255,255,255,.14);color:#fff;}
+.version-completa{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:4px 8px 12px;}
+.version-completa p{margin:0;line-height:1.5;}
+.version-completa-icono{font-size:56px;line-height:1;}
+/* Lugar para un anuncio (anuncios.js): vacío no ocupa espacio */
+.anuncio-espacio{width:min(100%,728px);margin:14px auto 0;}
+.anuncio-espacio:empty{display:none;}
+.home-version-demo{margin-left:4px;color:var(--gold);}
+/* Premium (premium.js, 13-10-2026) */
+.premium{display:flex;flex-direction:column;gap:14px;}
+.premium-icono{font-size:52px;line-height:1;text-align:center;}
+.premium-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.premium-lista li{display:flex;gap:12px;align-items:flex-start;line-height:1.4;}
+.premium-lista li span:first-child{font-size:22px;line-height:1;}
+.premium-planes{display:flex;flex-direction:column;gap:10px;}
+.premium-plan{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px;border-radius:16px;border:2px solid var(--gold);
+  background:rgba(255,210,63,.08);color:#fff;font:inherit;cursor:pointer;}
+.premium-plan:disabled{opacity:.6;}
+.premium-precio{font-family:var(--font-fun-title);font-size:24px;font-weight:700;}
+.premium-precio small{font-family:inherit;font-size:15px;font-weight:700;opacity:.8;}
+.premium-prueba{font-size:14px;font-weight:800;color:var(--gold);}
+.premium-legal{margin:0;font-size:12px;opacity:.7;text-align:center;}
+.premium-legal:empty{display:none;}
+.premium-activo,.premium-nota{margin:0;text-align:center;line-height:1.5;}
+/* Cómo se ve con Premium (edicion.js → premiumActivo, 13-10-2026) */
+.premium-insignia{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:2;padding:5px 14px;border-radius:999px;
+  background:linear-gradient(135deg,#FFE27A,#F5B400);color:#3a2600;font-weight:900;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  box-shadow:0 4px 14px rgba(245,180,0,.45);white-space:nowrap;}
+.btn-premium-activo{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:0 0 18px rgba(255,210,63,.25);}
+.home-tag-premium{background:linear-gradient(135deg,#FFE27A,#F5B400);color:#3a2600;font-weight:800;}
+.premium.is-activo .premium-icono{filter:drop-shadow(0 0 14px rgba(255,210,63,.7));}

@@ -164,6 +164,17 @@
     bien. Lo delicado son las **letras** guardadas por dentro (ver
     `PENDIENTES.md`, parte legal de las letras).
 
+## PC y celular, versión normal y personal (13-10-2026)
+
+30. **Cada actualización se hace para las dos plataformas** (PC `.exe` y
+    celular APK firmado) **y en dos versiones**:
+    - la **normal** (`build:desktop`, `build:apk` + `assembleRelease`);
+    - la **personal** del usuario, con todo desbloqueado (`npm run
+      build:personal` → `dist/personal/`).
+    La personal es solo para él: **nunca se publica ni se sube** a GitHub ni a
+    las tiendas. Compilar la personal primero y la normal al final, porque
+    comparten las carpetas `www/`.
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**

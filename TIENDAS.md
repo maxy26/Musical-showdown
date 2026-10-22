@@ -105,7 +105,40 @@ En `tiendas/imagenes/` (las genera Claude con capturas del juego):
 - **PC** (1920 × 1080): las mismas pantallas y "Vincular celular".
 - **Imagen destacada** 1024 × 500 (Google Play; Galaxy la acepta como portada).
 
-## Galaxy Store (Samsung)
+## Demo gratis (Microsoft Store, producto aparte)
+
+| Campo | Valor |
+|---|---|
+| Nombre | Musical Showdown Demo |
+| Qué trae | Modo Clásico (Individual o en equipos) con las 200 canciones. Alternativo 1 se ve con candado y enlace a la versión completa. Sin escuchar el canto, sin anuncios. |
+| Paquete | `npm run build:store-demo` → `dist/store-demo/Musical Showdown.appx` |
+
+**Descripción corta:**
+> Demo gratis: ¡sale una palabra y gana quien cante primero una canción que la tenga!
+
+**Descripción larga:**
+> 🎤 **Musical Showdown Demo** es la versión de prueba gratis del juego de fiesta
+> para cantar con amigos y familia.
+>
+> El juego muestra una palabra y quien primero canta una canción que la tenga
+> se lleva los puntos. ¡Gana el primero que llega al puntaje objetivo!
+>
+> **En esta demo**
+> • Modo Clásico: sin reloj, un intento cada uno.
+> • Individual o por equipos.
+> • 200 canciones en 10 géneros: pop, rock en español, reggaetón, salsa,
+> balada, cumbia, bachata, merengue, regional mexicano y trap y urbano.
+> • Busca la canción por su nombre y escúchala en YouTube.
+> • Podio final, listo para compartir.
+>
+> ¿Quieres más? En la versión completa está el modo Alternativo 1, con reloj,
+> y mucho más.
+>
+> Sin cuentas, sin anuncios y sin compras. Funciona sin internet.
+
+- **Permisos:** la demo no escucha el canto, así que no pide el micrófono.
+
+## Galaxy Store (Samsung) — descartada por ahora (solo acepta empresas)
 
 1. Cuenta gratis en https://seller.samsungapps.com (Samsung Galaxy Store Seller
    Portal). Pide datos personales y, para apps gratis, no pide datos bancarios.

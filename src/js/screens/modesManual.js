@@ -7,6 +7,10 @@
  * actualizar estos textos.
  */
 import { modeName, modesFor } from "./config/modes.js";
+import { modoBloqueado, modoOculto, esDemo, premiumActivo, DE_PAGO } from "../edicion.js";
+import { abrirEnlace } from "../plataforma.js";
+import { abrirPremium } from "./premium.js";
+import { openSheet } from "./sheet.js";
 
 const MODE_GUIDES = {
   clasico: {
@@ -90,19 +94,23 @@ export function buildModesManual({ battleType, current, onChoose }) {
   const list = document.createElement("div");
   list.className = "manual";
   for (const id of ALL_MODES) {
+    if (modoOculto(id)) continue; // la demo no muestra Alternativo 2
     const guide = MODE_GUIDES[id];
     const name = modeName(id);
     const allowed = modeAllowed(id, battleType);
     const chosen = Boolean(onChoose) && id === current;
+    const bloqueado = Boolean(onChoose) && modoBloqueado(id); // demo: solo Clásico (edicion.js)
     const item = document.createElement("article");
     // Se elige tocando la tarjeta completa o el botón (usuario, 04-10-2026). Un
     // modo que no existe en el tipo de batalla actual (Alternativo 2 en
     // Individual) también se puede elegir: quien llama cambia a Grupal.
-    item.className = `manual-item${chosen ? " is-chosen" : onChoose ? " is-selectable" : ""}`;
+    item.className = `manual-item${chosen ? " is-chosen" : bloqueado ? " is-locked" : onChoose ? " is-selectable" : ""}`;
     item.innerHTML = `
       <div class="manual-top">
         <h3 class="manual-name">${name}</h3>
         ${chosen ? `<span class="home-tag home-tag-chosen">✓ Elegido</span>` : ""}
+        ${bloqueado ? `<span class="home-tag home-tag-locked">${esDemo() ? "🔒 Versión completa" : "🔒 De pago"}</span>` : ""}
+        ${!bloqueado && premiumActivo() && DE_PAGO.modos.includes(id) ? `<span class="home-tag home-tag-premium">⭐ Premium</span>` : ""}
       </div>
       <div class="manual-facts">${guide.facts.map((f) => `<span class="manual-fact">${f}</span>`).join("")}</div>
       <ol class="story story-${guide.story.length}">${guide.story.map((s, n) => `
@@ -113,7 +121,7 @@ export function buildModesManual({ battleType, current, onChoose }) {
       <div class="manual-actions">
         <button type="button" class="manual-toggle pressable" aria-expanded="false">Ver más</button>
         ${onChoose ? `<button type="button" class="manual-choose pressable" ${chosen ? "disabled" : ""}>
-          ${chosen ? "✓ Modo elegido" : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>` : ""}
+          ${chosen ? "✓ Modo elegido" : bloqueado ? (esDemo() ? "🔒 Versión completa" : "🔒 Desbloquear") : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>` : ""}
       </div>`;
     const more = item.querySelector(".manual-more");
     const toggle = item.querySelector(".manual-toggle");
@@ -125,6 +133,7 @@ export function buildModesManual({ battleType, current, onChoose }) {
     if (onChoose && !chosen) {
       item.onclick = (e) => {
         if (e.target.closest(".manual-toggle")) return; // "Ver más" no elige el modo
+        if (bloqueado) { avisoVersionCompleta(name); return; } // demo: se ve, pero no se elige
         onChoose(id);
       };
     }
@@ -132,4 +141,32 @@ export function buildModesManual({ battleType, current, onChoose }) {
     animateStory(item.querySelector(".story"));
   }
   return list;
+}
+
+/** Página de descarga de la versión completa (mientras no esté en la tienda). */
+export const DESCARGA_COMPLETA = "https://github.com/maxy26/Musical-showdown/releases/latest";
+
+/**
+ * Al tocar un modo con 🔒 (edicion.js):
+ *   - en la demo, explica que está en la versión completa y da el enlace para
+ *     descargarla (usuario, 13-10-2026);
+ *   - en la versión completa (Alternativo 2), que viene con Premium (premium.js).
+ */
+function avisoVersionCompleta(nombre) {
+  const body = document.createElement("div");
+  body.className = "version-completa";
+  body.innerHTML = esDemo()
+    ? `<div class="version-completa-icono">🔒</div>
+      <p><b>${nombre}</b> está en la versión completa de Musical Showdown.</p>
+      <p class="small-note">En esta demo puedes jugar el modo <b>Clásico</b>, Individual o en equipos, con todas las canciones.</p>
+      <button type="button" class="btn btn-primary btn-block" id="descargar-completa">⬇️ Descargar la versión completa</button>`
+    : `<div class="version-completa-icono">🔒</div>
+      <p><b>${nombre}</b> viene con <b>Musical Showdown Premium</b>.</p>
+      <p class="small-note">Clásico y Alternativo 1 siguen gratis.</p>
+      <button type="button" class="btn btn-primary btn-block" id="ver-premium">⭐ Ver Premium</button>`;
+  const boton = body.querySelector("#descargar-completa");
+  if (boton) boton.onclick = () => abrirEnlace(DESCARGA_COMPLETA);
+  const premium = body.querySelector("#ver-premium");
+  if (premium) premium.onclick = () => abrirPremium();
+  openSheet({ title: esDemo() ? "Versión completa" : "Modo de pago", body });
 }

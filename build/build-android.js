@@ -33,7 +33,10 @@ fs.rmSync(WWW, { recursive: true, force: true });
 fs.cpSync(SRC, WWW, { recursive: true });
 // Versión visible y caché del service worker únicos por compilación (build/stamp.js).
 // android-release.js pone MS_BUILD_LABEL="Android"; build:apk es un APK de prueba.
-stampBuild(WWW, process.env.MS_BUILD_LABEL || "Android (prueba)");
+// --personal: copia del dueño con todo desbloqueado (no se publica; edicion.js)
+const personal = process.argv.includes("--personal");
+stampBuild(WWW, (process.env.MS_BUILD_LABEL || "Android (prueba)") + (personal ? " (personal)" : ""),
+  { edicion: personal ? "personal" : "completa" }); // edicion.js: anuncios y compras
 
 console.log("== 2/4: empaquetando los módulos JS en un solo bundle ==");
 // Se usa npx (y no "node_modules/.bin/...") porque en Windows execSync

@@ -521,6 +521,25 @@
   A su derecha va el botón 🔊/🔇, que solo quita o pone la música (volvió
   el 05-10-2026 con esa función); en la ronda va además la tuerca de Ajustes.
 
+### Ediciones, cobros y anuncios (usuario, 13-10-2026)
+- **La app es gratis, con Premium adentro** (una sola app en Google Play; sin
+  demo aparte ahí). La suscripción **Premium** (1,99 USD al mes / 14,99 al año
+  sugeridos, 7 días gratis, precio por país en la consola) desbloquea el modo
+  **Alternativo 2**,
+  **escuchar el canto** (los 3 segundos al tocar un nombre y la futura IA que
+  identifica la canción) y **quita los anuncios**. Sin Premium, el moderador usa
+  "Buscar canción". Se abre desde Ajustes ("⭐ Premium") o el candado.
+- **Cómo se ve con Premium** (13-10-2026): insignia dorada "⭐ PREMIUM" en el
+  inicio, "⭐ Premium activo" en Ajustes y Alternativo 2 con "⭐ Premium" en
+  "Modos de juego". La copia personal del dueño se ve siempre así.
+- **Demo gratis** (Microsoft Store, otro producto): solo se juega **Clásico**;
+  **Alternativo 1** se ve con 🔒 y el enlace para descargar la versión
+  completa; **Alternativo 2** no aparece; no escucha el canto; sin anuncios.
+  Abajo dice "Versión · demo".
+- **Anuncios:** solo en la versión completa del **celular**, abajo en el inicio,
+  configurar, el resultado de la ronda y el podio; nunca durante la ronda.
+  Mientras no haya anuncios, esos lugares no se ven.
+
 ### Partida en dos dispositivos (etapa 1, 12-10-2026, versión 1.23)
 - **La PC es la pantalla grande y el celular es el control** (cambios del
   usuario del 12-10-2026):

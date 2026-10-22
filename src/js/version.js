@@ -10,3 +10,5 @@ export const BUILD_INFO = "desarrollo";
 export const CON_FIREBASE = false;
 // Tienda de la que se instaló ("microsoft" en la Microsoft Store; vacío en GitHub). Ver tienda.js.
 export const TIENDA = "";
+// Edición: "demo" (demo gratis de la Microsoft Store) o vacío (completa). Ver edicion.js.
+export const EDICION = "";

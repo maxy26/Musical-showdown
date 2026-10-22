@@ -1,3 +1,4 @@
+import { espacioAnuncio } from "../../anuncios.js";
 import { state } from "../../state.js";
 import { el } from "../../utils.js";
 import { render } from "../../router.js";
@@ -200,6 +201,7 @@ export function screenConfig() {
     render();
   };
 
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("configurar")); // demo: espacio para un anuncio (anuncios.js)
   return root;
 }
 

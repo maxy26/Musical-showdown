@@ -1,3 +1,4 @@
+import { espacioAnuncio } from "../anuncios.js";
 import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
@@ -66,6 +67,7 @@ export function screenRoundResultIncorrect() {
     state.screen = "round";
     render();
   };
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // demo: espacio para un anuncio (anuncios.js)
   return root;
 }
 
@@ -110,5 +112,6 @@ export function screenRoundResult() {
     }
     render();
   };
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // demo: espacio para un anuncio (anuncios.js)
   return root;
 }

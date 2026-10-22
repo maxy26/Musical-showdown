@@ -59,7 +59,7 @@ npm run build:desktop                     # -> dist/windows/Musical Showdown.exe
 ```bash
 npm install --prefix platforms/android   # solo la primera vez
 npm run build:apk                         # APK de prueba (firma de depuración)
-npm run android:release                   # APK para publicar: sube la versión y firma con la clave del proyecto
+npm run android:release                   # APK y .aab (Google Play) para publicar: sube la versión y firma con la clave del proyecto
 ```
 La clave de firma (`platforms/android/keystore/`) y `google-services.json`
 (Firebase, notificaciones) no están en git.
@@ -79,6 +79,7 @@ npm run test:e2e    # pantallas, en tamaño celular y PC
 
 ## 📚 Documentación del proyecto
 
+- `ESTADO.md`: resumen del estado del proyecto (qué está hecho, qué falta y decisiones).
 - `CLAUDE.md`: guía técnica de la arquitectura y los comandos.
 - `CONTEXTO-MUSICAL-SHOWDOWN.md`: reglas del juego y decisiones de diseño.
 - `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas de trabajo.

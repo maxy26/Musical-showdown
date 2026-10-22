@@ -131,7 +131,8 @@ if (!fs.existsSync(KEYSTORE_PROPS)) {
   console.log("   usando la clave existente de platforms/android/keystore/");
 }
 const gradlew = path.join(ANDROID_NATIVE, process.platform === "win32" ? "gradlew.bat" : "gradlew");
-run(`"${gradlew}" clean assembleRelease --no-daemon`, ANDROID_NATIVE);
+// assembleRelease: el APK (GitHub); bundleRelease: el .aab que pide Google Play
+run(`"${gradlew}" clean assembleRelease bundleRelease --no-daemon`, ANDROID_NATIVE);
 
 // ---------- 5. Copiar a dist/ y comprobar ----------
 console.log("== 5/5: copiando a dist/ y comprobando versión y firma ==");
@@ -140,6 +141,10 @@ if (!fs.existsSync(built)) throw new Error("No se generó app-release.apk (¿fal
 fs.mkdirSync(DIST, { recursive: true });
 const finalApk = path.join(DIST, `MusicalShowdown-v${newName}.apk`);
 fs.copyFileSync(built, finalApk);
+// Paquete para Google Play (.aab), firmado con la misma clave (la de "subida" en Play App Signing)
+const builtAab = path.join(ANDROID_NATIVE, "app", "build", "outputs", "bundle", "release", "app-release.aab");
+if (!fs.existsSync(builtAab)) throw new Error("No se generó app-release.aab");
+fs.copyFileSync(builtAab, path.join(DIST, `MusicalShowdown-v${newName}.aab`));
 
 const badging = output(`"${sdkTool("aapt")}" dump badging "${finalApk}"`).split("\n")[0];
 const apkCode = Number((badging.match(/versionCode='(\d+)'/) || [])[1]);
@@ -147,7 +152,7 @@ const certs = output(`"${sdkTool("apksigner")}" verify --print-certs "${finalApk
 const sha = (certs.match(/SHA-256 digest: (\w+)/) || [])[1];
 if (!(apkCode > before.code)) throw new Error(`El versionCode del APK (${apkCode}) no es mayor que el anterior (${before.code})`);
 
-console.log(`\n✔ Listo: dist/MusicalShowdown-v${newName}.apk`);
+console.log(`\n✔ Listo: dist/MusicalShowdown-v${newName}.apk y .aab (Google Play)`);
 console.log(`   ${badging.trim()}`);
 console.log(`   versionCode ${before.code} → ${apkCode} (mayor: sí)`);
 console.log(`   firma SHA-256: ${sha}`);
