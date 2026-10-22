@@ -14,7 +14,7 @@
  *   5. Deja el APK en dist/MusicalShowdown-v<versión>.apk y comprueba su
  *      versionCode y su firma.
  *
- * Requiere Java 17 y el SDK de Android (ver CLAUDE.md).
+ * Requiere Java 17 y el SDK de Android (ver README.md).
  */
 const { execSync } = require("child_process");
 const crypto = require("crypto");

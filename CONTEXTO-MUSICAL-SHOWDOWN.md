@@ -3,8 +3,7 @@
 > Este documento resume todo lo definido y construido hasta ahora sobre
 > **Musical Showdown**, un juego de fiesta/familiar donde el sistema
 > muestra una palabra y los participantes deben cantar cualquier canción
-> que la contenga. Está pensado para que otra sesión de Claude (o
-> Claude Code) retome el proyecto sin haber visto la conversación
+> que la contenga. Está pensado para que otra sesión de trabajo retome el proyecto sin haber visto la conversación
 > original.
 
 ## 1. Qué es el juego

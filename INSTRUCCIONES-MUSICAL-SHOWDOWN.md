@@ -142,7 +142,7 @@
 27. **Documentos siempre al día** (12-10-2026): con cada cambio, actualizar
     todos los `.md` que correspondan, no solo la auditoría:
     `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
-    este archivo, `CLAUDE.md`, `README.md` y `avisos/LEEME.md`. Lo que esté en
+    este archivo, la guía técnica, `README.md` y `avisos/LEEME.md`. Lo que esté en
     prueba se anota como "en prueba", y se corrigen las frases que el cambio
     deja viejas.
 28. **Juntar cambios antes de publicar** (12-10-2026): no publicar una versión

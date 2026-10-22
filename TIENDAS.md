@@ -99,7 +99,7 @@ usuarios en línea, compartir ubicación, compras digitales y publicidad.
 
 ## Imágenes
 
-En `tiendas/imagenes/` (las genera Claude con capturas del juego):
+En `tiendas/imagenes/` (generadas con capturas del juego):
 - **Celular** (vertical, 1080 × 2400 aprox.): inicio, configurar partida,
   ronda, "¡X canta!", resultado con puntos, podio.
 - **PC** (1920 × 1080): las mismas pantallas y "Vincular celular".
@@ -155,11 +155,11 @@ En `tiendas/imagenes/` (las genera Claude con capturas del juego):
 1. Cuenta de desarrollador individual en https://partner.microsoft.com
    (para personas hoy es gratis; confirmar al registrarse).
 2. "Crear una nueva aplicación" → reservar el nombre **Musical Showdown**.
-3. En "Identidad del producto" aparecen tres datos que hay que pasarle a
-   Claude para armar el paquete: **Package/Identity/Name**,
+3. En "Identidad del producto" aparecen tres datos que hacen falta para
+   armar el paquete: **Package/Identity/Name**,
    **Package/Identity/Publisher** (empieza con `CN=`) y
    **Package/Properties/PublisherDisplayName**.
-4. Claude genera el paquete **MSIX** (`npm run build:store-windows`) y la
+4. Se genera el paquete **MSIX** (`npm run build:store-windows`) y la
    Store lo firma: así desaparece el aviso de "Windows protegió su PC".
 5. Completar la ficha (textos, capturas de PC, política de privacidad,
    clasificación por edad) y enviar a revisión.

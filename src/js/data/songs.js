@@ -8,7 +8,7 @@
  *     otras canciones ("bailando", "cabeza", "reggaetón").
  * La mitad de las rondas sale una palabra clave y la otra mitad una
  * compartida (gameLogic.js → pickWeightedWord).
- * Las listas las arma Claude y el usuario las revisa de a 20 antes de que
+ * Las listas se arman y el usuario las revisa de a 20 antes de que
  * entren (PENDIENTES.md, "Catálogo grande sin letras"). Meta: las 100 mejores
  * de cada género, en español. Las canciones de los géneros que todavía no
  * tienen su tanda quedan como ejemplo.
@@ -82,7 +82,7 @@ export const SONG_DB = [
   c("La Negra Tomasa", "Caifanes", "rock", "tomasa", ["negra"]),
   c("Me Gustas Tú", "Manu Chao", "rock", "gustas", ["aviones", "viajar"]),
 
-  // Desde aquí, tandas armadas por Claude y cargadas sin revisión una por una
+  // Desde aquí, tandas armadas y cargadas sin revisión una por una
   // (usuario, 12-10-2026: "hazlo igual con los demás géneros hasta que te
   // pida retomar ese pendiente"). El usuario las revisa al retomarlo.
 

@@ -34,15 +34,6 @@
 
 ## 🔧 Entorno / herramientas
 
-- [ ] 🟡 **Menciones a Claude en el repositorio** (21-10-2026). La regla
-  global del usuario pide que no haya ninguna en los archivos del proyecto.
-  Hoy hay unas 40 referencias al archivo `CLAUDE.md` (que Claude Code
-  necesita), frases como "lo armó Claude" o "Claude guía" en los documentos y
-  dos comentarios en `src/js/data/songs.js` y `build/android-release.js`. Ya
-  están en el historial de git desde antes. Preguntarle al usuario si se
-  quitan (dejar `CLAUDE.md` solo en la PC, en `.gitignore`, y cambiar las
-  frases) o se dejan.
-
 - [ ] 🟢 **Electron no se puede ejecutar en modo desarrollo**
   (`npx electron .` en `platforms/desktop`). npm 11 bloqueó su script de
   instalación, que descarga el binario. No afecta la compilación. Si hace
@@ -74,7 +65,7 @@
     Android de empresas registradas ("Corporate Commercial Seller"). Para
     Android, **Google Play**: 25 USD una vez, y las cuentas nuevas de persona
     necesitan una prueba cerrada con 12 personas durante 14 días.
-  - **Hecho por Claude:** política de privacidad publicada (con el correo) y
+  - **Ya hecho también:** política de privacidad publicada (con el correo) y
     enlaces a la tienda en la versión de la Microsoft Store (AUDITORÍA parte
     33).
   - **Falta:**
@@ -82,18 +73,17 @@
        en GitHub y en la Microsoft Store a la vez (`npm run android:release`
        sube la versión; después `npm run build:store-windows`).
     2. Subir `dist/store/Musical Showdown.appx` y llenar la ficha en Partner
-       Center con `TIENDAS.md` y `tiendas/imagenes/` (Claude guía).
+       Center con `TIENDAS.md` y `tiendas/imagenes/` (con guía paso a paso).
     3. Google Play: más adelante, cuando el usuario decida pagar la cuenta.
 - [ ] 🔴 **Demo gratis para la Microsoft Store** (usuario, 13-10-2026).
-  - **21-10-2026: es el pendiente elegido para seguir.** Se compiló de nuevo
-    (`npm run build:demo-windows`) y se le abrió al usuario para que la pruebe.
-  - **EN PRUEBA** (AUDITORÍA partes 35 y 36):
+  - **21-10-2026: CONFIRMADA por el usuario** ("está bien así"). Antes de
+    subirla quiere ver recomendaciones de mejoras para la demo.
+  - Qué tiene (AUDITORÍA partes 35 y 36):
     - se juega solo Clásico;
     - Alternativo 1 con 🔒 y el enlace a la versión completa;
     - Alternativo 2 no aparece;
     - no escucha el canto (solo "Buscar canción");
     - sin anuncios; etiqueta "Versión · demo".
-    Falta que el usuario la confirme o pida cambios.
   - Va como **otro producto** en Partner Center, "Musical Showdown Demo". El
     producto "Musical Showdown" (`9PP0CFQWMWKT`) queda para la versión
     completa, que se sube después.
@@ -110,7 +100,7 @@
     - el sistema de compras (`ComprasPlugin.java`, `compras.js`,
       `screens/premium.js`);
     - el `.aab` en `npm run android:release`.
-  - **Falta, en la consola de Google Play (Claude guía):**
+  - **Falta, en la consola de Google Play (con guía paso a paso):**
     1. crear la app y completar la configuración (privacidad, acceso,
        anuncios, clasificación, público 13+, seguridad de datos);
     2. perfil de pagos;
@@ -268,7 +258,7 @@
     enlace ▶.
   - Meta: las **100 mejores canciones de cada género**, en español, y **más
     géneros**.
-  - Las listas de palabras las arma Claude y **el usuario las revisa de a 20**
+  - Las listas de palabras se arman y **el usuario las revisa de a 20**
     antes de que entren al juego. Una palabra equivocada haría que la canción
     no aparezca al buscar.
   - Al terminar, se resuelve también el pendiente legal de las letras guardadas
@@ -283,7 +273,7 @@
     parte 30). **200 canciones cargadas, 20 por género** (AUDITORÍA parte 31):
     - Revisadas por el usuario: reggaetón, pop y rock en español (las aprobó
       "por ahora").
-    - Armadas por Claude y cargadas sin revisión, a pedido del usuario:
+    - Armadas y cargadas sin revisión, a pedido del usuario:
       salsa, balada, cumbia, bachata, merengue, regional mexicano y trap y
       urbano.
   - **En pausa hasta que el usuario pida retomarlo (12-10-2026):** "tenlo en
@@ -436,6 +426,11 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **Menciones de herramientas en los archivos del proyecto** (resuelto el
+  21-10-2026): se quitaron de los documentos y comentarios, y la guía técnica
+  queda solo en la PC (fuera de git). Lo que ya estaba en el historial de git
+  se deja como está.
 
 - [x] **Resolver la parte legal de las letras** — resuelto 12-10-2026: el catálogo ya no guarda letras, solo nombre, artista, género y palabras sueltas (AUDITORÍA parte 30). Queda aparte la IA que reconozca lo cantado (servicio de letras con licencia, al final). (sin audio): qué fuente se
   puede usar, qué se puede guardar dentro de la app (fragmentos o letra

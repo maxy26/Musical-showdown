@@ -80,7 +80,6 @@ npm run test:e2e    # pantallas, en tamaño celular y PC
 ## 📚 Documentación del proyecto
 
 - `ESTADO.md`: resumen del estado del proyecto (qué está hecho, qué falta y decisiones).
-- `CLAUDE.md`: guía técnica de la arquitectura y los comandos.
 - `CONTEXTO-MUSICAL-SHOWDOWN.md`: reglas del juego y decisiones de diseño.
 - `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: reglas de trabajo.
 - `PENDIENTES.md`: lo que falta hacer.

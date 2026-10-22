@@ -34,7 +34,7 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   - La ronda es mitad palabra clave y mitad compartida.
 - **200 canciones en 10 géneros**, 20 por género.
   - El usuario revisó reggaetón, pop y rock.
-  - Los otros 7 géneros los armó Claude y están pendientes de revisión.
+  - Los otros 7 géneros se armaron sin su revisión y están pendientes de revisión.
 
 **Celular + PC (versión 1.23)**
 - La PC es la pantalla grande y el celular, el control.
@@ -110,12 +110,12 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 ## Qué falta
 
 **Lo próximo**
-0. **Elegido el 21-10-2026:** que el usuario pruebe la **demo para la
-   Microsoft Store** (ya se le abrió) y la confirme; después, reservar su
-   nombre y subirla.
+0. **Elegido el 21-10-2026:** la **demo para la Microsoft Store**. El
+   usuario la confirmó ("está bien así"); antes de subirla quiere ver mejoras
+   recomendadas para la demo. Después: reservar su nombre y subirla.
 1. **Terminar el diseño del sistema de pago.** El usuario lo pidió antes de
    seguir con Google Play.
-2. **Consola de Google Play** (Claude guía):
+2. **Consola de Google Play** (con guía paso a paso):
    - crear la app y completar la configuración;
    - decidir la clave de firma (se recomienda subir la nuestra, para que los
      APK de GitHub sigan siendo compatibles);

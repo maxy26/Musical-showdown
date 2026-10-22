@@ -1,15 +1,36 @@
 # Auditoría de cambios — Musical Showdown
 
-> Registro cronológico de cada cambio o ajuste hecho al proyecto con
-> Claude Code. Sirve para saber **en qué nos quedamos** al empezar una
+> Registro cronológico de cada cambio o ajuste hecho al proyecto. Sirve para saber **en qué nos quedamos** al empezar una
 > nueva conversación. La entrada más reciente va **arriba**.
 >
 > Formato de cada entrada: fecha · qué se hizo · archivos tocados ·
 > cómo se verificó · qué quedó abierto (con referencia a `PENDIENTES.md`).
 >
-> El historial anterior a Claude Code (hecho con Claude en el chat) está
+> El historial anterior a este registro está
 > resumido en `CONTEXTO-MUSICAL-SHOWDOWN.md`; el commit base es
 > `59438fd` (reestructuración a monorepo).
+
+---
+
+## 2026-10-21 — Demo confirmada; documentos sin menciones de herramientas
+
+**Del usuario:**
+- La demo "está bien así".
+- Que se quiten las menciones de herramientas de los archivos del proyecto.
+- `recuperar.yml` fue un error suyo, de otro proyecto. Se comprobó que
+  `compilar.yml` quedó igual que antes de sus cambios en la web (sin
+  diferencias con `d528cf1`).
+- Antes de subir la demo, pidió recomendaciones de mejoras para ella.
+
+**Qué se hizo:**
+- Se cambiaron las frases en `AUDITORIA-CAMBIOS.md`, `CONTEXTO`, `ESTADO`,
+  `PENDIENTES`, `TIENDAS`, `INSTRUCCIONES` y `README`, y dos comentarios
+  (`src/js/data/songs.js`, `build/android-release.js`).
+- La guía técnica queda solo en la PC: se sacó de git y se excluyó en
+  `.git/info/exclude`. El historial anterior no se toca.
+
+**Cómo se verificó:** ningún archivo de git tiene ya esas menciones; lint y
+`npm test` sin fallas.
 
 ---
 
@@ -24,7 +45,7 @@
   con el usuario que lo hizo él.
 - El usuario eligió seguir con la **demo de la Microsoft Store**: se compiló
   (`npm run build:demo-windows`) y se le abrió.
-- Se revisaron las menciones a Claude en el repositorio y se anotaron en
+- Se revisaron menciones a herramientas en los documentos y se anotaron en
   `PENDIENTES.md` (Entorno), para decidir con el usuario.
 
 **Cómo se verificó:** la ejecución de GitHub Actions de `94803c4` salió bien:
@@ -50,7 +71,7 @@ todavía no funciona) y eligió **solo guardar en GitHub**: commit y envío a
 **Pedido del usuario:** un resumen del estado del proyecto (qué está hecho, qué
 falta y decisiones importantes) en `ESTADO.md`. **Qué se hizo:** `ESTADO.md`
 nuevo, armado desde la auditoría y los pendientes; enlazado en `README.md` y
-`CLAUDE.md`. No se tocó el juego.
+la guía técnica. No se tocó el juego.
 
 ---
 
@@ -104,7 +125,7 @@ insignia "⭐ PREMIUM" y "v1.24 · personal". Se abrieron los dos `.exe`.
   `MusicalShowdown-personal.apk`, firmado con la clave del proyecto. No se
   publica; `dist/` no está en git.
 - Prueba nueva en `edicion.test.js`.
-- Instrucción 30 en `INSTRUCCIONES`, `CLAUDE.md` y memoria.
+- Instrucción 30 en `INSTRUCCIONES`, la guía técnica y memoria.
 
 **Cómo se verificó:** lint sin avisos; `npm test`: 167 bien. Se compilaron
 la personal (PC y Android) y la normal (`build:desktop` y APK firmado
@@ -392,7 +413,7 @@ abrió el `.exe`.
 
 **Qué se hizo:**
 - `data/songs.js`: tandas de pop (2) y rock en español (3), y tandas armadas
-  por Claude de salsa, balada, cumbia, bachata, merengue, regional mexicano y
+  sin revisión del usuario de salsa, balada, cumbia, bachata, merengue, regional mexicano y
   trap y urbano (20 cada una). En total, **200 canciones**.
   - Se quitaron los ejemplos viejos.
   - `GENRES` pasa a 10 (`regional` = "Regional mexicano", `urbano` = "Trap y
@@ -427,8 +448,8 @@ de la hoja "Más" en celular y PC.
 - Buscar solo por nombre.
 - Más adelante, una IA que reconozca la canción cantada buscando la letra en
   internet (anotado en el pendiente de la IA de voz, al final).
-- Meta: las 100 mejores de cada género y más géneros (10 en total). Claude arma
-  las listas y el usuario las revisa de a 20.
+- Meta: las 100 mejores de cada género y más géneros (10 en total). Las listas se
+  arman y el usuario las revisa de a 20.
 - Criterio del usuario: palabras de la parte más famosa o pegadiza, con una
   palabra clave propia de cada canción, y la ronda mezclada mitad y mitad.
 
@@ -478,7 +499,7 @@ prueba pendiente de las letras); pruebas de pantallas: 42 bien.
 - `.exe` con carpeta fija (un solo permiso del Firewall).
 
 **Publicación:**
-- Marcas "en prueba" cambiadas a versión 1.23 (`CLAUDE.md`, `CONTEXTO`,
+- Marcas "en prueba" cambiadas a versión 1.23 (la guía técnica, `CONTEXTO`,
   `PENDIENTES.md`) y lista "Listo para la próxima versión" vaciada.
 - `npm run android:release`, `build:desktop`, commit, etiqueta `v1.23` y envío
   a GitHub (la Release y la notificación las hace GitHub Actions).
@@ -842,7 +863,7 @@ explicó (sin ser asesoría legal) que un enlace a la búsqueda pública no copi
 reproduce música; que no hay que descargar o extraer audio, reproducir YouTube
 dentro del juego sin su reproductor oficial, ni usar su logo; y que lo delicado
 son las letras guardadas. A su pedido quedó como **instrucción 29** en
-`INSTRUCCIONES-MUSICAL-SHOWDOWN.md` y como regla clave en `CLAUDE.md`.
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md` y como regla clave en la guía técnica.
 
 ---
 
@@ -926,7 +947,7 @@ juego**, para profundizarlo más adelante (agregado a `PENDIENTES.md`).
 
 **Nueva forma de publicar:** el usuario pidió no publicar por cada cambio
 mínimo, sino juntar varios para una actualización notable. Instrucción 28 en
-`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, regla en `CLAUDE.md` y sección nueva
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, regla en la guía técnica y sección nueva
 "📦 Listo para la próxima versión" en `PENDIENTES.md` (por ahora: el reloj).
 
 **Pendiente del empate exacto** (dos equipos pasan el objetivo con los mismos
@@ -942,7 +963,7 @@ caso posible; queda anotado el principio por si pasara.
 comentarios del código (10 archivos de `src/`) y de los documentos:
 `PENDIENTES.md` (el pendiente de los (?) pasa a Resueltos; queda uno nuevo 🟢:
 el reloj sigue corriendo con una ayuda abierta en la ronda),
-`CONTEXTO-MUSICAL-SHOWDOWN.md` y `CLAUDE.md` (confirmado, versión 1.20).
+`CONTEXTO-MUSICAL-SHOWDOWN.md` y la guía técnica (confirmado, versión 1.20).
 
 **Publicación:** versión **1.20** (`npm run android:release`), commit, etiqueta
 `v1.20` y envío a GitHub; después se le abrió al usuario la versión final.
@@ -1040,13 +1061,13 @@ trabajado. No lo estaban del todo; se corrigió:
   los multiplicadores solo existían en Alternativo 1 y que Alternativo 2 no
   tenía reglas) y sección nueva "Forma de trabajo" (23 a 26): todo en español,
   probar antes de publicar, permisos sin ventana propia, modos terminados.
-- `CLAUDE.md`: las ayudas (`ayudaModos.js`, `ayudaBotones.js`) y la regla de
+- la guía técnica: las ayudas (`ayudaModos.js`, `ayudaBotones.js`) y la regla de
   probar antes de publicar.
 - `README.md`: estaba del 21-09 (archivos que ya no existen, sin APK ni pruebas
   de pantallas, modos "por definir"); reescrito sin listar cada archivo.
 - Después, el usuario pidió mantener **siempre** al día todos estos archivos:
   instrucción 27 nueva en `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` y regla clave en
-  `CLAUDE.md`.
+  la guía técnica.
 
 ---
 
@@ -1232,7 +1253,7 @@ la app abierta.
 
 **Qué se hizo:** `platforms/android/capacitor.config.ts`:
 `plugins.PushNotifications.presentationOptions: ['alert', 'sound']`.
-`CLAUDE.md` al día.
+la guía técnica al día.
 
 **Cómo se verificó:** `build:apk` sin errores; la opción está en
 `assets/capacitor.config.json` del APK. En el celular, cuando se publique.
@@ -1300,7 +1321,7 @@ solo el permiso de Android.
 **Qué se hizo:** `notificaciones.js`: sin `showConfirm`; la primera vez se pide
 directo el permiso de Android (una sola vez). En los arranques siguientes solo
 se anota el celular si el permiso ya está dado (también si se da después desde
-los ajustes del celular). Compatible con lo que guardaba la 1.15. `CLAUDE.md`
+los ajustes del celular). Compatible con lo que guardaba la 1.15. la guía técnica
 al día. Se guardó como preferencia: pedir permisos sin ventana propia.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 138 bien; `npm run
@@ -1482,7 +1503,7 @@ visuales se aprobaron antes sobre maquetas (`maqueta-grupal`, `maqueta-version`)
   demás después; `main.js` espera `esperarMusica(4000)` antes de quitar la
   pantalla de carga. En la web sigue empezando con el primer toque.
 - Pruebas de pantallas nuevas: aviso de Grupal y versión en el inicio.
-  CLAUDE.md al día.
+  la guía técnica al día.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 131 bien; `npm run
 test:e2e`: 24 bien. Medición con Edge sin ventana, la app simulada como
@@ -1522,7 +1543,7 @@ cómo quedaría), rediseñar los colores con la paleta del juego, poner en rojo 
   tamaño celular y PC. El servidor de prueba escucha solo en `127.0.0.1` (el
   primer intento escuchaba en toda la red y Windows le pidió permiso de red al
   usuario). Se agregaron a GitHub Actions. `test-results/` en `.gitignore`.
-- CLAUDE.md al día.
+- la guía técnica al día.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 131 bien, 1 pendiente
 conocido; `npm run test:e2e`: 20 bien. Capturas del juego real con Edge sin
@@ -1646,7 +1667,7 @@ nuevos se noten sin cerrar y abrir la app.
   además GitHub guarda `avisos.json` en caché hasta unos 5 minutos.
 - `screens/menu.js` → `avisosLlegaron()`: actualiza el globito y sacude la
   campana (`.campana-nueva` en `styles.css`). Se inicia en `main.js`.
-- Pruebas nuevas en `test/avisos.test.js`; CLAUDE.md al día. Compilados
+- Pruebas nuevas en `test/avisos.test.js`; la guía técnica al día. Compilados
   `dist/MusicalShowdown-v1.11.apk` y el `.exe`.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 127 bien. En el navegador,
@@ -1703,7 +1724,7 @@ firma SHA-256 e0e0a02f… del proyecto (se instala encima de la 1.8).
   en el puente nativo); lo usan Salir y Compartir.
 - `platforms/android`: `@capacitor/share` y `@capacitor/filesystem` versión 6.
   `platforms/desktop/main.js`: las descargas van directo a Descargas.
-- `sw.js` v19; prueba nueva `test/compartir.test.js`; CLAUDE.md y PENDIENTES.
+- `sw.js` v19; prueba nueva `test/compartir.test.js`; la guía técnica y PENDIENTES.
   Compilados `dist/MusicalShowdown-v1.9.apk` (versionCode 10) y el `.exe`.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 125 bien, 1 pendiente
@@ -1754,7 +1775,7 @@ A: guardar la clave de firma como secretos de GitHub.
   de sus notas (sin títulos ni marcas de Markdown). Prueba nueva.
 - Valores de los secretos preparados en `platforms/android/keystore/`
   (ignorada por git); se comprobó que el texto reconstruye la clave exacta.
-- CLAUDE.md y PENDIENTES al día.
+- la guía técnica y PENDIENTES al día.
 
 **Cómo se verificó:** lint sin errores; `npm test`: 123 bien, 1 pendiente
 conocido. Capturas de la maqueta (Individual y Grupal) y de la imagen generada.
@@ -1782,7 +1803,7 @@ pidió anotar "Compartir" como pendiente.
   `plataforma.js` → `abrirEnlace()`; `platforms/desktop/main.js` abre los
   enlaces externos en el navegador del sistema.
 - `avisos/avisos.json` (un aviso de bienvenida) y `avisos/LEEME.md` (cómo
-  agregar avisos). `sw.js` v18. CLAUDE.md y PENDIENTES (notificaciones
+  agregar avisos). `sw.js` v18. la guía técnica y PENDIENTES (notificaciones
   resueltas; nuevos: "Compartir el juego"; la clave ya está en la nube, falta
   protegerla con contraseña). Compilados `dist/MusicalShowdown-v1.8.apk`
   (versionCode 9) y el `.exe`.
@@ -1814,7 +1835,7 @@ mostraba 4 después de pasar por Grupal).
 - Espacios: `fitPlayers()` en `config/players.js` (nombres escritos + espacios
   vacíos hasta el mínimo); `config/index.js` la usa solo cuando cambió el tipo
   de batalla (si no, solo completa, para no borrar un espacio recién agregado).
-- `sw.js` v17 con los archivos nuevos; pruebas de `fitPlayers`; CLAUDE.md y
+- `sw.js` v17 con los archivos nuevos; pruebas de `fitPlayers`; la guía técnica y
   PENDIENTES (dos resueltos). Compilados `dist/MusicalShowdown-v1.7.apk`
   (versionCode 8) y el `.exe`.
 
@@ -1930,7 +1951,7 @@ sonido.
   `app:` como app instalada (sin service worker). Ojo: los ajustes guardados en
   el `.exe` anterior no pasan (cambió el origen).
 - `sw.js`: `CACHE_NAME` v14 y lista de archivos al día. Prueba nueva
-  `test/sonido.test.js`. Reglas 17 y 18 de INSTRUCCIONES, CLAUDE.md y CONTEXTO
+  `test/sonido.test.js`. Reglas 17 y 18 de INSTRUCCIONES, la guía técnica y CONTEXTO
   (sección 4) actualizados; el pendiente de sonidos pasa a Resueltos.
 - Compilados `dist/windows/Musical Showdown.exe` y
   `dist/MusicalShowdown-v1.4.apk` (`npm run android:release`, versionCode 5).
@@ -2255,7 +2276,7 @@ ejemplo, si el proyecto se baja de nuevo y la clave quedó solo en OneDrive).
 **Qué se hizo:** `build/android-release.js` revisa la clave **antes** de
 borrar o subir la versión; si falta, se detiene con instrucciones para copiarla
 desde la copia de seguridad. Solo crea una nueva con `--nueva-clave`.
-CLAUDE.md actualizado.
+Guía técnica actualizada.
 
 **Cómo se verificó:** se movió la carpeta de la clave, se ejecutó el script:
 salió con el aviso (código 1) y el versionCode siguió en 4; se devolvió la
@@ -2294,7 +2315,7 @@ visible; ejecutarlo y confirmar el versionCode.
   `.gitignore`), `gradlew clean assembleRelease` firmado, copia a
   `dist/MusicalShowdown-v<versión>.apk` y verifica versionCode y firma.
 - `app/build.gradle`: firma de la versión de publicación con esa clave.
-- CLAUDE.md, PENDIENTES (resuelto; nuevo: copia de seguridad de la clave).
+- la guía técnica, PENDIENTES (resuelto; nuevo: copia de seguridad de la clave).
 
 **Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
 pendiente. `npm run android:release` corrió completo: versionCode 3 → 4,
@@ -2357,7 +2378,7 @@ copia vieja con el mismo nombre); se le preguntó cómo lo pasa.
 - `build/build-android.js`: además de `Musical-Showdown.apk`, deja una copia
   `Musical-Showdown-v<versionName>.apk` para no confundirla con APKs viejos.
   (El flujo de GitHub Actions sube el mismo `Musical-Showdown.apk`; no cambia.)
-- CLAUDE.md actualizado. Propuestas de logo: tercera y cuarta tanda en la
+- Guía técnica actualizada. Propuestas de logo: tercera y cuarta tanda en la
   carpeta temporal (fuera del juego).
 
 **Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
@@ -2385,7 +2406,7 @@ traía el código nuevo.
   service workers y copias que hayan quedado.
 - `platforms/android/android/app/build.gradle`: versionCode 2, versionName
   "1.1", para ver en el celular qué versión está instalada.
-- CLAUDE.md actualizado.
+- Guía técnica actualizada.
 
 **Cómo se verificó:** `npm run lint` sin errores; `npm test` 111 pasan + 1
 pendiente; el `bundle.js` del APK nuevo trae el cambio. Compilados `.exe` y
@@ -2888,12 +2909,12 @@ las ventanas se resolvió en la parte 8.)
    - `test/gameLogic.test.js`: se quitó la prueba de `songKey`.
    - `test/relevo.test.js`: el límite 0–3.
 4. Documentación: contexto (regla de canciones repetidas y máximo de relevos),
-   `CLAUDE.md` y pendientes.
+   la guía técnica y pendientes.
 
 **Archivos tocados:** `src/js/relay.js`, `src/js/screens/relayModals.js`,
 `src/js/gameLogic.js`, `src/js/screens/verify.js`, `src/js/screens/results.js`,
 `src/js/state.js`, `test/relevo.test.js`, `test/seleccion.test.js`,
-`test/gameLogic.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, `CLAUDE.md`,
+`test/gameLogic.test.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, la guía técnica,
 `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
 
 **Verificación**
@@ -3280,7 +3301,7 @@ en la prueba.
 
 **Archivos tocados:** `src/js/pairing.js`, `src/js/gameLogic.js`,
 `src/js/groups.js`, `src/js/state.js`, `test/clasico.test.js` (nuevo),
-`test/grupos.test.js`, `test/seleccion.test.js`, `CLAUDE.md`,
+`test/grupos.test.js`, `test/seleccion.test.js`, la guía técnica,
 `CONTEXTO-MUSICAL-SHOWDOWN.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
 
 **Verificación**
@@ -3625,12 +3646,12 @@ No se tocó código.
    llamándolo con la ruta completa.
 4. GitHub Actions: el trabajo de Android ahora usa el mismo `npm run build:apk`
    y sube `dist/android/Musical-Showdown.apk`.
-5. `CLAUDE.md`: comando `build:apk`, rutas de Java y del SDK en esta PC, y la
+5. la guía técnica: comando `build:apk`, rutas de Java y del SDK en esta PC, y la
    rutina de compilar y abrirle el juego al usuario después de cambios
    visuales o de lógica.
 
 **Archivos tocados:** `build/build-android.js`, `package.json`,
-`.github/workflows/compilar.yml`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`,
+`.github/workflows/compilar.yml`, la guía técnica, `AUDITORIA-CAMBIOS.md`,
 `PENDIENTES.md`.
 
 **Verificación**
@@ -3943,7 +3964,7 @@ de agregar canciones (solo letras, sin audio). Quedó registrado al inicio de
    distribución marcada como en pausa, y una sección para mejoras visuales y de
    lógica.
 
-**Archivos tocados:** `test/seleccion.test.js` (nuevo), `CLAUDE.md`,
+**Archivos tocados:** `test/seleccion.test.js` (nuevo), la guía técnica,
 `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`. No se tocó `src/`, así que no se
 recompiló.
 
@@ -3969,12 +3990,12 @@ recompiló.
   3. No hay rutas repetidas.
 - Como `npm test` corre todos los `test/*.test.js`, la prueba también se
   ejecuta en GitHub Actions en cada envío.
-- `CLAUDE.md`: se explica qué hace la prueba nueva.
+- la guía técnica: se explica qué hace la prueba nueva.
 - Nota de la sesión anterior: la revisión en segundo plano de la compilación 3
   de GitHub no encontró la ejecución por un error en su búsqueda y se detuvo
   sin avisar. La compilación sí terminó bien.
 
-**Archivos tocados:** `test/sw.test.js` (nuevo), `CLAUDE.md`,
+**Archivos tocados:** `test/sw.test.js` (nuevo), la guía técnica,
 `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`. No se tocó `src/`, así que no se
 recompiló.
 
@@ -4003,11 +4024,11 @@ recompiló.
    - `teamOrg.js`: "¿Confirmar equipos?" + "Ya no se podrán mover jugadores
      durante la partida." (No, seguir editando / Sí, confirmar).
 3. Se actualizaron `CONTEXTO-MUSICAL-SHOWDOWN.md` (secciones 5 y 8),
-   `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (regla 10) y `CLAUDE.md`.
+   `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (regla 10) y la guía técnica.
 
 **Archivos tocados:** `src/js/screens/modals.js`, `src/js/screens/round.js`,
 `src/js/screens/teamOrg.js`, `CONTEXTO-MUSICAL-SHOWDOWN.md`,
-`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, la guía técnica, `AUDITORIA-CAMBIOS.md`,
 `PENDIENTES.md`.
 
 **Verificación**
@@ -4074,7 +4095,7 @@ teléfono (ver pendientes).
 
 **Archivos tocados:** `build/build-desktop.js`, `package.json`,
 `platforms/desktop/package.json`, `.github/workflows/compilar.yml` (nuevo),
-`CLAUDE.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+la guía técnica, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
 
 **Verificación**
 - Compilación de Windows local con el script nuevo: bien.
@@ -4100,7 +4121,7 @@ teléfono (ver pendientes).
    `build/build-desktop.js` ahora copia solo ese `.exe` a `dist/windows/`.
 
 **Archivos tocados:** `platforms/desktop/package.json`,
-`build/build-desktop.js`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+`build/build-desktop.js`, la guía técnica, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
 
 **Verificación**
 - **No se pudo compilar:** falla en el mismo punto, porque el Modo de
@@ -4152,7 +4173,7 @@ teléfono (ver pendientes).
 
 **Archivos tocados:** `build/build-desktop.js`, `build/build-android.js`,
 `platforms/android/package.json`, `platforms/android/package-lock.json`,
-`platforms/desktop/package-lock.json` (nuevo), `CLAUDE.md`,
+`platforms/desktop/package-lock.json` (nuevo), la guía técnica,
 `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
 
 **Verificación**
@@ -4169,10 +4190,10 @@ se subió a GitHub.
 
 ---
 
-## 2026-09-26 — Sesión 1: arranque con Claude Code
+## 2026-09-26 — Sesión 1: arranque del registro
 
 **Qué se hizo**
-1. Se creó `CLAUDE.md` (en español) con comandos, arquitectura y
+1. Se creó la guía técnica (en español) con comandos, arquitectura y
    referencias a los documentos de contexto e instrucciones.
 2. **Bug corregido en `src/sw.js`**: la lista `ASSETS` del service worker
    todavía apuntaba a `./js/screens/config.js`, que ya no existe (se
@@ -4186,9 +4207,9 @@ se subió a GitHub.
 3. Se crearon `AUDITORIA-CAMBIOS.md` (este archivo) y `PENDIENTES.md`.
 4. El usuario agregó `CONTEXTO-MUSICAL-SHOWDOWN.md` e
    `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (historial y reglas de trabajo de
-   las sesiones con Claude en el chat).
+   las sesiones anteriores).
 
-**Archivos tocados:** `src/sw.js`, `CLAUDE.md`, `AUDITORIA-CAMBIOS.md`,
+**Archivos tocados:** `src/sw.js`, la guía técnica, `AUDITORIA-CAMBIOS.md`,
 `PENDIENTES.md`.
 
 **Verificación**
