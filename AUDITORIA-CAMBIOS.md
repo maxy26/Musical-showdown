@@ -12,6 +12,31 @@
 
 ---
 
+## 2026-10-24 — Catálogo: la misma canción con una palabra familiar; preguntas en pendientes
+
+**Del usuario:** aclaró que no quería cambiar la canción sino **una palabra más
+familiar para la misma canción**; que las preguntas sin responder queden en
+`PENDIENTES.md`; y una recomendación de mejora por cada publicación.
+
+**Qué se hizo:**
+- `src/js/data/songs.js`: se volvieron a poner las canciones originales en 6
+  casos, con una palabra del título: "Desnúdate Mujer" (`mujer`), "Propuesta
+  Indecente" (`propuesta`), "Pégame Tu Vicio" (`pégame`), "Contrabando y
+  Traición" (`traición`), "Por Tu Maldito Amor" (`amor`) y "Nena Maldición"
+  (`nena`). Se quitaron los reemplazos hechos antes para ellas.
+- Quedan 7 con canción de reemplazo (Sobredosis, Abusadora, Safaera, La Diabla,
+  Los Infieles, Bichota, Mamichula): el título solo tiene la palabra dudosa y
+  no se pudo confirmar otra con la letra. Pregunta 1 de pendientes.
+- `PENDIENTES.md`: sección "Preguntas para el usuario (sin responder)" (12) y
+  tabla "Mejora recomendada por publicación".
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 169 bien. Compilados: demo,
+`.exe`, APK y personal.
+
+**Qué quedó abierto:** las preguntas de `PENDIENTES.md`.
+
+---
+
 ## 2026-10-24 — Arreglos de la revisión de la demo (compartir, texto de Premium, pruebas)
 
 **Del usuario:** que se arreglen los puntos 1, 2 y 3 de la revisión y se

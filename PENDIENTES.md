@@ -18,6 +18,57 @@
 > ejemplo, la fuente legal de letras o la firma del `.exe`) se dejan **para el
 > final**, aunque sean críticos. Se sigue con el resto.
 
+## ❓ Preguntas para el usuario (sin responder)
+
+> Lo que falta que el usuario conteste (pedido del 24-10-2026). Al contestar,
+> pasar la respuesta a su sección y quitarla de aquí.
+
+1. **Palabra familiar para 7 canciones** (catálogo "apto para toda la familia"):
+   el usuario pidió **la misma canción con otra palabra más familiar**, no
+   cambiar la canción. En 6 ya se hizo con una palabra del título ("mujer",
+   "propuesta", "pégame", "traición", "amor", "nena"). En estas 7 el título
+   solo tiene la palabra dudosa y no se pudo confirmar otra con la letra, así
+   que **por ahora siguen puestas canciones de reemplazo**: "Sobredosis"
+   (Frío, Frío), "Abusadora" (El Tiburón), "Safaera" (Provenza), "La Diabla"
+   (Un Beso), "Los Infieles" (Dile al Amor), "Bichota" (Mañana Será Bonito) y
+   "Mamichula" (Todo de Ti). Falta: que el usuario diga una palabra del coro
+   de cada una, o que se busque la letra con su OK. "Safaera" es muy explícita:
+   ¿se queda o se quita?
+2. **Revisar las palabras nuevas** que se escribieron de memoria (24-10-2026)
+   contra las letras.
+3. **Otras canciones que podrían no ser familiares:** "Odio", "La Bebé
+   (Remix)", "Jefe de Jefes", "Te Boté", "Hasta el Amanecer". ¿Se cambia la
+   palabra o se dejan?
+4. **Mejoras del proyecto:** cuál se hace primero (ver "Mejora recomendada por
+   publicación" abajo).
+5. **Demo de la Microsoft Store:** reservar "Musical Showdown Demo" en Partner
+   Center y pasar su identidad y Store ID.
+6. **Catálogo:** revisar por tandas de 20 los 6 géneros sin revisar (balada,
+   cumbia, bachata, merengue, regional mexicano, trap y urbano).
+7. **Diseño del sistema de pago:** terminarlo antes de seguir con Google Play.
+8. **Google Play:** ¿subir nuestra clave de firma (recomendado) o dejar que
+   Google firme con la suya?
+9. **Clave de firma de Android:** protegerla con contraseña (OneDrive o ZIP
+   cifrado).
+10. **IA que reconoce la canción:** ¿el moderador puede corregirla? ¿vale decir
+    el título? ¿qué servicio de letras (costo)?
+11. **Textos del juego:** cuáles quiere editar.
+12. **Probar:** el `.AppImage` en Linux, el `.exe` en otra PC y cantar de
+    verdad los 3 segundos (`UMBRAL_VOZ`).
+
+## 🚀 Mejora recomendada por publicación (24-10-2026)
+
+> Una mejora por cada publicación o actualización prevista; el usuario elige.
+
+| Publicación | Mejora recomendada | Por qué |
+|---|---|---|
+| Demo de la Microsoft Store | Revisar los 6 géneros sin revisar y las palabras nuevas | La ficha dice "200 canciones": es lo primero que se nota al jugar |
+| Completa de la Microsoft Store (PC) | Compras de Premium en la Store | Sin eso, en PC no se pueden abrir Alternativo 2 ni escuchar el canto |
+| Google Play, prueba cerrada (14 días) | Recordar a los jugadores entre partidas | Los 12+ probadores juegan varias veces; ahorra escribir los nombres |
+| Google Play, publicación abierta | Vibración en el celular y pedir una calificación una sola vez | Se siente como un pulsador y las reseñas suben el juego en la tienda |
+| Actualización 1.25 de GitHub | Historial y récords del grupo | Da ganas de revancha y es un cambio notable para anunciar en la campana |
+| Versión 2.0 | La IA que reconoce la canción | Es el último gran paso: marcar solo Correcta / Incorrecta |
+
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
@@ -302,13 +353,13 @@
     parte 30). **200 canciones cargadas, 20 por género** (AUDITORÍA parte 31):
     - Revisadas por el usuario: reggaetón, pop y rock en español (las aprobó
       "por ahora") y **salsa** (21-10-2026).
-    - **21-10-2026, cambios para toda la familia:** "Desnúdate Mujer" →
-      "Todo Tiene Su Final"; "Propuesta Indecente" → "Corazón Sin Cara";
-      "Sobredosis" → "Frío, Frío"; "Abusadora" → "El Tiburón"; "Pégame Tu
-      Vicio" → "Muchacho Malo"; "Contrabando y Traición" → "Las Mañanitas";
-      "Safaera" → "Provenza"; y "borracho" se quitó de "Lamento Boliviano".
-      Quedan por decidir con el usuario algunas dudosas: "maldito" / "Nena
-      Maldición", "La Diabla", "Los Infieles", "Bichota", "Mamichula".
+    - **Criterio (usuario, 24-10-2026): la misma canción, con una palabra más
+      familiar; no se cambia la canción.** Hecho en 7 canciones: "Desnúdate
+      Mujer" (palabra "mujer"), "Propuesta Indecente" ("propuesta"), "Pégame Tu
+      Vicio" ("pégame"), "Contrabando y Traición" ("traición"), "Por Tu Maldito
+      Amor" ("amor"), "Nena Maldición" ("nena") y "Lamento Boliviano" (sin
+      "borracho"). Para otras 7 siguen puestas canciones de reemplazo mientras
+      se confirma una palabra (ver "Preguntas para el usuario", punto 1).
     - Armadas y cargadas sin revisión, a pedido del usuario:
       balada, cumbia, bachata, merengue, regional mexicano y trap y
       urbano.

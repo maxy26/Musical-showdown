@@ -106,7 +106,7 @@ export const SONG_DB = [
   c("Una Aventura", "Grupo Niche", "salsa", "aventura"),
   c("Conciencia", "Gilberto Santa Rosa", "salsa", "conciencia"),
   c("Cuenta Conmigo", "Jerry Rivera", "salsa", "cuenta"),
-  c("Todo Tiene Su Final", "Willie Colón y Héctor Lavoe", "salsa", "final", ["siempre"]),
+  c("Desnúdate Mujer", "Frankie Ruiz", "salsa", "mujer"),
 
   // ---------- Balada (tanda 5) ----------
   c("Amor Eterno", "Rocío Dúrcal", "balada", "eterno", ["tristeza", "ojos"]),
@@ -153,16 +153,16 @@ export const SONG_DB = [
   c("Cumbia Sobre el Río", "Celso Piña", "cumbia", "río"),
 
   // ---------- Bachata (tanda 7) ----------
-  c("Corazón Sin Cara", "Prince Royce", "bachata", "cara", ["corazón"]),
+  c("Propuesta Indecente", "Romeo Santos", "bachata", "propuesta"),
   c("Eres Mía", "Romeo Santos", "bachata", "mía"),
   c("Imitadora", "Romeo Santos", "bachata", "imitadora"),
   c("Llévame Contigo", "Romeo Santos", "bachata", "llévame"),
   c("Odio", "Romeo Santos ft. Drake", "bachata", "odio"),
   c("Frío, Frío", "Juan Luis Guerra", "bachata", "frío"),
-  c("La Diabla", "Romeo Santos", "bachata", "diabla"),
+  c("Un Beso", "Aventura", "bachata", "beso"),
   c("Obsesión", "Aventura", "bachata", "obsesión"),
   c("Hermanita", "Aventura", "bachata", "hermanita"),
-  c("Los Infieles", "Aventura", "bachata", "infieles"),
+  c("Dile al Amor", "Aventura", "bachata", "dile", ["amor"]),
   c("Mi Corazoncito", "Aventura", "bachata", "corazoncito"),
   c("El Perdedor", "Aventura", "bachata", "perdedor"),
   c("Inmortal", "Aventura", "bachata", "inmortal"),
@@ -192,7 +192,7 @@ export const SONG_DB = [
   c("El Jardinero", "Wilfrido Vargas", "merengue", "jardinero"),
   c("El Tiburón", "Proyecto Uno", "merengue", "tiburón"),
   c("El Africano", "Wilfrido Vargas", "merengue", "africano"),
-  c("Muchacho Malo", "Olga Tañón", "merengue", "muchacho"),
+  c("Pégame Tu Vicio", "Eddy Herrera", "merengue", "pégame"),
   c("Volvió Juanita", "Milly Quezada", "merengue", "juanita"),
   c("Compadre Pedro Juan", "Luis Alberti", "merengue", "compadre"),
 
@@ -201,7 +201,7 @@ export const SONG_DB = [
   c("Volver, Volver", "Vicente Fernández", "regional", "volver", ["brazos"]),
   c("Hermoso Cariño", "Vicente Fernández", "regional", "cariño"),
   c("Mujeres Divinas", "Vicente Fernández", "regional", "divinas", ["mujeres"]),
-  c("Por Tu Maldito Amor", "Vicente Fernández", "regional", "maldito", ["amor"]),
+  c("Por Tu Maldito Amor", "Vicente Fernández", "regional", "amor"),
   c("Cielito Lindo", "Tradicional mexicana", "regional", "cielito", ["llores"]),
   c("México Lindo y Querido", "Jorge Negrete", "regional", "méxico"),
   c("La Bikina", "Rubén Fuentes", "regional", "bikina"),
@@ -210,7 +210,7 @@ export const SONG_DB = [
   c("La Media Vuelta", "José Alfredo Jiménez", "regional", "media", ["vuelta"]),
   c("Paloma Negra", "Lola Beltrán", "regional", "paloma", ["negra"]),
   c("Un Puño de Tierra", "Antonio Aguilar", "regional", "puño", ["tierra"]),
-  c("Las Mañanitas", "Tradicional mexicana", "regional", "mañanitas", ["despierta"]),
+  c("Contrabando y Traición", "Los Tigres del Norte", "regional", "traición"),
   c("La Puerta Negra", "Los Tigres del Norte", "regional", "puerta", ["negra"]),
   c("Jefe de Jefes", "Los Tigres del Norte", "regional", "jefes"),
   c("Golpes en el Corazón", "Los Tigres del Norte", "regional", "golpes", ["corazón"]),
@@ -220,7 +220,7 @@ export const SONG_DB = [
 
   // ---------- Trap y urbano (tanda 10) ----------
   c("Sola", "Anuel AA", "urbano", "sola"),
-  c("Bichota", "Karol G", "urbano", "bichota"),
+  c("Mañana Será Bonito", "Karol G", "urbano", "mañana", ["bonito"]),
   c("TQG", "Karol G ft. Shakira", "urbano", "grande"),
   c("Shakira: Bzrp Music Sessions, Vol. 53", "Bizarrap ft. Shakira", "urbano", "facturan", ["lloran"]),
   c("Quevedo: Bzrp Music Sessions, Vol. 52", "Bizarrap ft. Quevedo", "urbano", "quédate"),
@@ -234,8 +234,8 @@ export const SONG_DB = [
   c("La Jumpa", "Arcángel ft. Bad Bunny", "urbano", "jumpa"),
   c("Te Felicito", "Shakira ft. Rauw Alejandro", "urbano", "felicito"),
   c("Adán y Eva", "Paulo Londra", "urbano", "adán", ["eva"]),
-  c("Nena Maldición", "Paulo Londra", "urbano", "maldición"),
-  c("Mamichula", "Trueno ft. Nicki Nicole", "urbano", "mamichula"),
+  c("Nena Maldición", "Paulo Londra", "urbano", "nena"),
+  c("Todo de Ti", "Rauw Alejandro", "urbano", "todo"),
   c("Despechá", "Rosalía", "urbano", "despechá"),
   c("Saoko", "Rosalía", "urbano", "saoko"),
   c("Feliz Cumpleaños Ferxxo", "Feid", "urbano", "cumpleaños"),];

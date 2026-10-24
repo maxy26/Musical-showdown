@@ -138,6 +138,8 @@ Alternativo 2 y escuchar el canto quedan bloqueados para todos. Avisarle al
 usuario antes de publicar.
 
 **Del usuario**
+- Las preguntas sin responder están en `PENDIENTES.md` (sección "Preguntas para el
+  usuario"), junto con una mejora recomendada por publicación.
 - Proteger con contraseña la copia de la clave de firma (Almacén personal de
   OneDrive o un ZIP cifrado).
 - Probar el `.AppImage` en su Linux y el `.exe` en otra PC.
