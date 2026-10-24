@@ -12,6 +12,97 @@
 
 ---
 
+## 2026-10-24 — Arreglos de la revisión de la demo (compartir, texto de Premium, pruebas)
+
+**Del usuario:** que se arreglen los puntos 1, 2 y 3 de la revisión y se
+terminen los pendientes (compilar todo y guardar en GitHub).
+
+**Qué se hizo:**
+1. **Compartir el podio** (`src/js/compartir.js`): en la demo sin Store ID ya
+   no lleva el enlace de GitHub; el texto y la imagen dicen "Búscalo gratis en
+   la Microsoft Store" (`lineaDeDescarga`). Cuando `tienda.js` tenga el enlace
+   de la demo, se usa ese. Prueba nueva en `test/compartir.test.js`.
+2. **Ventana "Versión completa"** (`screens/modesManual.js`): solo lista
+   Alternativo 1, con reloj. Se quitaron Alternativo 2 y escuchar el canto
+   porque son de Premium y en PC todavía no se compra.
+3. **Pruebas de pantallas de la demo** (`test/e2e/demo.spec.mjs`, 4 pruebas
+   por tamaño): sin "Vincular", ayuda solo la primera vez, la campana no pide
+   `/releases` y la ventana de Ajustes (sin Premium ni enlaces). Se comprobó
+   que la de Vincular falla si se quita el cambio de `vinculo.js`.
+- `sw.js` v31.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 169 bien; pruebas de
+pantallas: 50 bien (con Brave: Edge se actualizó hoy y ya no abre, ver
+`PENDIENTES.md`). Compilados: demo, `.exe`, APK y personal.
+
+**Qué quedó abierto:** que el usuario pruebe la demo; las canciones dudosas
+("maldito", "La Diabla", "Los Infieles", "Bichota", "Mamichula"); revisar
+las 8 palabras nuevas contra las letras; Edge para las pruebas.
+
+---
+
+## 2026-10-21 — Catálogo para toda la familia; salsa revisada
+
+**Del usuario:** aprobó la tanda de salsa y pidió que las palabras sean para
+toda la familia.
+
+**Qué se hizo (`src/js/data/songs.js`):** se revisó todo el catálogo y se
+cambiaron 7 canciones: "Desnúdate Mujer" → "Todo Tiene Su Final" (Willie
+Colón y Héctor Lavoe); "Propuesta Indecente" → "Corazón Sin Cara" (Prince
+Royce); "Sobredosis" → "Frío, Frío" (Juan Luis Guerra); "Abusadora" → "El
+Tiburón" (Proyecto Uno); "Pégame Tu Vicio" → "Muchacho Malo" (Olga Tañón);
+"Contrabando y Traición" → "Las Mañanitas"; "Safaera" → "Provenza" (Karol G).
+Se quitó "borracho" de "Lamento Boliviano". Regla nueva en `PENDIENTES.md`
+(criterio del catálogo) y en la guía técnica.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 168 bien. Compilados:
+demo, `.exe`, APK y personal.
+
+**Qué quedó abierto:** las canciones dudosas ("maldito", "La Diabla", "Los
+Infieles", "Bichota", "Mamichula") las decide el usuario; siguen los otros 6
+géneros sin revisar.
+
+---
+
+## 2026-10-21 — PRUEBA: mejoras de la demo (de la más fácil a la más compleja)
+
+**Del usuario:** le gustaron las 8 mejoras recomendadas para la demo; pidió
+hacerlas de la más fácil a la más compleja.
+
+**Qué se hizo:**
+1. **Permisos del paquete:** `build/build-desktop.js` arma para la demo de la
+   Store un archivo de configuración aparte (en la carpeta temporal), porque
+   `-c.appx.capabilities` por consola no reemplaza la lista. El paquete pide
+   solo `internetClient` y `runFullTrust`. Antes declaraba micrófono y red
+   local, aunque `TIENDAS.md` decía que no.
+2. **Sin "📱 Vincular":** `puedeSerPantalla()` y `puedeSerControl()`
+   (`vinculo.js`) dan `false` en la demo; se van los botones del inicio y de la
+   ronda.
+3. **Campana:** en la demo, `cargarAvisos()` (`avisos.js`) no pide las
+   versiones de GitHub; las novedades de `avisos.json` siguen.
+4. **Ventana "Versión completa"** (`abrirVersionCompleta()` en
+   `screens/modesManual.js`): qué trae (Alternativo 1; con Premium,
+   Alternativo 2 y escuchar el canto) y "Muy pronto en la Microsoft Store".
+   Ya no lleva a descargar desde GitHub (se quitó `DESCARGA_COMPLETA`).
+5. **"Cómo se juega"** se abre sola la primera vez en la demo (`menu.js`,
+   clave `musical-showdown:vio-ayuda`).
+6. **"⭐ Versión completa"** en Ajustes de la demo.
+7. **Podio:** botón "✨ ¿Les gustó? Mira qué trae la versión completa".
+8. Revisión de los 7 géneros sin revisar: se le mostró la tanda de salsa.
+- Estilos nuevos `.version-completa-lista` y `.version-completa-pronto`;
+  `sw.js` v30. Comentarios viejos de `roundResult.js` y `results.js` ("demo:
+  espacio para un anuncio") corregidos: los anuncios no van en la demo.
+
+**Cómo se verificó:** lint sin avisos; `npm test`: 168 bien; pruebas de
+pantallas: 42 bien. Se leyó `AppxManifest.xml` del paquete de la demo:
+solo `internetClient` y `runFullTrust`. Compilados: demo, `.exe`, APK y
+personal. Se le abrió la demo.
+
+**Qué quedó abierto:** que el usuario pruebe y confirme; la revisión de los
+géneros (empieza por salsa).
+
+---
+
 ## 2026-10-21 — Demo confirmada; documentos sin menciones de herramientas
 
 **Del usuario:**

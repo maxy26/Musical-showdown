@@ -34,6 +34,14 @@
 
 ## 🔧 Entorno / herramientas
 
+- [ ] 🟡 **Las pruebas de pantallas no abren con Edge desde el 24-10-2026.** Edge
+  se actualizó a 156.0.4314.42 y en modo sin ventana se cierra al abrir
+  (código 0xC0000135, falta una librería); abrirlo directo también falla.
+  Mientras tanto se corrieron con Brave (archivo temporal que apunta a su
+  `brave.exe`, ya borrado). Reintentar tras reiniciar la PC o reinstalar
+  Edge; si sigue, cambiar `channel: "msedge"` de `playwright.config.mjs` por
+  la ruta de Brave. En GitHub Actions no afecta (usa el Chromium de Playwright).
+
 - [ ] 🟢 **Electron no se puede ejecutar en modo desarrollo**
   (`npx electron .` en `platforms/desktop`). npm 11 bloqueó su script de
   instalación, que descarga el binario. No afecta la compilación. Si hace
@@ -80,10 +88,29 @@
     subirla quiere ver recomendaciones de mejoras para la demo.
   - Qué tiene (AUDITORÍA partes 35 y 36):
     - se juega solo Clásico;
-    - Alternativo 1 con 🔒 y el enlace a la versión completa;
+    - Alternativo 1 con 🔒; al tocarlo, la ventana "Versión completa";
     - Alternativo 2 no aparece;
     - no escucha el canto (solo "Buscar canción");
     - sin anuncios; etiqueta "Versión · demo".
+  - **Mejoras del 21-10-2026 (EN PRUEBA, AUDITORÍA del 21-10):**
+    1. el paquete de la Store ya no pide micrófono ni red local;
+    2. sin "📱 Vincular";
+    3. la campana no muestra versiones de GitHub (la Store la actualiza sola);
+    4. ventana "Versión completa" (qué trae, "Muy pronto en la Microsoft
+       Store"), sin enlace de descarga a GitHub. **Solo lista Alternativo 1**:
+       Alternativo 2 y escuchar el canto son de Premium, que en PC aún no se
+       puede comprar; agregarlos cuando haya compras en la Store;
+    5. "Cómo se juega" se abre sola la primera vez;
+    6. "⭐ Versión completa" en Ajustes;
+    7. en el podio, "✨ ¿Les gustó? Mira qué trae la versión completa".
+    8. "Compartir el podio" de la demo no lleva el enlace de GitHub (dice
+       "Búscalo gratis en la Microsoft Store") hasta tener el Store ID de la
+       demo (`tienda.js`);
+    9. pruebas de pantallas de la demo (`test/e2e/demo.spec.mjs`);
+    10. Falta: revisar con el usuario los 7 géneros sin revisar (ver "Catálogo
+       grande sin letras"); empezó por salsa.
+  - Cuando la completa esté en la Store, cambiar "Muy pronto" por el enlace a
+    ella (`abrirVersionCompleta` en `screens/modesManual.js`).
   - Va como **otro producto** en Partner Center, "Musical Showdown Demo". El
     producto "Musical Showdown" (`9PP0CFQWMWKT`) queda para la versión
     completa, que se sube después.
@@ -267,14 +294,23 @@
     - Palabras de la parte más famosa o pegadiza (el coro).
     - Una **palabra clave** propia de cada canción, más palabras compartidas.
     - Ronda mezclada: mitad clave, mitad compartida.
+    - **Apto para toda la familia (usuario, 21-10-2026):** ni palabras ni
+      canciones de contenido adulto, drogas o narco.
   - **Géneros (10):** pop, rock en español, reggaetón, salsa, balada, cumbia,
     bachata, merengue, regional mexicano y trap/urbano.
   - **Avance (12-10-2026):** formato nuevo hecho y confirmado (AUDITORÍA
     parte 30). **200 canciones cargadas, 20 por género** (AUDITORÍA parte 31):
     - Revisadas por el usuario: reggaetón, pop y rock en español (las aprobó
-      "por ahora").
+      "por ahora") y **salsa** (21-10-2026).
+    - **21-10-2026, cambios para toda la familia:** "Desnúdate Mujer" →
+      "Todo Tiene Su Final"; "Propuesta Indecente" → "Corazón Sin Cara";
+      "Sobredosis" → "Frío, Frío"; "Abusadora" → "El Tiburón"; "Pégame Tu
+      Vicio" → "Muchacho Malo"; "Contrabando y Traición" → "Las Mañanitas";
+      "Safaera" → "Provenza"; y "borracho" se quitó de "Lamento Boliviano".
+      Quedan por decidir con el usuario algunas dudosas: "maldito" / "Nena
+      Maldición", "La Diabla", "Los Infieles", "Bichota", "Mamichula".
     - Armadas y cargadas sin revisión, a pedido del usuario:
-      salsa, balada, cumbia, bachata, merengue, regional mexicano y trap y
+      balada, cumbia, bachata, merengue, regional mexicano y trap y
       urbano.
   - **En pausa hasta que el usuario pida retomarlo (12-10-2026):** "tenlo en
     cuenta para las futuras actualizaciones oficiales; haz lo mismo con los

@@ -13,13 +13,20 @@
  * Nada toca el DOM al cargar el módulo.
  */
 import { tiendaActual } from "./tienda.js";
+import { esDemo } from "./edicion.js";
 import { buildPodium } from "./podium.js";
 import { formatPoints } from "./scoring.js";
 import { nativo } from "./plataforma.js";
 
-// Desde una tienda, el enlace es el de la tienda (tienda.js)
-export const ENLACE_DESCARGA = tiendaActual()?.enlace || "https://github.com/maxy26/Musical-showdown/releases";
-export const TEXTO_COMPARTIR = `🎤 ¡Jugamos Musical Showdown! Una palabra, y a cantar la canción que la tenga.\nDescárgalo gratis: ${ENLACE_DESCARGA}`;
+// Desde una tienda, el enlace es el de la tienda (tienda.js). La demo de la Store
+// no manda a descargar por fuera: sin su Store ID no lleva enlace (usuario, 21-10-2026).
+const SIN_ENLACE = esDemo() && !tiendaActual();
+export const ENLACE_DESCARGA = SIN_ENLACE ? "" : tiendaActual()?.enlace || "https://github.com/maxy26/Musical-showdown/releases";
+/** Última línea del texto compartido; sin enlace, dónde buscar el juego. */
+export function lineaDeDescarga(enlace) {
+  return enlace ? `Descárgalo gratis: ${enlace}` : "Búscalo gratis en la Microsoft Store";
+}
+export const TEXTO_COMPARTIR = `🎤 ¡Jugamos Musical Showdown! Una palabra, y a cantar la canción que la tenga.\n${lineaDeDescarga(ENLACE_DESCARGA)}`;
 
 const C = { fondo: "#141833", brillo: "#3a2f7a", oro: "#FFD23F", rosa: "#FF5C7A", turquesa: "#2EC4B6", texto: "#F5F0FF", tenue: "#B9B4D9", bloque: "#2b3166" };
 
@@ -83,7 +90,7 @@ export async function imagenDelPodio({ scores, winner, mvpDe = () => [] }) {
   // Invitación y enlace
   ctx.fillStyle = "#00000055"; redondeado(ctx, 60, 1140, W - 120, 160, 32); ctx.fill();
   texto(ctx, "🎤 ¡Juega Musical Showdown!", W / 2, 1205, { tam: 46, color: C.oro });
-  texto(ctx, `Descárgalo gratis: ${tiendaActual()?.corto || "github.com/maxy26/Musical-showdown"}`, W / 2, 1265, { tam: 30, fuente: "Nunito", peso: 800, color: C.texto, ancho: 900 });
+  texto(ctx, SIN_ENLACE ? lineaDeDescarga("") : `Descárgalo gratis: ${tiendaActual()?.corto || "github.com/maxy26/Musical-showdown"}`, W / 2, 1265, { tam: 30, fuente: "Nunito", peso: 800, color: C.texto, ancho: 900 });
   const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));
   return { blob, url: window.URL.createObjectURL(blob) };
 }

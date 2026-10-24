@@ -65,8 +65,12 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   - el paquete `.appx` se arma con `npm run build:store-windows`.
 - **Demo para la Microsoft Store**, preparada (`npm run build:store-demo`):
   - solo Clásico jugable;
-  - Alternativo 1 con candado y enlace a la versión completa;
-  - sin Alternativo 2 y sin escuchar el canto.
+  - Alternativo 1 con candado y la ventana "Versión completa" (también en
+    Ajustes y en el podio);
+  - sin Alternativo 2, sin escuchar el canto y sin vincular; al compartir el
+    podio no lleva enlace de GitHub;
+  - "Cómo se juega" se abre sola la primera vez;
+  - el paquete no pide micrófono ni red local.
 - **Premium (Google Play)**:
   - el sistema de compras está programado (complemento propio
     `ComprasPlugin.java` + `compras.js` + ventana `screens/premium.js`) y

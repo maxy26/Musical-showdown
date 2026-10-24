@@ -12,6 +12,7 @@
  * puede importar desde Node (pruebas).
  */
 import { tiendaActual } from "./tienda.js";
+import { esDemo } from "./edicion.js";
 
 export const URL_VERSIONES = "https://api.github.com/repos/maxy26/Musical-showdown/releases?per_page=5";
 export const URL_AVISOS = "https://raw.githubusercontent.com/maxy26/Musical-showdown/main/avisos/avisos.json";
@@ -163,7 +164,10 @@ let estado = null; // { avisos, sinRed }
  */
 export async function cargarAvisos(versionInstalada, forzar = false) {
   if (estado && !forzar) return estado;
-  const [versiones, archivo] = await Promise.allSettled([traer(URL_VERSIONES), traer(URL_AVISOS)]);
+  const [versiones, archivo] = await Promise.allSettled([
+    esDemo() ? Promise.resolve([]) : traer(URL_VERSIONES), // la demo de la Store se actualiza sola: sin avisos de versiones de GitHub
+    traer(URL_AVISOS),
+  ]);
   const recibidos = leer(CLAVE_RECIBIDOS, []);
   if (versiones.status === "rejected" && archivo.status === "rejected") {
     estado = { avisos: unirConRecibidos(leer(CLAVE_GUARDADOS, []), recibidos, versionInstalada), sinRed: true };

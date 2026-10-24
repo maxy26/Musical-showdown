@@ -67,7 +67,7 @@ export function screenRoundResultIncorrect() {
     state.screen = "round";
     render();
   };
-  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // demo: espacio para un anuncio (anuncios.js)
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // espacio para un anuncio (anuncios.js)
   return root;
 }
 
@@ -112,6 +112,6 @@ export function screenRoundResult() {
     }
     render();
   };
-  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // demo: espacio para un anuncio (anuncios.js)
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("resultado")); // espacio para un anuncio (anuncios.js)
   return root;
 }

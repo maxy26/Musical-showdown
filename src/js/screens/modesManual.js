@@ -8,7 +8,6 @@
  */
 import { modeName, modesFor } from "./config/modes.js";
 import { modoBloqueado, modoOculto, esDemo, premiumActivo, DE_PAGO } from "../edicion.js";
-import { abrirEnlace } from "../plataforma.js";
 import { abrirPremium } from "./premium.js";
 import { openSheet } from "./sheet.js";
 
@@ -143,30 +142,39 @@ export function buildModesManual({ battleType, current, onChoose }) {
   return list;
 }
 
-/** Página de descarga de la versión completa (mientras no esté en la tienda). */
-export const DESCARGA_COMPLETA = "https://github.com/maxy26/Musical-showdown/releases/latest";
-
 /**
- * Al tocar un modo con 🔒 (edicion.js):
- *   - en la demo, explica que está en la versión completa y da el enlace para
- *     descargarla (usuario, 13-10-2026);
- *   - en la versión completa (Alternativo 2), que viene con Premium (premium.js).
+ * Demo: qué trae la versión completa (usuario, 21-10-2026). Se abre al tocar un
+ * modo con 🔒 (con su nombre), desde Ajustes y desde el podio. No lleva a
+ * descargar nada: la Store no deja mandar a bajar el juego por fuera, y la
+ * completa todavía no está publicada en ella. Solo lista lo que la completa de PC
+ * ya trae: Alternativo 2 y escuchar el canto son de Premium, que en PC aún no se
+ * puede comprar (premium.js); agregarlos aquí cuando haya compras en la Store.
  */
-function avisoVersionCompleta(nombre) {
+export function abrirVersionCompleta(nombre = "") {
   const body = document.createElement("div");
   body.className = "version-completa";
-  body.innerHTML = esDemo()
-    ? `<div class="version-completa-icono">🔒</div>
-      <p><b>${nombre}</b> está en la versión completa de Musical Showdown.</p>
-      <p class="small-note">En esta demo puedes jugar el modo <b>Clásico</b>, Individual o en equipos, con todas las canciones.</p>
-      <button type="button" class="btn btn-primary btn-block" id="descargar-completa">⬇️ Descargar la versión completa</button>`
-    : `<div class="version-completa-icono">🔒</div>
+  body.innerHTML = `<div class="version-completa-icono">${nombre ? "🔒" : "⭐"}</div>
+    <p>${nombre ? `<b>${nombre}</b> está en la versión completa de Musical Showdown.` : "La versión completa de Musical Showdown trae:"}</p>
+    <ul class="version-completa-lista">
+      <li>🎶 El modo <b>${modeName("alternativo1")}</b>, con reloj</li>
+    </ul>
+    <p class="small-note">En esta demo puedes jugar el modo <b>${modeName("clasico")}</b>, Individual o en equipos, con todas las canciones.</p>
+    <p class="version-completa-pronto">Muy pronto en la Microsoft Store.</p>`;
+  openSheet({ title: "Versión completa", body });
+}
+
+/**
+ * Al tocar un modo con 🔒 (edicion.js): en la demo, qué trae la versión
+ * completa; en la versión completa (Alternativo 2), que viene con Premium.
+ */
+function avisoVersionCompleta(nombre) {
+  if (esDemo()) { abrirVersionCompleta(nombre); return; }
+  const body = document.createElement("div");
+  body.className = "version-completa";
+  body.innerHTML = `<div class="version-completa-icono">🔒</div>
       <p><b>${nombre}</b> viene con <b>Musical Showdown Premium</b>.</p>
       <p class="small-note">Clásico y Alternativo 1 siguen gratis.</p>
       <button type="button" class="btn btn-primary btn-block" id="ver-premium">⭐ Ver Premium</button>`;
-  const boton = body.querySelector("#descargar-completa");
-  if (boton) boton.onclick = () => abrirEnlace(DESCARGA_COMPLETA);
-  const premium = body.querySelector("#ver-premium");
-  if (premium) premium.onclick = () => abrirPremium();
-  openSheet({ title: esDemo() ? "Versión completa" : "Modo de pago", body });
+  body.querySelector("#ver-premium").onclick = () => abrirPremium();
+  openSheet({ title: "Modo de pago", body });
 }

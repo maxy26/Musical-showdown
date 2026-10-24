@@ -4,7 +4,7 @@ import { render } from "../router.js";
 import { ICONS } from "../icons.js";
 import { openHelp, showToast, showConfirm } from "./modals.js";
 import { openSheet } from "./sheet.js";
-import { buildModesManual, modeAllowed } from "./modesManual.js";
+import { buildModesManual, modeAllowed, abrirVersionCompleta } from "./modesManual.js";
 import { modeName } from "./config/modes.js";
 import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } from "../settings.js";
 import { refreshMusic, volumen } from "../sound.js";
@@ -131,6 +131,7 @@ export function settingsBody() {
     ${controlConectado() ? `<button type="button" class="btn btn-secondary btn-block" id="btn-desvincular">📺 Desvincular de la PC</button>` : ""}
     ${esAppInstalada() ? `<button type="button" class="btn btn-danger btn-block home-exit" id="btn-exit">🚪 Salir del juego</button>` : ""}
     ${EDICION === "completa" || EDICION === "personal" ? `<button type="button" class="btn ${premiumActivo() ? "btn-premium-activo" : "btn-primary"} btn-block" id="btn-premium">${premiumActivo() ? "⭐ Premium activo" : "⭐ Premium"}</button>` : ""}
+    ${esDemo() ? `<button type="button" class="btn btn-primary btn-block" id="btn-completa">⭐ Versión completa</button>` : ""}
     <button type="button" class="btn btn-ghost btn-block" id="btn-privacidad">🔒 Política de privacidad</button>
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
@@ -158,6 +159,8 @@ export function settingsBody() {
   if (desvincular) desvincular.onclick = preguntarDesvincular;
   // Política de privacidad (la piden las tiendas; página en docs/privacidad, GitHub Pages)
   body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(POLITICA_PRIVACIDAD);
+  const completa = body.querySelector("#btn-completa");
+  if (completa) completa.onclick = () => abrirVersionCompleta();
   const premium = body.querySelector("#btn-premium");
   if (premium) premium.onclick = () => abrirPremium();
   const salir = body.querySelector("#btn-exit");
@@ -189,6 +192,17 @@ export function settingsBody() {
   }));
   paint();
   return body;
+}
+
+/** ¿Es la primera vez que se abre el inicio en este equipo? (queda anotado) */
+function primeraVez() {
+  try {
+    if (localStorage.getItem("musical-showdown:vio-ayuda")) return false;
+    localStorage.setItem("musical-showdown:vio-ayuda", "1");
+    return true;
+  } catch {
+    return false; // sin almacenamiento no se puede saber: mejor no abrirla cada vez
+  }
 }
 
 export function screenMenu() {
@@ -309,6 +323,7 @@ export function screenMenu() {
   pintarGlobito(root);
   cargarAvisos(APP_VERSION).then(() => pintarGlobito(root)).catch(() => {});
   root.querySelector("#btn-help").onclick = () => openHelp();
+  if (esDemo() && primeraVez()) setTimeout(() => openHelp(), 900); // demo: "Cómo se juega" la primera vez (usuario, 21-10-2026)
 
   paintBattle();
   paintMode();

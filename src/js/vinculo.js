@@ -31,6 +31,7 @@ import { openPause, pausarRondaMientras } from "./screens/modals.js";
 import { musicaActiva, alternarMusica } from "./sound.js";
 import { nativo } from "./plataforma.js";
 import { resultadoVoz } from "./voz.js";
+import { esDemo } from "./edicion.js";
 
 /** Lo que el celular puede pedirle a la PC. */
 export const ACCIONES = ["tocar", "relevo", "pausa", "continuar", "correcta", "incorrecta", "volver", "finalizar", "siguiente", "silencio", "ayudaAbierta", "ayudaCerrada", "voz"];
@@ -158,9 +159,9 @@ export function hayControl() {
   return pc.conectado;
 }
 
-/** ¿Este juego puede ser la pantalla grande? (solo el .exe de PC). */
+/** ¿Este juego puede ser la pantalla grande? (solo el .exe de PC; la demo no se vincula, usuario 21-10-2026). */
 export function puedeSerPantalla() {
-  return typeof window !== "undefined" && Boolean(window.vinculoPC);
+  return !esDemo() && typeof window !== "undefined" && Boolean(window.vinculoPC);
 }
 
 /** Qué ventana hay abierta ahora en la PC (ver armarEstado). */
@@ -284,9 +285,9 @@ export async function cerrarComoPantalla() {
 const GUARDADO = "ms-vinculo";
 let cel = { ws: null, estado: null, alEstado: null, alCortar: null, datos: null };
 
-/** ¿Este juego puede ser el control? (solo la app de Android). */
+/** ¿Este juego puede ser el control? (solo la app de Android; la demo no se vincula). */
 export function puedeSerControl() {
-  return typeof window !== "undefined" && Boolean(window.Capacitor?.isNativePlatform?.());
+  return !esDemo() && typeof window !== "undefined" && Boolean(window.Capacitor?.isNativePlatform?.());
 }
 
 /** Lo último que mandó la PC (la pantalla "control" lo dibuja). */

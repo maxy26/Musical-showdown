@@ -136,7 +136,8 @@ En `tiendas/imagenes/` (generadas con capturas del juego):
 >
 > Sin cuentas, sin anuncios y sin compras. Funciona sin internet.
 
-- **Permisos:** la demo no escucha el canto, así que no pide el micrófono.
+- **Permisos:** la demo no escucha el canto ni se vincula con el celular, así
+  que no pide el micrófono ni la red local (solo internet, para los avisos).
 
 ## Galaxy Store (Samsung) — descartada por ahora (solo acepta empresas)
 

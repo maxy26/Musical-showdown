@@ -63,6 +63,16 @@ fs.rmSync(RAW_OUT, { recursive: true, force: true });
 // Microsoft Store: la identidad del paquete la da Partner Center (no es secreta).
 // Sin el archivo se usan datos de prueba: el paquete sirve para revisar, no para subir.
 let identidad = "";
+// La demo no escucha ni se vincula: sin micrófono ni red local (usuario, 21-10-2026).
+// Por consola (-c) no se puede cambiar una lista, así que va en un archivo aparte.
+let DEMO_APPX = "";
+if (demo && targetName === "store") {
+  const config = JSON.parse(fs.readFileSync(path.join(DESKTOP, "package.json"), "utf8")).build;
+  config.appx = { ...config.appx, displayName: "Musical Showdown Demo", capabilities: ["runFullTrust", "internetClient"] };
+  const archivoConfig = path.join(require("os").tmpdir(), "musical-showdown-demo-builder.json");
+  fs.writeFileSync(archivoConfig, JSON.stringify(config));
+  DEMO_APPX = ` --config "${archivoConfig}"`;
+}
 if (targetName === "store") {
   // La demo es otro producto de la Store, con su propia identidad
   const archivo = path.join(DESKTOP, demo ? "tienda-microsoft-demo.json" : "tienda-microsoft.json");
@@ -71,7 +81,7 @@ if (targetName === "store") {
     : { identityName: "MusicalShowdown.Prueba", publisher: "CN=MusicalShowdownPrueba", publisherDisplayName: "Musical Showdown" };
   if (!fs.existsSync(archivo)) console.warn("⚠ Sin platforms/desktop/tienda-microsoft.json: paquete de PRUEBA (no se puede subir a la Store).");
   // La Store pide una versión mayor en cada envío: la misma del juego (1.23 → 1.23.0)
-  identidad = ` -c.appx.identityName="${datos.identityName}" -c.appx.publisher="${datos.publisher}" -c.appx.publisherDisplayName="${datos.publisherDisplayName}" -c.extraMetadata.version=${androidVersion().name}.0${demo ? ' -c.appx.displayName="Musical Showdown Demo"' : ""}`;
+  identidad = ` -c.appx.identityName="${datos.identityName}" -c.appx.publisher="${datos.publisher}" -c.appx.publisherDisplayName="${datos.publisherDisplayName}" -c.extraMetadata.version=${androidVersion().name}.0${demo ? DEMO_APPX : ""}`;
 }
 // La copia personal se descomprime en otra carpeta: así puede abrirse junto a la normal
 const carpeta = personal ? ' -c.portable.unpackDirName=MusicalShowdownPersonal' : "";

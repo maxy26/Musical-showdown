@@ -9,6 +9,8 @@ import { groupName } from "../groups.js";
 import { imagenDelPodio, compartirPodio, hayMenuCompartir } from "../compartir.js";
 import { openSheet } from "./sheet.js";
 import { showToast } from "./modals.js";
+import { esDemo } from "../edicion.js";
+import { abrirVersionCompleta } from "./modesManual.js";
 
 const MEDALS = { 1: "🥇", 2: "🥈", 3: "🥉" };
 // Orden en pantalla: 2.º a la izquierda, 1.º al centro (más alto), 3.º a la derecha.
@@ -67,6 +69,7 @@ export function screenResults() {
         <button class="btn btn-secondary" id="menu">Volver al inicio</button>
       </div>
       <button class="btn btn-ghost btn-block compartir-btn" id="compartir">📤 Compartir el podio</button>
+      ${esDemo() ? `<button class="btn btn-ghost btn-block" id="ver-completa">✨ ¿Les gustó? Mira qué trae la versión completa</button>` : ""}
     </div>
   </div>`);
 
@@ -106,6 +109,8 @@ export function screenResults() {
     render();
   };
 
-  root.insertAdjacentHTML("beforeend", espacioAnuncio("podio")); // demo: espacio para un anuncio (anuncios.js)
+  const completa = root.querySelector("#ver-completa");
+  if (completa) completa.onclick = () => abrirVersionCompleta(); // demo: invitación suave, sin ventana que interrumpa
+  root.insertAdjacentHTML("beforeend", espacioAnuncio("podio")); // espacio para un anuncio (anuncios.js)
   return root;
 }

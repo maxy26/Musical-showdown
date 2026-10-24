@@ -1018,6 +1018,8 @@ html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation
 .version-completa{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:4px 8px 12px;}
 .version-completa p{margin:0;line-height:1.5;}
 .version-completa-icono{font-size:56px;line-height:1;}
+.version-completa-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;text-align:left;}
+.version-completa-pronto{font-weight:700;color:var(--gold);}
 /* Lugar para un anuncio (anuncios.js): vacío no ocupa espacio */
 .anuncio-espacio{width:min(100%,728px);margin:14px auto 0;}
 .anuncio-espacio:empty{display:none;}
