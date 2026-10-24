@@ -42,6 +42,35 @@ export function saveSetting(patch, storage = globalThis.localStorage) {
   return next;
 }
 
+/**
+ * Última partida configurada (usuario, 24-10-2026): nombres y opciones de
+ * "Configurar partida" se recuerdan en el dispositivo. Se guarda al empezar.
+ */
+const CONFIG_KEY = "musical-showdown:ultima-partida";
+
+/** Devuelve solo las claves de `defaults` guardadas con el mismo tipo; {} si no hay o falla. */
+export function loadLastConfig(defaults, storage = globalThis.localStorage) {
+  try {
+    const saved = JSON.parse(storage?.getItem(CONFIG_KEY) || "{}");
+    const out = {};
+    for (const k of Object.keys(defaults)) {
+      if (typeof saved?.[k] === typeof defaults[k] && Array.isArray(saved[k]) === Array.isArray(defaults[k])) out[k] = saved[k];
+    }
+    if (out.alt2) out.alt2 = { ...defaults.alt2, ...out.alt2 };
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export function saveLastConfig(config, storage = globalThis.localStorage) {
+  try {
+    storage?.setItem(CONFIG_KEY, JSON.stringify(config));
+  } catch {
+    // Almacenamiento bloqueado: simplemente no se recuerda.
+  }
+}
+
 /** Aplica las preferencias a la página (el CSS apaga las animaciones con data-anim="off"). */
 export function applySettings(settings = loadSettings()) {
   document.documentElement.dataset.anim = settings.animations ? "on" : "off";

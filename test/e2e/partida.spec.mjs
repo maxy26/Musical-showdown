@@ -86,6 +86,16 @@ test("Pausa: salir de la partida vuelve a Configurar partida", async ({ page }) 
   await expect(page.locator("#players-list input").first()).toHaveValue("Ana");
 });
 
+test("Recordar jugadores: tras recargar vuelven los nombres y 'Borrar nombres' los quita", async ({ page }) => {
+  await configurarPartida(page, { jugadores: ["Ana", "Bruno"] });
+  await palabraDeLaRonda(page);
+  await page.reload();
+  await page.locator("#btn-play").click();
+  await expect(page.locator("#players-list input").first()).toHaveValue("Ana");
+  await page.locator("#clear-players").click();
+  await expect(page.locator("#players-list input").first()).toHaveValue("");
+});
+
 test("Podio: compartir muestra la imagen sin repetir el texto", async ({ page }) => {
   await page.evaluate(async () => {
     const { state } = await import("/js/state.js");

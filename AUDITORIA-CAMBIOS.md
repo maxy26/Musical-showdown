@@ -12,6 +12,31 @@
 
 ---
 
+## 2026-10-24 — Recordar a los jugadores y la configuración entre partidas
+
+**Del usuario:** pidió continuar con "recordar a los jugadores" y eligió
+**nombres + configuración**, guardados **al empezar la partida**, con botón
+para borrar los nombres.
+
+**Qué se hizo:**
+- `src/js/settings.js`: `loadLastConfig(defaults)` y `saveLastConfig(config)`
+  (clave `musical-showdown:ultima-partida`); solo se aceptan las claves y tipos
+  de la configuración base; si el almacenamiento falla, no pasa nada.
+- `src/js/state.js`: `freshState()` mezcla la configuración base con la
+  guardada, así también se recuerda después de `resetState()`.
+- `src/js/screens/config/index.js`: se guarda al tocar "Confirmar" (ya validado)
+  y botón "🗑 Borrar nombres" (aparece si hay nombres escritos).
+- `test/e2e/partida.spec.mjs`: prueba "Recordar jugadores".
+
+**Verificación:** `npm test` (169) y lint bien; pruebas de pantallas con Brave
+(Edge sigue sin abrir): 49 de 50 bien, la que falló ("Ronda con reloj") pasó al
+repetirla sola (cae por tiempo al correr todas juntas).
+
+**Confirmado por el usuario y publicado como la 1.25** (`versionCode` 26). Abierto:
+los nombres de los grupos (Grupal) no se recuerdan, solo los jugadores.
+
+---
+
 ## 2026-10-24 — Catálogo: la misma canción con una palabra familiar; preguntas en pendientes
 
 **Del usuario:** aclaró que no quería cambiar la canción sino **una palabra más

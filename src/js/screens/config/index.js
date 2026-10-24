@@ -2,6 +2,7 @@ import { espacioAnuncio } from "../../anuncios.js";
 import { state } from "../../state.js";
 import { el } from "../../utils.js";
 import { render } from "../../router.js";
+import { saveLastConfig } from "../../settings.js";
 import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
 import { openHelp, showWarning } from "../modals.js";
 import { muteButtonHTML } from "../../sound.js";
@@ -58,6 +59,7 @@ export function screenConfig() {
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
         <button class="btn btn-secondary add-player-btn" id="add-player">+ Añadir jugador</button>
+        ${typedCount > 0 ? `<button class="btn btn-secondary add-player-btn" id="clear-players">🗑 Borrar nombres</button>` : ""}
       </div>
 
       <div class="field">
@@ -99,6 +101,9 @@ export function screenConfig() {
       c.roundTimeMode = "preset";
     }
   }
+
+  const clearBtn = root.querySelector("#clear-players");
+  if (clearBtn) clearBtn.onclick = () => { c.players = fitPlayers([], c.battleType); render(); };
 
   root.querySelector("#back").onclick = () => { state.screen = "menu"; render(); };
   root.querySelector("#help").onclick = () => openHelp();
@@ -186,6 +191,7 @@ export function screenConfig() {
     }
     if (c.genres.length === 0) { showWarning("Selecciona al menos un género."); return; }
 
+    saveLastConfig(c); // la próxima vez aparecen los mismos nombres y opciones (settings.js)
     state.scores = {};
     resetMatchTracking();
     if (c.battleType === "individual") {

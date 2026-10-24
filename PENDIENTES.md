@@ -64,7 +64,7 @@
 |---|---|---|
 | Demo de la Microsoft Store | Revisar los 6 géneros sin revisar y las palabras nuevas | La ficha dice "200 canciones": es lo primero que se nota al jugar |
 | Completa de la Microsoft Store (PC) | Compras de Premium en la Store | Sin eso, en PC no se pueden abrir Alternativo 2 ni escuchar el canto |
-| Google Play, prueba cerrada (14 días) | Recordar a los jugadores entre partidas | Los 12+ probadores juegan varias veces; ahorra escribir los nombres |
+| Google Play, prueba cerrada (14 días) | ~~Recordar a los jugadores entre partidas~~ (hecho en la 1.25) | Los 12+ probadores juegan varias veces; ahorra escribir los nombres |
 | Google Play, publicación abierta | Vibración en el celular y pedir una calificación una sola vez | Se siente como un pulsador y las reseñas suben el juego en la tienda |
 | Actualización 1.25 de GitHub | Historial y récords del grupo | Da ganas de revancha y es un cambio notable para anunciar en la campana |
 | Versión 2.0 | La IA que reconoce la canción | Es el último gran paso: marcar solo Correcta / Incorrecta |
@@ -72,7 +72,7 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.24** (13-10-2026: catálogo sin letras con 200 canciones en 10 géneros, política de privacidad en Ajustes, preparación para tiendas; ver AUDITORÍA, partes 30 a 34).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.25** (24-10-2026: recuerda los jugadores y la configuración entre partidas, catálogo para toda la familia; ver AUDITORÍA del 24-10-2026).
 
 - (vacía)
 

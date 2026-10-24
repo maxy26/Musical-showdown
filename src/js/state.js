@@ -5,11 +5,10 @@
  */
 import { ALT2_DEFAULTS } from "./screens/config/modes.js";
 import { availableGenres } from "./data/songs.js";
+import { loadLastConfig } from "./settings.js";
 
 function freshState() {
-  return {
-    screen: "menu",
-    config: {
+  const config = {
       players: ["", ""],
       battleType: "individual", // individual | grupal
       mode: "clasico", // clasico | alternativo1 | alternativo2 (reglas: CONTEXTO, sección 3)
@@ -22,7 +21,10 @@ function freshState() {
       alt2: { ...ALT2_DEFAULTS }, // opciones de Alternativo 2 (ver modes.js)
       groupCount: 2, // modo Grupal: cantidad de grupos
       groupTerm: "equipo", // modo Grupal: "equipo" | "grupo" (ver groups.js)
-    },
+  };
+  return {
+    screen: "menu",
+    config: { ...config, ...loadLastConfig(config) }, // recuerda la última partida (settings.js)
     groups: [], // modo Grupal: [{ players: [...], customName: "" }] (ver groups.js)
     scores: {}, // nombre del jugador o del grupo -> puntaje
     matchCounts: {}, // nombre del jugador o del grupo -> duelos jugados (equilibrio de partidos)
