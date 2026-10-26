@@ -122,7 +122,7 @@ test("Ayuda 'Cómo se juega': resumen general y manual de modos solo para leer",
   await expect(page.getByText("Gana el primero que llega al puntaje objetivo.")).toBeVisible();
   // Textos de la ayuda vieja que ya no van
   await expect(page.getByText("No hay empates ni desempates")).toHaveCount(0);
-  await page.getByRole("button", { name: "📖 Ver modos de juego" }).click();
+  await page.getByRole("button", { name: "Ver modos de juego" }).click();
   await expect(page.getByRole("heading", { name: "Modos de juego", level: 2 })).toBeVisible();
   await expect(page.getByRole("button", { name: /^Elegir/ })).toHaveCount(0); // desde la ayuda no se cambia el modo
   await expect(page.getByText("Una mezcla de los dos modos")).toHaveCount(0);
@@ -173,4 +173,12 @@ test("Inicio: muestra la versión abajo a la derecha", async ({ page }) => {
   const vista = page.viewportSize();
   expect(caja.x + caja.width).toBeGreaterThan(vista.width - 40);
   expect(caja.y + caja.height).toBeGreaterThan(vista.height - 40);
+});
+
+test("Íconos: la ayuda muestra íconos de Material Design, no emojis", async ({ page }) => {
+  await page.locator("#btn-help").click();
+  await expect(page.getByRole("heading", { name: "Cómo se juega" })).toBeVisible();
+  await expect(page.locator(".frame-art svg.mi").first()).toBeVisible();
+  const conEmoji = await page.evaluate(() => /\p{Extended_Pictographic}/u.test(document.querySelector(".sheet, [role='dialog'], body").innerText));
+  expect(conEmoji).toBe(false);
 });

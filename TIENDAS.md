@@ -59,7 +59,7 @@
 ## Novedades de esta versión (para "Qué hay de nuevo")
 
 > • Celular + PC: usa la PC como pantalla grande y el celular como control.
-> • 200 canciones en 10 géneros.
+> • Casi 200 canciones en 10 géneros.
 > • Los puntos de cada ronda, animados.
 > • Reloj más grande y cuenta regresiva en las dos pantallas.
 
@@ -110,8 +110,9 @@ En `tiendas/imagenes/` (generadas con capturas del juego):
 | Campo | Valor |
 |---|---|
 | Nombre | Musical Showdown Demo |
-| Qué trae | Modo Clásico (Individual o en equipos) con las 200 canciones. Alternativo 1 se ve con candado y enlace a la versión completa. Sin escuchar el canto, sin anuncios. |
+| Qué trae | Modo Clásico (Individual o en equipos) con 60 canciones de 3 géneros (pop, rock en español y reggaetón). Alternativo 1 se ve con candado y enlace a la versión completa. Sin escuchar el canto, sin anuncios. |
 | Paquete | `npm run build:store-demo` → `dist/store-demo/Musical Showdown.appx` |
+| Capturas | `tiendas/imagenes/demo/` (25-10-2026): `pc-1-inicio` a `pc-6-podio` y `pc-7-generos` (1920 × 1080, solo pop, rock y reggaetón, con la etiqueta "Versión · demo"). Para la Microsoft Store (Windows) sirven las de **PC**; las de celular (`celular-*`, 1082 × 2202) sobran salvo que se use en otra tienda. |
 
 **Descripción corta:**
 > Demo gratis: ¡sale una palabra y gana quien cante primero una canción que la tenga!
@@ -126,13 +127,13 @@ En `tiendas/imagenes/` (generadas con capturas del juego):
 > **En esta demo**
 > • Modo Clásico: sin reloj, un intento cada uno.
 > • Individual o por equipos.
-> • 200 canciones en 10 géneros: pop, rock en español, reggaetón, salsa,
-> balada, cumbia, bachata, merengue, regional mexicano y trap y urbano.
+> • 60 canciones en 3 géneros: pop, rock en español y reggaetón.
 > • Busca la canción por su nombre y escúchala en YouTube.
 > • Podio final, listo para compartir.
 >
-> ¿Quieres más? En la versión completa está el modo Alternativo 1, con reloj,
-> y mucho más.
+> ¿Quieres más? En la versión completa hay 10 géneros (salsa, balada, cumbia,
+> bachata, merengue, regional mexicano y trap y urbano), el modo Alternativo 1,
+> con reloj, y mucho más.
 >
 > Sin cuentas, sin anuncios y sin compras. Funciona sin internet.
 

@@ -12,6 +12,347 @@
 
 ---
 
+## 2026-10-25 — Íconos de Material Design en lugar de los emojis; pausa de la demo
+
+**Del usuario:** pausar la demo dejando el siguiente paso en pendientes; cambiar
+**todos** los emojis (también las ayudas) por íconos de
+`google/material-design-icons` en las tres apps; volver a sacar las capturas; y
+guardar todo en GitHub (sin versión nueva).
+
+**Qué se hizo:**
+- `src/js/iconosMaterial.js` (nuevo): trazos de los 67 íconos de Material Symbols
+  Rounded que usa el juego, descargados solo esos (no el repositorio entero).
+  `src/icons/LICENCIA-MATERIAL.txt`: licencia Apache 2.0.
+- `src/js/iconosEmoji.js` (nuevo): tabla emoji → ícono (con color para ✅ ❌ ⭐ 🏆
+  ⚠️ y las medallas) e `iniciarIconos()`, que al dibujar cualquier pantalla
+  cambia los emojis por `<svg class="mi">` (no dentro de `<option>`). El código
+  sigue escribiendo emojis; el texto para compartir conserva los suyos.
+  `dibujarIcono()` dibuja un ícono en un canvas.
+- `main.js`: llama a `iniciarIconos()` antes del primer render. `index.html`: el
+  micrófono de la pantalla de carga ya es SVG. `compartir.js`: la imagen del podio
+  dibuja trofeo, medallas, estrella y micrófono como íconos. `styles.css`: clase
+  `.mi` (mide lo mismo que la letra) y colores. `sw.js`: archivos nuevos y v32.
+- Pruebas: `test/iconos.test.js` (cada emoji tiene ícono y ninguno de las
+  pantallas queda sin ícono); prueba de pantallas "Íconos: la ayuda muestra
+  íconos…"; `pantallas.spec.mjs` busca "Ver modos de juego" sin el emoji.
+- Capturas de la demo de nuevo (`tiendas/imagenes/demo/`).
+- Errores encontrados y corregidos al revisar: la búsqueda se saltaba el primer
+  emoji de cada texto (`lastIndex`), y `auto_awesome` (✨) venía en otra escala.
+
+**Verificación:** `npm test` (172), lint y pruebas de pantallas con Brave (54) bien.
+Revisadas a ojo: ayuda "Cómo se juega", modos, ajustes, ronda, canta, puntos,
+podio e imagen del podio para compartir.
+
+**Abierto:** que el usuario revise los íconos en el juego; siguiente paso de la
+demo en `PENDIENTES.md` (reservar el nombre en Partner Center).
+
+---
+
+## 2026-10-25 — Capturas de la ficha de la demo
+
+**Del usuario:** preparar las capturas de la demo.
+
+**Qué se hizo:** un script temporal (fuera del proyecto) abrió la demo en Brave sin
+ventana (edición "demo" al vuelo, como `demo.spec.mjs`) y guardó en
+`tiendas/imagenes/demo/` 14 imágenes: inicio, configurar, ronda, "¡Ana canta!",
+puntos, podio y la hoja de géneros (solo Pop, Rock y Reggaetón), en celular y en
+PC (1920 × 1080). Revisadas a ojo: inicio, géneros, ronda, canta y podio. `TIENDAS.md`
+actualizado.
+
+**Abierto:** el usuario elige cuáles subir (para Windows bastan las de PC).
+
+---
+
+## 2026-10-25 — Demo aprobada; íconos Material Design en pendientes
+
+**Del usuario:** aprobó la demo (solo pop, rock y reggaetón) y pidió pasar a "la
+ficha" (explicada: la página de la tienda). Pidió anotar en pendientes agregar los
+íconos de `google/material-design-icons` a las tres apps. Sin cambios de código.
+
+**Qué se hizo:** sección "Íconos Material Design en las tres apps" en
+`PENDIENTES.md` (licencia Apache 2.0, copiar solo los SVG usados, `sw.js`).
+
+---
+
+## 2026-10-25 — La demo solo con pop, rock y reggaetón
+
+**Del usuario:** la demo solo trae pop, rock y reggaetón (nuevas y viejas); la
+app propia y la oficial traen todos los géneros.
+
+**Qué se hizo:** `src/js/data/songs.js`: `GENRES_DEMO` y `availableGenres(edicion)`
+(en la demo devuelve solo esos 3; el resto, los 10). Con eso la demo no ofrece los
+otros géneros en "Configurar partida" y "Más", ni los elige "Todos", ni los busca
+"Buscar canción". `test/generos.test.js`: prueba de las tres ediciones.
+`TIENDAS.md` y `ESTADO.md` actualizados (demo: 60 canciones en 3 géneros).
+
+**Verificación:** `npm test` (170) y lint bien. Compilado de nuevo y abierto.
+
+**Abierto:** ¿los 7 géneros extra en la oficial son gratis o solo con Premium?
+
+---
+
+## 2026-10-25 — Letras que faltaban (letras.com.br) y compilación
+
+**Del usuario:** buscar las letras que faltaban en `letras.com.br`; compilar y abrir
+el juego; la demo tendrá **menos géneros** (pendiente, ver `PENDIENTES.md`).
+
+**Qué se hizo** (`src/js/data/songs.js`): se encontraron 6 de 8 (la dirección
+correcta sale de buscar con `allowed_domains: letras.com.br`): Waka Waka (vamos),
+Kumbalá (pasión, música, pareja; "kumbala" es el nombre de un bar), Bzrp 53
+(tipos, igualita), Bzrp 52 (noches, contigo); Llorarás y Aguanile quedaron sin
+extras (el coro repite solo el título). Todas sin vulgaridades. **Sin letra:**
+Columbia (no está en el sitio) y Nena Maldición (no la encontré).
+
+**Compilado:** `build:desktop`, `build:apk`, `build:demo-windows` y
+`build:personal`. Pruebas (169) y lint bien.
+
+**Abierto:** letras de Columbia y Nena Maldición (las pasa el usuario o se
+cambian); elegir los géneros de la demo.
+
+---
+
+## 2026-10-25 — Urbano: se quitan las 4 dudosas y entran 5 limpias más
+
+**Del usuario:** quitar Sola, TQG, Despechá y Feliz Cumpleaños Ferxxo y buscar
+reemplazos.
+
+**Qué se hizo** (`src/js/data/songs.js`): entran "Baila Baila Baila" (Ozuna),
+"Vaina Loca" (Ozuna y Manuel Turizo), "Mi Cama" (Karol G), "Una Lady Como Tú" y
+"La Bachata" (Manuel Turizo; en esta última "bachata" solo está en el título).
+Descartadas: Desconocidos, Soltera, Desesperados, Sin Pijama, Mía y Dákiti
+(palabras vulgares o drogas). Urbano queda en **18**; el catálogo, en **198**.
+Quitadas nuevas para la lista de Premium: Sola, TQG, Despechá y Feliz
+Cumpleaños Ferxxo.
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+---
+
+## 2026-10-25 — Urbano: se quitan Callaíta, Provenza y Saoko; entran 5 limpias
+
+**Del usuario:** quitar las tres y buscar reemplazos limpios. **Cambio de plan:**
+el catálogo limpio es para la app gratis/demo; en Premium se agregan las quitadas,
+tras una nueva revisión (las mejores de las peores). Ver "Catálogo gratis vs.
+Premium" en `PENDIENTES.md`.
+
+**Qué se hizo** (`src/js/data/songs.js`): entran "Si Antes Te Hubiera Conocido",
+"Ay, Dios Mío!" y "Mayores" (Karol G / Becky G), y "Tal Vez" y "Nublado" (Paulo
+Londra). Descartadas por palabras vulgares o drogas: Amorfoda, Ni Bien Ni Mal,
+Normal, Vete, Qué Más Pues, A Veces, Cairo. Urbano queda en **17**; el catálogo
+en **197**. Dudosas aún dentro: Despechá, Feliz Cumpleaños Ferxxo, TQG, Sola.
+
+**Verificación:** `npm test` (169) y lint bien (un fallo de coma propio, corregido
+al momento). No se compiló todavía.
+
+---
+
+## 2026-10-25 — Urbano: palabras vulgares → se quitan 4; letras desde letras.com.br
+
+**Del usuario:** aprobó regional, quitar "Contrabando y Traición" (hecho) y seguir
+con trap y urbano; permitió buscar letras en letras.com.
+
+**Fuente de letras:** `letras.com` y `letras.mus.br` dan 403; `www.letras.com.br`
+(mismo sitio, dirección `/artista/cancion`) sí abre y se usó para las canciones
+que faltaban.
+
+**Qué se hizo** (`src/js/data/songs.js`):
+- Extras para las que no se habían podido leer: Me Va a Extrañar, Bésame Mucho,
+  Tu Cárcel, Obsesión, El Jardinero, Cielito Lindo, La Media Vuelta, En
+  Barranquilla Me Quedo.
+- **Error de título corregido:** "Hijos de la Luna" es "Hijo de la Luna" (clave
+  `hijo`, extras luna, gitana, amanecer, madre).
+- Urbano: extras para Sola, Mañana Será Bonito, Ojitos Lindos, Te Felicito y
+  Adán y Eva. Se quitaron **Yonaguni** (cabrón, culo), **Mónaco** (mierda,
+  cojones, putero), **La Jumpa** (puta, joder, chingar) y **Todo de Ti** (culo y
+  drogas). Urbano queda en **15** canciones; el catálogo, en **195**.
+
+**Pendiente de decisión:** Callaíta (marihuana, culito), Provenza (hierba),
+Feliz Cumpleaños Ferxxo (pastillas; "cumpleaños" ni se canta), Despechá y Saoko
+("fuck" en inglés), TQG ("culito") y Sola (insinuación y "fumando"); y las sin
+comprobar: Waka Waka, Kumbalá, Llorarás, Aguanile, Bzrp 53, Bzrp 52, Columbia y
+Nena Maldición.
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+---
+
+## 2026-10-25 — Regional mexicano: palabras extras; cierre de merengue
+
+**Del usuario:** aprobó merengue y pasó las letras de Pégame Tu Vicio, Volvió
+Juanita y Compadre Pedro Juan (ya con extras en `songs.js`). Siguió con regional.
+
+**Qué se hizo** (`src/js/data/songs.js`): extras del coro para 11 de las 20 de
+regional. Sin extras: "El Rey" y "Contrabando y Traición". Sin comprobar: Cielito
+Lindo, La Bikina, Ella, La Media Vuelta, Paloma Negra y Mi Credo. "El Sinaloense"
+no canta "sinaloense" (canta "Sinaloa"; se agregó como extra).
+
+**Aviso:** "Contrabando y Traición" cuenta una historia de contrabando de
+marihuana; el usuario la había dejado el 24-10 con la palabra `traición`, pero la
+regla del 21-10 excluye drogas/narco. Pendiente de decisión.
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+---
+
+## 2026-10-25 — Merengue: palabras extras del coro; vuelve "Hermanita"
+
+**Del usuario:** devolver solo "Hermanita" (bachata, `lloras`); "La Bebé" sigue
+fuera. Seguir con merengue.
+
+**Qué se hizo** (`src/js/data/songs.js`): extras del coro para 12 de las 20 de
+merengue (ninguna tiene palabras vulgares en el coro). Sin extras: "El Baile del
+Perrito" (el coro solo repite el título). Sin comprobar (letra no disponible):
+La Dueña del Swing, El Jardinero, Pégame Tu Vicio, Volvió Juanita y Compadre
+Pedro Juan. Solo-título: La Cosquillita, Rompecintura y El Africano.
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+---
+
+## 2026-10-25 — Criterio aclarado: la insinuación no es motivo para quitar
+
+**Del usuario:** las canciones con insinuación pero sin palabras vulgares dichas
+directamente ("sexo", "puta", "chocha", "cochina"…) no se quitan.
+
+**Qué se hizo** (`src/js/data/songs.js`): vuelven "Propuesta Indecente"
+(`propuesta`, `aventura`) e "Imitadora" (`imitadora`, `dime`); bachata queda en
+20 (con "Corazón Sin Cara"). "Eres Mía" y "El Perdedor" se quedan. Siguen
+quitadas "Hermanita" (coro de violencia, otro motivo) y "La Bebé (Remix)" y
+"Jefe de Jefes" (narco/drogas/alcohol): pendiente que el usuario confirme si
+"La Bebé" vuelve. Memoria actualizada.
+
+**Verificación:** ver la entrada de bachata (169 pruebas y lint).
+
+---
+
+## 2026-10-25 — Bachata: coro revisado, 3 quitadas y extras (pregunta 6)
+
+**Del usuario:** aprobó cumbia, pasó las letras de 7 canciones de cumbia (ya con
+extras: pollera, sampuesana, colegiala, cariñito, juana, cumbia, río) y pidió
+seguir con bachata.
+
+**Qué se hizo** (`src/js/data/songs.js`): se quitaron "Propuesta Indecente",
+"Imitadora" (coros sexuales) y "Hermanita" (coro de violencia). Entra "Corazón Sin
+Cara" (Prince Royce, `cara`). Bachata queda en 18 canciones. Extras del coro para
+Frío Frío, Odio, Mi Corazoncito, Inmortal, Cuándo Volverás, Darte un Beso, Las
+Cosas Pequeñas, Fukuoka, Bachata Rosa y Te Extraño.
+
+**Dudosas que se dejaron:** "Eres Mía" (insinuación y tono posesivo) y "El
+Perdedor" (una referencia sexual); decide el usuario. Sin comprobar: "Obsesión".
+Reemplazos descartados: "Un Beso" y "Todavía Me Amas" (contenido sexual).
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+---
+
+## 2026-10-25 — Cumbia: palabras extras del coro (pregunta 6)
+
+**Del usuario:** aprobó balada y pidió seguir con cumbia; ofreció pasar las
+letras de las canciones que no se puedan leer en internet.
+
+**Qué se hizo** (`src/js/data/songs.js`): 13 de las 20 de cumbia recibieron
+palabras del coro (`lyricfluent.com`). Sin extras y sin comprobar (la página no
+las tiene): La Pollera Colorá, La Cumbia Sampuesana, La Colegiala, Cariñito,
+Juana la Cubana, Baila Esta Cumbia y Cumbia Sobre el Río. Solo-título: "17 Años"
+(se canta el 17, no "años"), "Bidi Bidi Bom Bom" y "La Cumbia Cienaguera".
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+**Abierto:** que el usuario apruebe la tanda y pase las letras de las 7 sin
+comprobar; siguen bachata, merengue, regional mexicano y urbano.
+
+---
+
+## 2026-10-25 — Balada: palabras extras del coro (pregunta 6)
+
+**Del usuario:** revisar balada y agregar palabras extras del coro.
+
+**Qué se hizo** (`src/js/data/songs.js`): 15 de las 20 canciones de balada
+recibieron 1 a 3 palabras del coro (sacadas de `lyricfluent.com`). Quedaron sin
+extras: Querida, Me Va a Extrañar, Bésame Mucho y Tu Cárcel (letra no
+comprobable) y Contigo Aprendí (el coro no repite palabras útiles). Se
+descartaron "cuerpo" y "humedad" de Tengo Todo Excepto a Ti.
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+**Abierto:** que el usuario apruebe la tanda; siguen cumbia, bachata, merengue,
+regional mexicano y urbano.
+
+---
+
+## 2026-10-25 — Catálogo: se quitan 2 canciones no familiares (pregunta 3)
+
+**Qué se hizo** (`src/js/data/songs.js`): se quitó "La Bebé (Remix)" (coro con
+alcohol e insinuaciones) y "Jefe de Jefes" se cambió por "La Bamba" (coro de
+narco/violencia). "Odio" y "Hasta el Amanecer" se quedan. "Te Boté" (coro no
+comprobable) se reemplazó a pedido del usuario por "Súbeme la Radio" (reggaetón).
+
+**Verificación:** `npm test` (169) y lint bien. No se compiló todavía.
+
+**Abierto:** el catálogo tiene 199 canciones y los textos dicen 200 (`TIENDAS.md`,
+`ESTADO.md`, `CONTEXTO-MUSICAL-SHOWDOWN.md`); confirmar el coro de "Te Boté".
+
+---
+
+## 2026-10-25 — Revisión de las palabras del catálogo contra las letras
+
+**Del usuario:** revisar todas las canciones (pregunta 2). Sin cambios de código.
+
+**Qué se hizo:** por cada canción se consultó su página en `lyricfluent.com` y se
+preguntó si cada palabra (clave y extras) aparece en la letra. Resultado y
+detalle en `PENDIENTES.md`, pregunta 2: ~155 de 200 confirmadas, ~45 sin
+comprobar (404), 1 palabra extra que no aparece (`viaje`) y 13 casos solo-título.
+
+**Límites:** la respuesta viene de un resumidor, no de leer la letra; los "no"
+no son seguros (Bidi Bidi y Despechá sí se cantan). Los "sí" se calibraron con
+una palabra falsa (dio "no").
+
+**Abierto:** decidir si se quita `viaje` y qué hacer con los casos solo-título.
+
+---
+
+## 2026-10-25 — Plan por partes: demo, propia y completa
+
+**Del usuario:** dividir el proyecto en 3 apps (demo, propia, completa/final) y
+enfocarse primero en sacar y terminar por completo la demo; después, la propia
+y la final a la vez.
+
+**Qué se hizo:** sección "Plan por partes del proyecto" en `PENDIENTES.md`, con
+lo que falta para cerrar la demo. Sin cambios de código.
+
+---
+
+## 2026-10-25 — Catálogo: 1 de las 7 canciones de reemplazo vuelve a su original
+
+**Regla nueva del usuario:** las canciones sin palabras seguras que las
+representen e identifiquen se quitan directamente (no importa si la palabra es
+obvia). Por eso "Safaera" se quitó (`muévelo` y `hoy` eran genéricas) y quedó
+"Provenza"; solo "La Diabla" volvió. Los otros 5 reemplazos quedan definitivos.
+Lo que sigue describe la primera pasada, antes de esa regla.
+
+**Del usuario:** pregunta 1 de pendientes, opción 2: buscar la letra en internet y,
+si una canción tiene palabras normales que la identifiquen, ponerla; si no, se
+deja el reemplazo.
+
+**Qué se hizo** (`src/js/data/songs.js`):
+- "La Diabla" (Romeo Santos) vuelve en lugar de "Un Beso": clave `diabla`, más
+  `revancha` y `barajas` (palabras del coro).
+- "Safaera" (Bad Bunny) vuelve en lugar de "Provenza": clave `muévelo`, más
+  `hoy` (las más repetidas y limpias).
+- Siguen los reemplazos de Sobredosis, Abusadora, Los Infieles, Bichota y
+  Mamichula: el coro no trae una palabra familiar que la identifique
+  (Sobredosis y Los Infieles tratan temas adultos; Bichota tiene un coro sin
+  palabras propias) o no se encontró la letra (Abusadora, Mamichula).
+
+**Cómo se verificó:** `npm test` (169) y lint bien. Las palabras salen de un
+resumen de páginas de letras, **no de leer la letra completa**: conviene que el
+usuario las confirme. No se compiló ni se abrió el juego todavía.
+
+**Abierto:** que el usuario revise esas palabras; Abusadora y Mamichula, buscar
+la letra por otra vía.
+
+---
+
 ## 2026-10-24 — Recordar a los jugadores y la configuración entre partidas
 
 **Del usuario:** pidió continuar con "recordar a los jugadores" y eligió

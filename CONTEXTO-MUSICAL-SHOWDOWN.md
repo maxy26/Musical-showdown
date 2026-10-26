@@ -48,8 +48,13 @@
     para escucharla.
   - Meta: las 100 mejores canciones en español de 10 géneros (pop, rock en
     español, reggaetón, salsa, balada, cumbia, bachata, merengue, regional
-    mexicano y trap y urbano). Hoy hay 200 (20 por género, 12-10-2026); se
-    cargan por tandas de 20 que revisa el usuario.
+    mexicano y trap y urbano). Hoy hay 198 (25-10-2026), revisadas contra las
+    letras y aptas para toda la familia: lo que se quita por palabras vulgares
+    dichas directamente, drogas o narco se anota en `PENDIENTES.md` y volverá en
+    Premium. **La demo solo trae pop, rock y reggaetón** (`GENRES_DEMO`); la app
+    propia y la oficial traen los 10.
+  - Íconos: el juego usa íconos de Material Design en lugar de emojis
+    (`iconosEmoji.js`; licencia Apache 2.0 en `src/icons/`).
   - Más adelante, una IA que reconozca la canción cantada (ver
     `PENDIENTES.md`).
 - **Estructura de carpetas** (monorepo — ver sección 6 para el detalle

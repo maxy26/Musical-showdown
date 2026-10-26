@@ -11,8 +11,10 @@ import { iniciarTeclado } from "./teclado.js";
 import { iniciarNotificaciones } from "./notificaciones.js";
 import { state } from "./state.js";
 import { iniciarEnlacesDeVinculo } from "./screens/vincular.js";
+import { iniciarIconos } from "./iconosEmoji.js";
 
 applySettings(); // antes del primer render: animaciones Sí/No guardadas en el dispositivo
+iniciarIconos(); // antes del primer render: los emojis salen como íconos de Material Design
 render();
 initSound();
 initTapFeedback();

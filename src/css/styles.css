@@ -1047,3 +1047,15 @@ html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation
 .btn-premium-activo{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:0 0 18px rgba(255,210,63,.25);}
 .home-tag-premium{background:linear-gradient(135deg,#FFE27A,#F5B400);color:#3a2600;font-weight:800;}
 .premium.is-activo .premium-icono{filter:drop-shadow(0 0 14px rgba(255,210,63,.7));}
+
+/* Íconos de Material Design en lugar de los emojis (iconosEmoji.js, 25-10-2026).
+   Miden lo mismo que la letra; los de color pierden el color dentro de botones. */
+.mi{width:1.15em;height:1.15em;fill:currentColor;vertical-align:-0.2em;flex-shrink:0;}
+.mi-ok{color:#4ADE80;}
+.mi-mal{color:var(--red);}
+.mi-oro{color:var(--gold);}
+.mi-aviso{color:#FFB020;}
+.mi-plata{color:#C9D1E6;}
+.mi-bronce{color:#E39A5B;}
+.btn .mi,.icon-btn .mi,.chip .mi,.toast .mi{color:inherit;}
+.loader-mic{color:var(--gold);}

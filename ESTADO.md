@@ -32,9 +32,13 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   artista, el género y palabras sueltas de su parte famosa.
   - Cada canción tiene una **palabra clave** y otras palabras compartidas.
   - La ronda es mitad palabra clave y mitad compartida.
-- **200 canciones en 10 géneros**, 20 por género.
-  - El usuario revisó reggaetón, pop y rock.
-  - Los otros 7 géneros se armaron sin su revisión y están pendientes de revisión.
+- **198 canciones en 10 géneros** (25-10-2026), apto para toda la familia.
+  - Los 10 géneros se revisaron contra las letras (palabras, vulgaridades y drogas).
+  - **La demo solo trae pop, rock y reggaetón (60 canciones);** la app propia y la oficial traen los 10 (`GENRES_DEMO` en `data/songs.js`).
+  - Las canciones quitadas por no ser familiares se anotan en `PENDIENTES.md` y volverán en Premium.
+
+**Íconos (25-10-2026)**
+- Íconos de Material Design (Google, Apache 2.0) en lugar de los emojis, en las tres apps: `iconosEmoji.js` los cambia al dibujar; la imagen del podio los dibuja con `dibujarIcono`.
 
 **Celular + PC (versión 1.23)**
 - La PC es la pantalla grande y el celular, el control.

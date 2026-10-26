@@ -18,6 +18,77 @@
 > ejemplo, la fuente legal de letras o la firma del `.exe`) se dejan **para el
 > final**, aunque sean críticos. Se sigue con el resto.
 
+## 🧭 Plan por partes del proyecto (usuario, 25-10-2026): app 1 demo, app 2 mía, app 3 oficial
+
+> El proyecto se divide en 3 apps. **Orden: primero la demo, terminada por
+> completo y publicada; después la app 2 (mía) y la app 3 (oficial) a la vez.**
+> Hasta que la demo esté lista, lo demás espera salvo que el usuario pida otra
+> cosa.
+
+1. **App 1: demo** (Microsoft Store, gratis; solo Clásico; solo pop, rock y
+   reggaetón) — **EN PAUSA (usuario, 25-10-2026), es lo primero al retomar.**
+   Aprobada por el usuario; capturas de la ficha hechas (`tiendas/imagenes/demo/`,
+   con los íconos nuevos). **Siguiente paso al retomar:**
+   1. el usuario reserva "Musical Showdown Demo" en Partner Center (producto
+      nuevo, aparte de "Musical Showdown") y pasa su identidad (Package/Identity
+      Name, Publisher) y su Store ID (pregunta 5); guiarlo paso a paso;
+   2. crear `platforms/desktop/tienda-microsoft-demo.json` y poner `"microsoft-demo"`
+      en `tienda.js`; compilar `npm run build:store-demo`;
+   3. llenar la ficha con `TIENDAS.md` (sección "Demo gratis") y subir el `.appx`
+      y las capturas de PC.
+   - Catálogo de la demo (pop, rock, reggaetón): revisado contra las letras.
+   - cambiar "Muy pronto" por el enlace a la completa cuando exista;
+   - probar el `.exe` en otra PC (pregunta 12).
+2. **App 2: mía (propia)** (`build:personal`, todo desbloqueado, nunca se publica) —
+   después de la demo. Es el `.exe` y el APK del usuario; sigue compilándose
+   con cada cambio (instrucción 30).
+3. **App 3: oficial (completa)** — después de la demo, junto con la app 2: Alternativo
+   2, escuchar el canto, Premium, anuncios, Google Play, compras en la Store,
+   vinculación de dispositivos, IA que reconoce la canción (versión 2.0).
+
+## 🎨 Íconos Material Design en las tres apps (usuario, 25-10-2026)
+
+- [x] 🟡 **Íconos de https://github.com/google/material-design-icons en las tres
+  apps** (hecho el 25-10-2026, EN PRUEBA; el usuario pidió cambiar **todos** los
+  emojis, también los de las ayudas). `iconosEmoji.js` cambia cada emoji por su
+  ícono al dibujar la pantalla; `iconosMaterial.js` tiene solo los 67 trazos
+  usados (Material Symbols Rounded); licencia Apache 2.0 en
+  `icons/LICENCIA-MATERIAL.txt`. El texto para compartir (WhatsApp) sigue con
+  emojis. Falta que el usuario lo vea en el juego y diga si algún ícono no le
+  gusta.
+
+## 🎼 Catálogo gratis vs. Premium (usuario, 25-10-2026)
+
+> Lo que se está haciendo ahora (catálogo limpio, apto para toda la familia) es
+> para la **app gratis / demo**. En **Premium** se agregan las canciones que se
+> fueron quitando. Antes de agregarlas, **nueva revisión** de esas canciones y se
+> eligen **las mejores de las peores** (las menos problemáticas).
+
+- [ ] 🟡 Dividir el catálogo en dos: **base** (gratis/demo) y **Premium** (la base
+  más las quitadas). Falta decidir cómo se marca cada canción (`premium: true`
+  en `data/songs.js`, regla en `edicion.js`) y que la demo solo use la base.
+- [ ] 🟡 Revisar de nuevo y elegir las mejores de las quitadas. Lista de
+  quitadas (motivo): Safaera (explícita; sus palabras seguras eran genéricas);
+  Sobredosis (drogas/adulto); Abusadora y Mamichula (sin letra); Los Infieles
+  (coro de infidelidad); Bichota (sin palabra propia en el coro); La Bebé
+  (Remix) (alcohol, drogas en versos); Jefe de Jefes y Contrabando y Traición
+  (narco); Te Boté (coro sin comprobar); Yonaguni, Mónaco, La Jumpa y Todo de Ti
+  (palabras vulgares dichas directamente; Todo de Ti también drogas); Callaíta
+  (marihuana, "culito"); Provenza ("hierba"); Saoko ("fuck", "cógela"); Sola
+  (insinuación y "fumando"); TQG ("culito"); Despechá ("fuck" en un verso);
+  Feliz Cumpleaños Ferxxo (pastillas; "cumpleaños" no se canta).
+
+## 🎚️ Demo con menos géneros (usuario, 25-10-2026)
+
+- [x] 🔴 **La demo solo trae pop, rock y reggaetón** (usuario, 25-10-2026; 60
+  canciones, las nuevas y las viejas de esos géneros). Hecho en `availableGenres()`
+  de `data/songs.js` (`GENRES_DEMO`); la app propia y la oficial traen los 10.
+  EN PRUEBA. `TIENDAS.md` ya dice "60 canciones en 3 géneros" para la demo.
+- [ ] 🟡 **Pregunta:** en la app oficial, ¿los 7 géneros extra son gratis o solo
+  con Premium?
+- Con el catálogo revisado (balada a urbano), el siguiente paso es la **app 2
+  (propia)** y la **app 3 (oficial)**.
+
 ## ❓ Preguntas para el usuario (sin responder)
 
 > Lo que falta que el usuario conteste (pedido del 24-10-2026). Al contestar,
@@ -27,18 +98,40 @@
    el usuario pidió **la misma canción con otra palabra más familiar**, no
    cambiar la canción. En 6 ya se hizo con una palabra del título ("mujer",
    "propuesta", "pégame", "traición", "amor", "nena"). En estas 7 el título
-   solo tiene la palabra dudosa y no se pudo confirmar otra con la letra, así
-   que **por ahora siguen puestas canciones de reemplazo**: "Sobredosis"
-   (Frío, Frío), "Abusadora" (El Tiburón), "Safaera" (Provenza), "La Diabla"
-   (Un Beso), "Los Infieles" (Dile al Amor), "Bichota" (Mañana Será Bonito) y
-   "Mamichula" (Todo de Ti). Falta: que el usuario diga una palabra del coro
-   de cada una, o que se busque la letra con su OK. "Safaera" es muy explícita:
-   ¿se queda o se quita?
+   solo tiene la palabra dudosa. **25-10-2026:** el usuario pidió buscar la
+   letra y poner la canción solo si tiene palabras normales. **Regla (usuario,
+   25-10-2026): si una canción no tiene palabras seguras que la representen e
+   identifiquen, se quita directamente (no importa si son obvias).** Hecho:
+   "La Diabla" (`diabla`, `revancha`, `barajas`) volvió. "Safaera" se quitó
+   (sus palabras seguras eran genéricas) y quedó "Provenza". **Quedan quitadas,
+   con su reemplazo definitivo:** Sobredosis (Frío, Frío), Abusadora (El
+   Tiburón), Los Infieles (Dile al Amor), Bichota (Mañana Será Bonito) y
+   Mamichula (Todo de Ti). Falta: confirmar las palabras de "La Diabla" (salen
+   de un resumen de páginas de letras). Aplicar la misma regla a la pregunta 3.
 2. **Revisar las palabras nuevas** que se escribieron de memoria (24-10-2026)
-   contra las letras.
-3. **Otras canciones que podrían no ser familiares:** "Odio", "La Bebé
-   (Remix)", "Jefe de Jefes", "Te Boté", "Hasta el Amanecer". ¿Se cambia la
-   palabra o se dejan?
+   contra las letras. **25-10-2026: pasada hecha** sobre todo el catálogo
+   (página de letras `lyricfluent.com`, comprobando si cada palabra aparece).
+   Unas 155 de 200 canciones quedaron confirmadas; ~45 no se pudieron
+   comprobar (la página no las tiene). Palabras que **no** aparecieron en la
+   letra: `viaje` (Tren al Sur); y solo-título (la clave es el título pero no
+   se canta, o la página la omitió): Ginza, La Rebelión, La Cumbia Cienaguera,
+   17 Años, Bidi Bidi Bom Bom, La Cosquillita, Rompecintura, El Africano, El
+   Sinaloense, Callaíta, Despechá, Feliz Cumpleaños Ferxxo y `bachata` (Bachata
+   Rosa). Varias son falsos negativos casi seguros (Bidi Bidi, Despechá). No se
+   cambió el catálogo: falta decidir qué hacer con ellas.
+3. **Otras canciones que podrían no ser familiares** (25-10-2026, aplicando la
+   regla de quitar lo que no sea familiar; coro revisado en `lyricfluent.com`):
+   - "Odio" y "Hasta el Amanecer": coro familiar y la palabra clave está en el
+     coro → **se quedan**.
+   - "La Bebé (Remix)": el coro habla de beber y tiene insinuaciones sexuales →
+     **quitada** (urbano queda en 19 canciones).
+   - "Jefe de Jefes": coro de narco y violencia → **quitada**, y entra "La Bamba"
+     (`bamba`, familiar, en el coro) en regional.
+   - "Te Boté": no se pudo leer el coro → **reemplazada** (usuario, 25-10-2026)
+     por "Súbeme la Radio" (`radio`, `súbeme`, `canción`; las tres están en el
+     coro; la letra solo menciona tomar para olvidar un desamor).
+   - Ojo: el catálogo ahora tiene **199** canciones; `TIENDAS.md` y `ESTADO.md`
+     dicen 200. Falta agregar una de urbano (limpia) o corregir los textos.
 4. **Mejoras del proyecto:** cuál se hace primero (ver "Mejora recomendada por
    publicación" abajo).
 5. **Demo de la Microsoft Store:** reservar "Musical Showdown Demo" en Partner
@@ -74,7 +167,9 @@
 > Cambios terminados que se juntan para sacar una actualización notable
 > (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.25** (24-10-2026: recuerda los jugadores y la configuración entre partidas, catálogo para toda la familia; ver AUDITORÍA del 24-10-2026).
 
-- (vacía)
+- Catálogo revisado contra las letras (balada a urbano), para toda la familia (198 canciones).
+- La demo solo trae pop, rock y reggaetón.
+- Íconos de Material Design en lugar de los emojis (todas las pantallas y la imagen del podio).
 
 ## 🎵 Canciones y letras (antes de publicar)
 

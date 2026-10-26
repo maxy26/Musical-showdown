@@ -1,7 +1,7 @@
 // Botones "Todos" y "Más" de los géneros (screens/config/genres.js).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { GENRES, availableGenres, genreArtists } from "../src/js/data/songs.js";
+import { GENRES, GENRES_DEMO, availableGenres, genreArtists } from "../src/js/data/songs.js";
 import { fixGenresForMode, hasAllGenres, allowsManyGenres } from "../src/js/screens/config/genres.js";
 import { state, resetState } from "../src/js/state.js";
 
@@ -39,4 +39,10 @@ test("Clásico y Alternativo 1: varios géneros (no todos) vuelven a 'Todos'", (
 test("Sin géneros o con uno que no existe vuelve a 'Todos'", () => {
   assert.deepEqual(fixGenresForMode([], "alternativo2"), availableGenres());
   assert.deepEqual(fixGenresForMode(["tango"], "clasico"), availableGenres());
+});
+
+test("La demo solo trae pop, rock y reggaetón; las demás ediciones, los 10", () => {
+  assert.deepEqual(availableGenres("demo"), GENRES_DEMO);
+  assert.deepEqual(availableGenres("completa"), GENRES);
+  assert.deepEqual(availableGenres("personal"), GENRES);
 });

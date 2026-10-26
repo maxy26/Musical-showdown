@@ -17,6 +17,7 @@ import { esDemo } from "./edicion.js";
 import { buildPodium } from "./podium.js";
 import { formatPoints } from "./scoring.js";
 import { nativo } from "./plataforma.js";
+import { dibujarIcono } from "./iconosEmoji.js";
 
 // Desde una tienda, el enlace es el de la tienda (tienda.js). La demo de la Store
 // no manda a descargar por fuera: sin su Store ID no lleva enlace (usuario, 21-10-2026).
@@ -43,6 +44,13 @@ function texto(ctx, t, x, y, { tam, peso = 700, fuente = "Fredoka", color = C.te
   do { ctx.font = `${peso} ${s}px ${fuente}`; s -= 2; } while (ctx.measureText(t).width > ancho && s > 14);
   ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillText(t, x, y);
 }
+/** Como `texto`, con un ícono de Material Design a la izquierda (iconosEmoji.js). */
+function textoConIcono(ctx, icono, colorIcono, t, x, y, op) {
+  const tam = op.tam, ancho = Math.min(op.ancho || 900, (() => { ctx.font = `${op.peso || 700} ${tam}px ${op.fuente || "Fredoka"}`; return ctx.measureText(t).width; })());
+  const total = tam + tam * 0.3 + ancho;
+  dibujarIcono(ctx, icono, x - total / 2 + tam / 2, y - tam * 0.36, tam * 1.05, colorIcono);
+  texto(ctx, t, x - total / 2 + tam * 1.3 + ancho / 2, y, op);
+}
 
 /**
  * Dibuja la imagen del podio. `mvpDe(nombre)` devuelve los MVP de un grupo
@@ -64,12 +72,12 @@ export async function imagenDelPodio({ scores, winner, mvpDe = () => [] }) {
   try { ctx.drawImage(await cargarImagen("icons/icon-192.png"), W / 2 - 70, 50, 140, 140); } catch { /* sin logo */ }
   texto(ctx, "Musical Showdown", W / 2, 260, { tam: 64 });
   // Ganador
-  texto(ctx, "🏆 GANADOR", W / 2, 360, { tam: 38, fuente: "Nunito", peso: 800, color: C.tenue });
+  textoConIcono(ctx, "trophy", C.oro, "GANADOR", W / 2, 360, { tam: 38, fuente: "Nunito", peso: 800, color: C.tenue });
   texto(ctx, winner, W / 2, 450, { tam: 92, color: C.oro });
   texto(ctx, `${formatPoints(scores[winner])} pts`, W / 2, 520, { tam: 46, fuente: "Nunito", peso: 800 });
   // Podio: 2.º a la izquierda, 1.º al centro, 3.º a la derecha
   const { steps } = buildPodium(scores);
-  const alto = { 1: 300, 2: 220, 3: 160 }, medalla = { 1: "🥇", 2: "🥈", 3: "🥉" }, color = { 1: C.oro, 2: "#C9D1E6", 3: "#E39A5B" };
+  const alto = { 1: 300, 2: 220, 3: 160 }, color = { 1: C.oro, 2: "#C9D1E6", 3: "#E39A5B" };
   const base = 1090, anchoCol = 300;
   [[2, 90], [1, 390], [3, 690]].forEach(([p, x]) => {
     const paso = steps.find((s) => s.place === p);
@@ -81,15 +89,15 @@ export async function imagenDelPodio({ scores, winner, mvpDe = () => [] }) {
     let y = top - 30;
     [...paso.entries].reverse().forEach((e) => {
       const mvp = mvpDe(e.name);
-      if (mvp.length) { texto(ctx, `⭐ MVP: ${mvp.join(" y ")}`, x + anchoCol / 2, y, { tam: 24, fuente: "Nunito", peso: 800, color: C.tenue, ancho: 280 }); y -= 36; }
+      if (mvp.length) { textoConIcono(ctx, "star", C.oro, `MVP: ${mvp.join(" y ")}`, x + anchoCol / 2, y, { tam: 24, fuente: "Nunito", peso: 800, color: C.tenue, ancho: 240 }); y -= 36; }
       texto(ctx, `${formatPoints(e.points)} pts`, x + anchoCol / 2, y, { tam: 30, fuente: "Nunito", peso: 800, color: C.tenue, ancho: 280 }); y -= 44;
       texto(ctx, e.name, x + anchoCol / 2, y, { tam: 44, ancho: 280 }); y -= 56;
     });
-    texto(ctx, medalla[p], x + anchoCol / 2, y - 6, { tam: 64 });
+    dibujarIcono(ctx, "military_tech", x + anchoCol / 2, y - 28, 72, color[p]); // medalla
   });
   // Invitación y enlace
   ctx.fillStyle = "#00000055"; redondeado(ctx, 60, 1140, W - 120, 160, 32); ctx.fill();
-  texto(ctx, "🎤 ¡Juega Musical Showdown!", W / 2, 1205, { tam: 46, color: C.oro });
+  textoConIcono(ctx, "mic", C.oro, "¡Juega Musical Showdown!", W / 2, 1205, { tam: 46, color: C.oro });
   texto(ctx, SIN_ENLACE ? lineaDeDescarga("") : `Descárgalo gratis: ${tiendaActual()?.corto || "github.com/maxy26/Musical-showdown"}`, W / 2, 1265, { tam: 30, fuente: "Nunito", peso: 800, color: C.texto, ancho: 900 });
   const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));
   return { blob, url: window.URL.createObjectURL(blob) };
