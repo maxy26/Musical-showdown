@@ -188,6 +188,10 @@
     - No crear otra rama de git salvo que haga falta para el resultado final.
     - No suponer nada: ante cualquier duda, preguntar antes de seguir.
 
+32. **El repositorio de GitHub debe ser público** (26-10-2026): el juego lee de él
+    los avisos, las versiones y la política de privacidad (GitHub Pages), y Actions
+    necesita su cuota de artefactos. Si se pone privado, todo eso deja de funcionar.
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**

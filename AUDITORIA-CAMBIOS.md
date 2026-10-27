@@ -12,6 +12,25 @@
 
 ---
 
+## 2026-10-26 — Release 1.26: falló por el repositorio privado
+
+**Qué pasó:** al subir la etiqueta `v1.26`, Actions falló al subir los
+artefactos: "Artifact storage quota has been hit". El repositorio se había puesto
+**privado** (cuota de unos 500 MB; había 331 artefactos, 7,6 GB solo en los
+primeros 100) y con eso también quedaban sin abrirse la campana de avisos
+(`avisos.js`), los enlaces de descarga y las páginas de GitHub Pages (política
+de privacidad y `docs/vincular/`).
+
+**Qué se hizo:** el usuario volvió a poner el repositorio **público** y se relanzó
+la ejecución de `v1.26`: todo en verde, Release publicada con `Musical-Showdown.apk`
+(firmado con la clave del proyecto), `.exe` y `.AppImage`.
+
+**Abierto:** el repositorio debe seguir público (el juego lee de él avisos,
+versiones y la política de privacidad). Los 331 artefactos viejos siguen
+guardados; conviene borrar los antiguos si vuelve a llenarse la cuota.
+
+---
+
 ## 2026-10-26 — Diseño confirmado en las tres apps; versión 1.26 publicada
 
 **Del usuario:** la equis de los multiplicadores, del mismo color que los demás
