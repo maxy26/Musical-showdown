@@ -6,6 +6,7 @@ import { saveLastConfig } from "../../settings.js";
 import { startNextRound, resetMatchTracking } from "../../gameLogic.js";
 import { openHelp, showWarning } from "../modals.js";
 import { muteButtonHTML } from "../../sound.js";
+import { svgIcono } from "../../iconosEmoji.js";
 import {
   TARGET_SCORE_PRESETS, ROUND_TIME_PRESETS, formatCustomTime,
   isPresetTarget, isPresetTime,
@@ -51,14 +52,14 @@ export function screenConfig() {
   c.genres = fixGenresForMode(c.genres, c.mode); // varios géneros solo en Alternativo 2
 
   const root = el(`<div class="screen">
-    <div class="top-bar"><h2>Configurar partida</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Inicio</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
+    <div class="top-bar"><div class="top-bar-izq"><button class="icon-btn icon-btn-round" id="back" aria-label="Inicio">${svgIcono("arrow_back")}</button><h2>Configurar partida</h2></div><div class="top-bar-actions"><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
         <label class="fila-ayuda"><span>Jugadores <span class="players-count" id="players-count">${typedCount}</span></span>${botonAyuda("jugadores")}</label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
-        <button class="btn btn-secondary add-player-btn" id="add-player">+ Añadir jugador</button>
+        <button class="btn btn-secondary add-player-btn" id="add-player">${svgIcono("person_add")} Añadir jugador</button>
         ${typedCount > 0 ? `<button class="btn btn-secondary add-player-btn" id="clear-players">🗑 Borrar nombres</button>` : ""}
       </div>
 
@@ -69,7 +70,7 @@ export function screenConfig() {
 
       <!-- Opciones en filas compactas: nombre a la izquierda, control a la derecha (03-10-2026) -->
       <div class="opts">
-        <div class="opt-row"><span>🏆 Puntaje objetivo</span>
+        <div class="opt-row"><span>🚩 Puntaje objetivo</span>
           <select id="target">
             ${TARGET_SCORE_PRESETS.map((v) => `<option value="${v}" ${c.targetScoreMode === "preset" && v === c.targetScore ? "selected" : ""}>${v} pts</option>`).join("")}
             ${customValueOption(c.targetScoreMode === "custom", `${c.targetScore} pts`)}

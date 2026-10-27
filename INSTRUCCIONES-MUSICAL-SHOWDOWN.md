@@ -175,6 +175,19 @@
     las tiendas. Compilar la personal primero y la normal al final, porque
     comparten las carpetas `www/`.
 
+31. **Modificación general** (usuario, 26-10-2026). Cuando el usuario diga que
+    algo es una "modificación general" (un cambio para las tres apps: demo,
+    completa y personal, por ejemplo el diseño):
+    - Se prueba **solo en la app personal**; la demo y la completa quedan
+      **intactas** hasta que el usuario confirme el resultado.
+    - Primero se le muestran propuestas (lista y, si hace falta, una página de
+      prueba con el antes y el después); el usuario acepta o rechaza cada una.
+      Solo se aplican las aceptadas.
+    - Al terminar y confirmar todo, el cambio se aplica a las tres apps y se
+      compila según la instrucción 30.
+    - No crear otra rama de git salvo que haga falta para el resultado final.
+    - No suponer nada: ante cualquier duda, preguntar antes de seguir.
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**

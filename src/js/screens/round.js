@@ -65,10 +65,9 @@ export function screenRound() {
 
   const root = el(`<div class="screen round-screen">
     <div class="top-bar">
-      <span></span>
+      <div class="top-bar-izq"><button class="icon-btn icon-btn-round" id="pause" aria-label="Pausa">⏸</button></div>
       <div class="top-bar-actions">
         ${botonVincularRonda()}
-        <button class="icon-btn" id="pause">⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="help">❓</button>
         ${muteButtonHTML()}
         <button class="icon-btn icon-btn-round" id="round-settings" aria-label="Ajustes">${ICONS.settings()}</button>

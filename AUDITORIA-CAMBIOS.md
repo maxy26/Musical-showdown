@@ -12,6 +12,91 @@
 
 ---
 
+## 2026-10-26 — Diseño confirmado en las tres apps; versión 1.26 publicada
+
+**Del usuario:** la equis de los multiplicadores, del mismo color que los demás
+íconos; con eso queda confirmado: pasarlo a las tres apps, actualizar y
+publicar todo.
+
+**Qué se hizo:**
+- `iconosEmoji.js`: ✖️ sin color propio; siempre íconos de contorno (relleno solo
+  si falta el de contorno). Se quitó `disenoNuevo()` (`edicion.js`) y la marca de
+  `main.js`: el diseño nuevo es el de las tres apps.
+- `icons.js`: ahora solo íconos de Material (se quitaron los dibujados a mano).
+- Pantallas sin el diseño viejo: `config/index.js`, `round.js`,
+  `config/alt2Options.js`, `ayudaModos.js`, `ayudaBotones.js`.
+  `styles.css`: el bloque del diseño ya no depende de `data-diseno`.
+- Versión 1.26 (`versionCode` 27) con `android:release`; compilados la personal,
+  la PC normal y la demo.
+
+**Cómo se verificó:** `npm test` (172) y lint bien; pruebas de pantallas con
+Brave (Edge sigue sin abrir): 54 de 54 bien, celular y PC, también la demo.
+
+**Abierto:** nada del diseño. La demo sigue en pausa para la Store
+(`PENDIENTES.md`, plan por partes).
+
+---
+
+## 2026-10-26 — Diseño nuevo en la app personal (modificación general, en prueba)
+
+**Del usuario:** acepta las propuestas 1, 2, 3, 4, 7, 8, 9, 11 y 12; rechaza
+la 5, la 6 y la 10; cambiar el ✨ de los multiplicadores por una equis de
+multiplicar; activar el diseño solo en la personal (sin rama nueva).
+
+**Qué se hizo:**
+- `edicion.js`: `disenoNuevo()` (EDICION "personal"). `main.js`: marca
+  `<html data-diseno="nuevo">` antes de dibujar.
+- `iconosMaterial.js`: `ICONOS_CONTORNO` (72 íconos de contorno de
+  `google/material-design-icons`) y la bandera rellena. `iconosEmoji.js`: usa el
+  contorno con el diseño nuevo; emojis nuevos ✖️ (`cancel` dorado) y 🚩 (`flag`).
+  `icons.js`: los íconos propios (ajustes, campana, ayuda, personas, modos, jugar,
+  vincular) salen de Material con el diseño nuevo.
+- Pantallas (solo con el diseño nuevo): `config/index.js` (volver a la izquierda,
+  redondo; `person_add`; bandera), `round.js` (pausa a la izquierda, redonda),
+  `config/alt2Options.js` y `ayudaModos.js` (✖️ en multiplicadores),
+  `ayudaBotones.js` (? como ícono).
+- `styles.css`: bloque final `html[data-diseno="nuevo"]` con las propuestas.
+- La demo y la completa no cambian (sin `data-diseno`).
+
+**Cómo se verificó:** `npm test` (172 bien) y `npm run lint`; capturas con la
+edición cambiada a "personal" al vuelo (inicio, modos, configurar, ronda, pausa),
+sin errores en la consola; `npm run build:personal`.
+
+**Qué quedó abierto:** que el usuario pruebe la app personal y confirme
+(`PENDIENTES.md`, "Diseño más profesional"). No se corrieron las pruebas de
+pantallas (Edge no abre en esta PC, ver `PENDIENTES.md`); no cambian para la
+demo ni la completa.
+
+---
+
+## 2026-10-26 — Procedimiento de "modificación general" y propuestas de diseño
+
+**Del usuario:** hacer el diseño más profesional, con los íconos de Google, como
+"modificación general": probar solo en su app (personal) y dejar intactas la
+demo y la completa hasta confirmar; dejar el procedimiento escrito para
+repetirlo; sin rama nueva si no hace falta.
+
+**Qué se hizo:**
+- `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`: instrucción 31 (modificación general),
+  junto a la 30 de las tres apps. La guía técnica la cita en las reglas clave.
+- 12 propuestas de diseño mostradas en una página de prueba local fuera del
+  proyecto: sirve `src/` sin cambios y, en el celular de la derecha, le suma
+  un CSS y un script con las propuestas, con una casilla por cada una. Los íconos
+  de contorno se bajaron de `google/material-design-icons` (Material Symbols
+  Rounded, `_24px.svg`).
+- `PENDIENTES.md`: nueva sección con las propuestas en revisión.
+
+**Archivos tocados:** `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`, la guía técnica,
+`PENDIENTES.md`, este archivo. Sin cambios en `src/`: no se compiló.
+
+**Cómo se verificó:** capturas de antes y después (inicio, configurar, ronda,
+pausa) con Brave sin ventana; sin errores del juego en la consola.
+
+**Qué quedó abierto:** que el usuario acepte o rechace cada propuesta
+(`PENDIENTES.md`, "Diseño más profesional").
+
+---
+
 ## 2026-10-25 — Íconos de Material Design en lugar de los emojis; pausa de la demo
 
 **Del usuario:** pausar la demo dejando el siguiente paso en pendientes; cambiar

@@ -35,7 +35,7 @@ export function relaySummary(o) {
 export function alt2RowsHTML(c) {
   const o = alt2Options(c);
   return `
-    <div class="opt-row"><span>✨ Multiplicadores</span>${yesNo("multipliers", c.multipliers.length > 0)}${botonAyuda("multiplicadores")}</div>
+    <div class="opt-row"><span>✖️ Multiplicadores</span>${yesNo("multipliers", c.multipliers.length > 0)}${botonAyuda("multiplicadores")}</div>
     <div class="opt-row"><span>🎯 Intentos</span>${stepper("attempts", o.attempts, "intentos")}${botonAyuda("intentos")}</div>
     <div class="opt-row"><span>😢 El perdedor resta</span>${yesNo("loserLoses", o.loserLoses)}${botonAyuda("perdedor")}</div>
     <div class="opt-row"><span>⌛ Si nadie acierta, ambos restan</span>${yesNo("noneLoseHalf", o.noneLoseHalf)}${botonAyuda("nadie")}</div>

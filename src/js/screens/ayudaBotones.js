@@ -182,7 +182,7 @@ const AYUDAS = {
 
 /** HTML del botoncito (?). Con `esquina`, va en la esquina de arriba a la derecha de su contenedor. */
 export function botonAyuda(clave, esquina = false) {
-  return `<button type="button" class="ayuda-btn${esquina ? " esquina" : ""}" data-ayuda="${clave}" aria-label="Ayuda: ${AYUDAS[clave].titulo}">?</button>`;
+  return `<button type="button" class="ayuda-btn${esquina ? " esquina" : ""}" data-ayuda="${clave}" aria-label="Ayuda: ${AYUDAS[clave].titulo}">❓</button>`;
 }
 
 /** Conecta los (?) que haya dentro de `root`. */

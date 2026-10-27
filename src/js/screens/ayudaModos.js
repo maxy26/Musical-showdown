@@ -79,13 +79,13 @@ const AYUDAS_MODO = {
   },
   "alternativo1-individual": {
     resumen: "⏱️ Contra el reloj: se puede intentar muchas veces. El que acierta suma y su rival resta.",
-    fichas: ["👤 Cada uno por su cuenta", "⏱️ Con reloj", "♾️ Intentos sin límite", "✨ ×2 a ×5", "➕➖ Se suma y se resta"],
+    fichas: ["👤 Cada uno por su cuenta", "⏱️ Con reloj", "♾️ Intentos sin límite", "✖️ ×2 a ×5", "➕➖ Se suma y se resta"],
     ronda: [F.turnos, F.palabraReloj, F.sumaResta, F.nadie],
     puntos: [P.valor, P.sumaResta, P.nadieMitad, P.negativo],
   },
   "alternativo1-grupal": {
     resumen: "⏱️ Equipos contra el reloj: se puede intentar muchas veces y pedir ayuda a un compañero con el relevo.",
-    fichas: ["👥 Por equipos", "⏱️ Con reloj", "♾️ Intentos sin límite", "✨ ×2 a ×5", "🔁 3 relevos"],
+    fichas: ["👥 Por equipos", "⏱️ Con reloj", "♾️ Intentos sin límite", "✖️ ×2 a ×5", "🔁 3 relevos"],
     ronda: [F.turnosEquipos, F.palabraReloj, F.sumaResta, F.nadie],
     puntos: [P.valor, P.sumaResta, P.nadieMitad, P.negativo],
     relevos: { historieta: RELEVO_A1, extra: P.relevoDeMas },

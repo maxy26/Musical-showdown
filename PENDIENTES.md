@@ -54,8 +54,7 @@
   ícono al dibujar la pantalla; `iconosMaterial.js` tiene solo los 67 trazos
   usados (Material Symbols Rounded); licencia Apache 2.0 en
   `icons/LICENCIA-MATERIAL.txt`. El texto para compartir (WhatsApp) sigue con
-  emojis. Falta que el usuario lo vea en el juego y diga si algún ícono no le
-  gusta.
+  emojis. Confirmado y publicado en la 1.26 junto con el diseño nuevo.
 
 ## 🎼 Catálogo gratis vs. Premium (usuario, 25-10-2026)
 
@@ -165,11 +164,9 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.25** (24-10-2026: recuerda los jugadores y la configuración entre partidas, catálogo para toda la familia; ver AUDITORÍA del 24-10-2026).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.26** (26-10-2026: diseño más profesional, íconos de Material Design, catálogo revisado y demo con 3 géneros; ver AUDITORÍA del 26-10-2026).
 
-- Catálogo revisado contra las letras (balada a urbano), para toda la familia (198 canciones).
-- La demo solo trae pop, rock y reggaetón.
-- Íconos de Material Design en lugar de los emojis (todas las pantallas y la imagen del podio).
+(Nada por ahora.)
 
 ## 🎵 Canciones y letras (antes de publicar)
 
@@ -608,6 +605,13 @@
 ---
 
 ## ✅ Resueltos
+
+- [x] 🟡 **Diseño más profesional, modificación general** (resuelto el
+  26-10-2026, versión 1.26). Primero 12 propuestas en una página de prueba; el
+  usuario aceptó 1, 2, 3, 4, 7, 8, 9, 11 y 12 y rechazó 5, 6 y 10. Se probó solo
+  en la personal y, al confirmarlo, pasó a las tres apps. La equis de
+  multiplicar (✖️, `cancel`) reemplaza al ✨ de los multiplicadores, del mismo
+  color que los demás íconos.
 
 - [x] 🟡 **Menciones de herramientas en los archivos del proyecto** (resuelto el
   21-10-2026): se quitaron de los documentos y comentarios, y la guía técnica

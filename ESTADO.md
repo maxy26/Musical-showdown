@@ -1,6 +1,6 @@
 # Estado del proyecto — Musical Showdown
 
-> Foto del proyecto al **21-10-2026**. El detalle de cada cambio está en
+> Foto del proyecto al **26-10-2026**. El detalle de cada cambio está en
 > `AUDITORIA-CAMBIOS.md` y la lista completa de tareas, en `PENDIENTES.md`.
 > Si este resumen y esos archivos no coinciden, valen esos archivos.
 
@@ -8,7 +8,7 @@
 
 Juego de fiesta: sale una palabra y gana quien cante primero una canción que
 la tenga. Se publica como `.exe` de Windows, APK de Android y `.AppImage` de
-Linux en GitHub. **Última versión publicada: 1.24** (13-10-2026). Se está
+Linux en GitHub. **Última versión publicada: 1.26** (26-10-2026). Se está
 preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 
 ## Qué está hecho
@@ -39,6 +39,7 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 
 **Íconos (25-10-2026)**
 - Íconos de Material Design (Google, Apache 2.0) en lugar de los emojis, en las tres apps: `iconosEmoji.js` los cambia al dibujar; la imagen del podio los dibuja con `dibujarIcono`.
+- **Diseño más profesional (26-10-2026, versión 1.26)**, en las tres apps: íconos de contorno (también los de los botones de arriba), botones de ícono iguales, la misma barra arriba (volver o pausa a la izquierda), luces más suaves, dos tipografías (Fredoka y Nunito), tamaños de texto fijos, (?) discretos y géneros más claros. Se probó primero solo en la personal (instrucción 31, "modificación general").
 
 **Celular + PC (versión 1.23)**
 - La PC es la pantalla grande y el celular, el control.
@@ -174,10 +175,4 @@ usuario antes de publicar.
 
 ## Sin subir a GitHub
 
-Hay cambios en prueba que todavía no están en un commit:
-- la demo;
-- Premium y el sistema de compras;
-- la versión personal;
-- los lugares de anuncios.
-
-Salen en la próxima versión, cuando el usuario la confirme.
+Nada: todo está en GitHub (versión 1.26). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.

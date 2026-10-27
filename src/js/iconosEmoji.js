@@ -6,7 +6,7 @@
  * Así no hay que tocar cada pantalla, y los textos para compartir (WhatsApp)
  * siguen con emojis. La imagen del podio usa `dibujarIcono` (compartir.js).
  */
-import { ICONOS_MATERIAL } from "./iconosMaterial.js";
+import { ICONOS_MATERIAL, ICONOS_CONTORNO } from "./iconosMaterial.js";
 
 /** emoji → [ícono de Material Symbols, clase de color (opcional)] */
 export const EMOJI_A_ICONO = {
@@ -27,6 +27,7 @@ export const EMOJI_A_ICONO = {
   "📲": ["send_to_mobile"], "📷": ["photo_camera"], "🔗": ["link"], "⏸": ["pause"], "⏸️": ["pause"],
   "✏️": ["edit"], "🎲": ["casino"], "🥇": ["military_tech", "mi-oro"], "🥈": ["military_tech", "mi-plata"],
   "🥉": ["military_tech", "mi-bronce"],
+  "✖️": ["cancel"], "🚩": ["flag"], // multiplicadores y puntaje objetivo (26-10-2026)
 };
 
 // Un emoji con sus modificadores (FE0F) y uniones (ZWJ), p. ej. "🙋‍♂️"
@@ -41,7 +42,7 @@ export function iconoDe(emoji) {
 
 /** Caja y trazo de un ícono (casi todos vienen en la caja "0 -960 960 960"). */
 function datosDe(nombre) {
-  const d = ICONOS_MATERIAL[nombre];
+  const d = ICONOS_CONTORNO[nombre] || ICONOS_MATERIAL[nombre]; // de contorno (26-10-2026); si no hay, relleno
   return Array.isArray(d) ? d : ["0 -960 960 960", d];
 }
 

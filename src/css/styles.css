@@ -1059,3 +1059,33 @@ html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation
 .mi-bronce{color:#E39A5B;}
 .btn .mi,.icon-btn .mi,.chip .mi,.toast .mi{color:inherit;}
 .loader-mic{color:var(--gold);}
+
+/* ---------- Diseño más profesional (usuario, 26-10-2026; las tres apps) ----------
+   Propuestas aceptadas:
+   íconos de contorno, botones de ícono iguales, la misma barra arriba, luces suaves,
+   dos tipografías, tamaños de texto fijos, (?) discretos y géneros claros. */
+/* Botones de ícono: redondos de 44 px con el ícono a 24 px */
+html .icon-btn-round,html .home-round-btn{width:44px;height:44px;padding:0;font-size:20px;}
+html .icon-btn-round svg,html .home-round-btn svg{width:24px !important;height:24px !important;}
+/* La misma barra arriba: volver o pausa a la izquierda; ayuda, sonido y ajustes a la derecha */
+html .top-bar{margin-bottom:16px;}
+html .top-bar-izq{display:flex;align-items:center;gap:12px;}
+html .top-bar .icon-btn{background:var(--fun-surface);color:var(--text);box-shadow:0 4px 0 rgba(0,0,0,.3);}
+/* Luces de fondo más suaves */
+html .lights{opacity:.4;}
+/* Dos tipografías: Fredoka (títulos y números) y Nunito (lo demás) */
+html body,html button,html input,html select{font-family:'Nunito',sans-serif;}
+html :is(h1,h2,h3,.word,.clock,.wheel-value,.result-banner .big,.result-banner .pts,.score-change b,.podium-name,
+  .podium-block,.relay-adjust-value,.multiplier,.side .name-btn,.home-play,.home-card-title,.home-title){font-family:'Fredoka',sans-serif;}
+/* Tamaños de texto fijos: título 22, sección y texto 15, etiqueta 13 */
+html :is(.top-bar h2,.modal h2,.modal h3){font-size:22px;}
+html :is(.field label,.panel-title){font-size:15px;font-weight:800;}
+html :is(.opt-row > span,.btn,.home-wide-btn,.home-toggle-opt,.chip){font-size:15px;}
+html :is(.home-mode-label,.icon-btn:not(.icon-btn-round)){font-size:13px;}
+/* Botoncitos (?) sin círculo, junto al título de su sección */
+html .ayuda-btn{background:none;border:none;color:var(--text-dim);opacity:.75;width:22px;height:22px;}
+html .ayuda-btn svg{width:18px;height:18px;}
+html :is(.fila-ayuda,.field label.fila-ayuda){justify-content:flex-start;}
+/* Géneros: el elegido relleno, los demás solo con contorno */
+html .chip{background:transparent;border:2px solid rgba(255,255,255,.25);color:var(--text);}
+html :is(.chip.active,#genres-all.active,#genres-more.active){background:var(--gold);border-color:var(--gold);color:#141833;}
