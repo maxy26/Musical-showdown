@@ -11,13 +11,14 @@
 | Campo | Valor |
 |---|---|
 | Nombre | Musical Showdown |
-| Desarrollador | Musical Showdown (cuenta individual) |
+| Desarrollador | Musical Showdown (cuenta individual; el nombre del estudio y su país definitivo están pendientes, provisional: Colombia) |
 | Correo de contacto | showdownmusical@gmail.com |
 | Política de privacidad | https://maxy26.github.io/Musical-showdown/privacidad/ |
+| Términos de uso | La misma página (Parte II: https://maxy26.github.io/Musical-showdown/privacidad/#parte-2) |
 | Categoría | Juegos → Música (Galaxy: "Juegos / Música"; Microsoft: "Juegos > Música") |
-| Clasificación por edad | Para todos (sin violencia, sin compras, sin chat, sin publicidad) |
+| Clasificación por edad | La da el cuestionario (ver abajo): sin violencia ni chat; **con compras** (Premium) y, cuando AdMob esté activo, **con anuncios** en la versión gratis de Android |
 | Público objetivo | Adolescentes y adultos (no dirigido a menores de 13 años; usuario, 27-10-2026) |
-| Precio | Gratis, sin compras dentro de la app ni publicidad |
+| Precio | Gratis. Android: suscripción opcional **Premium** (Alternativo 2, escuchar el canto y sin anuncios) y, cuando estén activos, anuncios no personalizados (AdMob) solo en la versión gratis. La demo de PC es gratis, sin compras ni anuncios |
 | Idioma | Español |
 | Ícono | `src/icons/icon-512.png` (512 × 512) |
 | Imágenes | `tiendas/imagenes/` (ver "Imágenes") |
@@ -55,7 +56,8 @@
 > Usa la PC como pantalla grande y el celular como control: escanea el código
 > QR y listo. Funciona en la misma red Wi-Fi, sin internet.
 >
-> Sin cuentas, sin anuncios y sin compras. Funciona sin internet.
+> Sin cuentas y funciona sin internet. Gratis; con Premium (opcional) desbloqueas
+> más modos y quitas los anuncios.
 
 ## Novedades de esta versión (para "Qué hay de nuevo")
 
@@ -72,12 +74,21 @@
 | Cámara (`CAMERA`) | Leer el QR de la PC para vincular el celular. | Se vincula escribiendo el código. |
 | Notificaciones | Avisar de versiones y novedades importantes. | No llegan avisos fuera de la app. |
 | Internet / red local | Avisos (GitHub), enlaces a YouTube y vincular con la PC en la misma Wi-Fi. | Sin internet funciona igual. |
+| Identificador de publicidad (`AD_ID`, Android 13+) | Solo cuando AdMob esté activo: mostrar anuncios no personalizados y medir que se vieron. | Se pueden ver anuncios igual; Premium los quita. |
 
 ## Preguntas de privacidad / seguridad de datos
 
-- ¿Recopila datos personales? **No.** Sin cuentas ni formularios.
-- ¿Comparte datos con terceros? **Solo** el identificador de notificaciones de
-  Firebase (Google) en Android, para enviar avisos. No se usa para publicidad.
+- ¿Recopila datos personales? **No.** Sin cuentas ni formularios. Con AdMob
+  activo, Google recibe datos técnicos del dispositivo (IP, identificador de
+  publicidad, interacción con el anuncio): declararlos en Play como «ID de
+  dispositivo u otros» y «Interacción con la app», **compartidos para publicidad**.
+- ¿Comparte datos con terceros? Sí: el identificador de notificaciones de
+  Firebase (Google) en Android, para enviar avisos (no para publicidad), y,
+  cuando se active, AdMob (Google) para anuncios **no personalizados**. Nosotros
+  no enviamos nombres, ajustes ni puntajes.
+- ¿Compras? Las procesa Google Play (o la Microsoft Store); el juego no recibe
+  ni guarda datos de pago.
+- ¿Análisis de uso, informes de fallos o servidor propio? **No.**
 - ¿Graba audio? **No.** El micrófono solo mide el volumen en el momento.
 - ¿Guarda fotos o video? **No.** La cámara solo lee el QR en el momento.
 - ¿Ubicación, contactos, archivos? **No.**
@@ -90,9 +101,13 @@
 
 ## Clasificación por edad (cuestionario IARC u otro)
 
-Responder **No** a todo: violencia, sangre, miedo, sexo o desnudez, lenguaje
+Responder **No** a: violencia, sangre, miedo, sexo o desnudez, lenguaje
 vulgar, drogas, alcohol o tabaco, apuestas, discriminación, interacción entre
-usuarios en línea, compartir ubicación, compras digitales y publicidad.
+usuarios en línea y compartir ubicación.
+
+Responder **Sí** a: compras digitales (suscripción Premium en Android) y, cuando
+AdMob esté activo, publicidad. Es la versión gratuita de Android; la demo y la
+versión de PC no llevan anuncios.
 
 - Nota: los nombres de canciones y artistas son reales. Algunas canciones de
   trap y reggaetón pueden tener letras para adultos, pero **el juego no muestra
@@ -172,5 +187,7 @@ En `tiendas/imagenes/` (generadas con capturas del juego):
 ## Antes de cada envío
 
 - Compilar y probar la versión (instrucciones 23 a 26).
-- Revisar que los textos de este archivo sigan siendo ciertos.
+- Revisar que los textos de este archivo sigan siendo ciertos y digan lo mismo
+  que la política (`docs/privacidad/index.html`): precio, anuncios, compras,
+  permisos y respuestas de datos.
 - Las tiendas revisan cada actualización: puede tardar días en salir.

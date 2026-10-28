@@ -12,6 +12,23 @@
 
 ---
 
+## 2026-10-27 — `TIENDAS.md` alineado con la política
+
+**Qué se hizo:** se corrigió lo que contradecía la política: precio y descripción
+larga («sin anuncios y sin compras» → gratis con Premium opcional y anuncios no
+personalizados previstos), clasificación por edad (compras y anuncios en «Sí»),
+permiso `AD_ID`, respuestas de datos (AdMob compartido para publicidad, compras
+por la tienda, sin análisis de uso), enlace a los términos (Parte II) y país
+provisional. La demo y PC siguen sin anuncios.
+
+**Archivos:** `TIENDAS.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** lectura cruzada contra `docs/privacidad/index.html`. Sin cambios en `src/`.
+
+**Abierto:** sin subir a `main`. Repetir la revisión al integrar AdMob.
+
+---
+
 ## 2026-10-27 — Política: anuncios (AdMob, no personalizados) y sin análisis de uso
 
 **Qué se hizo:** decisiones del usuario: anuncios con AdMob previsto, **no

@@ -73,7 +73,7 @@
 - [ ] Enlazar la política desde las tres apps (Ajustes ya la tiene) y desde cada
   ficha de tienda; formularios de Google Play («Seguridad de los datos» y
   clasificación por edades, con público adolescentes y adultos).
-- [ ] Revisar `TIENDAS.md` para que diga lo mismo que la política.
+- [x] 27-10-2026: `TIENDAS.md` revisado para que diga lo mismo que la política (precio, Premium, anuncios AdMob, `AD_ID`, cuestionario de edad con compras y anuncios, datos compartidos, términos). Al integrar AdMob, repetir la revisión.
 - [ ] 🟢 **Futuro:** versión en inglés de la política y de los términos
   (`docs/privacy/` y `docs/terms/`), con selector de idioma.
 
