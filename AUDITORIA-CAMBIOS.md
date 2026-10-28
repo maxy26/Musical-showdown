@@ -12,6 +12,58 @@
 
 ---
 
+## 2026-10-27 — Política: anuncios (AdMob, no personalizados) y sin análisis de uso
+
+**Qué se hizo:** decisiones del usuario: anuncios con AdMob previsto, **no
+personalizados**, solo en la versión gratis de Android (Premium los quita); sin
+análisis de uso. Se reescribió la sección 8 de la política (8.1 a 8.4: quién, tipo,
+datos, opciones), se agregó AdMob a «Servicios de terceros» y una frase de que no
+hay análisis de uso ni servidor propio.
+
+**Archivos:** `docs/privacidad/index.html`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** 33 secciones, sin enlaces internos rotos, sin menciones a IA. Sin cambios en `src/`.
+
+**Abierto:** sin publicar. Al integrar AdMob: formularios de Play, consentimiento UE.
+
+---
+
+## 2026-10-27 — Privacidad y términos en una sola página
+
+**Qué se hizo:** a pedido del usuario se unieron la política y los términos en
+`docs/privacidad/index.html` (misma dirección que ya usan la app y las tiendas):
+Parte I (política, 17 secciones) y Parte II (términos, 16 secciones), índice
+lateral con las dos partes, dos resúmenes arriba y enlaces cruzados. Se borró
+`docs/terminos/`. Pie: correo y accesos a cada parte.
+
+**Archivos:** `docs/privacidad/index.html`, `docs/terminos/` (borrada), `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** 33 secciones, 0 enlaces internos rotos, sin menciones a IA; abierta en Brave. Sin cambios en `src/`.
+
+**Abierto:** el usuario debe revisarla; sin publicar. Datos legales pendientes (ver `PENDIENTES.md`).
+
+---
+
+## 2026-10-27 — Términos de uso (`docs/terminos/`)
+
+**Qué se hizo:** páginas de términos de uso en español con 16 secciones (licencia,
+edad 13+, Premium y compras por tienda, anuncios, canciones sin música ni letras,
+uso aceptable, propiedad intelectual, garantías, responsabilidad, terminación,
+ley aplicable, cambios, contacto), con el mismo estilo de la política. La política
+ahora enlaza a los términos en el pie. Datos acordados: edad mínima 13 años,
+correo `showdownmusical@gmail.com`; el nombre del estudio y el país quedan
+pendientes (el usuario primero va a crear el estudio). País provisional: **Colombia** (ley aplicable de los términos y sección 1 de la política); cambiarlo si se constituye el estudio en otro país.
+
+**Archivos:** `docs/terminos/index.html`, `docs/privacidad/index.html`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** 16 secciones, sin menciones a IA; abierta en Brave. Sin cambios
+en `src/`: no hay versión nueva del juego.
+
+**Abierto:** el usuario debe revisarla; sin publicar. Falta titular/país, enlazar
+desde Ajustes (cambio en `src/`) y desde las tiendas.
+
+---
+
 ## 2026-10-27 — Política de privacidad: estilo «B · Claro profesional»
 
 **Qué se hizo:** el usuario eligió la muestra B de tres. Se rediseñó

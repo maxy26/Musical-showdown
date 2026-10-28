@@ -64,10 +64,11 @@
   - nombre legal del titular y, si se quiere, dirección postal;
   - correo de contacto legal (hoy `showdownmusical@gmail.com`);
   - confirmar la edad mínima (hoy: «no pensado para menores de 13 años»);
-  - cuando se agreguen anuncios: proveedor, datos que recoge y consentimiento;
+  - [x] 27-10-2026 anuncios: política redactada con AdMob previsto, anuncios **no personalizados**, solo versión gratis de Android; al integrarlos hay que declarar lo mismo en Play («Seguridad de los datos», «contiene anuncios») y revisar la ventana de consentimiento (UMP) para la UE;
+  - [x] 27-10-2026 análisis de uso: **ninguno** (la política lo afirma; si se agrega, actualizarla);
   - si se usa análisis de uso o un servidor propio, agregarlo a la política;
   - representante en la UE/Reino Unido, solo si se llega a necesitar.
-- [ ] Términos de uso / EULA (plantilla `terms-of-use`) en `docs/terminos/`,
+- [x] 27-10-2026 (EN PRUEBA, sin publicar): términos de uso, unidos a la política en una sola página `docs/privacidad/` (Parte II, 16 secciones; falta enlazarlos desde Ajustes, las tiendas y poner titular/país en «Ley aplicable»). Antes: Términos de uso / EULA (plantilla `terms-of-use`) en `docs/terminos/`,
   con el mismo estilo; enlazar desde la política y las tiendas.
 - [ ] Enlazar la política desde las tres apps (Ajustes ya la tiene) y desde cada
   ficha de tienda; formularios de Google Play («Seguridad de los datos» y
