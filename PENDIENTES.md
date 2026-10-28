@@ -196,7 +196,7 @@
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.26** (26-10-2026: diseño más profesional, íconos de Material Design, catálogo revisado y demo con 3 géneros; ver AUDITORÍA del 26-10-2026).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.27** (28-10-2026: Ajustes con «Términos de uso» y la política en el idioma del dispositivo; política y términos unidos y en inglés; ver AUDITORIA-CAMBIOS.md).
 
 (Nada por ahora.)
 

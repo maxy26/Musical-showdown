@@ -12,6 +12,25 @@
 
 ---
 
+## 2026-10-28 — Versión 1.27 publicada
+
+**Qué se hizo:** `npm run android:release` (versionCode 27 → 28, versionName 1.27, firma
+con la clave del proyecto, SHA-256 `e0e0a02f…d5d730`, igual a la de `assetlinks.json`).
+Cambios para los jugadores desde la 1.26: botón «Términos de uso» en Ajustes y que
+«Política de privacidad» / «Términos de uso» abran la página en el idioma del
+dispositivo. El resto (política y términos unidos y en inglés, `GOOGLE-PLAY.md`,
+`TIENDAS.md`) son páginas y documentos que ya estaban en `main`.
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 28 y versionName 1.27; lint y 175 pruebas
+pasaron antes. Falta comprobar que GitHub Actions publique la Release con los 3
+archivos (ver siguiente entrada).
+
+**Abierto:** el nombre del estudio y las revisiones externas de la política.
+
+---
+
 ## 2026-10-28 — Ajustes abre la política en el idioma del dispositivo + prueba de que las dos páginas coincidan
 
 **Qué se hizo:** (1) `paginaLegal(parte, idioma)` en `plataforma.js`: «Política de

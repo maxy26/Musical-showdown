@@ -8,7 +8,7 @@
 
 Juego de fiesta: sale una palabra y gana quien cante primero una canción que
 la tenga. Se publica como `.exe` de Windows, APK de Android y `.AppImage` de
-Linux en GitHub. **Última versión publicada: 1.26** (26-10-2026). Se está
+Linux en GitHub. **Última versión publicada: 1.27** (28-10-2026). Se está
 preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 
 ## Qué está hecho
@@ -178,4 +178,4 @@ usuario antes de publicar.
 
 ## Sin subir a GitHub
 
-Nada: todo está en GitHub (versión 1.26). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.
+Nada: todo está en GitHub (versión 1.27). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.
