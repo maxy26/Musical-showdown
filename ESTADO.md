@@ -59,7 +59,7 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   Firewall se pide una sola vez.
 
 **Tiendas y dinero (sin publicar todavía)**
-- **Política de privacidad** publicada en
+- **Política de privacidad** (GitHub Pages activado y comprobado el 28-10-2026) publicada en
   https://maxy26.github.io/Musical-showdown/privacidad/ (contacto
   `showdownmusical@gmail.com`), con enlace en Ajustes. Desde el 27-10-2026 es
   la versión completa en español, unida a los términos de uso en una sola página (Parte I: política, 17 secciones; Parte II: términos, 16; anuncios con AdMob no personalizados previstos, sin análisis de uso, país provisional Colombia; basada en plantillas CC0 de

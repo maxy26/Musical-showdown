@@ -12,6 +12,21 @@
 
 ---
 
+## 2026-10-28 — Revisión de enlaces de la política
+
+**Qué se hizo:** se probaron los 3 enlaces externos de la página (GitHub, política
+de Google, publicidad de Google): responden 200. Al probar la página publicada
+(`maxy26.github.io/Musical-showdown/privacidad/`) y sus archivos, todo da **404**:
+GitHub Pages no está activado. Se anotó como 🔴 en `PENDIENTES.md`.
+
+**Archivos:** `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Resuelto el mismo día:** el usuario activó Pages (Settings → Pages → `main` / `/docs`) y se
+comprobó: `/privacidad/`, `/fonts/inter.woff2`, `/icono.png` y `/vincular/` responden 200 y la
+página es la última versión. Antes, los documentos que decían «publicada» eran una suposición.
+
+---
+
 ## 2026-10-27 — Botón «Términos de uso» en Ajustes
 
 **Qué se hizo:** en Ajustes, debajo de «Política de privacidad», nuevo botón

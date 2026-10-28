@@ -60,10 +60,11 @@
   conservación, transferencias, menores, derechos UE/Reino Unido/EE. UU.,
   opciones, seguridad, enlaces, cambios, contacto).
 - [x] 27-10-2026: diseño «B · Claro profesional» elegido por el usuario y aplicado.
+- [x] 28-10-2026: **GitHub Pages activado** por el usuario (rama `main`, carpeta `/docs`). Comprobado: `/privacidad/`, `/fonts/inter.woff2`, `/icono.png` y `/vincular/` responden 200 y la página muestra la última versión (términos, AdMob, Colombia). Antes daba 404 (comprobado el mismo día).
 - [ ] Datos que faltan para completarla (el usuario los dará paso a paso):
-  - nombre legal del titular y, si se quiere, dirección postal;
-  - correo de contacto legal (hoy `showdownmusical@gmail.com`);
-  - confirmar la edad mínima (hoy: «no pensado para menores de 13 años»);
+  - **único dato que falta (el usuario lo saltó el 28-10-2026, se retoma más adelante):** nombre del estudio o titular y, si se quiere, dirección postal; mientras tanto la política dice «su desarrollador» y país provisional Colombia. Ideas ya habladas: un nombre neutro para todos los proyectos, con juego de palabras y terminado en «Studio» (con o sin su nombre; favoritos propuestos: Mikuiz, Lumbrix);
+  - [x] correo de contacto: `showdownmusical@gmail.com`;
+  - [x] edad mínima: 13 años;
   - [x] 27-10-2026 anuncios: política redactada con AdMob previsto, anuncios **no personalizados**, solo versión gratis de Android; al integrarlos hay que declarar lo mismo en Play («Seguridad de los datos», «contiene anuncios») y revisar la ventana de consentimiento (UMP) para la UE;
   - [x] 27-10-2026 análisis de uso: **ninguno** (la política lo afirma; si se agrega, actualizarla);
   - si se usa análisis de uso o un servidor propio, agregarlo a la política;
