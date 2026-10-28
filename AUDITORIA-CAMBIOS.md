@@ -12,6 +12,23 @@
 
 ---
 
+## 2026-10-28 — `GOOGLE-PLAY.md`: respuestas para la Play Console
+
+**Qué se hizo:** hoja interna con las respuestas de los formularios de Google Play:
+datos de la app, contenido (anuncios, público 13+), Seguridad de los datos (qué se
+declara y qué no, con lo de AdMob marcado «[AdMob]»), cuestionario IARC, permisos
+(comprobados en el manifiesto combinado de la versión de lanzamiento),
+suscripción Premium y pasos previos al lanzamiento. Avisa del riesgo de la
+política de Familias por la frase «amigos y familia».
+
+**Archivos:** `GOOGLE-PLAY.md` (nuevo, fuera de `docs/`: no se publica), `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** permisos cruzados con el manifiesto; el resto, con la política y `TIENDAS.md`. **No** se vieron los formularios reales.
+
+**Abierto:** repasar contra la consola real; decidir planes y precios de Premium.
+
+---
+
 ## 2026-10-28 — Revisión de enlaces de la política
 
 **Qué se hizo:** se probaron los 3 enlaces externos de la página (GitHub, política

@@ -71,6 +71,7 @@
   - representante en la UE/Reino Unido, solo si se llega a necesitar.
 - [x] 27-10-2026 (EN PRUEBA, sin publicar): términos de uso, unidos a la política en una sola página `docs/privacidad/` (Parte II, 16 secciones; enlazados desde Ajustes el 27-10-2026 (en prueba); falta enlazarlos, las tiendas y poner titular/país en «Ley aplicable»). Antes: Términos de uso / EULA (plantilla `terms-of-use`) en `docs/terminos/`,
   con el mismo estilo; enlazar desde la política y las tiendas.
+- [x] 28-10-2026: respuestas para los formularios de Google Play en `GOOGLE-PLAY.md` (datos, clasificación, permisos, anuncios, Premium). Pendiente: repasarlas contra los formularios reales al abrir la Play Console, y el aviso de público objetivo (la descripción dice «amigos y familia» con público 13+).
 - [ ] Enlazar la política desde las tres apps (Ajustes ya la tiene) y desde cada
   ficha de tienda; formularios de Google Play («Seguridad de los datos» y
   clasificación por edades, con público adolescentes y adultos).
