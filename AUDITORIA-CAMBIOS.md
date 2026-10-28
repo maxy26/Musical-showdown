@@ -12,6 +12,18 @@
 
 ---
 
+## 2026-10-28 — Política y privacidad en pausa
+
+**Qué se hizo:** por decisión del usuario se deja la política de privacidad en
+pausa. Se reescribió la sección «Privacidad y parte legal» de `PENDIENTES.md` con lo
+hecho y lo que falta (nombre del estudio, revisión legal, traducción, AdMob, etc.).
+
+**Archivos:** `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Abierto:** todo lo que dice «Falta» en esa sección. Sin cambios en `src/`.
+
+---
+
 ## 2026-10-28 — Versión 1.27 publicada
 
 **Qué se hizo:** `npm run android:release` (versionCode 27 → 28, versionName 1.27, firma

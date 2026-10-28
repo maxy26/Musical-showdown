@@ -46,37 +46,34 @@
    2, escuchar el canto, Premium, anuncios, Google Play, compras en la Store,
    vinculación de dispositivos, IA que reconoce la canción (versión 2.0).
 
-## 🔒 Privacidad y parte legal (usuario, 27-10-2026) 🔴
+## 🔒 Privacidad y parte legal (usuario, 27-10-2026) 🟡
 
-> Se hace **poco a poco**: la página `docs/privacidad/index.html` se va
-> completando conforme el usuario da los datos. Base: plantillas CC0 de
-> `General-Legal/legal-templates` (Privacy Policy GDPR Enhanced) y estructura
-> parecida a https://cosmicode.games/en/privacy (secciones numeradas con
-> subapartados, fecha de última actualización). La app va dirigida a
-> **adolescentes y adultos** (usuario).
+> **En pausa desde el 28-10-2026 (decisión del usuario): se retoma cuando haga
+> falta; no se cierra.** La página `docs/privacidad/` (español) y `docs/privacy/`
+> (inglés) es una **base viva**: se actualiza con cada cambio de la app. Base:
+> plantillas CC0 de `General-Legal/legal-templates`. Público: **adolescentes y
+> adultos (13+)**. Publicada con GitHub Pages; versión 1.27 de la app.
 
-- [x] 27-10-2026: política en español con 17 secciones (responsable, información,
-  permisos, vincular, usos y bases legales, terceros, compras, anuncios,
-  conservación, transferencias, menores, derechos UE/Reino Unido/EE. UU.,
-  opciones, seguridad, enlaces, cambios, contacto).
-- [x] 27-10-2026: diseño «B · Claro profesional» elegido por el usuario y aplicado.
-- [x] 28-10-2026: **GitHub Pages activado** por el usuario (rama `main`, carpeta `/docs`). Comprobado: `/privacidad/`, `/fonts/inter.woff2`, `/icono.png` y `/vincular/` responden 200 y la página muestra la última versión (términos, AdMob, Colombia). Antes daba 404 (comprobado el mismo día).
-- [ ] Datos que faltan para completarla (el usuario los dará paso a paso):
-  - **único dato que falta (el usuario lo saltó el 28-10-2026, se retoma más adelante):** nombre del estudio o titular y, si se quiere, dirección postal; mientras tanto la política dice «su desarrollador» y país provisional Colombia. Ideas ya habladas: un nombre neutro para todos los proyectos, con juego de palabras y terminado en «Studio» (con o sin su nombre; favoritos propuestos: Mikuiz, Lumbrix);
-  - [x] correo de contacto: `showdownmusical@gmail.com`;
-  - [x] edad mínima: 13 años;
-  - [x] 27-10-2026 anuncios: política redactada con AdMob previsto, anuncios **no personalizados**, solo versión gratis de Android; al integrarlos hay que declarar lo mismo en Play («Seguridad de los datos», «contiene anuncios») y revisar la ventana de consentimiento (UMP) para la UE;
-  - [x] 27-10-2026 análisis de uso: **ninguno** (la política lo afirma; si se agrega, actualizarla);
-  - si se usa análisis de uso o un servidor propio, agregarlo a la política;
-  - representante en la UE/Reino Unido, solo si se llega a necesitar.
-- [x] 27-10-2026 (EN PRUEBA, sin publicar): términos de uso, unidos a la política en una sola página `docs/privacidad/` (Parte II, 16 secciones; enlazados desde Ajustes el 27-10-2026 (en prueba); falta enlazarlos, las tiendas y poner titular/país en «Ley aplicable»). Antes: Términos de uso / EULA (plantilla `terms-of-use`) en `docs/terminos/`,
-  con el mismo estilo; enlazar desde la política y las tiendas.
-- [x] 28-10-2026: respuestas para los formularios de Google Play en `GOOGLE-PLAY.md` (datos, clasificación, permisos, anuncios, Premium). Pendiente: repasarlas contra los formularios reales al abrir la Play Console, y el aviso de público objetivo (la descripción dice «amigos y familia» con público 13+).
-- [ ] Enlazar la política desde las tres apps (Ajustes ya la tiene) y desde cada
-  ficha de tienda; formularios de Google Play («Seguridad de los datos» y
-  clasificación por edades, con público adolescentes y adultos).
-- [x] 27-10-2026: `TIENDAS.md` revisado para que diga lo mismo que la política (precio, Premium, anuncios AdMob, `AD_ID`, cuestionario de edad con compras y anuncios, datos compartidos, términos). Al integrar AdMob, repetir la revisión.
-- [x] 28-10-2026 (EN PRUEBA, sin publicar): versión en inglés en `docs/privacy/` (una sola página, igual que la española, con enlace «English» / «Español» en el encabezado y el pie). Cada cambio de `docs/privacidad/` debe copiarse a `docs/privacy/`. Falta que una persona revise la traducción (sobre todo la parte legal) y Ajustes ya abre el inglés si el dispositivo no está en español (28-10-2026, en prueba); `test/legal.test.js` avisa si las dos páginas se desincronizan.
+**Hecho**
+- [x] Política (17 secciones) y términos de uso (16) unidos en una sola página, estilo «claro profesional», en español e inglés (`test/legal.test.js` vigila que coincidan).
+- [x] GitHub Pages activado y comprobado (28-10-2026).
+- [x] Ajustes tiene «Política de privacidad» y «Términos de uso» y abre el idioma del dispositivo (publicado en la 1.27).
+- [x] Decisiones: correo `showdownmusical@gmail.com`, edad 13+, país provisional Colombia, anuncios con AdMob **no personalizados** (solo versión gratis de Android), sin análisis de uso ni servidor propio.
+- [x] `TIENDAS.md` alineado con la política y `GOOGLE-PLAY.md` con las respuestas para la Play Console.
+- [x] `docs/vincular/` con el mismo estilo; el destino de descarga se cambia en dos variables (`DESCARGA_ANDROID`, `DESCARGA_OTROS`).
+
+**Falta**
+- [ ] 🟡 **Nombre del estudio o titular** y, si se quiere, dirección postal. Hoy dice «su desarrollador» y Colombia provisional (política sección 1 y términos «Ley aplicable»). Ideas habladas: nombre neutro para todos los proyectos, con juego de palabras y terminado en «Studio» (con o sin su nombre; Mikuiz, Lumbrix). Elegir uno y comprobar que esté libre (Play, Microsoft Store, GitHub, dominio).
+- [ ] 🟡 **Revisión legal por una persona** (sobre todo antes de cobrar Premium): limitación de responsabilidad, ley aplicable y compras.
+- [ ] 🟢 **Revisión de la traducción al inglés** por una persona.
+- [ ] 🟢 Repasar `GOOGLE-PLAY.md` contra la Play Console real al abrirla (Google cambia las preguntas) y enlazar la política en cada ficha de tienda.
+- [ ] 🟢 La descripción de las tiendas dice «amigos y familia» pero el público es 13+: revisarla para no caer en la política de Familias de Play.
+- [ ] 🟡 **Al integrar AdMob:** ventana de consentimiento (UMP) para la UE, formularios de anuncios de Play y repetir la revisión de política y `TIENDAS.md`.
+- [ ] 🟢 Si se agrega análisis de uso, informes de fallos o un servidor propio: declararlo en la política y en Play.
+- [ ] 🟢 Al definir planes y precios de Premium: que `screens/premium.js` muestre precio, renovación y cómo cancelar, y que coincida con los términos.
+- [ ] 🟢 Al publicar en Google Play: poner la ficha de Play en `docs/vincular/`.
+- [ ] 🟢 Representante en la UE/Reino Unido, solo si la ley llega a exigirlo.
+- [ ] 🟢 Cada cambio de `docs/privacidad/` se copia a `docs/privacy/`.
 
 ## 🎨 Íconos Material Design en las tres apps (usuario, 25-10-2026)
 
