@@ -16,6 +16,7 @@
 | Política de privacidad | https://maxy26.github.io/Musical-showdown/privacidad/ |
 | Categoría | Juegos → Música (Galaxy: "Juegos / Música"; Microsoft: "Juegos > Música") |
 | Clasificación por edad | Para todos (sin violencia, sin compras, sin chat, sin publicidad) |
+| Público objetivo | Adolescentes y adultos (no dirigido a menores de 13 años; usuario, 27-10-2026) |
 | Precio | Gratis, sin compras dentro de la app ni publicidad |
 | Idioma | Español |
 | Ícono | `src/icons/icon-512.png` (512 × 512) |
@@ -84,6 +85,8 @@
   conexión entre celular y PC va dentro de la red Wi-Fi del usuario.
 - ¿Se pueden borrar los datos? Sí: borrando los datos de la app o
   desinstalándola (todo queda en el dispositivo).
+- Las respuestas deben coincidir con la política (`docs/privacidad/index.html`);
+  al cambiar una, cambiar la otra.
 
 ## Clasificación por edad (cuestionario IARC u otro)
 

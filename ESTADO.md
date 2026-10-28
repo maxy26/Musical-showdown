@@ -61,7 +61,10 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 **Tiendas y dinero (sin publicar todavía)**
 - **Política de privacidad** publicada en
   https://maxy26.github.io/Musical-showdown/privacidad/ (contacto
-  `showdownmusical@gmail.com`), con enlace en Ajustes.
+  `showdownmusical@gmail.com`), con enlace en Ajustes. Desde el 27-10-2026 es
+  la versión completa en español (17 secciones, basada en plantillas CC0 de
+  General Legal; estilo «claro profesional» con Inter). Público: adolescentes y
+  adultos. Se completa paso a paso con los datos que falten (ver `PENDIENTES.md`).
 - **`TIENDAS.md`**: todos los textos, permisos, respuestas de privacidad y
   pasos. Las imágenes de las fichas están en `tiendas/imagenes/`.
 - **Microsoft Store**:

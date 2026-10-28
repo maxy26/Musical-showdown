@@ -59,6 +59,7 @@
   permisos, vincular, usos y bases legales, terceros, compras, anuncios,
   conservación, transferencias, menores, derechos UE/Reino Unido/EE. UU.,
   opciones, seguridad, enlaces, cambios, contacto).
+- [x] 27-10-2026: diseño «B · Claro profesional» elegido por el usuario y aplicado.
 - [ ] Datos que faltan para completarla (el usuario los dará paso a paso):
   - nombre legal del titular y, si se quiere, dirección postal;
   - correo de contacto legal (hoy `showdownmusical@gmail.com`);

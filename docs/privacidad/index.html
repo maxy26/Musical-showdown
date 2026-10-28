@@ -13,74 +13,58 @@
   compras), actualizar esta página y la fecha.
 -->
 <style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/inter.woff2) format('woff2');}
   :root{
-    --fondo:#f6f7fb;--tarjeta:#ffffff;--texto:#1d2140;--suave:#5b6080;--linea:#e4e6f0;
-    --marca:#141833;--acento:#e0a800;--acento-suave:#fff6d6;--enlace:#3346c8;
+    --fondo:#ffffff;--texto:#1b1f2e;--suave:#5f667a;--linea:#e5e8f0;--fondo2:#f5f7fb;--acento:#3346c8;--enlace:#3346c8;
     color-scheme:light;
   }
-  @media (prefers-color-scheme:dark){
-    :root{--fondo:#0f1229;--tarjeta:#181c3d;--texto:#eef0ff;--suave:#aeb3d6;--linea:#2a2f5c;
-      --acento:#ffd23f;--acento-suave:#2a2a3d;--enlace:#9fb0ff;color-scheme:dark;}
-  }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--fondo);color:var(--texto);
-    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+  body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.75 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;}
   a{color:var(--enlace);}
-  header{background:var(--marca);color:#fff;}
-  .cab{max-width:880px;margin:0 auto;padding:28px 20px 32px;display:flex;align-items:center;gap:16px;}
-  .cab img{width:56px;height:56px;border-radius:14px;flex:none;}
-  .cab .marca{font-size:14px;letter-spacing:.08em;text-transform:uppercase;opacity:.75;margin:0;}
-  .cab h1{margin:2px 0 0;font-size:clamp(24px,4vw,32px);line-height:1.2;}
-  main{max-width:880px;margin:-16px auto 0;padding:0 20px 48px;}
-  .tarjeta{background:var(--tarjeta);border:1px solid var(--linea);border-radius:16px;padding:24px;margin-bottom:20px;}
-  .meta{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--suave);font-size:14px;margin:0 0 14px;}
-  .resumen{background:var(--acento-suave);border-left:4px solid var(--acento);border-radius:12px;padding:16px 18px;margin:0;}
+  .hero{background:#141833;color:#fff;padding:48px 20px 56px;}
+  .hero .in{max-width:760px;margin:0 auto;}
+  .hero .marca{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#9fb0ff;margin:0;}
+  .hero h1{font-size:clamp(28px,5vw,42px);line-height:1.15;letter-spacing:-.02em;font-weight:700;margin:8px 0;}
+  .hero .sub{color:#c8cdf0;font-size:17px;margin:0 0 14px;}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:#aeb3d6;margin:0;}
+  .pagina{max-width:1000px;margin:0 auto;padding:36px 20px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;align-items:start;}
+  nav.toc{position:sticky;top:20px;border-left:2px solid var(--linea);padding-left:16px;}
+  nav.toc h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);margin:0 0 8px;}
+  nav.toc ol{list-style:none;padding:0;margin:0;font-size:14px;}
+  nav.toc li{padding:3px 0;}
+  nav.toc a{text-decoration:none;color:var(--suave);}
+  nav.toc a:hover{color:var(--acento);}
+  main{max-width:680px;}
+  .resumen{background:var(--fondo2);border-radius:10px;padding:16px 22px;margin:0 0 32px;}
   .resumen ul{margin:8px 0 0;padding-left:20px;}
-  nav h2{font-size:16px;margin:0 0 8px;}
-  nav ol{margin:0;padding-left:22px;columns:2;column-gap:32px;}
-  nav li{break-inside:avoid;}
-  @media (max-width:600px){nav ol{columns:1;}}
-  section{scroll-margin-top:16px;}
-  section h2{font-size:20px;margin:0 0 8px;}
-  section p,section li{margin:0 0 10px;}
-  section ul{padding-left:20px;margin:0 0 10px;}
-  section h3{font-size:16px;margin:16px 0 6px;}
-  section h2{padding-bottom:8px;border-bottom:1px solid var(--linea);}
+  section{scroll-margin-top:16px;padding:6px 0 26px;border-bottom:1px solid var(--linea);margin-bottom:26px;}
+  section h2{font-size:22px;font-weight:650;letter-spacing:-.01em;margin:0 0 10px;}
+  section h2 .n{color:var(--acento);margin-right:10px;}
+  section h3{font-size:16px;margin:18px 0 4px;}
+  section ul{padding-left:20px;}
   table{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0 4px;}
-  th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--linea);}
-  th{color:var(--suave);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;}
+  th,td{text-align:left;vertical-align:top;padding:10px 12px;border:1px solid var(--linea);}
+  th{background:var(--fondo2);font-size:13px;}
   .tabla{overflow-x:auto;}
-  footer{color:var(--suave);font-size:14px;text-align:center;padding:8px 20px 40px;}
+  footer{color:var(--suave);font-size:14px;text-align:center;padding:28px 20px 40px;border-top:1px solid var(--linea);}
+  @media (max-width:800px){
+    .pagina{grid-template-columns:1fr;gap:20px;}
+    nav.toc{position:static;}
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="cab">
-    <img src="../icono.png" alt="">
-    <div>
-      <p class="marca">Musical Showdown</p>
-      <h1>Política de privacidad</h1>
-    </div>
+<header class="hero">
+  <div class="in">
+    <p class="marca">Musical Showdown</p>
+    <h1>Política de privacidad</h1>
+    <p class="sub">Qué información usa el juego, para qué y cómo la protegemos.</p>
+    <p class="meta"><span>Última actualización: 27 de octubre de 2026</span><span>Dirigido a adolescentes y adultos</span></p>
   </div>
 </header>
 
-<main>
-  <div class="tarjeta">
-    <p>Esta política explica qué información usa <strong>Musical Showdown</strong> (el «juego»), para qué la usa, con quién se comparte y qué puedes hacer tú al respecto. Aplica al juego en Android, Windows, Linux y web, incluida la versión demo. Léela con calma: si algo no queda claro, escríbenos.</p>
-    <p class="meta"><span><strong>Última actualización:</strong> 27 de octubre de 2026</span><span><strong>Dirigido a:</strong> adolescentes y adultos</span></p>
-    <div class="resumen">
-      <strong>En resumen</strong>
-      <ul>
-        <li>No hay cuentas de usuario y no pedimos tu nombre, correo ni teléfono.</li>
-        <li>Lo que escribes en el juego (nombres de jugadores, ajustes) se queda en tu dispositivo.</li>
-        <li>El micrófono, si lo usas, solo mide el volumen: no graba ni envía audio.</li>
-        <li>La cámara solo lee el código QR para vincular dispositivos.</li>
-        <li>No vendemos tus datos ni los compartimos con fines comerciales.</li>
-      </ul>
-    </div>
-  </div>
-
-  <nav class="tarjeta" aria-label="Contenido">
+<div class="pagina">
+<nav class="toc" aria-label="Contenido">
     <h2>Contenido</h2>
     <ol>
       <li><a href="#responsable">Quién es el responsable</a></li>
@@ -102,17 +86,28 @@
       <li><a href="#contacto">Contacto</a></li>
     </ol>
   </nav>
+<main>
+    <div class="resumen">
+      <strong>En resumen</strong>
+      <ul>
+        <li>No hay cuentas de usuario y no pedimos tu nombre, correo ni teléfono.</li>
+        <li>Lo que escribes en el juego (nombres de jugadores, ajustes) se queda en tu dispositivo.</li>
+        <li>El micrófono, si lo usas, solo mide el volumen: no graba ni envía audio.</li>
+        <li>La cámara solo lee el código QR para vincular dispositivos.</li>
+        <li>No vendemos tus datos ni los compartimos con fines comerciales.</li>
+      </ul>
+    </div>
 
-  <div class="tarjeta">
-    <section id="responsable">
-      <h2>1. Quién es el responsable</h2>
+  
+
+  <section id="responsable">
+      <h2><span class="n">1</span>Quién es el responsable</h2>
+      <p>Esta política explica qué información usa <strong>Musical Showdown</strong> (el «juego»), para qué la usa, con quién se comparte y qué puedes hacer tú al respecto. Aplica al juego en Android, Windows, Linux y web, incluida la versión demo.</p>
       <p>Musical Showdown es un juego desarrollado de forma independiente. El responsable del tratamiento de la información descrita aquí es su desarrollador. Para cualquier consulta sobre privacidad escribe a <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a>.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="informacion">
-      <h2>2. Qué información tratamos</h2>
+  <section id="informacion">
+      <h2><span class="n">2</span>Qué información tratamos</h2>
       <h3>2.1 Lo que se guarda en tu dispositivo</h3>
       <p>El juego guarda en tu propio dispositivo, y en ningún servidor nuestro:</p>
       <ul>
@@ -128,11 +123,9 @@
       <h3>2.3 Información que reciben terceros</h3>
       <p>Algunos servicios que usa el juego (por ejemplo Google para las notificaciones, GitHub para los avisos y la tienda donde lo instalaste) pueden recibir datos técnicos como la dirección IP o el identificador del dispositivo, según sus propias políticas. Ver el apartado 6.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="permisos">
-      <h2>3. Permisos y para qué se usan</h2>
+  <section id="permisos">
+      <h2><span class="n">3</span>Permisos y para qué se usan</h2>
       <div class="tabla">
         <table>
           <thead><tr><th>Permiso</th><th>Para qué</th><th>Qué pasa con la información</th></tr></thead>
@@ -146,18 +139,14 @@
       </div>
       <p>Todos los permisos son opcionales: si no los das, el juego sigue funcionando sin esa función.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="vincular">
-      <h2>4. Vincular un celular con la PC</h2>
+  <section id="vincular">
+      <h2><span class="n">4</span>Vincular un celular con la PC</h2>
       <p>Cuando usas el celular como control de la PC, los dos dispositivos se comunican <strong>directamente dentro de tu red Wi-Fi</strong>, sin pasar por internet ni por servidores nuestros. Entre ellos viaja solo lo necesario para la partida (lo que se ve en pantalla y lo que se toca). Si pasas una partida del celular a la PC, se envían los datos de esa partida (nombres y puntajes) a tu PC.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="usos">
-      <h2>5. Para qué usamos la información</h2>
+  <section id="usos">
+      <h2><span class="n">5</span>Para qué usamos la información</h2>
       <ul>
         <li><strong>Hacer funcionar el juego</strong>: recordar tus ajustes y jugadores, vincular dispositivos y comprobar tus compras. <em>Base legal: ejecución del servicio que pediste.</em></li>
         <li><strong>Avisarte de novedades</strong>: versiones nuevas y avisos importantes. <em>Base legal: interés legítimo; en las notificaciones del sistema, tu consentimiento al darles permiso.</em></li>
@@ -166,11 +155,9 @@
       </ul>
       <p>No hacemos perfiles, no tomamos decisiones automatizadas que te afecten y no usamos tu información para publicidad a medida.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="terceros">
-      <h2>6. Servicios de terceros y con quién se comparte</h2>
+  <section id="terceros">
+      <h2><span class="n">6</span>Servicios de terceros y con quién se comparte</h2>
       <ul>
         <li><strong>Firebase Cloud Messaging (Google)</strong>, solo en Android: envía las notificaciones. Google asigna a tu dispositivo un identificador de notificaciones, que no asociamos con tu identidad. Puedes desactivarlas en los ajustes de Android. <a href="https://policies.google.com/privacy?hl=es" rel="noopener">Política de privacidad de Google</a>.</li>
         <li><strong>GitHub</strong>: el juego consulta una página pública para mostrar avisos y versiones nuevas, como cualquier página web. No se envían datos personales. <a href="https://docs.github.com/es/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">Declaración de privacidad de GitHub</a>.</li>
@@ -179,46 +166,34 @@
       </ul>
       <p>Además, podemos revelar información a autoridades cuando la ley lo exija, y a asesores profesionales o a quien adquiera el juego si este se transfiere. <strong>No vendemos ni alquilamos información personal.</strong></p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="compras">
-      <h2>7. Compras dentro del juego</h2>
+  <section id="compras">
+      <h2><span class="n">7</span>Compras dentro del juego</h2>
       <p>Algunas funciones (como el modo Alternativo 2 y escuchar el canto) se desbloquean con una compra o suscripción. El pago lo procesa la tienda (Google Play o Microsoft Store): <strong>nosotros no recibimos ni guardamos tus datos de pago</strong>. El juego solo consulta a la tienda si la compra está activa.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="anuncios">
-      <h2>8. Anuncios</h2>
+  <section id="anuncios">
+      <h2><span class="n">8</span>Anuncios</h2>
       <p>Hoy el juego no muestra anuncios. Si en el futuro la versión gratis para celular los incluye, actualizaremos esta política antes, explicaremos qué servicio se usa, qué datos recoge y, donde la ley lo exija, te pediremos tu consentimiento.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="conservacion">
-      <h2>9. Cuánto tiempo se conserva</h2>
+  <section id="conservacion">
+      <h2><span class="n">9</span>Cuánto tiempo se conserva</h2>
       <p>La información que guarda el juego vive en tu dispositivo y la conservas hasta que borres los datos de la app o la desinstales. Los servicios de terceros (apartado 6) conservan lo suyo según sus propias políticas. No mantenemos bases de datos de usuarios.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="transferencias">
-      <h2>10. Transferencias internacionales</h2>
+  <section id="transferencias">
+      <h2><span class="n">10</span>Transferencias internacionales</h2>
       <p>Algunos servicios que usa el juego (Google, GitHub, las tiendas) tienen servidores en otros países, como Estados Unidos, donde la protección de datos puede ser distinta a la de tu país. Esas empresas aplican sus propias garantías (por ejemplo, cláusulas contractuales tipo). Nosotros no enviamos información personal a servidores propios.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="menores">
-      <h2>11. Adolescentes y menores de edad</h2>
+  <section id="menores">
+      <h2><span class="n">11</span>Adolescentes y menores de edad</h2>
       <p>Musical Showdown está dirigido a <strong>adolescentes y adultos</strong>. No está pensado para menores de 13 años (o de la edad mínima que fije la ley de tu país) y no recopilamos datos de ellos de forma intencionada. Si eres madre, padre o tutor y crees que se nos envió información de un menor, escríbenos y la eliminaremos.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="derechos">
-      <h2>12. Tus derechos</h2>
+  <section id="derechos">
+      <h2><span class="n">12</span>Tus derechos</h2>
       <h3>12.1 En general</h3>
       <p>Como no guardamos datos personales en servidores propios, tu información está en tu dispositivo y la controlas tú: puedes <strong>borrarla</strong> (Android: Ajustes → Apps → Musical Showdown → Almacenamiento) o desinstalar el juego.</p>
       <h3>12.2 Si estás en la Unión Europea o el Reino Unido</h3>
@@ -228,11 +203,9 @@
       <h3>12.4 Cómo ejercerlos</h3>
       <p>Escribe a <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a> indicando qué quieres. Podemos pedirte datos para confirmar quién eres. Si no podemos atender tu solicitud, te explicaremos por qué.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="opciones">
-      <h2>13. Tus opciones</h2>
+  <section id="opciones">
+      <h2><span class="n">13</span>Tus opciones</h2>
       <ul>
         <li><strong>Notificaciones:</strong> desactívalas en los ajustes del sistema.</li>
         <li><strong>Permisos:</strong> puedes quitarlos cuando quieras en los ajustes del sistema.</li>
@@ -240,37 +213,29 @@
         <li><strong>Cancelar Premium:</strong> desde tu cuenta de Google Play o Microsoft Store.</li>
       </ul>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="seguridad">
-      <h2>14. Seguridad</h2>
+  <section id="seguridad">
+      <h2><span class="n">14</span>Seguridad</h2>
       <p>Las conexiones con servicios en internet usan cifrado (https). La vinculación entre dispositivos solo funciona dentro de tu red y con un código que cambia cada minuto. Aun así, ningún sistema es totalmente seguro y no podemos garantizar una seguridad absoluta.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="enlaces">
-      <h2>15. Enlaces a otros sitios</h2>
+  <section id="enlaces">
+      <h2><span class="n">15</span>Enlaces a otros sitios</h2>
       <p>El juego puede abrir enlaces a sitios de terceros (por ejemplo YouTube o las tiendas). No los controlamos ni somos responsables de sus prácticas; te recomendamos leer sus políticas.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="cambios">
-      <h2>16. Cambios en esta política</h2>
+  <section id="cambios">
+      <h2><span class="n">16</span>Cambios en esta política</h2>
       <p>Podemos modificar esta política. Si el juego cambia en algo que afecte tu privacidad, actualizaremos esta página y la fecha de «Última actualización». Los cambios importantes se avisarán también en la campana de avisos del juego.</p>
     </section>
-  </div>
 
-  <div class="tarjeta">
-    <section id="contacto">
-      <h2>17. Contacto</h2>
+  <section id="contacto">
+      <h2><span class="n">17</span>Contacto</h2>
       <p>Correo: <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a></p>
       <p><strong>Última actualización:</strong> 27 de octubre de 2026</p>
     </section>
-  </div>
 </main>
+</div>
 
 <footer>© 2026 Musical Showdown · <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a></footer>
 </body>

@@ -12,6 +12,33 @@
 
 ---
 
+## 2026-10-27 — Política de privacidad: estilo «B · Claro profesional»
+
+**Qué se hizo:** el usuario eligió la muestra B de tres. Se rediseñó
+`docs/privacidad/index.html`: portada oscura con título y fechas, fondo blanco
+(oscuro si el sistema está en modo oscuro), tipografía Inter, columna de lectura
+angosta, índice lateral fijo (arriba en celular), secciones separadas por líneas
+y números en azul. Se copió `inter.woff2` y `LICENCIAS.txt` a `docs/fonts/`
+(GitHub Pages no alcanza `src/`). A pedido del usuario se dejó **idéntica a la
+muestra**: siempre clara (sin modo oscuro), sin ícono en la portada, con el
+subtítulo, el resumen arriba de todo y el párrafo de introducción dentro de la
+sección 1. Se comparó con capturas de Brave (muestra y página real).
+
+**Archivos:** `docs/privacidad/index.html`, `docs/fonts/`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** abierta en Brave; 17 secciones.
+
+**Publicado:** el usuario lo confirmó; se actualizaron `ESTADO.md`, `TIENDAS.md`
+(público objetivo), `README.md`, `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`
+(instrucciones 33 y 34), `CLAUDE.md` y `PENDIENTES.md`, y se subió a `main`
+(GitHub Pages publica la política). Sin cambios en `src/`: no hay versión nueva
+del juego (sigue la 1.26).
+
+**Abierto:** usar el mismo estilo en los términos de uso y en `docs/vincular/` si
+se quiere; datos legales pendientes (ver `PENDIENTES.md`).
+
+---
+
 ## 2026-10-27 — Política de privacidad completa en español
 
 **Qué se hizo:** se reescribió `docs/privacidad/index.html` con 17 secciones y

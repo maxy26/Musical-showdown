@@ -192,6 +192,17 @@
     los avisos, las versiones y la política de privacidad (GitHub Pages), y Actions
     necesita su cuota de artefactos. Si se pone privado, todo eso deja de funcionar.
 
+33. **Política de privacidad** (27-10-2026): en español, con el estilo «B · Claro
+    profesional» elegido por el usuario (portada oscura, fondo blanco, Inter,
+    índice lateral, secciones numeradas). Se completa **paso a paso** a medida que
+    el usuario da los datos (titular, contacto, anuncios, términos de uso); no
+    inventar esos datos. El juego va dirigido a **adolescentes y adultos**. La
+    versión en inglés queda para el futuro.
+
+34. **"Actualiza y publica"** (27-10-2026) significa: actualizar **todos** los `.md`
+    que correspondan y subir el proyecto completo a GitHub (`main`) en su última
+    versión. Una versión nueva del juego (etiqueta `v*`) sigue la instrucción 28.
+
 ## Cuando falte información
 
 21. Las reglas de emparejamiento de **Clásico** y **Alternativo 1**

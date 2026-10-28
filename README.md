@@ -30,7 +30,7 @@ Musical_Showdown/
 │   └── android/      Capacitor (proyecto nativo en android/)
 ├── build/        ← scripts que arman cada plataforma desde src/
 ├── avisos/       ← avisos.json: novedades de la campana (ver avisos/LEEME.md)
-├── docs/         ← GitHub Pages: política de privacidad, página del QR de vincular y assetlinks.json
+├── docs/         ← GitHub Pages: política de privacidad, página del QR de vincular, assetlinks.json y fonts/ (Inter)
 ├── tiendas/      ← imágenes para las fichas de las tiendas (ver TIENDAS.md)
 ├── test/         ← pruebas: lógica (node --test) y pantallas (test/e2e, Playwright)
 └── dist/         ← salida de los builds (generado, no editar)
