@@ -103,6 +103,8 @@ function botonVincularInicio() {
 }
 /** Dirección de la política de privacidad (docs/privacidad/index.html). */
 export const POLITICA_PRIVACIDAD = "https://maxy26.github.io/Musical-showdown/privacidad/";
+/** Los términos de uso son la Parte II de la misma página. */
+export const TERMINOS_DE_USO = POLITICA_PRIVACIDAD + "#parte-2";
 
 /** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
 export function settingsBody() {
@@ -133,6 +135,7 @@ export function settingsBody() {
     ${EDICION === "completa" || EDICION === "personal" ? `<button type="button" class="btn ${premiumActivo() ? "btn-premium-activo" : "btn-primary"} btn-block" id="btn-premium">${premiumActivo() ? "⭐ Premium activo" : "⭐ Premium"}</button>` : ""}
     ${esDemo() ? `<button type="button" class="btn btn-primary btn-block" id="btn-completa">⭐ Versión completa</button>` : ""}
     <button type="button" class="btn btn-ghost btn-block" id="btn-privacidad">🔒 Política de privacidad</button>
+    <button type="button" class="btn btn-ghost btn-block" id="btn-terminos">📖 Términos de uso</button>
     <p class="home-version">Musical Showdown · Versión ${APP_VERSION} · ${BUILD_INFO}</p>
   </div>`);
   const paint = () => {
@@ -159,6 +162,7 @@ export function settingsBody() {
   if (desvincular) desvincular.onclick = preguntarDesvincular;
   // Política de privacidad (la piden las tiendas; página en docs/privacidad, GitHub Pages)
   body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(POLITICA_PRIVACIDAD);
+  body.querySelector("#btn-terminos").onclick = () => abrirEnlace(TERMINOS_DE_USO);
   const completa = body.querySelector("#btn-completa");
   if (completa) completa.onclick = () => abrirVersionCompleta();
   const premium = body.querySelector("#btn-premium");

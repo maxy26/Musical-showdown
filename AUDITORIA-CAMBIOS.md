@@ -12,6 +12,24 @@
 
 ---
 
+## 2026-10-27 — Botón «Términos de uso» en Ajustes
+
+**Qué se hizo:** en Ajustes, debajo de «Política de privacidad», nuevo botón
+«📖 Términos de uso» que abre la Parte II de la misma página
+(`TERMINOS_DE_USO` en `menu.js`, la dirección de la política + `#parte-2`). Se
+reutilizó el ícono de 📖 (no hizo falta un ícono nuevo).
+
+**Archivos:** `src/js/screens/menu.js`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `npm run lint` y `npm test` (172) pasan; compiladas la personal
+(`.exe` y APK), `build:desktop` y `build:apk` (1.26). Se abrió el `.exe` personal.
+No se corrieron las pruebas de pantallas (e2e).
+
+**Abierto:** el usuario debe probarlo; sin subir a `main` ni publicar versión.
+En el celular no se instaló (no se comprobó si hay uno conectado).
+
+---
+
 ## 2026-10-27 — `TIENDAS.md` alineado con la política
 
 **Qué se hizo:** se corrigió lo que contradecía la política: precio y descripción
