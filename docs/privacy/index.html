@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy and terms of use · Musical Showdown</title>
+<meta name="description" content="Privacy policy and terms of use of Musical Showdown: what information the game uses, how it is protected, and the rules for using it.">
+<link rel="icon" href="../icono.png">
+<!--
+  English version of the privacy policy and terms of use (28-10-2026). The Spanish page (docs/privacidad) is the original: when it changes, update this one and the date.
+  Published with GitHub Pages: https://maxy26.github.io/Musical-showdown/privacy/
+-->
+<style>
+  @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(../fonts/inter.woff2) format('woff2');}
+  :root{
+    --fondo:#ffffff;--texto:#1b1f2e;--suave:#5f667a;--linea:#e5e8f0;--fondo2:#f5f7fb;--acento:#3346c8;--enlace:#3346c8;
+    color-scheme:light;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--fondo);color:var(--texto);font:16px/1.75 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;}
+  a{color:var(--enlace);}
+  .hero{background:#141833;color:#fff;padding:48px 20px 56px;}
+  .hero .in{max-width:760px;margin:0 auto;}
+  .hero .marca{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#9fb0ff;margin:0;}
+  .hero h1{font-size:clamp(28px,5vw,42px);line-height:1.15;letter-spacing:-.02em;font-weight:700;margin:8px 0;}
+  .hero .sub{color:#c8cdf0;font-size:17px;margin:0 0 14px;}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:#aeb3d6;margin:0;}
+  .pagina{max-width:1000px;margin:0 auto;padding:36px 20px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;align-items:start;}
+  nav.toc{position:sticky;top:20px;border-left:2px solid var(--linea);padding-left:16px;}
+  nav.toc h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);margin:0 0 8px;}
+  nav.toc ol{list-style:none;padding:0;margin:0;font-size:14px;}
+  nav.toc li{padding:3px 0;}
+  nav.toc a{text-decoration:none;color:var(--suave);}
+  nav.toc a:hover{color:var(--acento);}
+  main{max-width:680px;}
+  .resumen{background:var(--fondo2);border-radius:10px;padding:16px 22px;margin:0 0 32px;}
+  .resumen ul{margin:8px 0 0;padding-left:20px;}
+  section{scroll-margin-top:16px;padding:6px 0 26px;border-bottom:1px solid var(--linea);margin-bottom:26px;}
+  section h2{font-size:22px;font-weight:650;letter-spacing:-.01em;margin:0 0 10px;}
+  section h2 .n{color:var(--acento);margin-right:10px;}
+  section h3{font-size:16px;margin:18px 0 4px;}
+  section ul{padding-left:20px;}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0 4px;}
+  th,td{text-align:left;vertical-align:top;padding:10px 12px;border:1px solid var(--linea);}
+  th{background:var(--fondo2);font-size:13px;}
+  .tabla{overflow-x:auto;}
+  footer{color:var(--suave);font-size:14px;text-align:center;padding:28px 20px 40px;border-top:1px solid var(--linea);}
+  @media (max-width:800px){
+    .pagina{grid-template-columns:1fr;gap:20px;}
+    nav.toc{position:static;}
+  }
+  html{scroll-behavior:smooth;}
+  nav.toc{max-height:calc(100vh - 40px);overflow-y:auto;}
+  nav.toc h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--acento);margin:14px 0 4px;}
+  nav.toc h3:first-of-type{margin-top:0;}
+  .parte{padding:6px 0 4px;margin:0 0 22px;border-bottom:2px solid var(--texto);scroll-margin-top:16px;}
+  .parte .etq{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--acento);margin:0;}
+  .parte h2{font-size:28px;letter-spacing:-.02em;margin:2px 0 8px;}
+  .parte p{color:var(--suave);margin:0 0 14px;}
+  .resumen + .resumen{margin-top:-14px;}
+  .resumen strong{display:block;}
+  @media (max-width:800px){nav.toc{max-height:none;}}
+  .hero .meta a{color:#9fb0ff;}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="in">
+    <p class="marca">Musical Showdown</p>
+    <h1>Privacy and terms of use</h1>
+    <p class="sub">What information the game uses, how we protect it, and the rules for using it.</p>
+    <p class="meta"><span>Last updated: October 27, 2026</span><span>Intended for teens and adults</span><span><a href="../privacidad/">Español</a></span></p>
+  </div>
+</header>
+
+<div class="pagina">
+<nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <h3><a href="#parte-1">Part I · Privacy policy</a></h3>
+    <ol><li><a href="#p-responsable">Who is responsible</a></li><li><a href="#p-informacion">What information we handle</a></li><li><a href="#p-permisos">Permissions and what they are for</a></li><li><a href="#p-vincular">Linking a phone to a PC</a></li><li><a href="#p-usos">What we use the information for</a></li><li><a href="#p-terceros">Third-party services and who we share with</a></li><li><a href="#p-compras">In-game purchases</a></li><li><a href="#p-anuncios">Ads</a></li><li><a href="#p-conservacion">How long information is kept</a></li><li><a href="#p-transferencias">International transfers</a></li><li><a href="#p-menores">Teens and minors</a></li><li><a href="#p-derechos">Your rights</a></li><li><a href="#p-opciones">Your options</a></li><li><a href="#p-seguridad">Security</a></li><li><a href="#p-enlaces">Links to other sites</a></li><li><a href="#p-cambios">Changes to this policy</a></li><li><a href="#p-contacto">Contact</a></li></ol>
+    <h3><a href="#parte-2">Part II · Terms of use</a></h3>
+    <ol><li><a href="#t-aceptacion">Acceptance</a></li><li><a href="#t-licencia">License to use</a></li><li><a href="#t-edad">Minimum age</a></li><li><a href="#t-premium">Premium and purchases</a></li><li><a href="#t-anuncios">Ads</a></li><li><a href="#t-musica">Songs and music</a></li><li><a href="#t-uso">Acceptable use</a></li><li><a href="#t-propiedad">Intellectual property</a></li><li><a href="#t-terceros">Third-party services</a></li><li><a href="#t-disponibilidad">Availability and changes to the game</a></li><li><a href="#t-garantias">No warranties</a></li><li><a href="#t-responsabilidad">Limitation of liability</a></li><li><a href="#t-terminacion">Termination</a></li><li><a href="#t-ley">Governing law</a></li><li><a href="#t-cambios">Changes to these terms</a></li><li><a href="#t-contacto">Contact</a></li></ol>
+  </nav>
+<main>
+    <p>This document has two parts: the <a href="#parte-1">privacy policy</a>, which explains what data <strong>Musical Showdown</strong> uses, and the <a href="#parte-2">terms of use</a>, which set the rules for playing it. By installing or using the game you accept both. The Spanish version, <a href="../privacidad/">Español</a>, is the original; if the two differ, the Spanish one prevails.</p>
+
+    <div class="resumen">
+      <strong>Privacy, in short</strong>
+      <ul>
+        <li>There are no user accounts, and we do not ask for your name, email or phone number.</li>
+        <li>What you type in the game (player names, settings) stays on your device.</li>
+        <li>The microphone, if you use it, only measures volume: it does not record or send audio.</li>
+        <li>The camera only reads the QR code used to link devices.</li>
+        <li>We do not sell your data or share it for commercial purposes.</li>
+      </ul>
+    </div>
+    <div class="resumen">
+      <strong>Terms, in short</strong>
+      <ul>
+        <li>The game is for having fun at parties and get-togethers; use it respectfully.</li>
+        <li>You can play for free; some features are paid (Premium).</li>
+        <li>The game does not play or download third-party music.</li>
+        <li>It is provided "as is," without warranties, and may change over time.</li>
+      </ul>
+    </div>
+
+    <div class="parte" id="parte-1">
+      <p class="etq">Part I</p>
+      <h2>Privacy policy</h2>
+      <p>What information the game uses, what for, and who it is shared with.</p>
+    </div>
+    <section id="p-responsable">
+      <h2><span class="n">1</span>Who is responsible</h2>
+      <p>This policy explains what information <strong>Musical Showdown</strong> (the "game") uses, what it uses it for, who it is shared with, and what you can do about it. It applies to the game on Android, Windows, Linux and the web, including the demo version.</p>
+      <p>Musical Showdown is an independently developed game. The controller of the information described here is its developer, based in Colombia. For any privacy question, write to <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a>.</p>
+    </section>
+<section id="p-informacion">
+      <h2><span class="n">2</span>What information we handle</h2>
+      <h3>2.1 What is stored on your device</h3>
+      <p>The game stores the following on your own device, and on no server of ours:</p>
+      <ul>
+        <li>Your <strong>settings</strong>: sound, animations and countdown.</li>
+        <li>The <strong>names of players and teams</strong> and the options of your last match, so you don't have to type them again.</li>
+        <li>The <strong>notices</strong> you have already read.</li>
+        <li>Your <strong>purchase status</strong> (if you have Premium), so the game works without internet.</li>
+        <li>If you linked a phone to a PC, the <strong>address of that PC on your network</strong> and a key to reconnect.</li>
+      </ul>
+      <p>All of this is deleted when you clear the app's data or uninstall it.</p>
+      <h3>2.2 What we do not collect</h3>
+      <p>We do not ask for or store your real name, email, phone number, address, location, contacts, photos or voice recordings. There are no profiles, messages or content that you publish for other people. Please do not type sensitive data (health, religion, political views, etc.) in player names.</p>
+      <h3>2.3 Information received by third parties</h3>
+      <p>Some services the game uses (for example Google for notifications, GitHub for notices, and the store where you installed it) may receive technical data such as the IP address or the device identifier, according to their own policies. See section 6.</p>
+    </section>
+<section id="p-permisos">
+      <h2><span class="n">3</span>Permissions and what they are for</h2>
+      <div class="tabla">
+        <table>
+          <thead><tr><th>Permission</th><th>What for</th><th>What happens to the information</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Microphone</strong></td><td>Detect whether someone is singing when you tap their name (paid feature, not in the demo).</td><td>Only the volume is measured at that moment. Nothing is recorded, stored or sent.</td></tr>
+            <tr><td><strong>Camera</strong></td><td>Read the QR code shown by the PC so the phone can be used as a controller.</td><td>The image is processed on the device at that moment and is neither stored nor sent.</td></tr>
+            <tr><td><strong>Notifications</strong> (Android)</td><td>Tell you about new versions and important news.</td><td>See section 6 (Firebase).</td></tr>
+            <tr><td><strong>Local network and internet</strong></td><td>Link devices on your Wi-Fi, show notices and open links.</td><td>See sections 4 and 6.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>All permissions are optional: if you do not grant them, the game keeps working without that feature.</p>
+    </section>
+<section id="p-vincular">
+      <h2><span class="n">4</span>Linking a phone to a PC</h2>
+      <p>When you use the phone as a controller for the PC, the two devices talk <strong>directly inside your Wi-Fi network</strong>, without going through the internet or any server of ours. Only what is needed for the match travels between them (what is on screen and what is tapped). If you move a match from the phone to the PC, that match's data (names and scores) is sent to your PC.</p>
+    </section>
+<section id="p-usos">
+      <h2><span class="n">5</span>What we use the information for</h2>
+      <ul>
+        <li><strong>Making the game work</strong>: remembering your settings and players, linking devices and checking your purchases. <em>Legal basis: performance of the service you requested.</em></li>
+        <li><strong>Telling you about news</strong>: new versions and important notices. <em>Legal basis: legitimate interest; for system notifications, your consent when you grant the permission.</em></li>
+        <li><strong>Security and maintenance</strong>: keeping the game stable and protecting connections. <em>Legal basis: legitimate interest and legal compliance.</em></li>
+        <li><strong>Complying with the law</strong> and defending our rights if necessary.</li>
+      </ul>
+      <p>We do not build profiles, we do not make automated decisions that affect you, and we do not use your information for targeted advertising.</p>
+    </section>
+<section id="p-terceros">
+      <h2><span class="n">6</span>Third-party services and who we share with</h2>
+      <ul>
+        <li><strong>Firebase Cloud Messaging (Google)</strong>, Android only: sends notifications. Google assigns your device a notification identifier, which we do not link to your identity. You can turn notifications off in Android settings. <a href="https://policies.google.com/privacy?hl=en" rel="noopener">Google Privacy Policy</a>.</li>
+        <li><strong>GitHub</strong>: the game reads a public page to show notices and new versions, like any web page. No personal data is sent. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub Privacy Statement</a>.</li>
+        <li><strong>YouTube</strong>: the button to listen to a song opens a search in your browser. The game does not play or download music; what you do on YouTube is governed by the policies of YouTube and Google.</li>
+        <li><strong>Google AdMob</strong>, once ads are active (free version on Android only): shows non-personalized ads. See section 8.</li>
+        <li><strong>Stores</strong> (Microsoft Store, Google Play): if you installed the game from a store, it may collect data under its own policy.</li>
+      </ul>
+      <p>We may also disclose information to authorities when the law requires it, and to professional advisers or to whoever acquires the game if it is transferred. <strong>We do not sell or rent personal information.</strong></p>
+      <p><strong>Usage analytics:</strong> the game uses no statistics or crash-reporting tools, and has no server of its own where information about you is stored.</p>
+    </section>
+<section id="p-compras">
+      <h2><span class="n">7</span>In-game purchases</h2>
+      <p>Some features (such as the Alternativo 2 mode and listening to the singing) are unlocked with a purchase or subscription. Payment is processed by the store (Google Play or Microsoft Store): <strong>we do not receive or store your payment details</strong>. The game only asks the store whether the purchase is active.</p>
+    </section>
+<section id="p-anuncios">
+      <h2><span class="n">8</span>Ads</h2>
+      <p>Today the game shows no ads. The free version for phones (Android) will show them later; <strong>Premium removes them</strong>, and the demo and the PC versions do not have them. Once they are active, they will work like this:</p>
+      <h3>8.1 Who shows them and where</h3>
+      <p>Ads will be served by <strong>Google AdMob</strong>. They will appear on the home, setup, result and podium screens, and never during a round.</p>
+      <h3>8.2 Non-personalized ads</h3>
+      <p>We will show <strong>non-personalized ads</strong>: they are chosen by context (for example the type of app, the language and the approximate country) and not from a profile of your interests. We do not use your information for targeted advertising.</p>
+      <h3>8.3 What data AdMob may receive</h3>
+      <p>To show the ad and measure that it was seen, Google may receive technical data from your device, such as the IP address, the device or advertising identifier, the model and the system, and how you interact with the ad. We do not send it your player names, your settings or your scores. More information: <a href="https://policies.google.com/technologies/ads?hl=en" target="_blank" rel="noopener">how Google uses advertising data</a>.</p>
+      <h3>8.4 Your choices</h3>
+      <ul>
+        <li>Where the law requires it (for example in the European Union and the United Kingdom), we will ask for your consent before showing ads.</li>
+        <li>You can reset or delete the advertising identifier in Android settings.</li>
+        <li>You can remove ads with Premium.</li>
+      </ul>
+      <p>If we change the type of ads or the provider, we will update this policy before doing so.</p>
+    </section>
+<section id="p-conservacion">
+      <h2><span class="n">9</span>How long information is kept</h2>
+      <p>The information the game stores lives on your device and you keep it until you clear the app's data or uninstall it. Third-party services (section 6) keep their own data under their own policies. We do not keep user databases.</p>
+    </section>
+<section id="p-transferencias">
+      <h2><span class="n">10</span>International transfers</h2>
+      <p>Some services the game uses (Google, GitHub, the stores) have servers in other countries, such as the United States, where data protection may differ from that of your country. Those companies apply their own safeguards (for example, standard contractual clauses). We do not send personal information to servers of our own.</p>
+    </section>
+<section id="p-menores">
+      <h2><span class="n">11</span>Teens and minors</h2>
+      <p>Musical Showdown is intended for <strong>teens and adults</strong>. It is not meant for children under 13 (or the minimum age set by the law of your country) and we do not knowingly collect data from them. If you are a parent or guardian and believe information about a child was sent to us, write to us and we will delete it.</p>
+    </section>
+<section id="p-derechos">
+      <h2><span class="n">12</span>Your rights</h2>
+      <h3>12.1 In general</h3>
+      <p>Because we do not store personal data on servers of our own, your information is on your device and you control it: you can <strong>delete it</strong> (Android: Settings → Apps → Musical Showdown → Storage) or uninstall the game.</p>
+      <h3>12.2 If you are in the European Union or the United Kingdom</h3>
+      <p>You have the right to request <strong>access</strong>, <strong>rectification</strong>, <strong>erasure</strong>, <strong>portability</strong>, <strong>restriction</strong> and <strong>objection</strong> to the processing of your information, and to <strong>withdraw your consent</strong> where we have relied on it. You may also lodge a complaint with the data protection authority of your country.</p>
+      <h3>12.3 If you are in the United States (California and other states)</h3>
+      <p>You may ask to know what information we hold, to have it corrected or deleted, and to opt out of its sale or use for targeted advertising. We do not sell or share personal information for targeted advertising, and we do not discriminate against anyone who exercises these rights.</p>
+      <h3>12.4 How to exercise them</h3>
+      <p>Write to <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a> saying what you want. We may ask for details to confirm who you are. If we cannot handle your request, we will explain why.</p>
+    </section>
+<section id="p-opciones">
+      <h2><span class="n">13</span>Your options</h2>
+      <ul>
+        <li><strong>Notifications:</strong> turn them off in the system settings.</li>
+        <li><strong>Permissions:</strong> you can remove them at any time in the system settings.</li>
+        <li><strong>Do Not Track:</strong> the game does not track your activity, so browser "Do Not Track" signals change nothing.</li>
+        <li><strong>Cancel Premium:</strong> from your Google Play or Microsoft Store account.</li>
+      </ul>
+    </section>
+<section id="p-seguridad">
+      <h2><span class="n">14</span>Security</h2>
+      <p>Connections to services on the internet use encryption (https). Linking between devices only works inside your network and with a code that changes every minute. Even so, no system is completely secure and we cannot guarantee absolute security.</p>
+    </section>
+<section id="p-enlaces">
+      <h2><span class="n">15</span>Links to other sites</h2>
+      <p>The game may open links to third-party sites (for example YouTube or the stores). We do not control them and are not responsible for their practices; we recommend reading their policies.</p>
+    </section>
+<section id="p-cambios">
+      <h2><span class="n">16</span>Changes to this policy</h2>
+      <p>We may change this policy. If the game changes in a way that affects your privacy, we will update this page and the "Last updated" date. Important changes will also be announced in the game's notice bell.</p>
+    </section>
+<section id="p-contacto">
+      <h2><span class="n">17</span>Contact</h2>
+      <p>Email: <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a></p>
+      <p><strong>Last updated:</strong> October 27, 2026</p>
+    </section>
+
+    <div class="parte" id="parte-2">
+      <p class="etq">Part II</p>
+      <h2>Terms of use</h2>
+      <p>The rules for using the game, Premium and ads.</p>
+    </div>
+    <section id="t-aceptacion">
+      <h2><span class="n">1</span>Acceptance</h2>
+      <p>These terms govern the use of <strong>Musical Showdown</strong> (the "game") on Android, Windows, Linux and the web, including the demo version. By installing or using the game you accept these terms and our <a href="#p-responsable">privacy policy</a>. If you do not agree, do not use it.</p>
+    </section>
+<section id="t-licencia">
+      <h2><span class="n">2</span>License to use</h2>
+      <p>We grant you a personal, limited, non-exclusive, non-transferable and revocable license to use the game on your devices, for entertainment and non-commercial purposes. The game is not sold to you: you are allowed to use it.</p>
+      <p>You may not copy it to redistribute, sell, rent or publish it in another store; nor modify, decompile or extract its code, except as the law allows even if this agreement says otherwise.</p>
+    </section>
+<section id="t-edad">
+      <h2><span class="n">3</span>Minimum age</h2>
+      <p>The game is intended for teens and adults and not for children under 13. If you are between 13 and the age of majority in your country, use the game with the permission of your parent or guardian, especially when making purchases.</p>
+    </section>
+<section id="t-premium">
+      <h2><span class="n">4</span>Premium and purchases</h2>
+      <p>The game can be downloaded for free. <strong>Premium</strong> is an optional subscription that unlocks features (for example the Alternativo 2 mode and listening to the singing) and removes ads. On PC, the full edition may be offered in another way, depending on the store.</p>
+      <ul>
+        <li>Payment, price, taxes and renewal are handled by the store (for example Google Play or Microsoft Store), not by the game. The price you see in the store is the price that applies.</li>
+        <li>The subscription renews automatically until you cancel it from your store account. Uninstalling the game does not cancel it.</li>
+        <li>Refunds are requested from the store and follow its rules and the consumer law that applies to you.</li>
+        <li>If you stop paying, you go back to the free version; your saved settings and names stay on your device.</li>
+        <li>The features of each version may change over time; we will announce important changes.</li>
+      </ul>
+    </section>
+<section id="t-anuncios">
+      <h2><span class="n">5</span>Ads</h2>
+      <p>The free version for phones may show ads on the home, setup, result and podium screens, never during a round. Ads are served by a third party and we do not control their content. Premium removes them. See the <a href="#p-anuncios">privacy policy</a>.</p>
+    </section>
+<section id="t-musica">
+      <h2><span class="n">6</span>Songs and music</h2>
+      <p>The game shows a word and players sing any song that contains it. <strong>It does not play, download or store third-party music or lyrics.</strong> The buttons to look up a song only open a search on a third party's site (for example YouTube), which is governed by its own terms.</p>
+      <p>Song titles and artists in the catalog are mentioned only to identify songs. They belong to their respective owners; the game is not affiliated with or endorsed by them. The sound effects are freely licensed recordings (CC0).</p>
+    </section>
+<section id="t-uso">
+      <h2><span class="n">7</span>Acceptable use</h2>
+      <p>We ask that you do not use the game to:</p>
+      <ul>
+        <li>harass, insult or discriminate against other people through player or team names;</li>
+        <li>type sensitive personal data of other people without their permission;</li>
+        <li>bypass the restrictions of the free version or of Premium, or use unauthorized copies;</li>
+        <li>interfere with the game, with the services it uses, or with other people's networks when linking devices;</li>
+        <li>any unlawful purpose.</li>
+      </ul>
+      <p>When linking devices, do so only on Wi-Fi networks that are yours or with the permission of whoever manages them.</p>
+    </section>
+<section id="t-propiedad">
+      <h2><span class="n">8</span>Intellectual property</h2>
+      <p>The game, its design, texts, interface and code belong to the developer, except for the third-party components named in their licenses (typefaces, Material Design icons and other open-source libraries, whose licenses are included with the game). The names you type in the game remain yours and stay on your device.</p>
+    </section>
+<section id="t-terceros">
+      <h2><span class="n">9</span>Third-party services</h2>
+      <p>The game relies on outside services, such as app stores, Google (purchases, notifications and, if present, ads) and GitHub (notices). Their use is governed by each one's terms and we are not responsible for them. Details are in the <a href="#p-terceros">privacy policy</a>.</p>
+    </section>
+<section id="t-disponibilidad">
+      <h2><span class="n">10</span>Availability and changes to the game</h2>
+      <p>We may update, change, limit or withdraw features or the whole game, or stop supporting a platform or version. Features that depend on the internet (notices, purchases, notifications) may be unavailable offline; we try to keep the essentials working without internet.</p>
+    </section>
+<section id="t-garantias">
+      <h2><span class="n">11</span>No warranties</h2>
+      <p>The game is provided "as is" and "as available," without warranties of any kind to the extent the law allows: we do not guarantee that it will work without errors or interruptions, that voice or singing detection will be accurate, or that it is fit for a particular purpose. This does not affect the consumer rights that your country's law gives you and that cannot be excluded.</p>
+    </section>
+<section id="t-responsabilidad">
+      <h2><span class="n">12</span>Limitation of liability</h2>
+      <p>To the extent the law allows, the developer is not liable for indirect damages, for loss of data stored on your device, or for what happens at your get-togethers or parties (loud volume, disagreements between players, etc.). If anything makes us liable, the total will not exceed what you paid for the game in the previous 12 months. Nothing here excludes liability that the law does not allow to be excluded.</p>
+    </section>
+<section id="t-terminacion">
+      <h2><span class="n">13</span>Termination</h2>
+      <p>You may stop using the game at any time by uninstalling it. We may suspend or end your license if you breach these terms. Once it ends, stop using the game; the sections that by their nature should survive (intellectual property, warranties and liability) will continue to apply.</p>
+    </section>
+<section id="t-ley">
+      <h2><span class="n">14</span>Governing law</h2>
+      <p>These terms are governed by the laws of Colombia, the country where the developer resides. If you are a consumer, this does not remove the protection of the mandatory rules of your country of residence or your right to go to its courts.</p>
+    </section>
+<section id="t-cambios">
+      <h2><span class="n">15</span>Changes to these terms</h2>
+      <p>We may update these terms. The date above shows the last revision. If the change is important, we will announce it in the game (notice bell) or on the store listing. Continuing to use the game afterwards means you accept the changes.</p>
+    </section>
+<section id="t-contacto">
+      <h2><span class="n">16</span>Contact</h2>
+      <p>For any question about these terms, write to <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a>.</p>
+    </section>
+  </main>
+</div>
+
+<footer>© 2026 Musical Showdown · <a href="mailto:showdownmusical@gmail.com">showdownmusical@gmail.com</a> · <a href="#parte-1">Privacy</a> · <a href="#parte-2">Terms</a> · <a href="../privacidad/">Español</a></footer>
+</body>
+</html>

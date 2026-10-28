@@ -12,6 +12,21 @@
 
 ---
 
+## 2026-10-28 — Política y términos en inglés (`docs/privacy/`)
+
+**Qué se hizo:** traducción completa al inglés de la página unida (Parte I,
+17 secciones; Parte II, 16), con el mismo diseño, índice y resúmenes. Enlace
+«English» / «Español» en el encabezado y el pie de las dos páginas. La española
+es la original: el texto inglés lo dice y prevalece la española si difieren.
+
+**Archivos:** `docs/privacy/index.html` (nuevo), `docs/privacidad/index.html` (enlaces al inglés), `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** 33 secciones en cada página, sin enlaces internos rotos, sin menciones a IA; abierta en Brave. Los enlaces externos del inglés apuntan a las versiones en inglés de Google y GitHub (no se comprobaron uno a uno).
+
+**Abierto:** sin publicar. Traducción sin revisión humana. Mantener las dos páginas iguales.
+
+---
+
 ## 2026-10-28 — `GOOGLE-PLAY.md`: respuestas para la Play Console
 
 **Qué se hizo:** hoja interna con las respuestas de los formularios de Google Play:

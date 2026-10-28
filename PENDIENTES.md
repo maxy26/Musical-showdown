@@ -76,8 +76,7 @@
   ficha de tienda; formularios de Google Play («Seguridad de los datos» y
   clasificación por edades, con público adolescentes y adultos).
 - [x] 27-10-2026: `TIENDAS.md` revisado para que diga lo mismo que la política (precio, Premium, anuncios AdMob, `AD_ID`, cuestionario de edad con compras y anuncios, datos compartidos, términos). Al integrar AdMob, repetir la revisión.
-- [ ] 🟢 **Futuro:** versión en inglés de la política y de los términos
-  (`docs/privacy/` y `docs/terms/`), con selector de idioma.
+- [x] 28-10-2026 (EN PRUEBA, sin publicar): versión en inglés en `docs/privacy/` (una sola página, igual que la española, con enlace «English» / «Español» en el encabezado y el pie). Cada cambio de `docs/privacidad/` debe copiarse a `docs/privacy/`. Falta que una persona revise la traducción (sobre todo la parte legal) y decidir si Ajustes abre el inglés según el idioma del dispositivo (hoy el juego solo está en español).
 
 ## 🎨 Íconos Material Design en las tres apps (usuario, 25-10-2026)
 
