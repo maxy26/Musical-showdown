@@ -24,8 +24,9 @@ dispositivo. El resto (política y términos unidos y en inglés, `GOOGLE-PLAY.m
 **Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
 
 **Verificación:** `aapt` confirma versionCode 28 y versionName 1.27; lint y 175 pruebas
-pasaron antes. Falta comprobar que GitHub Actions publique la Release con los 3
-archivos (ver siguiente entrada).
+pasaron antes. GitHub Actions «Compilar v1.27» terminó bien y la Release v1.27 quedó
+publicada con `Musical-Showdown.apk`, `Musical-Showdown.AppImage` y `Musical.Showdown.exe`.
+Se abrió el `.exe` final (`dist/windows`); no se instaló en un celular.
 
 **Abierto:** el nombre del estudio y las revisiones externas de la política.
 
