@@ -31,6 +31,16 @@ export function salirDeLaApp() {
 }
 
 /**
+ * Página de privacidad y términos (docs/privacidad en español, docs/privacy en inglés).
+ * Se abre la del idioma del dispositivo: español si empieza por "es", inglés en los demás.
+ * `parte` es el ancla opcional (p. ej. "parte-2" = términos de uso).
+ */
+export function paginaLegal(parte = "", idioma = typeof navigator !== "undefined" ? navigator.language : "es") {
+  const carpeta = /^es/i.test(idioma || "es") ? "privacidad" : "privacy";
+  return `https://maxy26.github.io/Musical-showdown/${carpeta}/${parte ? "#" + parte : ""}`;
+}
+
+/**
  * Abre un enlace fuera del juego, en el navegador del sistema (por ejemplo,
  * "Descargar" de un aviso). En Android, Capacitor abre en el navegador las
  * direcciones de otros sitios; en el .exe lo hace platforms/desktop/main.js.

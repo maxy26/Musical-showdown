@@ -10,7 +10,7 @@ import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } fr
 import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO, EDICION } from "../version.js";
 import { abrirPremium } from "./premium.js";
-import { esAppInstalada, salirDeLaApp, abrirEnlace } from "../plataforma.js";
+import { esAppInstalada, salirDeLaApp, abrirEnlace, paginaLegal } from "../plataforma.js";
 import { puedeSerPantalla, puedeSerControl, controlConectado } from "../vinculo.js";
 import { espacioAnuncio } from "../anuncios.js";
 import { esDemo, modoBloqueado, modoOculto, premiumActivo } from "../edicion.js";
@@ -101,10 +101,6 @@ function botonVincularInicio() {
   if (puedeSerControl()) return `<button type="button" class="home-round-btn pressable" id="btn-vincular" aria-label="Escanear la partida de la PC">${ICONS.scan()}</button>`;
   return "";
 }
-/** Dirección de la política de privacidad (docs/privacidad/index.html). */
-export const POLITICA_PRIVACIDAD = "https://maxy26.github.io/Musical-showdown/privacidad/";
-/** Los términos de uso son la Parte II de la misma página. */
-export const TERMINOS_DE_USO = POLITICA_PRIVACIDAD + "#parte-2";
 
 /** Contenido de Ajustes (también se abre desde la ronda, ver round.js). */
 export function settingsBody() {
@@ -161,8 +157,8 @@ export function settingsBody() {
   const desvincular = body.querySelector("#btn-desvincular");
   if (desvincular) desvincular.onclick = preguntarDesvincular;
   // Política de privacidad (la piden las tiendas; página en docs/privacidad, GitHub Pages)
-  body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(POLITICA_PRIVACIDAD);
-  body.querySelector("#btn-terminos").onclick = () => abrirEnlace(TERMINOS_DE_USO);
+  body.querySelector("#btn-privacidad").onclick = () => abrirEnlace(paginaLegal());
+  body.querySelector("#btn-terminos").onclick = () => abrirEnlace(paginaLegal("parte-2")); // los términos son la Parte II de la misma página
   const completa = body.querySelector("#btn-completa");
   if (completa) completa.onclick = () => abrirVersionCompleta();
   const premium = body.querySelector("#btn-premium");

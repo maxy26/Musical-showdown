@@ -12,6 +12,24 @@
 
 ---
 
+## 2026-10-28 — Ajustes abre la política en el idioma del dispositivo + prueba de que las dos páginas coincidan
+
+**Qué se hizo:** (1) `paginaLegal(parte, idioma)` en `plataforma.js`: «Política de
+privacidad» y «Términos de uso» de Ajustes abren `docs/privacidad/` si el idioma del
+dispositivo empieza por «es» y `docs/privacy/` en los demás (los términos, con
+`#parte-2`). Reemplaza `POLITICA_PRIVACIDAD` / `TERMINOS_DE_USO` de `menu.js`.
+(2) `test/legal.test.js`: prueba esa función y falla si la página española y la
+inglesa dejan de tener los mismos id, enlaces externos, filas de tabla o fecha, o si
+no se enlazan entre sí.
+
+**Archivos:** `src/js/plataforma.js`, `src/js/screens/menu.js`, `test/legal.test.js`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `npm run lint` y `npm test` (175) pasan; compiladas la personal, `build:desktop` y `build:apk` (1.26). Se abrió el `.exe` personal. No se corrieron las e2e ni se probó en un celular con idioma inglés.
+
+**Abierto:** el usuario debe probarlo; sin subir a `main`. El inglés sin revisión humana (ver `PENDIENTES.md`). Hay que seguir copiando los cambios de una página a la otra, pero ahora la prueba avisa si se desincronizan estructura o enlaces (no si cambia un texto).
+
+---
+
 ## 2026-10-28 — `docs/vincular/` con el estilo de la política
 
 **Qué se hizo:** la página que se abre al escanear el QR sin la app ahora usa el
