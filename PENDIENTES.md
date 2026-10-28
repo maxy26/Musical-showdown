@@ -578,7 +578,7 @@
   - [ ] 🟢 **Ajustar el volumen mínimo que cuenta como voz** (`UMBRAL_VOZ` en `src/js/microfono.js`) si al probar cantando no detecta bien o detecta ruido (usuario, 12-10-2026).
   - [ ] 🟢 **Que la cámara del celular abra la app con el QR en cualquier
     celular** (usuario, 12-10-2026). **En espera (usuario, 12-10-2026): se hace
-    cuando la app esté publicada en Play Store**, porque el enlace de descarga
+    cuando la app esté publicada en Play Store** (preparado el 28-10-2026: en `docs/vincular/index.html` basta cambiar `DESCARGA_ANDROID` y `DESCARGA_OTROS`), porque el enlace de descarga
     de GitHub es temporal. Entonces la página `docs/vincular/` y el respaldo
     del enlace (`browser_fallback_url`) deben llevar a Play Store, y se revisa
     si conviene otro dominio. La app ya está preparada

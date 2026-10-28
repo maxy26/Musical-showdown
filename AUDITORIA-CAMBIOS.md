@@ -12,6 +12,26 @@
 
 ---
 
+## 2026-10-28 — `docs/vincular/` con el estilo de la política
+
+**Qué se hizo:** la página que se abre al escanear el QR sin la app ahora usa el
+mismo estilo «claro profesional» de la política: portada oscura con el ícono del
+juego (en lugar del emoji 🎤), tipografía Inter (`docs/fonts/`), fondo blanco,
+botones azules y un pie con enlace a «Privacidad y términos». El script que
+abre la app o lleva a la descarga no se tocó.
+
+Además, el destino de descarga quedó en dos variables (`DESCARGA_ANDROID`,
+`DESCARGA_OTROS`, hoy GitHub) usadas por los dos botones; al publicar en Google Play
+basta cambiar esa línea.
+
+**Archivos:** `docs/vincular/index.html`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** abierta en Brave (en el PC; el botón «Abrir en la app» solo actúa en Android). Sin cambios en `src/`.
+
+**Abierto:** sin publicar. Probarla en el celular tras publicar; el enlace directo a la app sigue pendiente de `assetlinks.json` (ver `PENDIENTES.md`).
+
+---
+
 ## 2026-10-28 — Política y términos en inglés (`docs/privacy/`)
 
 **Qué se hizo:** traducción completa al inglés de la página unida (Parte I,
