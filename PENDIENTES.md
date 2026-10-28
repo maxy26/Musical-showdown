@@ -46,6 +46,35 @@
    2, escuchar el canto, Premium, anuncios, Google Play, compras en la Store,
    vinculación de dispositivos, IA que reconoce la canción (versión 2.0).
 
+## 🔒 Privacidad y parte legal (usuario, 27-10-2026) 🔴
+
+> Se hace **poco a poco**: la página `docs/privacidad/index.html` se va
+> completando conforme el usuario da los datos. Base: plantillas CC0 de
+> `General-Legal/legal-templates` (Privacy Policy GDPR Enhanced) y estructura
+> parecida a https://cosmicode.games/en/privacy (secciones numeradas con
+> subapartados, fecha de última actualización). La app va dirigida a
+> **adolescentes y adultos** (usuario).
+
+- [x] 27-10-2026: política en español con 17 secciones (responsable, información,
+  permisos, vincular, usos y bases legales, terceros, compras, anuncios,
+  conservación, transferencias, menores, derechos UE/Reino Unido/EE. UU.,
+  opciones, seguridad, enlaces, cambios, contacto).
+- [ ] Datos que faltan para completarla (el usuario los dará paso a paso):
+  - nombre legal del titular y, si se quiere, dirección postal;
+  - correo de contacto legal (hoy `showdownmusical@gmail.com`);
+  - confirmar la edad mínima (hoy: «no pensado para menores de 13 años»);
+  - cuando se agreguen anuncios: proveedor, datos que recoge y consentimiento;
+  - si se usa análisis de uso o un servidor propio, agregarlo a la política;
+  - representante en la UE/Reino Unido, solo si se llega a necesitar.
+- [ ] Términos de uso / EULA (plantilla `terms-of-use`) en `docs/terminos/`,
+  con el mismo estilo; enlazar desde la política y las tiendas.
+- [ ] Enlazar la política desde las tres apps (Ajustes ya la tiene) y desde cada
+  ficha de tienda; formularios de Google Play («Seguridad de los datos» y
+  clasificación por edades, con público adolescentes y adultos).
+- [ ] Revisar `TIENDAS.md` para que diga lo mismo que la política.
+- [ ] 🟢 **Futuro:** versión en inglés de la política y de los términos
+  (`docs/privacy/` y `docs/terms/`), con selector de idioma.
+
 ## 🎨 Íconos Material Design en las tres apps (usuario, 25-10-2026)
 
 - [x] 🟡 **Íconos de https://github.com/google/material-design-icons en las tres

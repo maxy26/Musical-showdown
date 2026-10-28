@@ -12,6 +12,27 @@
 
 ---
 
+## 2026-10-27 — Política de privacidad completa en español
+
+**Qué se hizo:** se reescribió `docs/privacidad/index.html` con 17 secciones y
+subapartados, basada en la plantilla `privacy-policy-gdpr` de General Legal (CC0,
+sin copiar texto en inglés: adaptada al juego) y con estructura parecida a la de
+cosmicode.games (secciones numeradas, fecha de última actualización arriba y al
+final). Se agregaron usos y bases legales, conservación, transferencias
+internacionales, derechos (UE/Reino Unido y EE. UU.), opciones y enlaces. Público:
+adolescentes y adultos (antes decía «toda la familia»). El inglés queda como
+pendiente futuro.
+
+**Archivos:** `docs/privacidad/index.html`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** generada con script; 17 secciones; sin menciones a IA. No se
+publicó (GitHub Pages se actualiza al subir a `main`).
+
+**Abierto:** datos legales por completar paso a paso, términos de uso, inglés,
+formularios de Google Play (ver «Privacidad y parte legal» en `PENDIENTES.md`).
+
+---
+
 ## 2026-10-26 — Release 1.26: falló por el repositorio privado
 
 **Qué pasó:** al subir la etiqueta `v1.26`, Actions falló al subir los
