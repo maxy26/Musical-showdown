@@ -108,7 +108,8 @@ test("Podio: compartir muestra la imagen sin repetir el texto", async ({ page })
   });
   await expect(page.locator("#compartir")).toBeVisible();
   await page.locator("#compartir").click();
-  await expect(page.locator(".compartir-img")).toBeVisible();
+  // Dibujar la imagen (1080 × 1350) tarda en las máquinas lentas de GitHub Actions
+  await expect(page.locator(".compartir-img")).toBeVisible({ timeout: 15_000 });
   await expect(page.locator("#compartir-ya")).toBeVisible();
   await expect(page.locator(".compartir-texto, .compartir-nota")).toHaveCount(0);
 });

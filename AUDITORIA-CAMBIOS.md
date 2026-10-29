@@ -27,6 +27,12 @@ el fondo borroso con la fila marcada al editar una opción y las ventanas según
 `.aab`). Se recompiló el `.exe` (`dist/windows`) con la versión nueva. La Release la arma GitHub Actions al
 subir la etiqueta `v1.28`.
 
+**Reintentos:** la compilación de la etiqueta falló dos veces en las pruebas de pantallas (en `main` el mismo
+commit pasó). Corriéndolas como en GitHub (Chromium, modo CI) la que fallaba a veces era «Podio: compartir
+muestra la imagen»: dibujar la imagen de 1080 × 1350 puede pasar de los 5 s en máquinas lentas. Se le dio
+hasta 15 s a ese paso (`test/e2e/partida.spec.mjs`; pasó 6 de 6 sin reintentos) y la etiqueta `v1.28` se volvió
+a subir sobre ese commit (con permiso del usuario).
+
 **Abierto:** comprobar que la Release v1.28 quede publicada con sus tres archivos.
 
 ---
