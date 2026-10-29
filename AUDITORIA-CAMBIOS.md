@@ -30,10 +30,14 @@ subir la etiqueta `v1.28`.
 **Reintentos:** la compilación de la etiqueta falló dos veces en las pruebas de pantallas (en `main` el mismo
 commit pasó). Corriéndolas como en GitHub (Chromium, modo CI) la que fallaba a veces era «Podio: compartir
 muestra la imagen»: dibujar la imagen de 1080 × 1350 puede pasar de los 5 s en máquinas lentas. Se le dio
-hasta 15 s a ese paso (`test/e2e/partida.spec.mjs`; pasó 6 de 6 sin reintentos) y la etiqueta `v1.28` se volvió
-a subir sobre ese commit (con permiso del usuario).
+hasta 15 s a ese paso (`test/e2e/partida.spec.mjs`; pasó 6 de 6 sin reintentos) y la etiqueta `v1.28` se movió a
+ese commit (`a09ec97`) y se volvió a subir, con permiso del usuario.
 
-**Abierto:** comprobar que la Release v1.28 quede publicada con sus tres archivos.
+**Resultado:** GitHub Actions «Compilar v1.28» terminó bien y la Release v1.28 quedó publicada con
+`Musical-Showdown.apk`, `Musical-Showdown.AppImage` y `Musical.Showdown.exe`. Se abrió el `.exe` final
+(`dist/windows`); no se instaló en un celular.
+
+**Abierto:** que el usuario pruebe la 1.28 en el celular.
 
 ---
 
