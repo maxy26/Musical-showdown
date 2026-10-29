@@ -12,6 +12,25 @@
 
 ---
 
+## 2026-10-29 — Versión 1.28 publicada
+
+**Qué se hizo:** `npm run android:release` (versionCode 28 → 29, versionName 1.28, firma con la clave del
+proyecto, SHA-256 `e0e0a02f…d5d730`, la misma de siempre). Cambios para los jugadores desde la 1.27: el
+rediseño «Escenario nocturno» completo (todas las pantallas y ventanas, la pantalla de carga con bienvenida,
+el fondo borroso con la fila marcada al editar una opción y las ventanas según el tamaño de la pantalla) y
+«Devolver relevos» pasa a ser de Premium.
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 29 y versionName 1.28 (`dist/MusicalShowdown-v1.28.apk` y
+`.aab`). Se recompiló el `.exe` (`dist/windows`) con la versión nueva. La Release la arma GitHub Actions al
+subir la etiqueta `v1.28`.
+
+**Abierto:** comprobar que la Release v1.28 quede publicada con sus tres archivos.
+
+---
+
 ## 2026-10-29 — Se sube a `main` el rediseño «Escenario nocturno» (sin versión nueva)
 
 **Qué se hizo («actualiza y publica», instrucción 34):** se subieron a `main` todos los cambios del rediseño

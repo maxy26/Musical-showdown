@@ -296,15 +296,9 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.27** (28-10-2026: Ajustes con «Términos de uso» y la política en el idioma del dispositivo; política y términos unidos y en inglés; ver AUDITORIA-CAMBIOS.md).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.28** (29-10-2026: rediseño «Escenario nocturno» completo y «Devolver relevos» en Premium; ver AUDITORIA-CAMBIOS.md).
 
-- **Rediseño «Escenario nocturno» completo** (28 y 29-10-2026; subido a `main` el 29-10-2026, sin versión todavía):
-  Organizar equipos, Ajustes, avisos (con «Borrar notificaciones» y el (!) en la campana), ayudas (globo junto
-  al (?)), Modos de juego, verificar canción, compartir el podio (colores del fondo a elegir), vincular, control
-  del celular y PC vinculada, reloj de la ronda en anillo, ventanas «Sí / No» / aviso / pausa, rueda de números
-  encima del valor, ventanas de relevos, «Relevos por equipo» con la fila marcada, ventanas chicas según el
-  tamaño de la pantalla, Premium, listas desplegables y pantalla de carga con bienvenida.
-- **Devolver relevos es de Premium** (botón ± con 🔒 en la versión completa sin Premium).
+(Nada por ahora.)
 
 ## 🎵 Canciones y letras (antes de publicar)
 
