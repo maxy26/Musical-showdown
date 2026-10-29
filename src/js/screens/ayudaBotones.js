@@ -189,8 +189,34 @@ export function botonAyuda(clave, esquina = false) {
 export function conectarAyudas(root) {
   root.querySelectorAll("[data-ayuda]").forEach((b) => (b.onclick = (e) => {
     e.stopPropagation(); // no activa lo que está detrás (por ejemplo, la tarjeta de un equipo)
-    abrirAyuda(b.dataset.ayuda);
+    abrirAyuda(b.dataset.ayuda, { boton: b });
   }));
+}
+
+/**
+ * Pone la ventanita como un globo junto a su botón, con una flechita que le
+ * apunta: debajo si cabe, si no arriba; si no cabe en ninguno, queda centrada
+ * (usuario, 28-10-2026). Encima del fondo borroso pone una copia del botón
+ * encendida, para que se vea cuál se tocó.
+ */
+function pegarAlBoton(overlay, boton) {
+  const tip = overlay.querySelector(".ayuda-tip");
+  overlay.classList.add("con-globo");
+  const b = boton.getBoundingClientRect(), t = tip.getBoundingClientRect(), m = 12;
+  const abajo = b.bottom + m + t.height <= window.innerHeight - m;
+  if (!abajo && b.top - m - t.height < m) { overlay.classList.remove("con-globo"); return; }
+  const centro = b.left + b.width / 2;
+  const left = Math.min(Math.max(m, centro - 40), window.innerWidth - t.width - m);
+  tip.style.left = left + "px";
+  tip.style.top = (abajo ? b.bottom + m : b.top - m - t.height) + "px";
+  tip.style.setProperty("--flecha-x", centro - left + "px");
+  tip.classList.add(abajo ? "abajo" : "arriba");
+  const copia = boton.cloneNode(true);
+  copia.removeAttribute("data-ayuda");
+  copia.classList.add("ayuda-btn-tocado");
+  copia.tabIndex = -1;
+  Object.assign(copia.style, { left: b.left + "px", top: b.top + "px", width: b.width + "px", height: b.height + "px" });
+  overlay.prepend(copia);
 }
 
 const porModo = (valor, c) => (typeof valor === "function" ? valor(c) : valor && !Array.isArray(valor) && typeof valor === "object" ? valor[c.mode] : valor);
@@ -198,9 +224,9 @@ const porModo = (valor, c) => (typeof valor === "function" ? valor(c) : valor &&
 /**
  * Abre la ventanita de un (?). También la abre el ❓ de la ronda (clave "ronda").
  * Con lCerrar avisa al cerrarla (el celular vinculado lo usa para que el reloj
- * de la PC siga; ver control.js).
+ * de la PC siga; ver control.js). Con `boton`, sale como un globo junto a él.
  */
-export function abrirAyuda(clave, { alCerrar } = {}) {
+export function abrirAyuda(clave, { alCerrar, boton } = {}) {
   const c = state.config;
   const a = AYUDAS[clave];
   const tarjetas = porModo(a.tarjetas, c);
@@ -230,5 +256,6 @@ export function abrirAyuda(clave, { alCerrar } = {}) {
   overlay.querySelector(".modal").prepend(x);
   overlay.addEventListener("click", (e) => { if (e.target === overlay) cerrar(); });
   document.getElementById("app").appendChild(overlay);
+  if (boton?.isConnected) pegarAlBoton(overlay, boton);
   efecto("abrir");
 }

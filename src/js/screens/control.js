@@ -107,7 +107,7 @@ export function screenControl() {
   const enRonda = Boolean(e) && e.pantalla === "round" && e.fase === "counting" && !e.ventana && !e.cuenta;
   const root = el(`<div class="screen control-screen">
     <div class="control-top">
-      <span class="control-estado">${conectado ? "📺 Conectado" : "⚠️ Sin conexión"}</span>
+      <span class="control-estado${conectado ? "" : " sin-conexion"}">${conectado ? "📺 Conectado" : "⚠️ Sin conexión"}</span>
       <div class="top-bar-actions">
         <button class="icon-btn" data-accion="pausa" ${conectado && enRonda ? "" : "disabled"}>⏸ Pausa</button>
         <button class="icon-btn icon-btn-round" id="ayuda" aria-label="Ayuda">❓</button>
@@ -133,7 +133,7 @@ export function screenControl() {
   root.querySelector("#ayuda").onclick = () => {
     usarModoDeLaPC(e);
     enviarAccion("ayudaAbierta");
-    abrirAyuda("ronda", { alCerrar: () => enviarAccion("ayudaCerrada") });
+    abrirAyuda("ronda", { alCerrar: () => enviarAccion("ayudaCerrada"), boton: root.querySelector("#ayuda") });
   };
   root.querySelector("#ajustes").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
   const buscar = root.querySelector("#buscar");

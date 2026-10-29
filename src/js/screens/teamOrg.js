@@ -29,7 +29,7 @@ export function screenTeamOrg() {
   const names = () => state.groups.map((g, i) => groupName(g, i, c.groupTerm));
   const options = groupCountOptions(allPlayers().length);
 
-  const root = el(`<div class="screen">
+  const root = el(`<div class="screen organizar">
     <div class="top-bar"><h2>Organizar ${plural}</h2><div class="top-bar-actions"><button class="icon-btn" id="back">← Configuración</button><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
     <div class="card con-esquina">${botonAyuda("equipos", true)}
       <div class="config-2col">

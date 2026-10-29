@@ -22,6 +22,7 @@ test("con Premium: todo desbloqueado y sin anuncios", () => {
   assert.equal(modoBloqueado("alternativo2", "completa"), false);
   assert.equal(escuchaCanto("completa"), true);
   assert.equal(conAnuncios("completa", true), false);
+  assert.equal(tieneCompra("relevos"), true, "Premium deja devolver relevos");
   assert.equal(tieneCompra("otra-cosa"), false, "solo lo que incluye Premium");
   _reiniciarPremium(false);
 });

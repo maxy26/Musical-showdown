@@ -43,7 +43,8 @@ export function openPause() {
 
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal" style="text-align:center;">
+  overlay.innerHTML = `<div class="modal chica" style="text-align:center;">
+    <div class="chica-icono">⏸</div>
     <h2 style="margin-bottom:18px;">Pausa</h2>
     <div class="btn-row" style="flex-direction:column;">
       <button class="btn btn-primary btn-block" id="continue">▶ Continuar</button>
@@ -62,7 +63,8 @@ export function openPause() {
   addCloseButton(overlay, resume); // en la pausa, la X es lo mismo que "Continuar"
   overlay.querySelector("#help").onclick = () => openHelp();
   overlay.querySelector("#exit").onclick = () => {
-    overlay.innerHTML = `<div class="modal" style="text-align:center;">
+    overlay.innerHTML = `<div class="modal chica" style="text-align:center;">
+      <div class="chica-icono">🚪</div>
       <h2>¿Salir de la partida?</h2>
       <p class="small-note">Se pierde el progreso de esta partida.</p>
       <div class="btn-row" style="margin-top:16px;">
@@ -99,7 +101,7 @@ export function openHelp() {
     abrirAyudaModo(c.mode, c.battleType, reanudar);
     return;
   }
-  const body = el(`<div class="manual">
+  const body = el(`<div class="manual ayuda">
     <article class="manual-item">
       <p class="ayuda-linea">🎤 Sale una palabra: canta una canción que la tenga.</p>
     </article>
@@ -160,7 +162,7 @@ export function showWarning(message) {
   efecto("aviso");
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal warning-modal" style="text-align:center;">
+  overlay.innerHTML = `<div class="modal warning-modal chica" style="text-align:center;">
     <div class="warning-icon">⚠️</div>
     <p class="warning-text">${message}</p>
     <button class="btn btn-primary btn-block" id="warning-ok">Aceptar</button>
@@ -195,7 +197,8 @@ export function showToast(message) {
 export function showConfirm({ title, message = "", yesText = "Sí", noText = "No", onYes }) {
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal warning-modal" style="text-align:center;">
+  overlay.innerHTML = `<div class="modal warning-modal chica" style="text-align:center;">
+    <div class="chica-icono">❓</div>
     <h2>${title}</h2>
     ${message ? `<p class="small-note">${message}</p>` : ""}
     <div class="btn-row" style="margin-top:16px;">

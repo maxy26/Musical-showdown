@@ -54,7 +54,7 @@ export function screenRoundResultIncorrect() {
   }
   // Cómo quedan los dos (al fallar no cambian los puntos)
   const quedan = [r.participantA, r.participantB].map((n) => ({ who: n, delta: 0, newScore: state.scores[n] ?? 0 }));
-  const root = el(`<div class="screen">
+  const root = el(`<div class="screen resultado es-incorrecto">
     <div class="card result-banner">
       <div class="big">❌ Respuesta incorrecta</div>
       <p class="small-note">${note}</p>
@@ -94,7 +94,9 @@ export function screenRoundResult() {
       <div class="pts" style="color:var(--gold);">+${result.pts}</div>${lines}`;
   }
 
-  const root = el(`<div class="screen"><div class="card result-banner">${content}
+  // Color del ícono del título: verde al acertar, rosado si nadie acertó, violeta sin ganador
+  const tono = result.type === "correct" ? "es-correcto" : result.type === "both-failed" ? "es-incorrecto" : "es-neutro";
+  const root = el(`<div class="screen resultado ${tono}"><div class="card result-banner">${content}
     <button class="btn btn-primary" id="next" style="margin-top:10px;">Siguiente enfrentamiento</button>
   </div></div>`);
 

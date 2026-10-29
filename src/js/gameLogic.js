@@ -292,6 +292,7 @@ function updateClockOnly() {
   const t = state.round.timeLeft;
   clockEl.classList.toggle("warn", t <= 5);
   clockEl.querySelector("span").textContent = t + "s";
+  clockEl.style.setProperty("--f", t / (effectiveRoundTime(state.config) || 1)); // anillo del reloj (round.js)
 }
 
 /**

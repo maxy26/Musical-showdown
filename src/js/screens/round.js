@@ -2,7 +2,7 @@ import { state } from "../state.js";
 import { el } from "../utils.js";
 import { render } from "../router.js";
 import { finishRoundManual, attemptsLeft, relayCheck } from "../gameLogic.js";
-import { openPause, showConfirm } from "./modals.js";
+import { openPause, showConfirm, pausarRondaMientras } from "./modals.js";
 import { effectiveRoundTime, attemptsPerRound } from "./config/modes.js";
 import { formatPoints } from "../scoring.js";
 import { relayRules, relaysLeftThisRound } from "../relay.js";
@@ -15,8 +15,18 @@ import { botonAyuda, conectarAyudas, abrirAyuda } from "./ayudaBotones.js";
 import { puedeSerPantalla, puedeSerControl, hayControl } from "../vinculo.js";
 import { abrirVincularPC, abrirCompartirPartida } from "./vincular.js";
 import { empezarEscucha } from "../voz.js";
-import { escuchaCanto } from "../edicion.js";
+import { escuchaCanto, ajustaRelevos } from "../edicion.js";
+import { abrirPremium } from "./premium.js";
 import { deshacerToque } from "./verify.js";
+
+/**
+ * Anillo del reloj (usuario, 29-10-2026): se vacía según --f (lo que queda, de 1 a 0) y un punto de luz marca
+ * por dónde va. --f lo pone round.js al dibujar y updateClockOnly() de gameLogic.js cada segundo.
+ */
+const ANILLO_RELOJ = `<svg class="anillo" viewBox="0 0 120 120" aria-hidden="true">
+    <defs><linearGradient id="reloj-color" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="120" y2="120"><stop offset="0" class="c1"/><stop offset="1" class="c2"/></linearGradient></defs>
+    <circle class="fondo" cx="60" cy="60" r="50"/><circle class="avance" cx="60" cy="60" r="50" pathLength="100"/><circle class="punta" cx="110" cy="60" r="5.5"/>
+  </svg>`;
 
 /** En Grupal, cada lado usa el color de su grupo (el mismo de "Organizar"). */
 function groupColorClass(groupIndex) {
@@ -52,7 +62,8 @@ export function screenRound() {
     return `<div class="relay-bar">
       <span class="relay-icons" title="Relevos que le quedan (en total)">${icons}${extra}</span>${inRound}
       <button type="button" class="btn btn-secondary relay-btn" data-relay="${side}">Relevo</button>
-      <button type="button" class="icon-btn icon-btn-round relay-adjust" data-relay-adjust="${side}" title="Agregar o quitar relevos">±</button>
+      ${ajustaRelevos() ? `<button type="button" class="icon-btn icon-btn-round relay-adjust" data-relay-adjust="${side}" title="Agregar o quitar relevos">±</button>`
+        : `<button type="button" class="icon-btn icon-btn-round relay-adjust relay-adjust-premium" data-relay-premium title="Devolver relevos: Premium">🔒</button>`}
       ${botonAyuda("relevoRonda")}
     </div>`;
   }
@@ -91,9 +102,10 @@ export function screenRound() {
             <div class="loader-bar"><div class="loader-bar-fill round-loading-fill"></div></div>
           </div>
         ` : `
-          <div class="clock reloj-grande ${roundTime > 0 ? "" : "sin-reloj"} ${roundTime > 0 && r.timeLeft <= 5 ? "warn" : ""}">🕐 <span>${roundTime > 0 ? r.timeLeft + "s" : "Sin tiempo"}</span></div>
+          ${roundTime > 0 ? `<div class="clock reloj-grande con-anillo ${r.timeLeft <= 5 ? "warn" : ""}" style="--f:${r.timeLeft / roundTime}">${ANILLO_RELOJ}<span>${r.timeLeft}s</span></div>`
+            : `<div class="clock reloj-grande sin-reloj">🕐 <span>Sin tiempo</span></div>`}
           <div class="word-wrap">
-            <div class="word">${r.word.toUpperCase()}</div>
+            <div class="word" style="--letras:${r.word.length}">${r.word.toUpperCase()}</div>
             ${r.multiplier ? `<div class="multiplier">×${r.multiplier}</div>` : ""}
           </div>
           ${roundTime === 0 ? `<button class="btn btn-ghost" id="finish-round">⏹️ Finalizar ronda</button>` : ""}
@@ -109,6 +121,7 @@ export function screenRound() {
         ${relayBar("B")}
       </div>
     </div>
+    ${hayControl() ? `<p class="ronda-en-celular">📱 Los nombres se tocan en el celular</p>` : ""}
   </div>`);
 
   ["A", "B"].forEach((side) => {
@@ -145,12 +158,16 @@ export function screenRound() {
   root.querySelectorAll("[data-relay-adjust]").forEach((b) => {
     b.onclick = () => openRelayAdjust(b.dataset.relayAdjust);
   });
+  // Sin Premium (versión completa), el ± lleva 🔒: abre Premium y el reloj espera mientras tanto
+  root.querySelectorAll("[data-relay-premium]").forEach((b) => {
+    b.onclick = () => abrirPremium({ alCerrar: pausarRondaMientras() });
+  });
 
   root.querySelector("#pause").onclick = () => openPause();
   const vincular = root.querySelector("#vincular");
   if (vincular) vincular.onclick = () => (puedeSerPantalla() ? abrirVincularPC() : abrirCompartirPartida());
   // ❓ de la ronda: explica la ronda (antes estaba en un (?) del centro; usuario, 12-10-2026)
-  root.querySelector("#help").onclick = () => abrirAyuda("ronda");
+  root.querySelector("#help").onclick = (e) => abrirAyuda("ronda", { boton: e.currentTarget });
   root.querySelector("#round-settings").onclick = () => openSheet({ title: "Ajustes", body: settingsBody(), side: "left" });
   const fr = root.querySelector("#finish-round");
   if (fr) fr.onclick = () => showConfirm({
@@ -170,7 +187,7 @@ export function screenRound() {
  * pasa la partida a la PC. El reloj se detiene mientras está abierto.
  */
 function botonVincularRonda() {
-  if (puedeSerPantalla()) return `<button class="icon-btn" id="vincular">📱 ${hayControl() ? "Vinculado" : "Vincular"}</button>`;
+  if (puedeSerPantalla()) return `<button class="icon-btn${hayControl() ? " vinculado" : ""}" id="vincular">📱 ${hayControl() ? "Vinculado" : "Vincular"}</button>`;
   if (puedeSerControl()) return `<button class="icon-btn" id="vincular">📱 Vincular</button>`;
   return "";
 }

@@ -16,7 +16,7 @@ import { espacioAnuncio } from "../anuncios.js";
 import { esDemo, modoBloqueado, modoOculto, premiumActivo } from "../edicion.js";
 import { preguntarDesvincular } from "./control.js";
 import { abrirSeguirPartidaCelular, abrirEscanear } from "./vincular.js";
-import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, fechaRelativa } from "../avisos.js";
+import { TIPOS, cargarAvisos, avisosActuales, idsSinLeer, marcarLeidos, borrarAvisos, fechaRelativa } from "../avisos.js";
 
 /**
  * Pantalla de inicio (rediseño elegido por el usuario el 01-10-2026; detalles
@@ -41,7 +41,7 @@ function notificationsBody() {
   const body = el(`<div class="avisos">
     ${sinRed ? `<p class="aviso-sin-red">📡 Sin conexión: se muestran los últimos avisos guardados.</p>` : ""}
     ${avisos.map((a, i) => `
-      <article class="aviso ${nuevos.includes(a.id) ? "is-nuevo" : ""}">
+      <article class="aviso aviso-${a.tipo} ${nuevos.includes(a.id) ? "is-nuevo" : ""}">
         <div class="aviso-icono">${TIPOS[a.tipo].icono}</div>
         <div class="aviso-cuerpo">
           <p class="aviso-meta"><span class="home-tag">${TIPOS[a.tipo].nombre}</span> ${fechaRelativa(a.fecha)}${nuevos.includes(a.id) ? ` <span class="aviso-nuevo">● Nuevo</span>` : ""}</p>
@@ -50,19 +50,31 @@ function notificationsBody() {
           ${a.boton ? `<button type="button" class="btn btn-primary aviso-boton" data-aviso="${i}">${escapeHtml(a.boton.texto)}</button>` : ""}
         </div>
       </article>`).join("")}
+    <button type="button" class="avisos-borrar" id="btn-borrar-avisos">🗑 Borrar notificaciones</button>
   </div>`);
   body.querySelectorAll("[data-aviso]").forEach((b) => (b.onclick = () => abrirEnlace(avisos[Number(b.dataset.aviso)].boton.url)));
+  // Fijo abajo de la ventana (CSS): pregunta y la deja vacía
+  body.querySelector("#btn-borrar-avisos").onclick = () => showConfirm({
+    title: "¿Borrar las notificaciones?",
+    message: "Los avisos que lleguen después volverán a aparecer.",
+    yesText: "Sí, borrar",
+    noText: "No",
+    onYes: () => {
+      borrarAvisos(avisos);
+      body.replaceWith(notificationsBody());
+      pintarGlobito(document);
+    },
+  });
   marcarLeidos(avisos); // al abrir el panel quedan leídos
   return body;
 }
 
-/** Globito de la campana con la cantidad de avisos sin leer. */
+/** (!) de la campana: se ve mientras quede al menos un aviso sin borrar (usuario, 28-10-2026). */
 function pintarGlobito(root) {
   const g = root.querySelector(".aviso-globito");
   if (!g) return;
-  const n = idsSinLeer(avisosActuales().avisos).length;
-  g.textContent = n > 9 ? "9+" : String(n);
-  g.hidden = n === 0;
+  g.textContent = "!";
+  g.hidden = avisosActuales().avisos.length === 0;
 }
 
 /**

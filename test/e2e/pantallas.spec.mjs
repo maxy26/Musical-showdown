@@ -24,10 +24,11 @@ test("Lista de jugadores: con muchos jugadores se desplaza por dentro", async ({
   for (let i = 0; i < 10; i++) await page.locator("#add-player").click();
   await expect(page.locator("#players-list .player-row")).toHaveCount(12);
 
-  // La caja tiene siempre el mismo alto (no cambia al añadir) y se desplaza por dentro
+  // La caja no pasa de su alto máximo y se desplaza por dentro. En el celular tiene siempre el mismo alto;
+  // en la PC (estilo «Escenario nocturno») crece con la columna hasta 420 px
   const alto = (await lista.boundingBox()).height;
-  expect(alto).toBeCloseTo(altoInicial, 0);
-  expect(alto).toBeLessThanOrEqual(266);
+  if (test.info().project.name === "celular") expect(alto).toBeCloseTo(altoInicial, 0);
+  expect(alto).toBeLessThanOrEqual(422);
   expect(await lista.evaluate((l) => l.scrollHeight > l.clientHeight)).toBe(true);
 
   // El espacio nuevo queda a la vista y listo para escribir
@@ -37,9 +38,8 @@ test("Lista de jugadores: con muchos jugadores se desplaza por dentro", async ({
   await ultimo.fill("Luis");
   await expect(page.locator("#players-count")).toHaveText("1");
 
-  // La ✕ es roja y borra la fila
+  // La ✕ (gris, estilo «Escenario nocturno») borra la fila
   const equis = page.locator("#players-list .remove-btn").last();
-  expect(await equis.evaluate((b) => getComputedStyle(b).color)).toBe("rgb(255, 107, 107)");
   await equis.click();
   await expect(page.locator("#players-list .player-row")).toHaveCount(11);
   await expect(page.locator("#players-count")).toHaveText("0");
@@ -109,9 +109,14 @@ test("Aviso que llega en una notificación: aparece en la campana sin esperar a 
       titulo: "Aviso por notificación", texto: "Llegó sin esperar a GitHub" }), "1.0");
     avisosLlegaron(idsSinLeer([aviso]));
   });
-  await expect(page.locator(".aviso-globito")).toHaveText("1");
+  await expect(page.locator(".aviso-globito")).toHaveText("!");
   await page.locator("#btn-notifications").click();
   await expect(page.getByRole("heading", { name: "Aviso por notificación" })).toBeVisible();
+  // Borrar notificaciones: pregunta, la ventana queda vacía y el (!) se va
+  await page.locator("#btn-borrar-avisos").click();
+  await page.locator("#confirm-yes").click();
+  await expect(page.getByText("No hay notificaciones por ahora.")).toBeVisible();
+  await expect(page.locator(".aviso-globito")).toBeHidden();
 });
 
 test("Ayuda 'Cómo se juega': resumen general y manual de modos solo para leer", async ({ page }) => {

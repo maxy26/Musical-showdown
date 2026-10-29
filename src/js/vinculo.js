@@ -261,8 +261,10 @@ export async function abrirComoPantalla({ alCambiar, alCodigo, alTraspaso } = {}
       pc.conectado = conectado;
       if (conectado) enviarEstado(true);
       pc.alCambiar?.(conectado);
-      // "¡Ana canta!" muestra u oculta ❌ / ✅ según haya control
-      if (state.screen === "verify") render();
+      // "¡Ana canta!" muestra u oculta ❌ / ✅ según haya control; la ronda, el aviso de que los
+      // nombres se tocan en el celular (si hay una ventana abierta, se redibuja al cerrarla)
+      const hayVentana = document.querySelector("#app .sheet-back, #app .modal-backdrop");
+      if (state.screen === "verify" || (state.screen === "round" && !hayVentana)) render();
     });
     window.vinculoPC.alCambiarCodigo((datos) => pc.alCodigo?.(datos));
   }

@@ -18,10 +18,12 @@ import {
 const BENEFICIOS = [
   ["🎮", "Modo <b>Alternativo 2</b>: por equipos, tú eliges las reglas"],
   ["🎤", "El juego <b>escucha el canto</b> (y pronto, la IA que reconoce la canción)"],
+  ["🔁", "<b>Devolver relevos</b> en los equipos (botón ± de la ronda)"],
   ["🚫", "<b>Sin anuncios</b>"],
 ];
 
-export function abrirPremium() {
+/** `alCerrar`: por ejemplo, para que la ronda siga al cerrarla (candado de los relevos). */
+export function abrirPremium({ alCerrar } = {}) {
   const body = el(`<div class="premium">
     <div class="premium-icono">⭐</div>
     <ul class="premium-lista">${BENEFICIOS.map(([i, t]) => `<li><span>${i}</span><span>${t}</span></li>`).join("")}</ul>
@@ -31,7 +33,7 @@ export function abrirPremium() {
   </div>`);
   const planes = body.querySelector(".premium-planes");
   const legal = body.querySelector(".premium-legal");
-  const cerrar = openSheet({ title: "Musical Showdown Premium", body });
+  const cerrar = openSheet({ title: "Musical Showdown Premium", body, alCerrar });
 
   const yaPremium = () => {
     body.classList.add("is-activo");

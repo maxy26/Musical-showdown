@@ -29,7 +29,7 @@ export function lineaDeDescarga(enlace) {
 }
 export const TEXTO_COMPARTIR = `🎤 ¡Jugamos Musical Showdown! Una palabra, y a cantar la canción que la tenga.\n${lineaDeDescarga(ENLACE_DESCARGA)}`;
 
-const C = { fondo: "#141833", brillo: "#3a2f7a", oro: "#FFD23F", rosa: "#FF5C7A", turquesa: "#2EC4B6", texto: "#F5F0FF", tenue: "#B9B4D9", bloque: "#2b3166" };
+const C = { texto: "#F4F4F8" }; // color de texto por defecto de texto()
 
 function cargarImagen(src) {
   return new Promise((ok, mal) => { const i = new window.Image(); i.onload = () => ok(i); i.onerror = mal; i.src = src; });
@@ -52,53 +52,73 @@ function textoConIcono(ctx, icono, colorIcono, t, x, y, op) {
   texto(ctx, t, x - total / 2 + tam * 1.3 + ancho / 2, y, op);
 }
 
+/** Combinaciones de colores del fondo que se pueden elegir al compartir: [nombre, resplandores, degradado del texto]. */
+export const TEMAS_IMAGEN = {
+  noche: { nombre: "Noche", luces: ["#8B6CFF", "#FF5FA2", "#38BDF8"], texto: ["#8B6CFF", "#FF5FA2"] },
+  oceano: { nombre: "Océano", luces: ["#3B82F6", "#22D3EE", "#8B6CFF"], texto: ["#38BDF8", "#818CF8"] },
+  atardecer: { nombre: "Atardecer", luces: ["#FF7A45", "#FF5FA2", "#FFC857"], texto: ["#FFB547", "#FF5F7E"] },
+  bosque: { nombre: "Bosque", luces: ["#10B981", "#22D3EE", "#A3E635"], texto: ["#34D399", "#22D3EE"] },
+  fuego: { nombre: "Fuego", luces: ["#EF4444", "#F97316", "#A855F7"], texto: ["#F97316", "#EF4444"] },
+};
 /**
- * Dibuja la imagen del podio. `mvpDe(nombre)` devuelve los MVP de un grupo
- * (vacío en Individual). Devuelve { blob, url } (PNG).
+ * Dibuja la imagen del podio al estilo "Escenario nocturno" (usuario, 29-10-2026). `tema` es un id de
+ * TEMAS_IMAGEN o { luces: [3 colores], texto: [2 colores] } ("Mis colores"). `mvpDe(nombre)` devuelve los MVP de
+ * un grupo (vacío en Individual). Devuelve { blob, url } (PNG).
  */
-export async function imagenDelPodio({ scores, winner, mvpDe = () => [] }) {
-  await Promise.all(["700 40px Fredoka", "800 40px Nunito"].map((f) => document.fonts.load(f)));
+export async function imagenDelPodio({ scores, winner, mvpDe = () => [], tema = "noche" }) {
+  const T = typeof tema === "object" ? tema : TEMAS_IMAGEN[tema] || TEMAS_IMAGEN.noche; // objeto: colores personalizados
+  await Promise.all(["800 40px Inter", "900 40px Inter", "600 40px Inter"].map((f) => document.fonts.load(f)));
   const W = 1080, H = 1350, cv = document.createElement("canvas");
   cv.width = W; cv.height = H;
   const ctx = cv.getContext("2d");
-  // Fondo de escenario con luces
-  const g = ctx.createRadialGradient(W / 2, 0, 50, W / 2, 200, 1100);
-  g.addColorStop(0, C.brillo); g.addColorStop(0.75, C.fondo); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  [[220, C.rosa], [540, C.oro], [860, C.turquesa]].forEach(([x, col]) => {
-    const l = ctx.createLinearGradient(x, 0, x, 900); l.addColorStop(0, col + "40"); l.addColorStop(1, col + "00");
-    ctx.fillStyle = l; ctx.beginPath(); ctx.moveTo(x - 40, 0); ctx.lineTo(x + 40, 0); ctx.lineTo(x + 180, 900); ctx.lineTo(x - 180, 900); ctx.fill();
-  });
-  // Logo y nombre del juego
-  try { ctx.drawImage(await cargarImagen("icons/icon-192.png"), W / 2 - 70, 50, 140, 140); } catch { /* sin logo */ }
-  texto(ctx, "Musical Showdown", W / 2, 260, { tam: 64 });
-  // Ganador
-  textoConIcono(ctx, "trophy", C.oro, "GANADOR", W / 2, 360, { tam: 38, fuente: "Nunito", peso: 800, color: C.tenue });
-  texto(ctx, winner, W / 2, 450, { tam: 92, color: C.oro });
-  texto(ctx, `${formatPoints(scores[winner])} pts`, W / 2, 520, { tam: 46, fuente: "Nunito", peso: 800 });
-  // Podio: 2.º a la izquierda, 1.º al centro, 3.º a la derecha
+  const N = { violeta: "#8B6CFF", rosa: "#FF5FA2", texto: "#F4F4F8", tenue: "#A9ABC2", oro: "#FFC857", plata: "#C9D1E6", bronce: "#E39A5B" };
+  const grad = (x0, x1) => { const g = ctx.createLinearGradient(x0, 0, x1, 0); g.addColorStop(0, T.texto[0]); g.addColorStop(1, T.texto[1]); return g; };
+  const brillo = (x, y, r, col) => { const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, col); g.addColorStop(1, col.slice(0, 7) + "00"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); };
+  ctx.fillStyle = "#0B0D17"; ctx.fillRect(0, 0, W, H);
+  brillo(230, 260, 620, T.luces[0] + "8C"); brillo(880, 330, 560, T.luces[1] + "6B"); brillo(620, 1180, 620, T.luces[2] + "52");
+  const fino = N.tenue;
+  try { ctx.drawImage(await cargarImagen("icons/icon-192.png"), W / 2 - 60, 56, 120, 120); } catch { /* sin logo */ }
+  // "Musical" en blanco y "Showdown" en degradado
+  ctx.font = "900 62px Inter"; ctx.textBaseline = "alphabetic";
+  const a = ctx.measureText("Musical ").width, b = ctx.measureText("Showdown").width, x0 = W / 2 - (a + b) / 2;
+  ctx.textAlign = "left"; ctx.fillStyle = N.texto; ctx.fillText("Musical ", x0, 252);
+  ctx.fillStyle = grad(x0 + a, x0 + a + b); ctx.fillText("Showdown", x0 + a, 252);
+  ctx.letterSpacing = "8px";
+  textoConIcono(ctx, "trophy", N.oro, "GANADOR", W / 2, 350, { tam: 32, fuente: "Inter", peso: 700, color: fino });
+  ctx.letterSpacing = "0px";
+  ctx.font = "900 100px Inter";
+  const wn = Math.min(ctx.measureText(winner).width, 940);
+  texto(ctx, winner, W / 2, 452, { tam: 100, fuente: "Inter", peso: 900, color: grad(W / 2 - wn / 2, W / 2 + wn / 2), ancho: 940 });
+  texto(ctx, `${formatPoints(scores[winner])} pts`, W / 2, 520, { tam: 44, fuente: "Inter", peso: 700, color: N.texto });
+  // Podio de vidrio teñido de oro, plata y bronce
   const { steps } = buildPodium(scores);
-  const alto = { 1: 300, 2: 220, 3: 160 }, color = { 1: C.oro, 2: "#C9D1E6", 3: "#E39A5B" };
-  const base = 1090, anchoCol = 300;
-  [[2, 90], [1, 390], [3, 690]].forEach(([p, x]) => {
+  const alto = { 1: 300, 2: 220, 3: 160 }, color = { 1: N.oro, 2: N.plata, 3: N.bronce };
+  const base = 1090, anchoCol = 290;
+  [[2, 95], [1, 395], [3, 695]].forEach(([p, x]) => {
     const paso = steps.find((s) => s.place === p);
     if (!paso) return;
     const top = base - alto[p];
-    ctx.fillStyle = C.bloque; redondeado(ctx, x, top, anchoCol, alto[p], 24); ctx.fill();
-    ctx.fillStyle = color[p]; redondeado(ctx, x, top, anchoCol, 14, 7); ctx.fill();
-    texto(ctx, String(p), x + anchoCol / 2, top + alto[p] / 2 + 40, { tam: 110, color: color[p] + "cc" });
+    const t = ctx.createLinearGradient(0, top, 0, base); t.addColorStop(0, color[p] + "55"); t.addColorStop(1, color[p] + "0A");
+    if (p === 1) { ctx.shadowColor = color[p] + "99"; ctx.shadowBlur = 60; }
+    ctx.fillStyle = "#FFFFFF0F"; redondeado(ctx, x, top, anchoCol, alto[p], 26); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = t; redondeado(ctx, x, top, anchoCol, alto[p], 26); ctx.fill();
+    ctx.strokeStyle = color[p] + "AA"; ctx.lineWidth = 3; redondeado(ctx, x, top, anchoCol, alto[p], 26); ctx.stroke();
+    texto(ctx, String(p), x + anchoCol / 2, top + alto[p] / 2 + 40, { tam: 110, fuente: "Inter", peso: 900, color: color[p] });
     let y = top - 30;
     [...paso.entries].reverse().forEach((e) => {
       const mvp = mvpDe(e.name);
-      if (mvp.length) { textoConIcono(ctx, "star", C.oro, `MVP: ${mvp.join(" y ")}`, x + anchoCol / 2, y, { tam: 24, fuente: "Nunito", peso: 800, color: C.tenue, ancho: 240 }); y -= 36; }
-      texto(ctx, `${formatPoints(e.points)} pts`, x + anchoCol / 2, y, { tam: 30, fuente: "Nunito", peso: 800, color: C.tenue, ancho: 280 }); y -= 44;
-      texto(ctx, e.name, x + anchoCol / 2, y, { tam: 44, ancho: 280 }); y -= 56;
+      if (mvp.length) { textoConIcono(ctx, "star", N.oro, `MVP: ${mvp.join(" y ")}`, x + anchoCol / 2, y, { tam: 24, fuente: "Inter", peso: 700, color: fino, ancho: 240 }); y -= 36; }
+      texto(ctx, `${formatPoints(e.points)} pts`, x + anchoCol / 2, y, { tam: 30, fuente: "Inter", peso: 600, color: fino, ancho: 270 }); y -= 44;
+      texto(ctx, e.name, x + anchoCol / 2, y, { tam: 44, fuente: "Inter", peso: 800, color: N.texto, ancho: 270 }); y -= 56;
     });
-    dibujarIcono(ctx, "military_tech", x + anchoCol / 2, y - 28, 72, color[p]); // medalla
+    dibujarIcono(ctx, "military_tech", x + anchoCol / 2, y - 28, 72, color[p]);
   });
-  // Invitación y enlace
-  ctx.fillStyle = "#00000055"; redondeado(ctx, 60, 1140, W - 120, 160, 32); ctx.fill();
-  textoConIcono(ctx, "mic", C.oro, "¡Juega Musical Showdown!", W / 2, 1205, { tam: 46, color: C.oro });
-  texto(ctx, SIN_ENLACE ? lineaDeDescarga("") : `Descárgalo gratis: ${tiendaActual()?.corto || "github.com/maxy26/Musical-showdown"}`, W / 2, 1265, { tam: 30, fuente: "Nunito", peso: 800, color: C.texto, ancho: 900 });
+  // Invitación y enlace en un panel de vidrio
+  ctx.fillStyle = "#FFFFFF12"; redondeado(ctx, 60, 1140, W - 120, 160, 32); ctx.fill();
+  ctx.strokeStyle = "#FFFFFF26"; ctx.lineWidth = 2; redondeado(ctx, 60, 1140, W - 120, 160, 32); ctx.stroke();
+  textoConIcono(ctx, "mic", T.texto[1], "¡Juega Musical Showdown!", W / 2, 1205, { tam: 44, fuente: "Inter", peso: 800, color: N.texto });
+  texto(ctx, SIN_ENLACE ? lineaDeDescarga("") : `Descárgalo gratis: ${tiendaActual()?.corto || "github.com/maxy26/Musical-showdown"}`, W / 2, 1262, { tam: 28, fuente: "Inter", peso: 600, color: fino, ancho: 900 });
   const blob = await new Promise((ok) => cv.toBlob(ok, "image/png"));
   return { blob, url: window.URL.createObjectURL(blob) };
 }

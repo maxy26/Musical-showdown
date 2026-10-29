@@ -121,29 +121,69 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
 .segmented button:hover:not(.active){color:var(--text);}
 .segmented button.active{background:var(--gold);color:#1A0E12;}
 
-/* ---------- Pantalla de carga ---------- */
-#loader{
-  position:fixed;inset:0;z-index:9999;
-  /* Mismo fondo de escenario que el resto del juego */
-  background:radial-gradient(130% 75% at 50% 0%, var(--stage-glow), var(--stage-bg) 72%) fixed;
-  background-color:var(--stage-bg);
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity .5s ease;
-}
+/* ---------- Pantalla de carga, estilo "Escenario nocturno" (opción C3 «Ondas y enfoque», usuario 29-10-2026): el fondo y el
+   título del inicio, el micrófono en un círculo de color que suelta ondas, el título pasa de borroso a nítido y lo cruza un
+   brillo, y un ecualizador debajo. La bienvenida dura ~1,4 s (main.js espera al menos 1,5 s) ---------- */
+#loader{position:fixed;inset:0;z-index:9999;background:#0B0D17;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;transition:opacity .5s ease;}
 #loader.loader-hide{opacity:0;pointer-events:none;}
-.loader-inner{text-align:center;}
-.loader-mic{font-size:52px;animation:loader-bounce 1.1s ease-in-out infinite;}
-@keyframes loader-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.loader-title{
-  font-family:'Unbounded',sans-serif;font-weight:800;font-size:22px;margin-top:14px;
-  background:linear-gradient(120deg,var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;
+#loader::before{content:"";position:absolute;inset:-25%;pointer-events:none;
+  background:
+    radial-gradient(30% 34% at 22% 28%,rgba(139,108,255,.55),transparent 70%),
+    radial-gradient(28% 32% at 78% 22%,rgba(255,95,162,.42),transparent 70%),
+    radial-gradient(32% 36% at 60% 82%,rgba(56,189,248,.32),transparent 70%),
+    radial-gradient(24% 28% at 18% 80%,rgba(255,95,162,.26),transparent 70%);
+  filter:blur(24px);animation:fondo-flota 12s ease-in-out infinite alternate, fondo-tono 16s linear infinite;}
+.loader-inner{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;}
+/* Micrófono en un círculo de color que aparece y suelta ondas de sonido */
+html #loader .loader-mic{position:relative;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:0;color:#fff;
+  background:linear-gradient(135deg,#8B6CFF,#FF5FA2);box-shadow:0 0 0 8px rgba(139,108,255,.14),0 0 50px rgba(255,95,162,.5);
+  animation:carga-aparece .6s cubic-bezier(.3,1.5,.5,1) both;}
+html #loader .loader-mic svg{width:48px;height:48px;}
+#loader .loader-mic::before,#loader .loader-mic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #FF5FA2;
+  opacity:0;animation:carga-onda 1.8s ease-out .3s infinite;}
+#loader .loader-mic::after{border-color:#8B6CFF;animation-delay:1.2s;}
+@keyframes carga-aparece{from{transform:scale(0);}to{transform:none;}}
+@keyframes carga-onda{0%{transform:scale(1);opacity:.8;}100%{transform:scale(2.6);opacity:0;}}
+/* Título como el del inicio: «Musical» en blanco y «Showdown» en degradado; pasa de borroso a nítido y lo cruza un brillo */
+html #loader .loader-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.04em;line-height:.95;margin-top:22px;color:#F4F4F8;
+  display:flex;flex-direction:column;align-items:center;animation:carga-enfoca .9s ease-out .35s both;}
+#loader .loader-title span{white-space:nowrap;}
+#loader .loader-title span:first-child{font-size:clamp(34px,10vw,56px);}
+#loader .loader-title span:last-child{position:relative;font-size:clamp(40px,12vw,68px);
+  background:linear-gradient(100deg,#8B6CFF,#FF5FA2);-webkit-background-clip:text;background-clip:text;color:transparent;}
+#loader .loader-title span:last-child::after{content:"";position:absolute;inset:0;mix-blend-mode:overlay;
+  background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.7) 50%,transparent 65%) 150% 0/250% 100% no-repeat;
+  animation:carga-brillo 2.4s ease-in-out 1.2s infinite;}
+@keyframes carga-enfoca{from{filter:blur(14px);opacity:0;letter-spacing:.25em;transform:scale(1.08);}to{filter:none;opacity:1;letter-spacing:-.04em;transform:none;}}
+@keyframes carga-brillo{0%{background-position:150% 0;}60%,100%{background-position:-50% 0;}}
+/* Ecualizador: siete barritas en degradado que suben y bajan (en lugar de la barra que se llena) */
+#loader .loader-bar{--b:linear-gradient(0deg,#8B6CFF,#FF5FA2);width:105px;height:44px;margin-top:30px;border-radius:0;overflow:visible;
+  background:
+    var(--b) 0 100%/9px 40% no-repeat,var(--b) 16px 100%/9px 80% no-repeat,var(--b) 32px 100%/9px 55% no-repeat,
+    var(--b) 48px 100%/9px 95% no-repeat,var(--b) 64px 100%/9px 35% no-repeat,var(--b) 80px 100%/9px 70% no-repeat,var(--b) 96px 100%/9px 50% no-repeat;
+  filter:drop-shadow(0 0 10px rgba(255,95,162,.45));animation:carga-sale .5s ease-out 1.1s both, carga-eq .9s ease-in-out 1.1s infinite alternate;}
+#loader .loader-bar-fill{display:none;}
+@keyframes carga-sale{from{opacity:0;}to{opacity:1;}}
+@keyframes carga-eq{
+  0%{background-size:9px 40%,9px 80%,9px 55%,9px 95%,9px 35%,9px 70%,9px 50%;}
+  25%{background-size:9px 85%,9px 35%,9px 90%,9px 45%,9px 75%,9px 30%,9px 85%;}
+  50%{background-size:9px 55%,9px 95%,9px 30%,9px 70%,9px 100%,9px 55%,9px 40%;}
+  75%{background-size:9px 95%,9px 50%,9px 75%,9px 30%,9px 55%,9px 90%,9px 65%;}
+  100%{background-size:9px 30%,9px 70%,9px 45%,9px 90%,9px 40%,9px 60%,9px 95%;}}
+/* PC: más grande, como el título del inicio */
+@media (min-width:900px){
+  html #loader .loader-mic{width:120px;height:120px;}
+  html #loader .loader-mic svg{width:60px;height:60px;}
+  #loader .loader-title span:first-child{font-size:72px;}
+  #loader .loader-title span:last-child{font-size:88px;}
+  #loader .loader-bar{transform:scale(1.35);margin-top:44px;}
 }
+/* La barra que se llena sigue en otras pantallas (ronda, Premium, vincular) */
 .loader-bar{width:180px;height:6px;border-radius:999px;background:rgba(245,240,255,0.08);margin:18px auto 0;overflow:hidden;}
-.loader-bar-fill{
-  height:100%;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--gold));
-  width:0%;animation:loader-fill 0.9s ease forwards;
-}
+.loader-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--gold));width:0%;animation:loader-fill 0.9s ease forwards;}
 @keyframes loader-fill{from{width:0%;}to{width:100%;}}
+@keyframes loader-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
 /* ---------- Optimización para móviles ---------- */
 button,input,select{touch-action:manipulation;} /* evita el doble-tap-zoom y da respuesta táctil más rápida */
@@ -462,17 +502,7 @@ html[data-anim="off"] *,html[data-anim="off"] *::before,html[data-anim="off"] *:
 .home-mode-label{margin:0;padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.25);font-size:15px;font-weight:600;color:var(--fun-text-dim);}
 .home-mode-label b{color:var(--fun-accent);font-weight:800;}
 
-/* PC: el escenario a la izquierda y las opciones a la derecha */
-@media (min-width:900px){
-  .home{max-width:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto 1fr;
-    grid-template-areas:"header header" "stage battle" "stage mode";column-gap:32px;row-gap:18px;}
-  .home-header{grid-area:header;}
-  .home-stage{grid-area:stage;min-height:440px;max-height:560px;}
-  .home-title span:first-child{font-size:64px;}
-  .home-title span:last-child{font-size:78px;}
-  .home-battle{grid-area:battle;}
-  .home-mode{grid-area:mode;align-self:start;}
-}
+/* PC: el acomodo y los tamaños están en "Inicio, estilo Escenario nocturno" al final del archivo */
 
 /* ---------- Hoja emergente (sheet.js): sube desde abajo en el celular ---------- */
 .sheet-back{position:fixed;inset:0;z-index:50;background:rgba(5,6,20,.6);backdrop-filter:blur(4px);
@@ -871,10 +901,32 @@ html.con-teclado input.edicion-pausada:focus{outline-style:dashed !important;}
    La lista del sistema no recibe toques: el toque lo atiende teclado.js */
 select{pointer-events:none;}
 :has(> select){cursor:pointer;}
-.lista-teclado{position:fixed;z-index:400;display:flex;flex-direction:column;gap:4px;max-height:60vh;overflow:auto;padding:8px;
-  border-radius:16px;background:var(--stage-bg);box-shadow:0 12px 40px rgba(0,0,0,.55), inset 0 0 0 2px rgba(255,255,255,.08);}
-.lista-opcion{padding:10px 16px;border-radius:12px;background:transparent;color:var(--text);font-weight:700;text-align:left;white-space:nowrap;cursor:pointer;}
-.lista-opcion.is-marcada{background:var(--fun-surface-2);outline:3px solid #FFD23F;outline-offset:-3px;}
+.lista-teclado{position:fixed;z-index:400;display:flex;flex-direction:column;max-height:60vh;overflow:auto;}
+.lista-opcion{background:transparent;text-align:left;white-space:nowrap;cursor:pointer;}
+/* Estilo "Escenario nocturno", opción B «Líneas» (usuario, 29-10-2026): vidrio oscuro; la opción señalada en letras de degradado
+   con líneas finas arriba y abajo (como la rueda) y la elegida con una rayita rosa. Detrás, todo borroso menos la fila de la
+   lista, marcada con «Editando · <nombre>» (.lista-fondo + resaltarFila de utils.js) */
+html .lista-teclado{--a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);--a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  background:linear-gradient(180deg,rgba(28,25,50,.97),rgba(13,14,26,.98));border:1px solid rgba(139,108,255,.35);border-radius:18px;padding:6px;gap:2px;
+  box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.03) inset;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  animation:lista-abre .16s ease-out both;transform-origin:top center;}
+@keyframes lista-abre{from{opacity:0;transform:translateY(-6px) scale(.98);}to{opacity:1;transform:none;}}
+html .lista-teclado .lista-opcion{font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:#D9DAE6;padding:11px 14px;border-radius:12px;
+  display:flex;align-items:center;gap:10px;}
+html .lista-teclado .lista-opcion.is-elegida{color:#fff;font-weight:800;}
+html .lista-teclado::-webkit-scrollbar{width:6px;} html .lista-teclado::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:3px;}
+@media (min-width:900px){ html .lista-teclado .lista-opcion{font-size:16px;padding:12px 16px;} }
+html .lista-teclado .lista-opcion{border-radius:0;position:relative;}
+html .lista-teclado .lista-opcion.is-marcada{background:none;outline:0;font-weight:800;
+  background:linear-gradient(100deg,#B9A6FF,#FF8FC4);-webkit-background-clip:text;background-clip:text;color:transparent;}
+html .lista-teclado .lista-opcion.is-marcada::before,html .lista-teclado .lista-opcion.is-marcada::after{content:"";position:absolute;left:8px;right:8px;height:1.5px;
+  background:linear-gradient(90deg,transparent,#8B6CFF 20%,#FF5FA2 80%,transparent);}
+html .lista-teclado .lista-opcion.is-marcada::before{top:0;} html .lista-teclado .lista-opcion.is-marcada::after{bottom:0;}
+html .lista-teclado .lista-opcion.is-elegida{box-shadow:inset 3px 0 0 #FF5FA2;}
+html .lista-teclado .lista-opcion.is-elegida:not(.is-marcada){color:#fff;}
+.lista-fondo{position:fixed;inset:0;z-index:399;background:rgba(5,6,14,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.lista-fondo .field.fila-editando{padding:10px 12px !important;}
 
 /* ---------- Colores del juego en toda la app (usuario, 10-10-2026) ---------- */
 /* Tarjetas y ventanas con borde degradado rosa → dorado → turquesa */
@@ -978,8 +1030,6 @@ select{pointer-events:none;}
 .control-ronda .control-lado{min-height:0;}
 .vincular-codigo{display:flex;flex-direction:column;align-items:center;gap:6px;}
 .vincular-codigo-num{font-family:var(--font-fun-title);font-size:clamp(36px,10vw,52px);font-weight:700;letter-spacing:.08em;color:var(--gold);}
-.vincular-codigo-barra{width:min(240px,70%);height:6px;border-radius:999px;background:rgba(255,255,255,.15);overflow:hidden;}
-.vincular-codigo-barra span{display:block;height:100%;width:100%;background:var(--gold);}
 .vincular-codigo-nota{font-size:13px;opacity:.7;}
 .vincular-campo{font-size:24px;letter-spacing:.15em;text-align:center;}
 /* Reloj grande y bien visible (usuario, 12-10-2026): en la ronda y en "¡X canta!" de la pantalla grande */
@@ -1024,20 +1074,62 @@ html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation
 .anuncio-espacio{width:min(100%,728px);margin:14px auto 0;}
 .anuncio-espacio:empty{display:none;}
 .home-version-demo{margin-left:4px;color:var(--gold);}
-/* Premium (premium.js, 13-10-2026) */
-.premium{display:flex;flex-direction:column;gap:14px;}
-.premium-icono{font-size:52px;line-height:1;text-align:center;}
-.premium-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
-.premium-lista li{display:flex;gap:12px;align-items:flex-start;line-height:1.4;}
-.premium-lista li span:first-child{font-size:22px;line-height:1;}
-.premium-planes{display:flex;flex-direction:column;gap:10px;}
-.premium-plan{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px;border-radius:16px;border:2px solid var(--gold);
-  background:rgba(255,210,63,.08);color:#fff;font:inherit;cursor:pointer;}
-.premium-plan:disabled{opacity:.6;}
-.premium-precio{font-family:var(--font-fun-title);font-size:24px;font-weight:700;}
-.premium-precio small{font-family:inherit;font-size:15px;font-weight:700;opacity:.8;}
-.premium-prueba{font-size:14px;font-weight:800;color:var(--gold);}
-.premium-legal{margin:0;font-size:12px;opacity:.7;text-align:center;}
+/* Premium (premium.js, 13-10-2026). Estilo "Escenario nocturno" (opción D, usuario 29-10-2026): vidrio oscuro, estrella en un
+   círculo de color, beneficios en cuadritos (4 en fila en la PC, 2 × 2 en el celular) y planes en filas; el de prueba gratis con
+   borde de color y la etiqueta arriba. En la PC va centrada; en el celular sube desde abajo */
+.sheet:has(.premium){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.95),rgba(11,13,23,.97));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);}
+.sheet-back:has(.premium){background:rgba(5,6,14,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+html .sheet:has(.premium) :is(h2,p,button,span,b,small,li){font-family:'Inter',sans-serif;}
+html .sheet:has(.premium) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:22px;}
+html .sheet:has(.premium) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+html .premium .premium-lista b{color:#fff;font-weight:800;}
+html .premium .premium-legal{color:var(--a-dim);opacity:1;font-size:12.5px;line-height:1.45;}
+html .premium #restaurar{background:none;border:0;box-shadow:none;color:#C9BCFF;font-weight:700;text-decoration:underline;text-underline-offset:3px;}
+html .premium .premium-activo{font-weight:700;font-size:17px;}
+html .premium .premium-nota{color:var(--a-dim);}
+html .premium .btn-secondary{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);border-radius:14px;box-shadow:none;}
+/* PC: centrada, como las demás ventanas */
+@media (min-width:900px){
+  .sheet-back:has(.premium){align-items:center;}
+  .sheet:has(.premium){border-radius:30px;max-height:92vh;}
+  html .sheet:has(.premium) .sheet-title{font-size:26px;}
+  html .sheet:has(.premium) .sheet-head{padding:24px 26px 6px;}
+  html .sheet:has(.premium) .sheet-body{padding:6px 26px 24px;}
+}
+.premium{display:flex;flex-direction:column;gap:16px;}
+html .premium .premium-icono{width:84px;height:84px;margin:4px auto 0;border-radius:50%;display:grid;place-items:center;font-size:0;
+  background:var(--a-grad);box-shadow:0 0 0 6px rgba(139,108,255,.15),0 0 40px rgba(255,95,162,.45);}
+html .premium .premium-icono svg{width:42px !important;height:42px !important;color:#fff;}
+html .premium .premium-lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+html .premium .premium-lista li{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px 12px;border-radius:16px;
+  background:var(--a-surface);border:1px solid var(--a-line);color:#D9DAE6;font-size:13.5px;line-height:1.35;}
+html .premium .premium-lista li span:first-child{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;
+  background:linear-gradient(160deg,rgba(139,108,255,.3),rgba(255,95,162,.15));}
+html .premium .premium-lista li span:first-child svg{width:20px !important;height:20px !important;color:#fff;}
+html .premium .premium-planes{display:flex;flex-direction:column;gap:12px;}
+html .premium .premium-plan{position:relative;display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:10px;
+  border:1px solid var(--a-line);background:var(--a-surface);border-radius:16px;padding:16px 18px;color:#fff;font:inherit;cursor:pointer;box-shadow:none;}
+html .premium .premium-plan:hover{border-color:var(--a-violeta);}
+html .premium .premium-plan:disabled{opacity:.6;}
+html .premium .premium-plan:has(.premium-prueba){border:1.5px solid transparent;margin-top:6px;
+  background:linear-gradient(rgba(28,24,52,.98),rgba(28,24,52,.98)) padding-box,var(--a-grad) border-box;box-shadow:0 10px 30px rgba(139,108,255,.3);}
+html .premium .premium-precio{font-family:'Inter',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;}
+html .premium .premium-precio small{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--a-dim);opacity:1;}
+html .premium .premium-prueba{position:absolute;top:-11px;right:16px;white-space:nowrap;padding:3px 10px;border-radius:999px;
+  background:var(--a-grad);color:#fff;font-size:11.5px;font-weight:800;}
+html .premium .premium-legal{margin:0;text-align:center;}
+@media (min-width:900px){
+  .sheet:has(.premium){max-width:620px;}
+  html .premium .premium-lista{grid-template-columns:repeat(4,1fr);}
+  html .premium .premium-lista li{font-size:14px;}
+  html .premium .premium-precio{font-size:26px;}
+}
 .premium-legal:empty{display:none;}
 .premium-activo,.premium-nota{margin:0;text-align:center;line-height:1.5;}
 /* Cómo se ve con Premium (edicion.js → premiumActivo, 13-10-2026) */
@@ -1046,7 +1138,6 @@ html[data-anim="off"] .puntos-fila,html[data-anim="off"] .puntos-delta{animation
   box-shadow:0 4px 14px rgba(245,180,0,.45);white-space:nowrap;}
 .btn-premium-activo{background:transparent;color:var(--gold);border:2px solid var(--gold);box-shadow:0 0 18px rgba(255,210,63,.25);}
 .home-tag-premium{background:linear-gradient(135deg,#FFE27A,#F5B400);color:#3a2600;font-weight:800;}
-.premium.is-activo .premium-icono{filter:drop-shadow(0 0 14px rgba(255,210,63,.7));}
 
 /* Íconos de Material Design en lugar de los emojis (iconosEmoji.js, 25-10-2026).
    Miden lo mismo que la letra; los de color pierden el color dentro de botones. */
@@ -1089,3 +1180,1374 @@ html :is(.fila-ayuda,.field label.fila-ayuda){justify-content:flex-start;}
 /* Géneros: el elegido relleno, los demás solo con contorno */
 html .chip{background:transparent;border:2px solid rgba(255,255,255,.25);color:var(--text);}
 html :is(.chip.active,#genres-all.active,#genres-more.active){background:var(--gold);border-color:var(--gold);color:#141833;}
+
+/* ---------- Inicio, estilo "Escenario nocturno" (usuario, 28-10-2026; las tres apps) ----------
+   Se rediseña pantalla por pantalla: ya están el inicio, "Configurar partida" (.config), la ronda, su resultado, el podio, "Organizar equipos" (.organizar) y el control del celular (.control-screen). Casi negro,
+   acento violeta a rosa, vidrio, letra Inter y fondo con colores que se mueven (en lugar de las luces). */
+body:has(:is(.home,.config,.round-screen,.resultado,.podio,.organizar,.control-screen)){
+  --a-bg:#0B0D17;--a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  background:var(--a-bg);
+}
+body:has(:is(.home,.config,.round-screen,.resultado,.podio,.organizar,.control-screen)) .lights{display:none;}
+
+/* Fondo con colores que se mueven */
+body:has(:is(.home,.config,.round-screen,.resultado,.podio,.organizar,.control-screen))::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(30% 34% at 22% 28%,rgba(139,108,255,.55),transparent 70%),
+    radial-gradient(28% 32% at 78% 22%,rgba(255,95,162,.42),transparent 70%),
+    radial-gradient(32% 36% at 60% 82%,rgba(56,189,248,.32),transparent 70%),
+    radial-gradient(24% 28% at 18% 80%,rgba(255,95,162,.26),transparent 70%);
+  filter:blur(24px);animation:fondo-flota 12s ease-in-out infinite alternate, fondo-tono 16s linear infinite;}
+@keyframes fondo-flota{
+  0%{transform:translate(0,0) rotate(0deg) scale(1);}
+  33%{transform:translate(10%,-6%) rotate(20deg) scale(1.12);}
+  66%{transform:translate(-4%,8%) rotate(-8deg) scale(.95);}
+  100%{transform:translate(-9%,3%) rotate(-22deg) scale(1.08);}}
+@keyframes fondo-tono{0%,100%{filter:blur(24px) hue-rotate(0deg);}50%{filter:blur(24px) hue-rotate(-70deg);}}
+
+.home{font-family:'Inter',sans-serif;color:var(--a-text);}
+
+/* Botones de arriba: cuadrados redondeados de vidrio */
+.home .home-round-btn{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+
+/* Título sin recuadro; las notas no ocupan lugar, así el título queda centrado */
+.home .home-stage{background:none;box-shadow:none;}
+.home .home-notes{position:absolute;inset:0;}
+.home .home-notes i{color:rgba(255,255,255,.18);}
+.home .home-floor{background:radial-gradient(closest-side,rgba(139,108,255,.45),transparent);}
+html .home .home-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.04em;line-height:.95;text-shadow:none;}
+.home .home-title span:last-child{background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(139,108,255,.45));}
+
+/* Individual | Grupal: la opción elegida en blanco */
+.home .home-toggle{border-radius:16px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;padding:4px;}
+.home .home-toggle-thumb,.home .home-toggle[data-sel="grupal"] .home-toggle-thumb{top:4px;bottom:4px;left:4px;width:calc(50% - 4px);
+  border-radius:12px;background:var(--a-text);}
+html .home .home-toggle-opt{font-family:'Inter',sans-serif;font-weight:600;color:var(--a-dim);border-radius:12px;}
+.home .home-toggle-opt[aria-selected="true"]{color:var(--a-bg);}
+
+/* Tarjeta: vidrio con un tinte del tipo de batalla */
+.home .home-card{border-radius:24px;border:1px solid var(--a-line);box-shadow:0 20px 50px rgba(0,0,0,.35);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.home .home-card-individual{background:linear-gradient(160deg,rgba(139,108,255,.24),rgba(255,95,162,.10));}
+.home .home-card-grupal{background:linear-gradient(160deg,rgba(56,189,248,.22),rgba(139,108,255,.10));}
+.home .home-card-icon{border-radius:50%;background:var(--a-grad);color:#fff;box-shadow:0 8px 24px rgba(139,108,255,.45);}
+.home .home-card-grupal .home-card-icon{background:linear-gradient(135deg,#38BDF8,var(--a-violeta));box-shadow:0 8px 24px rgba(56,189,248,.4);}
+html .home .home-card-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;}
+html .home .home-play{font-family:'Inter',sans-serif;font-weight:700;font-size:18px;border-radius:14px;background:var(--a-grad);color:#fff;
+  box-shadow:0 10px 28px rgba(139,108,255,.45);}
+
+/* Modos de juego, modo elegido, versión y Premium */
+html .home .home-wide-btn{font-family:'Inter',sans-serif;font-weight:600;border-radius:14px;background:var(--a-surface);
+  border:1px solid var(--a-line);box-shadow:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+.home .home-wide-icon{color:var(--a-violeta);}
+.home .home-mode-label{background:transparent;color:var(--a-dim);font-weight:500;}
+.home .home-mode-label b{color:var(--a-text);font-weight:700;}
+.home .home-version-tag{font-family:'Inter',sans-serif;font-weight:600;background:var(--a-surface);box-shadow:inset 0 0 0 1px var(--a-line);color:var(--a-dim);}
+.home .premium-insignia{background:var(--a-grad);color:#fff;}
+
+/* PC: título grande arriba y una columna centrada debajo, con botones más grandes para el mouse */
+@media (min-width:900px){
+  body:has(.home) #app{max-width:1200px;}
+  .home{max-width:none;min-height:calc(100vh - 64px);align-items:center;gap:22px;}
+  .home-header{align-self:stretch;}
+  .home .home-stage{width:100%;min-height:300px;}
+  .home-title span:first-child{font-size:84px;}
+  .home-title span:last-child{font-size:104px;}
+  .home :is(.home-battle,.home-mode){width:100%;max-width:600px;}
+  .home .home-round-btn{width:54px;height:54px;border-radius:16px;}
+  .home .home-round-btn svg{width:28px !important;height:28px !important;}
+  .home .home-toggle{padding:5px;border-radius:18px;}
+  .home .home-toggle-thumb,.home .home-toggle[data-sel="grupal"] .home-toggle-thumb{top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:14px;}
+  html .home .home-toggle-opt{padding:16px 0;font-size:18px;gap:10px;}
+  .home .home-toggle-opt svg{width:24px !important;height:24px !important;}
+  /* Tarjeta acostada: ícono y nombre a la izquierda, "Jugar" a la derecha */
+  .home .home-card{flex-direction:row;text-align:left;gap:20px;padding:26px 28px;}
+  .home .home-card-icon{width:72px;height:72px;}
+  html .home .home-card-title{font-size:32px;}
+  html .home .home-play{margin:0 0 0 auto;align-self:center;font-size:21px;padding:19px 52px;border-radius:16px;}
+  .home .home-play svg{width:26px;height:26px;}
+  html .home .home-wide-btn{padding:20px 12px;font-size:18px;border-radius:16px;}
+  .home .home-wide-icon svg{width:26px;height:26px;}
+  html .home .home-mode-label{font-size:16px;}
+  .home .home-version-tag{font-size:14px;}
+}
+/* Portátiles con pantalla baja: el título un poco más chico para que todo entre */
+@media (min-width:900px) and (max-height:800px){
+  .home .home-stage{min-height:220px;}
+  .home-title span:first-child{font-size:68px;}
+  .home-title span:last-child{font-size:86px;}
+}
+
+/* ---------- Configurar partida, estilo "Escenario nocturno" (usuario, 28-10-2026; las tres apps) ----------
+   Variables y fondo: en el bloque del inicio. PC: dos columnas. Celular: opción B «Secciones». */
+/* Letra Inter en todo */
+html .config,html .config :is(h2,button,input,select,label,span,output){font-family:'Inter',sans-serif;}
+.config{color:var(--a-text);}
+
+/* Barra de arriba: botones cuadrados de vidrio y título fuerte */
+html .config .top-bar .icon-btn{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .config .top-bar h2{font-family:"Inter",sans-serif;font-weight:800;letter-spacing:-.02em;}
+
+/* Tarjeta de vidrio */
+html .config .card{background:linear-gradient(160deg,rgba(139,108,255,.14),rgba(255,95,162,.05));border:1px solid var(--a-line);border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+html .config .config-summary{background:var(--a-grad);color:#fff;font-weight:600;border:none;}
+html .config .field label{color:var(--a-text);font-weight:700;}
+html .config .players-count{background:var(--a-grad);color:#fff;}
+html .config .ayuda-btn{color:var(--a-dim);}
+
+/* Jugadores */
+html .config #players-list{background:rgba(0,0,0,.22);border:1px solid var(--a-line);border-radius:18px;scrollbar-color:var(--a-violeta) transparent;}
+html .config #players-list::-webkit-scrollbar-thumb{background:var(--a-violeta);}
+html .config :is(input[type=text],input[type=number],select){background-color:var(--a-surface);border:1px solid var(--a-line);border-radius:12px;
+  color:var(--a-text);font-weight:500;}
+html .config :is(input,select):focus{border-color:var(--a-violeta);}
+html .config input::placeholder{color:var(--a-dim);}
+html .config .player-num{background:var(--a-grad);color:#fff;}
+html .config .remove-btn{background:transparent;box-shadow:inset 0 0 0 1px var(--a-line);color:var(--a-dim);}
+html .config .btn-secondary{background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);font-weight:600;
+  border-radius:14px;padding-left:16px;padding-right:16px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .config .btn-secondary svg{color:var(--a-violeta);}
+
+/* Géneros: el elegido en blanco, como Individual / Grupal */
+html .config .chip{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-dim);font-weight:600;}
+html .config :is(.chip.active,#genres-all.active,#genres-more.active){background:var(--a-text);border-color:var(--a-text);color:var(--a-bg);}
+
+/* Filas de opciones de vidrio, sin franja de color */
+html .config .opt-row{background:var(--a-surface);border:1px solid var(--a-line);border-radius:14px;}
+html .config .opt-row > span{font-weight:600;}
+html .config .yesno,html .config .stepper{background:rgba(0,0,0,.25);}
+html .config .yesno button.active{background:var(--a-text);color:var(--a-bg);}
+html .config .stepper button{background:var(--a-surface);}
+html .config .relay-open{background:var(--a-surface);color:var(--a-violeta);box-shadow:inset 0 0 0 1px var(--a-line);}
+
+/* Confirmar: como "Jugar" */
+html .config .btn-primary{background:var(--a-grad);color:#fff;font-weight:700;border-radius:14px;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+
+/* PC: dos columnas (jugadores a la izquierda; géneros y opciones a la derecha), letra más grande y menos aire vertical */
+@media (min-width:900px){
+  body:has(.config) #app{max-width:1160px;}
+  html .config{max-width:none;}
+  html .config .top-bar{margin-bottom:18px;}
+  html .config .top-bar .icon-btn{width:52px;height:52px;border-radius:16px;}
+  html .config .top-bar .icon-btn svg{width:26px !important;height:26px !important;}
+  html .config .top-bar h2{font-size:34px;}
+  html .config .card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);column-gap:44px;align-items:start;
+    grid-template-rows:auto auto 1fr auto;grid-template-areas:"resumen resumen" "jugadores generos" "jugadores opciones" "confirmar confirmar";padding:28px 40px 30px;}
+  html .config .config-summary{grid-area:resumen;justify-self:start;font-size:16px;padding:8px 18px;margin-bottom:18px;}
+  html .config .field:has(#players-list){grid-area:jugadores;margin:0;}
+  html .config .field:has(#genres){grid-area:generos;margin-bottom:16px;}
+  html .config .opts{grid-area:opciones;margin:0;gap:8px;}
+  html .config #confirm-config{grid-area:confirmar;justify-self:center;width:100%;max-width:480px;margin-top:24px;font-size:21px;padding:18px;border-radius:16px;}
+  html .config .field label{font-size:18px;margin-bottom:12px;}
+  /* La lista usa el alto de la columna */
+  html .config #players-list{height:auto !important;min-height:220px;max-height:420px;padding:10px;}
+  html .config .player-row{margin-bottom:8px;}
+  html .config .player-row input{padding:13px 16px;font-size:17px;}
+  html .config .player-num{width:34px;height:34px;font-size:16px;}
+  html .config .add-player-btn{padding:13px 22px;font-size:17px;margin-top:12px;}
+  html .config .chip{padding:11px 24px;font-size:17px;}
+  html .config .opt-row{padding:7px 8px 7px 20px;border-radius:16px;min-height:58px;}
+  html .config .opt-row > span{font-size:17px;}
+  html .config .opt-row select{min-width:160px;padding:11px 36px 11px 16px;font-size:17px;}
+  html .config .yesno button{min-width:66px;padding:10px 14px;font-size:16px;}
+  html .config .stepper button{width:40px;height:40px;}
+  html .config .stepper output{font-size:20px;min-width:34px;}
+  html .config .relay-open{padding:10px 16px;font-size:15px;}
+  html .config .ayuda-btn{width:26px;height:26px;}
+  html .config .ayuda-btn svg{width:21px;height:21px;}
+}
+/* Portátiles con pantalla baja (768 px): todo entra sin bajar */
+@media (min-width:900px) and (max-height:800px){
+  html .config .top-bar{margin-bottom:12px;}
+  html .config .top-bar h2{font-size:30px;}
+  html .config .card{padding:22px 36px 24px;}
+  html .config .config-summary{margin-bottom:12px;}
+  html .config .field:has(#genres){margin-bottom:12px;}
+  html .config .opts{gap:6px;}
+  html .config .opt-row{min-height:50px;padding-top:4px;padding-bottom:4px;}
+  html .config .opt-row select{padding-top:9px;padding-bottom:9px;}
+  html .config .yesno button{padding:8px 14px;}
+  html .config .stepper button{width:36px;height:36px;}
+  html .config #confirm-config{margin-top:16px;padding:15px;}
+  html .config #players-list{max-height:340px;}
+}
+
+/* ---------- Celular ---------- */
+@media (max-width:899px){
+  /* "Añadir" y "Borrar" en una fila, y "Relevos" sin partirse en tres líneas */
+  html .config .add-player-btn{padding:10px 14px;font-size:14px;}
+  html .config .opt-row:has(.relay-open){flex-wrap:wrap;row-gap:8px;}
+  html .config .opt-row:has(.relay-open) > span:first-child{white-space:nowrap;flex:1 0 100%;}
+  html .config .opt-row:has(.relay-open) .relay-open{margin-left:auto;}
+
+  /* Opción B «Secciones»: sin la tarjeta grande; cada parte en su panel y "Confirmar" siempre a mano abajo */
+  html .config .card{background:none;border:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;}
+  html .config .config-summary{margin-bottom:12px;}
+  html .config .card > .field,html .config .opts{background:var(--a-surface);border:1px solid var(--a-line);border-radius:20px;padding:16px;
+    margin-bottom:12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  html .config .opt-row{background:rgba(0,0,0,.18);}
+  html .config #confirm-config{position:sticky;bottom:12px;z-index:5;}
+}
+
+/* ---------- Ronda, estilo "Escenario nocturno" (usuario, 28-10-2026; las tres apps) ----------
+   Variables y fondo: en el bloque del inicio. Cada lado con su color (--lado). PC: acomodo "Escenario"
+   (opción 1). Celular: el mismo "cara a cara" de siempre. */
+/* Letra Inter */
+html .round-screen :is(.word,.clock,.name-btn,.multiplier,.score,.sub,.round-loading-title,.relay-round,.relay-btn,.attempt-left,.attempt-badge,.btn){
+  font-family:'Inter',sans-serif;}
+
+/* Barra de arriba: botones de vidrio */
+html .round-screen .top-bar .icon-btn{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+
+/* Cada lado con su color: rosa y celeste (en Grupal, el color de su grupo) */
+.round-screen .side.a{--lado:#FF5FA2;}
+.round-screen .side.b{--lado:#38BDF8;}
+.round-screen .side[class*="group-color-"]{--lado:var(--group-color);}
+
+/* Casillas de vidrio teñidas con el color del lado */
+html .round-screen .stage .side .name-btn{color:var(--a-text);border-radius:24px;font-weight:800;letter-spacing:-.02em;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--lado) 30%,transparent),color-mix(in srgb,var(--lado) 6%,transparent));
+  border:1px solid color-mix(in srgb,var(--lado) 50%,transparent);
+  box-shadow:0 20px 50px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+html .round-screen .stage .side .name-btn:active{transform:translateY(2px);box-shadow:0 8px 20px rgba(0,0,0,.3);}
+html .round-screen .side .sub{color:var(--a-dim);font-weight:500;letter-spacing:0;}
+html .round-screen .side .score{font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+html .round-screen .attempt-left{color:color-mix(in srgb,var(--lado) 65%,white);font-weight:600;letter-spacing:0;}
+html .round-screen .attempt-badge{color:var(--a-dim);font-weight:600;letter-spacing:0;}
+
+/* Barra de puntos: fina y con brillo del color del lado */
+html .round-screen .progress-track{height:8px;background:rgba(255,255,255,.07);}
+html .round-screen .side .progress-fill{background:linear-gradient(90deg,var(--lado),color-mix(in srgb,var(--lado) 45%,white));
+  box-shadow:0 0 14px var(--lado);}
+
+/* Reloj de vidrio; en los últimos 5 segundos, en rojo rosado */
+html .round-screen .clock.reloj-grande{font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--a-text);
+  background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .round-screen .clock.reloj-grande.warn{background:linear-gradient(100deg,#FF4D6D,var(--a-rosa));border-color:transparent;color:#fff;
+  box-shadow:0 0 30px rgba(255,77,109,.55);}
+html .round-screen .clock.reloj-grande.sin-reloj{font-family:'Inter',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.01em;
+  color:var(--a-dim);padding:6px 18px;white-space:nowrap;}
+
+/* Palabra: blanca, apretada y con un halo violeta (como el título del inicio) */
+html .round-screen .word{font-weight:800;letter-spacing:-.04em;color:#fff;text-shadow:0 6px 40px rgba(139,108,255,.6);
+  font-size:min(76px,calc(100cqi / (var(--letras,6) * .7)));}
+/* La palabra mide lo que entra en su columna según cuántas letras tiene (--letras, de round.js) */
+.round-screen .word-wrap{container-type:inline-size;}
+.round-screen .word-wrap::before{background:radial-gradient(closest-side,rgba(139,108,255,.30),transparent 70%);}
+html .round-screen .multiplier{font-weight:800;color:#fff;background:var(--a-grad);padding:4px 16px;border-radius:999px;
+  box-shadow:0 8px 24px rgba(139,108,255,.45);}
+
+/* Relevos */
+html .round-screen .relay-icons{color:var(--a-text);}
+html .round-screen .relay-round{background:var(--a-surface);color:var(--a-dim);box-shadow:inset 0 0 0 1px var(--a-line);font-weight:700;}
+html .round-screen .relay-btn{background:var(--a-surface);color:color-mix(in srgb,var(--lado) 70%,white);font-weight:700;border-radius:12px;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--lado) 50%,transparent);}
+html .round-screen .relay-adjust{border-radius:12px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+html .round-screen #finish-round{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);border-radius:14px;font-weight:600;}
+html .round-screen .round-loading-title{font-weight:800;letter-spacing:-.02em;}
+.round-screen .loader-bar-fill{background:var(--a-grad);}
+
+/* ---------- PC ---------- */
+@media (min-width:721px){
+  body:has(.round-screen) #app{max-width:1360px;}
+  .round-screen{min-height:calc(100vh - 64px);display:flex;flex-direction:column;}
+  html .round-screen .top-bar .icon-btn{width:52px;height:52px;border-radius:16px;}
+  html .round-screen .top-bar .icon-btn svg{width:26px !important;height:26px !important;}
+  html .round-screen .top-bar #vincular{width:auto;padding:0 18px;font-size:15px;}
+  .round-screen .stage{flex:1;}
+  html .round-screen .stage .side .name-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+  html .round-screen .side .sub{font-size:21px;}
+  html .round-screen .attempt-left,html .round-screen .attempt-badge{font-size:17px;}
+  html .round-screen .progress-track{height:10px;margin-top:14px;}
+  html .round-screen .relay-bar{margin-top:14px;gap:10px;}
+  html .round-screen .relay-btn{padding:10px 18px;font-size:15px;}
+  html .round-screen .relay-adjust{width:42px;height:42px;}
+  html .round-screen .relay-round{font-size:14px;padding:6px 12px;}
+  html .round-screen .clock.reloj-grande{font-size:clamp(50px,5.2vw,80px);padding:8px 38px;}
+  html .round-screen .clock.reloj-grande.sin-reloj{font-size:26px;padding:8px 24px;}
+  html .round-screen .multiplier{font-size:30px;margin-top:16px;}
+
+  /* Escenario: los dos lados a los costados, altos, y la palabra grande en el medio */
+  .round-screen .stage{grid-template-columns:1.1fr 1.5fr 1.1fr;align-items:center;gap:40px;}
+  html .round-screen .stage .side .name-btn{min-height:min(60vh,520px);font-size:36px;padding:30px 22px;}
+  html .round-screen .side .score{font-size:66px;margin-top:12px;}
+  html .round-screen .word{font-size:min(124px,calc(100cqi / (var(--letras,6) * .7)));}
+}
+
+/* ---------- Resultado de la ronda, estilo "Escenario nocturno" (usuario, 28-10-2026; las tres apps) ----------
+   Variables y fondo: en el bloque del inicio. El ícono del título toma color según .es-correcto /
+   .es-incorrecto / .es-neutro (roundResult.js). PC: "Pantalla completa" (opción B). */
+/* Centrado en la pantalla */
+.resultado{--sube:#34D399;--baja:#FF5C7A;min-height:calc(100dvh - 64px);display:flex;flex-direction:column;justify-content:center;}
+html .resultado :is(.big,.pts,.panel-title,.small-note,.puntos-nombre,.puntos-delta,.puntos-total,.puntos-total b,.btn){font-family:'Inter',sans-serif;}
+
+/* Tarjeta de vidrio */
+html .resultado .result-banner{width:100%;max-width:560px;margin:0 auto;padding:34px 24px 28px;color:var(--a-text);
+  background:linear-gradient(160deg,rgba(139,108,255,.14),rgba(255,95,162,.05));border:1px solid var(--a-line);border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+
+/* Título: el ícono en un círculo de color y el texto en blanco */
+html .resultado .result-banner .big{display:flex;flex-direction:column;align-items:center;gap:14px;font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1;}
+html .resultado .big svg{width:34px !important;height:34px !important;padding:15px;border-radius:50%;box-sizing:content-box;color:#fff;
+  background:var(--a-grad);box-shadow:0 10px 30px rgba(139,108,255,.45);}
+html .resultado.es-correcto .big svg{background:linear-gradient(135deg,#34D399,#38BDF8);box-shadow:0 10px 30px rgba(52,211,153,.4);}
+html .resultado.es-incorrecto .big svg{background:linear-gradient(135deg,#FF4D6D,var(--a-rosa));box-shadow:0 10px 30px rgba(255,77,109,.4);}
+html .resultado .result-banner .pts{font-size:64px;font-weight:800;letter-spacing:-.04em;margin:6px 0 2px;line-height:1;
+  background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent !important;filter:drop-shadow(0 6px 24px rgba(139,108,255,.45));}
+html .resultado .panel-title,html .resultado .small-note{font-size:15px;font-weight:500;color:var(--a-dim);letter-spacing:0;margin:12px 0 0;}
+
+/* Cómo quedan: filas de vidrio, verde si sube y rosado si baja */
+html .resultado .puntos-ronda{margin:22px auto 6px;}
+html .resultado .puntos-fila{background:var(--a-surface);box-shadow:inset 0 0 0 1px var(--a-line);border-radius:16px;padding:14px 18px;}
+html .resultado .puntos-fila.sube{background:color-mix(in srgb,var(--sube) 12%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sube) 55%,transparent);}
+html .resultado .puntos-fila.baja{background:color-mix(in srgb,var(--baja) 12%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--baja) 55%,transparent);}
+html .resultado .puntos-nombre{font-weight:700;}
+html .resultado .puntos-delta{font-weight:800;font-size:26px;letter-spacing:-.02em;color:var(--a-dim);}
+html .resultado .puntos-fila.sube .puntos-delta{color:var(--sube);}
+html .resultado .puntos-fila.baja .puntos-delta{color:var(--baja);}
+html .resultado .puntos-total{color:var(--a-dim);font-weight:600;}
+html .resultado .puntos-total b{color:var(--a-text);font-weight:800;font-size:24px;letter-spacing:-.02em;}
+
+/* Botón como "Jugar" */
+html .resultado .btn-primary{width:100%;max-width:440px;margin-top:20px !important;background:var(--a-grad);color:#fff;font-weight:700;font-size:17px;
+  border-radius:14px;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  /* Sin tarjeta: título y puntos enormes, y los dos lados en cuadros grandes, uno al lado del otro */
+  body:has(.resultado) #app{max-width:1200px;}
+  html .resultado .result-banner{max-width:none;background:none;border:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;}
+  html .resultado .result-banner .big{font-size:64px;gap:22px;}
+  html .resultado .big svg{width:52px !important;height:52px !important;padding:24px;}
+  html .resultado .result-banner .pts{font-size:130px;}
+  html .resultado :is(.panel-title,.small-note){font-size:20px;}
+  html .resultado .puntos-ronda{max-width:none;display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px;}
+  html .resultado .puntos-fila{grid-template-columns:1fr;justify-items:center;gap:6px;padding:28px 24px;border-radius:24px;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+  html .resultado .puntos-nombre{font-size:26px;text-align:center;}
+  html .resultado .puntos-delta{font-size:52px;}
+  html .resultado .puntos-total b{font-size:34px;}
+  html .resultado .btn-primary{max-width:480px;font-size:21px;padding:19px;border-radius:16px;margin-top:40px !important;}
+}
+
+/* ---------- Podio, estilo "Escenario nocturno" (usuario, 28-10-2026; las tres apps) ----------
+   Variables y fondo: en el bloque del inicio. Pantalla completa sin tarjeta en celular y PC. */
+/* Colores de los puestos */
+.podio{--oro:#FFD23F;--plata:#C9CFE0;--bronce:#E3A06B;min-height:calc(100dvh - 64px);display:flex;flex-direction:column;justify-content:center;}
+html .podio :is(.big,.pts,.panel-title,.podium-name,.podium-points,.podium-mvp,.podium-block,.others-row,.btn){font-family:'Inter',sans-serif;}
+
+/* Pantalla completa, sin tarjeta (celular y PC) */
+html .podio .result-banner{width:100%;margin:0 auto;padding:0;color:var(--a-text);background:none;border:none;box-shadow:none;}
+
+/* Ganador: etiqueta chica, nombre grande en degradado y su puntaje */
+html .podio .panel-title{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--a-dim);margin:0 0 6px;}
+html .podio .result-banner .big{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1.05;word-break:break-word;
+  background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 24px rgba(139,108,255,.45));}
+html .podio .result-banner .pts{font-size:22px;font-weight:700;color:var(--a-text);margin:8px 0 0;letter-spacing:-.01em;}
+
+/* Podio: bloques de vidrio teñidos de oro, plata y bronce */
+html .podio .podium{margin-top:30px;}
+html .podio .podium-name{font-size:15px;}
+html .podio .podium-medal svg{width:34px !important;height:34px !important;}
+html .podio .podium-1 .podium-block{height:150px;}
+html .podio .podium-2 .podium-block{height:110px;}
+html .podio .podium-3 .podium-block{height:76px;}
+html .podio .btn-row{margin-top:26px !important;} /* pisa el margin-top escrito en results.js */
+.podio .podium-1{--puesto:var(--oro);}
+.podio .podium-2{--puesto:var(--plata);}
+.podio .podium-3{--puesto:var(--bronce);}
+html .podio .podium-name{font-weight:700;letter-spacing:-.01em;}
+html .podio .podium-points{color:var(--a-dim);font-weight:600;}
+html .podio .podium-mvp{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:700;
+  color:#fff;background:var(--a-grad);}
+html .podio .podium-block{color:#fff;font-weight:800;font-size:24px;text-shadow:0 2px 10px rgba(0,0,0,.35);border-radius:16px 16px 6px 6px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--puesto) 60%,transparent),color-mix(in srgb,var(--puesto) 8%,transparent));
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--puesto) 80%,white),inset 0 0 0 1px color-mix(in srgb,var(--puesto) 40%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .podio .podium-1 .podium-block{box-shadow:inset 0 1px 0 #fff6cf,inset 0 0 0 1px rgba(255,210,63,.5),0 0 40px rgba(255,210,63,.25);}
+
+/* Ver más y el resto */
+html .podio #ver-mas{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);border-radius:12px;font-weight:600;}
+html .podio #others{display:flex;flex-direction:column;gap:6px;}
+html .podio .others-row{padding:11px 16px;border:none;border-radius:12px;background:var(--a-surface);box-shadow:inset 0 0 0 1px var(--a-line);font-weight:600;}
+html .podio .others-row > span:last-child{color:var(--a-dim);}
+
+/* Botones: "Jugar de nuevo" como "Jugar", los demás de vidrio */
+html .podio .btn-row{flex-wrap:nowrap;}
+html .podio .btn-row .btn{flex:1;}
+html .podio .btn-primary{background:var(--a-grad);color:#fff;font-weight:700;border-radius:14px;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+html .podio :is(.btn-secondary,.btn-ghost){background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);
+  font-weight:600;border-radius:14px;}
+html .podio .btn svg{color:var(--a-violeta);}
+html .podio .btn-primary svg{color:#fff;}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  /* Ganador enorme, podio alto y botones en una fila */
+  body:has(.podio) #app{max-width:1200px;}
+  html .podio .panel-title{font-size:16px;}
+  html .podio .result-banner .big{font-size:84px;}
+  html .podio .result-banner .pts{font-size:30px;}
+  html .podio .podium{max-width:820px;gap:24px;margin-top:34px;}
+  html .podio .podium-name{font-size:24px;}
+  html .podio .podium-points{font-size:17px;}
+  html .podio .podium-mvp{font-size:14px;padding:4px 12px;}
+  html .podio .podium-medal svg{width:46px !important;height:46px !important;}
+  html .podio .podium-block{font-size:34px;padding-top:14px;}
+  html .podio .podium-1 .podium-block{height:min(26vh,230px);}
+  html .podio .podium-2 .podium-block{height:min(19vh,170px);}
+  html .podio .podium-3 .podium-block{height:min(13vh,118px);}
+  html .podio #others{max-width:560px;margin-left:auto;margin-right:auto;}
+  html .podio .btn-row{max-width:820px;margin-left:auto;margin-right:auto;margin-top:30px !important;}
+  html .podio .btn-row .btn,html .podio .btn-block{font-size:18px;padding:17px 22px;}
+  html .podio .btn-block{max-width:820px;margin-left:auto;margin-right:auto;display:block;}
+}
+
+/* ---------- "Organizar equipos", estilo "Escenario nocturno" (.organizar) ---------- */
+/* Letra Inter (cada grupo conserva su color, el mismo de la ronda) */
+html .organizar,html .organizar :is(h2,h3,button,input,select,label,span,div){font-family:'Inter',sans-serif;}
+.organizar{color:var(--a-text);}
+
+/* Barra de arriba de vidrio */
+html .organizar .top-bar .icon-btn{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .organizar .top-bar h2{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;}
+
+/* Sin la tarjeta grande: la cantidad y el nombre en un panel, y cada grupo en el suyo */
+html .organizar .card{background:none;border:none;box-shadow:none;padding:0;}
+html .organizar .config-2col{background:var(--a-surface);border:1px solid var(--a-line);border-radius:20px;padding:16px 16px 0;margin-bottom:14px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+html .organizar .ayuda-btn.esquina{top:12px;right:12px;}
+html .organizar .field label{color:var(--a-text);font-weight:700;}
+html .organizar :is(select,input[type=text]){background-color:rgba(0,0,0,.22);border:1px solid var(--a-line);border-radius:12px;color:var(--a-text);font-weight:500;}
+html .organizar :is(select,input):focus{border-color:var(--a-violeta);}
+html .organizar .ayuda-btn{color:var(--a-dim);}
+
+/* Cada grupo: vidrio teñido con su color */
+html .organizar .team-card{border-radius:20px;padding:16px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--group-color) 22%,transparent),color-mix(in srgb,var(--group-color) 4%,transparent));
+  border:1px solid color-mix(in srgb,var(--group-color) 45%,transparent);box-shadow:0 14px 36px rgba(0,0,0,.3);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+html .organizar .team-card h3{font-family:'Inter',sans-serif;color:var(--a-text);font-size:17px;font-weight:800;letter-spacing:-.01em;}
+html .organizar .team-card h3::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--group-color);box-shadow:0 0 10px var(--group-color);flex:none;}
+html .organizar .team-member{background:rgba(0,0,0,.2);box-shadow:inset 0 0 0 1px var(--a-line);border-radius:12px;font-weight:600;padding:11px 12px;}
+html .organizar .team-member .num{color:color-mix(in srgb,var(--group-color) 70%,white);font-weight:700;}
+html .organizar .team-member.selected{outline:none;background:color-mix(in srgb,var(--a-violeta) 30%,transparent);box-shadow:inset 0 0 0 2px var(--a-violeta),0 0 18px rgba(139,108,255,.45);}
+html .organizar .group-name-input{background-color:rgba(0,0,0,.3);}
+html .organizar .small-note{color:var(--a-dim);font-weight:500;}
+
+/* Botones: "Confirmar" como "Jugar" y siempre a mano abajo; "Volver a organizar" de vidrio */
+html .organizar .btn-row{position:sticky;bottom:12px;z-index:5;flex-wrap:nowrap;}
+html .organizar .btn-row .btn{flex:1;margin-left:0 !important;}
+html .organizar .btn-primary{background:var(--a-grad);color:#fff;font-weight:700;border-radius:14px;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+html .organizar .btn-secondary{background:rgba(20,22,36,.75);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);font-weight:600;border-radius:14px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+html .organizar .btn-secondary svg{color:var(--a-violeta);}
+
+/* Celular: barra de arriba y botones sin partirse en dos líneas */
+@media (max-width:899px){
+  html .organizar .top-bar h2{font-size:20px;}
+  html .organizar .top-bar #back{white-space:nowrap;padding:8px 12px;font-size:13px;}
+  html .organizar .btn-row .btn{white-space:nowrap;font-size:14px;padding:13px 10px;}
+  /* Grupos uno al lado del otro, como en la PC (de a dos por fila para que quepan) */
+  html .organizar .teams-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  html .organizar .team-card{padding:12px;border-radius:18px;}
+  html .organizar .team-card h3{font-size:15px;margin-bottom:10px;}
+  html .organizar .team-member{font-size:14px;padding:9px 10px;margin-bottom:6px;overflow-wrap:anywhere;}
+}
+
+/* ---------- PC: todo más grande, en una columna ancha centrada ---------- */
+@media (min-width:900px){
+  body:has(.organizar) #app{max-width:1160px;}
+  html .organizar .top-bar{margin-bottom:22px;}
+  html .organizar .top-bar .icon-btn-round{width:52px;height:52px;border-radius:16px;}
+  html .organizar .top-bar .icon-btn-round svg{width:26px !important;height:26px !important;}
+  html .organizar .top-bar #back{height:52px;padding:0 20px;font-size:16px;border-radius:16px;}
+  html .organizar .top-bar h2{font-size:34px;}
+  html .organizar .config-2col{padding:20px 24px 4px;gap:24px;margin-bottom:20px;}
+  html .organizar .field label{font-size:17px;}
+  html .organizar select{font-size:17px;padding:13px 16px;}
+  html .organizar .team-card{padding:22px;border-radius:22px;}
+  html .organizar .team-card h3{font-size:21px;margin-bottom:14px;}
+  html .organizar .team-member{font-size:17px;padding:14px 16px;margin-bottom:8px;}
+  html .organizar .small-note{font-size:16px;}
+  html .organizar .btn-row{max-width:760px;margin:22px auto 0 !important;position:static;}
+  html .organizar .btn-row .btn{font-size:18px;padding:17px 22px;border-radius:16px;}
+
+  /* Todos los grupos en una sola fila, uno al lado del otro (opción B) */
+  html .organizar .teams-grid{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);grid-template-columns:none;gap:18px;}
+}
+
+/* ---------- Ajustes, estilo "Escenario nocturno" (la hoja que contiene .home-settings; lleva sus propias variables
+   porque también se abre en el control del celular). Celular y PC: panel a todo el alto desde la izquierda ---------- */
+.sheet:has(.home-settings){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.92),rgba(11,13,23,.94));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(.home-settings){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html .sheet:has(.home-settings) :is(h2,h3,p,button,output,label,span){font-family:'Inter',sans-serif;}
+html .sheet:has(.home-settings) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html .sheet:has(.home-settings) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+
+/* Grupos: rótulo chico espaciado en violeta claro */
+html .sheet .home-settings-group{color:#B9A6FF;font-size:12px;font-weight:700;letter-spacing:.14em;margin-top:10px;}
+
+/* Cada opción en un panel de vidrio */
+html .sheet .home-setting{background:var(--a-surface);border:1px solid var(--a-line);border-left:1px solid var(--a-line);border-radius:18px;padding:14px 16px;}
+html .sheet .home-setting h3{font-size:16px;font-weight:600;color:var(--a-text);}
+
+/* Sí / No: la elegida en blanco, como en el inicio */
+html .sheet .segmented{background:rgba(0,0,0,.28);border:1px solid var(--a-line);}
+html .sheet .segmented button{color:var(--a-dim);font-weight:600;padding:7px 16px;}
+html .sheet .segmented button.active{background:#fff;color:#0B0D17;box-shadow:0 4px 14px rgba(255,255,255,.18);}
+
+/* Volumen y cuenta */
+html .sheet .home-volume{font-weight:600;color:var(--a-dim);}
+html .sheet .home-volume input{accent-color:var(--a-violeta);}
+html .sheet .home-volume output{color:var(--a-text);font-variant-numeric:tabular-nums;}
+html .sheet .stepper{background:rgba(0,0,0,.28);border:1px solid var(--a-line);}
+html .sheet .stepper button{background:var(--a-surface);color:var(--a-text);}
+html .sheet .stepper output{font-family:'Inter',sans-serif;font-weight:700;font-size:17px;min-width:40px;}
+
+/* Botones: Premium en degradado; los demás de vidrio; Salir en rosado */
+html .sheet .home-settings .btn{font-family:'Inter',sans-serif;border-radius:14px;font-weight:600;box-shadow:none;}
+html .sheet .home-settings .btn-primary{background:var(--a-grad);color:#fff;font-weight:700;box-shadow:0 10px 26px rgba(139,108,255,.4);}
+html .sheet .home-settings :is(.btn-ghost,.btn-secondary){background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+html .sheet .home-settings .btn-danger{background:color-mix(in srgb,#FF5C7A 14%,transparent);border:1px solid color-mix(in srgb,#FF5C7A 45%,transparent);color:#FFC2CE;}
+html .sheet .home-settings .btn svg{color:#B9A6FF;}
+html .sheet .home-settings .btn-primary svg{color:#fff;}
+html .sheet .home-version{font-family:'Inter',sans-serif;color:var(--a-dim);font-weight:500;}
+
+/* Celular: el panel que entra desde la izquierda, con el borde redondeado a la derecha */
+@media (max-width:899px){
+  html .sheet-left .sheet:has(.home-settings){border-radius:0 26px 26px 0;border-left:none;}
+}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  html .sheet:has(.home-settings) .sheet-head{padding:24px 26px 12px;}
+  html .sheet:has(.home-settings) .sheet-title{font-size:30px;}
+  html .sheet:has(.home-settings) .sheet-body{padding:4px 26px 26px;}
+  html .sheet .home-setting{padding:16px 20px;}
+  html .sheet .home-setting h3{font-size:18px;}
+
+  /* Panel a todo el alto que entra desde la izquierda, como en el celular (opción B) */
+  html .sheet-back.sheet-left:has(.home-settings){justify-content:flex-start;align-items:stretch;}
+  html .sheet-left .sheet:has(.home-settings){width:480px;max-width:none;max-height:none;height:100%;
+    border-radius:0 28px 28px 0;border-left:none;animation:sheet-left .3s cubic-bezier(.25,1,.5,1) both;}
+}
+
+/* ---------- Avisos de la campana, estilo "Escenario nocturno" (hoja con .avisos o .home-empty; sus propias variables
+   como Ajustes). Celular: sube desde abajo; PC: panel a todo el alto desde la derecha ---------- */
+.sheet:has(:is(.avisos,.home-empty)){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.92),rgba(11,13,23,.94));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(:is(.avisos,.home-empty)){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html .sheet:has(:is(.avisos,.home-empty)) :is(h2,h3,p,button,span){font-family:'Inter',sans-serif;}
+html .sheet:has(:is(.avisos,.home-empty)) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html .sheet:has(:is(.avisos,.home-empty)) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+
+/* Cada aviso: panel de vidrio con su ícono en un círculo del color de su tipo */
+html .sheet .aviso{--tono:var(--a-violeta);background:var(--a-surface);border:1px solid var(--a-line);border-radius:18px;padding:16px;gap:14px;}
+html .sheet .aviso.aviso-novedad{--tono:var(--a-rosa);}
+html .sheet .aviso.aviso-promo{--tono:#FFC857;}
+html .sheet .aviso-icono{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:color-mix(in srgb,var(--tono) 18%,transparent);border:1px solid color-mix(in srgb,var(--tono) 45%,transparent);color:var(--tono);}
+html .sheet .aviso-icono svg{width:24px !important;height:24px !important;color:inherit;}
+html .sheet .aviso.is-nuevo{box-shadow:none;border-color:color-mix(in srgb,var(--a-violeta) 60%,transparent);
+  background:linear-gradient(160deg,rgba(139,108,255,.14),rgba(255,95,162,.05));}
+html .sheet .aviso-cuerpo h3{font-size:16.5px;font-weight:700;letter-spacing:-.01em;color:var(--a-text);}
+html .sheet .aviso-cuerpo p{color:var(--a-dim);font-weight:500;line-height:1.45;}
+html .sheet .aviso-meta{color:var(--a-dim);font-weight:500;}
+html .sheet .aviso-meta .home-tag{background:color-mix(in srgb,var(--tono) 16%,transparent);color:color-mix(in srgb,var(--tono) 60%,white);
+  font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;}
+html .sheet .aviso-nuevo{color:var(--a-rosa);font-weight:700;}
+html .sheet .aviso-boton{background:var(--a-grad);color:#fff;font-weight:700;border-radius:12px;box-shadow:0 8px 22px rgba(139,108,255,.4);}
+html .sheet .aviso-sin-red{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-dim);font-weight:600;}
+
+/* Sin avisos: campana en un círculo de vidrio y el texto tenue */
+html .sheet .home-empty{padding:28px 12px 16px;}
+html .sheet .home-empty-icon{width:76px;height:76px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(160deg,rgba(139,108,255,.25),rgba(255,95,162,.12));border:1px solid var(--a-line);color:#fff;}
+html .sheet .home-empty-icon svg{width:36px !important;height:36px !important;color:inherit;}
+html .sheet .home-empty p{font-weight:700;font-size:17px;}
+html .sheet .home-empty .home-empty-note{color:var(--a-dim);font-weight:500;font-size:14.5px;max-width:340px;margin:6px auto 0;line-height:1.45;}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  html .sheet:has(:is(.avisos,.home-empty)){max-width:620px;border-radius:26px;}
+  html .sheet:has(:is(.avisos,.home-empty)) .sheet-head{padding:24px 26px 12px;}
+  html .sheet:has(:is(.avisos,.home-empty)) .sheet-title{font-size:30px;}
+  html .sheet:has(:is(.avisos,.home-empty)) .sheet-body{padding:4px 26px 26px;}
+  html .sheet .aviso{padding:18px 20px;}
+  html .sheet .aviso-cuerpo h3{font-size:18px;}
+  html .sheet .aviso-cuerpo p{font-size:15px;}
+
+  /* Panel a todo el alto que entra desde la derecha (la campana está a la derecha) */
+  html .sheet-back:has(:is(.avisos,.home-empty)){justify-content:flex-end;align-items:stretch;}
+  html .sheet:has(:is(.avisos,.home-empty)){width:500px;max-width:none;max-height:none;height:100%;
+    border-radius:28px 0 0 28px;border-right:none;animation:sheet-right .3s cubic-bezier(.25,1,.5,1) both;}
+}
+@keyframes sheet-right{from{transform:translateX(100%);}to{transform:translateX(0);}}
+
+/* "Borrar notificaciones": fijo abajo de la ventana; los avisos pasan por detrás al desplazar la lista */
+html .sheet .avisos-borrar{position:sticky;bottom:16px;z-index:2;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  margin-top:6px;padding:14px;border-radius:14px;cursor:pointer;font:600 15px 'Inter',sans-serif;color:#FFC2CE;
+  background:color-mix(in srgb,#FF5C7A 18%,#141526);border:1px solid color-mix(in srgb,#FF5C7A 40%,transparent);
+  box-shadow:0 -18px 22px 4px #0C0E19,0 18px 0 8px #0C0E19;}
+html .sheet .avisos-borrar svg{color:#FF8FB1;width:18px !important;height:18px !important;}
+/* Sin el relleno de abajo, para que ningún aviso se asome por debajo del botón */
+html .sheet-body:has(.avisos-borrar){padding-bottom:0 !important;}
+html .sheet .avisos:has(.avisos-borrar){padding-bottom:16px;}
+/* (!) de la campana: círculo rojo mientras quede al menos un aviso */
+html .aviso-globito{min-width:20px;width:20px;padding:0;font:800 13px 'Inter',sans-serif;}
+.home .aviso-globito{box-shadow:0 0 0 3px var(--a-bg);}
+
+/* ---------- Ayudas, estilo "Escenario nocturno"
+   (hoja de "Cómo se juega" y de cada modo: .manual.ayuda; ventanita de los (?): .ayuda-tip). En dos columnas en celular y PC (opción B) ---------- */
+:is(.sheet:has(.manual.ayuda),.modal.ayuda-tip){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-sube:#34D399;--a-baja:#FF5C7A;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.94),rgba(11,13,23,.96));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(.manual.ayuda),.modal-backdrop:has(.ayuda-tip){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html :is(.sheet:has(.manual.ayuda),.modal.ayuda-tip) :is(h2,h3,p,b,span,button,li){font-family:'Inter',sans-serif;}
+html .sheet:has(.manual.ayuda) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html :is(.sheet:has(.manual.ayuda),.modal.ayuda-tip) :is(.sheet-close,.modal-close){border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+
+/* Cada parte en un panel de vidrio; título chico espaciado en violeta claro */
+html .ayuda .manual-item{background:var(--a-surface);border:1px solid var(--a-line);border-radius:20px;padding:16px;}
+html .ayuda .manual-name{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#B9A6FF;}
+html .ayuda .ayuda-linea{font-size:17px;font-weight:700;letter-spacing:-.01em;}
+html .ayuda .manual-fact{background:rgba(0,0,0,.25);border:1px solid var(--a-line);font-weight:600;color:var(--a-text);}
+html .ayuda .ayuda-modo{background:rgba(0,0,0,.22);border:1px solid var(--a-line);}
+html .ayuda .ayuda-modo b{font-size:15px;font-weight:700;}
+html .ayuda .ayuda-modo span{color:var(--a-dim);font-weight:500;}
+html .ayuda .manual-choose{background:var(--a-grad);color:#fff;font-weight:700;border-radius:12px;box-shadow:0 8px 22px rgba(139,108,255,.4);}
+
+/* Historieta: viñetas de vidrio; la encendida con borde violeta y brillo */
+html .ayuda .frame{background:rgba(0,0,0,.25);border:1px solid var(--a-line);}
+html .ayuda .frame.is-on{box-shadow:inset 0 0 0 1px var(--a-violeta),0 0 22px rgba(139,108,255,.35);border-color:var(--a-violeta);}
+html .ayuda .frame-num{background:rgba(255,255,255,.1);color:var(--a-dim);font-weight:700;}
+html .ayuda .is-on .frame-num{background:var(--a-grad);color:#fff;}
+html .ayuda .frame-text{font-weight:600;}
+html .ayuda .fx-word{font-family:'Inter',sans-serif;font-weight:800;background:#fff;color:#0B0D17;box-shadow:0 0 20px rgba(139,108,255,.5);}
+html .ayuda .fx-arrow{color:#B9A6FF;}
+
+/* Tarjetas de puntos y dibujitos */
+html :is(.ayuda,.ayuda-tip) .ayuda-tarjeta{background:rgba(0,0,0,.22);border:1px solid var(--a-line);}
+html :is(.ayuda,.ayuda-tip) .ayuda-tarjeta-texto{font-weight:600;}
+html :is(.ayuda,.ayuda-tip) :is(.tip-num,.fx-points,.fx-plus,.fx-minus){font-family:'Inter',sans-serif;font-weight:800;}
+html :is(.ayuda,.ayuda-tip) :is(.tip-num.mas,.fx-points,.fx-plus){color:var(--a-sube);}
+html :is(.ayuda,.ayuda-tip) :is(.tip-num.menos,.fx-minus){color:var(--a-baja);}
+html :is(.ayuda,.ayuda-tip) .tip-pill{font-family:'Inter',sans-serif;font-weight:800;}
+html :is(.ayuda,.ayuda-tip) .tip-boton{background:var(--a-grad);color:#fff;font-weight:700;}
+html :is(.ayuda,.ayuda-tip) :is(.tip-lista,.tip-rueda){background:rgba(0,0,0,.3);border:1px solid var(--a-line);}
+html :is(.ayuda,.ayuda-tip) .tip-rueda b{background:rgba(139,108,255,.22);color:#D6CCFF;}
+html :is(.ayuda,.ayuda-tip) .tip-punto{background:var(--a-violeta);}
+html :is(.ayuda,.ayuda-tip) .ayuda-opcion{color:#FF9CC5;}
+
+/* Ventanita de los (?) */
+html .modal.ayuda-tip{border-radius:22px;}
+html .ayuda-tip .tip-cab h3{color:var(--a-text);font-weight:800;font-size:19px;letter-spacing:-.01em;}
+html .ayuda-tip .tip-modo{background:rgba(139,108,255,.2);color:#D6CCFF;font-weight:700;}
+html .ayuda-tip .tip-frase{font-weight:600;color:var(--a-text);}
+
+/* Partes en dos columnas (opción B, también en el celular): la primera, la historieta y las
+   tarjetas de puntos ocupan todo el ancho; las demás van de a dos */
+html .manual.ayuda{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:start;}
+html .manual.ayuda > .manual-item:is(:first-child,:has(.story),:has(.ayuda-tarjetas)){grid-column:1 / -1;}
+@media (max-width:899px){
+  html .sheet:has(.manual.ayuda){max-height:92vh;}
+  html .ayuda .manual-item:not(:first-child):not(:has(.story)):not(:has(.ayuda-tarjetas)){padding:13px;}
+  html .ayuda .manual-item:not(:first-child):not(:has(.story)):not(:has(.ayuda-tarjetas)) .ayuda-linea{font-size:14.5px;}
+  html .ayuda .manual-fact{font-size:12px;white-space:normal;border-radius:12px;}
+  html .ayuda .ayuda-modo{padding:7px 9px;}
+  html .ayuda .ayuda-modo b{font-size:13.5px;}
+  html .ayuda .ayuda-modo span{font-size:11.5px;}
+  html .ayuda .manual-choose{margin-left:0;width:100%;font-size:13px;padding:9px 10px;}
+}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  html .sheet:has(.manual.ayuda){border-radius:26px;}
+  html .sheet:has(.manual.ayuda) .sheet-head{padding:24px 26px 12px;}
+  html .sheet:has(.manual.ayuda) .sheet-title{font-size:30px;}
+  html .sheet:has(.manual.ayuda) .sheet-body{padding:4px 26px 26px;}
+  html .ayuda .manual-item{padding:20px 22px;}
+  html .ayuda .ayuda-linea{font-size:19px;}
+  html .ayuda .frame-text,html .ayuda .ayuda-tarjeta-texto{font-size:14px;}
+
+  /* Ventanita de los (?) cuando queda centrada (sin botón o sin lugar junto a él): grande */
+  html .modal-backdrop:not(.con-globo) .modal.ayuda-tip{max-width:680px;width:680px;padding:34px 34px 32px;border-radius:26px;}
+  html .ayuda-tip .tip-cab{margin-bottom:12px;}
+  html .ayuda-tip .tip-cab h3{font-size:30px;}
+  html .ayuda-tip .tip-modo{font-size:13px;padding:5px 12px;}
+  html .ayuda-tip .tip-frase{font-size:20px;margin-bottom:18px;}
+  html .ayuda-tip .tip-tarjetas{gap:12px;}
+  html .ayuda-tip .ayuda-tarjeta{padding:20px 14px 16px;border-radius:20px;}
+  html .ayuda-tip .tip-tarjetas .ayuda-tarjeta-art{font-size:34px;min-height:60px;}
+  html .ayuda-tip .ayuda-tarjeta-texto{font-size:17px;}
+  html .ayuda-tip :is(.tip-num){font-size:26px;}
+  html .ayuda-tip :is(.tip-pill,.tip-boton,.tip-lista){font-size:17px;}
+  html .ayuda-tip .modal-close{width:44px;height:44px;}
+
+  /* Ventana ancha (opción B) */
+  html .sheet:has(.manual.ayuda){max-width:1080px;max-height:88vh;}
+  html .manual.ayuda{gap:14px;}
+  /* En la PC las tarjetas de puntos caben en media columna */
+  html .manual.ayuda > .manual-item:has(.ayuda-tarjetas):not(:has(.story)){grid-column:auto;}
+}
+
+
+/* Ventanita de los (?) como globo junto a su botón (ayudaBotones.js, pegarAlBoton): el fondo
+   borroso para concentrarse en ella; flechita que apunta al botón y una copia del botón encendida */
+.modal-backdrop.con-globo{display:block;padding:0;background:rgba(5,6,14,.45);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);}
+.con-globo .modal.ayuda-tip{position:fixed;margin:0;width:min(460px,calc(100% - 24px));max-width:none;padding:20px 18px 18px;
+  overflow:visible;border-color:rgba(139,108,255,.55);}
+.con-globo .modal.ayuda-tip::before{content:"";position:absolute;left:var(--flecha-x,40px);width:18px;height:18px;z-index:1;
+  transform:translateX(-50%) rotate(45deg);border:1px solid rgba(139,108,255,.55);}
+.con-globo .modal.ayuda-tip.abajo::before{top:-10px;background:#1C1A33;border-right:none;border-bottom:none;}
+.con-globo .modal.ayuda-tip.arriba::before{bottom:-10px;background:#0E1020;border-left:none;border-top:none;}
+.con-globo .ayuda-btn-tocado{position:fixed;margin:0;pointer-events:none;background:#8B6CFF;border-color:#8B6CFF;color:#fff;
+  box-shadow:0 0 0 4px rgba(139,108,255,.3),0 0 14px rgba(139,108,255,.7);}
+@media (min-width:900px){
+  .con-globo .modal.ayuda-tip{width:520px;padding:24px 24px 22px;}
+  html .con-globo .ayuda-tip .tip-cab h3{font-size:24px;}
+  html .con-globo .ayuda-tip .tip-frase{font-size:17px;}
+  html .con-globo .ayuda-tip .ayuda-tarjeta-texto{font-size:15px;}
+  html .con-globo .ayuda-tip .tip-tarjetas .ayuda-tarjeta-art{font-size:28px;min-height:48px;}
+}
+
+/* ---------- «Modos de juego», estilo "Escenario nocturno" (.manual.modos, modesManual.js). PC: los modos uno al lado
+   del otro (opción B); celular: lista compacta, la historieta solo en el elegido o con «Ver más» (opción 3) ---------- */
+.sheet:has(.manual.modos){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-sube:#34D399;--a-baja:#FF5C7A;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.94),rgba(11,13,23,.96));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(.manual.modos){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html .sheet:has(.manual.modos) :is(h2,h3,p,b,span,button,li){font-family:'Inter',sans-serif;}
+html .sheet:has(.manual.modos) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html .sheet:has(.manual.modos) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+
+/* Cada modo: tarjeta de vidrio; el elegido con borde violeta y brillo */
+html .modos .manual-item{background:var(--a-surface);border:1px solid var(--a-line);border-radius:22px;padding:18px;gap:12px;}
+html .modos .manual-item.is-selectable:hover{box-shadow:none;border-color:rgba(139,108,255,.5);}
+html .modos .manual-item.is-chosen{box-shadow:0 0 0 1px var(--a-violeta),0 0 30px rgba(139,108,255,.3);border-color:var(--a-violeta);
+  background:linear-gradient(160deg,rgba(139,108,255,.16),rgba(255,95,162,.05));}
+html .modos .manual-item.is-locked{opacity:.7;}
+html .modos .manual-name{font-size:21px;font-weight:800;letter-spacing:-.02em;}
+html .modos .home-tag-chosen{background:var(--a-grad);color:#fff;font-weight:700;}
+html .modos .home-tag-locked{background:rgba(255,255,255,.1);color:var(--a-dim);font-weight:700;}
+html .modos .manual-fact{background:rgba(0,0,0,.25);border:1px solid var(--a-line);font-weight:600;}
+html .modos .manual-more{color:var(--a-dim);font-weight:500;}
+html .modos .manual-more li::marker{color:#B9A6FF;}
+
+/* Historieta como en la ayuda */
+html .modos .frame{background:rgba(0,0,0,.25);border:1px solid var(--a-line);}
+html .modos .frame.is-on{box-shadow:inset 0 0 0 1px var(--a-violeta),0 0 22px rgba(139,108,255,.35);border-color:var(--a-violeta);}
+html .modos .frame-num{background:rgba(255,255,255,.1);color:var(--a-dim);font-weight:700;}
+html .modos .is-on .frame-num{background:var(--a-grad);color:#fff;}
+html .modos .frame-text{font-weight:600;}
+html .modos .fx-word{font-family:'Inter',sans-serif;font-weight:800;background:#fff;color:#0B0D17;box-shadow:0 0 20px rgba(139,108,255,.5);}
+html .modos .fx-arrow{color:#B9A6FF;}
+html .modos :is(.fx-points,.fx-plus,.fx-minus){font-family:'Inter',sans-serif;font-weight:800;}
+html .modos :is(.fx-points,.fx-plus){color:var(--a-sube);}
+html .modos .fx-minus{color:var(--a-baja);}
+
+/* Botones: «Ver más» de vidrio; «Elegir» en degradado; el ya elegido, texto violeta */
+html .modos .manual-toggle{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);font-weight:600;border-radius:12px;}
+html .modos .manual-choose{background:var(--a-grad);color:#fff;font-weight:700;border-radius:12px;box-shadow:0 8px 22px rgba(139,108,255,.4);}
+html .modos .is-chosen .manual-choose:disabled{background:transparent;color:#D6CCFF;box-shadow:none;}
+html .modos .is-locked .manual-choose{background:rgba(255,255,255,.1);color:var(--a-text);box-shadow:none;}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  /* Ventana ancha con los modos uno al lado del otro (opción B). Los tamaños siguen el alto de la
+     pantalla (vh) para que entre todo sin desplazar, de una portátil de 720 px a una pantalla de 1080 */
+  html .sheet:has(.manual.modos){max-width:min(1600px,94vw);max-height:94vh;border-radius:26px;}
+  html .sheet:has(.manual.modos) .sheet-head{padding:clamp(14px,2.4vh,24px) 26px clamp(8px,1.2vh,12px);}
+  html .sheet:has(.manual.modos) .sheet-title{font-size:clamp(24px,3.8vh,40px);}
+  html .sheet:has(.manual.modos) .sheet-body{padding:4px 26px clamp(14px,2.4vh,26px);}
+  html .manual.modos{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:clamp(14px,2.2vh,24px);
+    align-items:start;} /* "Ver más" agranda solo su modo */
+  html .modos .manual-item{padding:clamp(16px,2.8vh,32px) clamp(16px,1.6vw,30px);gap:clamp(10px,1.7vh,18px);}
+  html .modos .manual-name{font-size:clamp(21px,3.4vh,34px);}
+  html .modos .manual-fact{font-size:clamp(12px,1.8vh,18px);padding:clamp(4px,.7vh,8px) 12px;}
+  html .modos .story{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,1.3vh,14px);}
+  html .modos .frame{padding:clamp(10px,1.6vh,18px) 10px clamp(8px,1.3vh,16px);gap:clamp(4px,.8vh,9px);}
+  html .modos .frame-art{height:clamp(46px,8.4vh,96px);font-size:clamp(28px,4.8vh,54px);}
+  html .modos .frame-art .fx-word{font-size:clamp(18px,3vh,34px);padding:clamp(6px,1vh,12px) 14px;}
+  html .modos .frame-text{font-size:clamp(12px,1.8vh,19px);}
+  html .modos :is(.manual-toggle,.manual-choose){font-size:clamp(13px,1.85vh,19px);padding:clamp(8px,1.3vh,14px) 18px;}
+  html .modos .manual-choose{margin-left:0;flex:1;}
+  html .modos .manual-more{font-size:clamp(13px,1.8vh,18px);}
+}
+
+@media (max-width:899px){
+  html .modos .manual-item:not(.is-chosen):not(.abierto) .story{display:none;}
+  html .modos .manual-item{padding:14px 16px;gap:10px;}
+}
+
+/* ---------- Verificar canción, estilo "Escenario nocturno": «¡X canta!» (verify.js, .canta-capa) y «Buscar canción».
+   PC: centrado y más grande (opción A); lo que abre YouTube, en rojo ---------- */
+:is(.canta-capa,.modal-backdrop:has(.busqueda-campo)){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);
+  --a-text:#F4F4F8;--a-dim:#9A9CB0;--a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-sube:#34D399;--a-baja:#FF5C7A;
+  --a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));}
+/* Mismos colores de lado que la ronda */
+.canta-lado-a{--group-color:#FF5FA2;}
+.canta-lado-b{--group-color:#38BDF8;}
+html .canta-capa{font-family:'Inter',sans-serif;color:var(--a-text);
+  background:
+    radial-gradient(60% 45% at 50% 30%,color-mix(in srgb,var(--group-color) 42%,transparent),transparent 70%),
+    radial-gradient(40% 35% at 15% 85%,rgba(139,108,255,.25),transparent 70%),#0B0D17;}
+html .canta-capa :is(h2,p,button,span,div){font-family:'Inter',sans-serif;}
+
+/* Micrófono en un círculo del color de quien canta, con ondas que salen */
+html .canta-mic{position:relative;width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-size:0;
+  background:color-mix(in srgb,var(--group-color) 22%,rgba(0,0,0,.3));border:2px solid color-mix(in srgb,var(--group-color) 70%,transparent);
+  box-shadow:0 0 40px color-mix(in srgb,var(--group-color) 45%,transparent);animation:none;}
+html .canta-mic svg{width:56px !important;height:56px !important;color:#fff;animation:canta-mic 1.1s ease-in-out infinite alternate;}
+html .canta-mic::before,html .canta-mic::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--group-color);
+  animation:canta-onda 2s ease-out infinite;opacity:0;}
+html .canta-mic::after{animation-delay:1s;}
+@keyframes canta-onda{from{transform:scale(1);opacity:.7;}to{transform:scale(1.8);opacity:0;}}
+html .canta-capa .canta-nombre{font-family:'Inter',sans-serif;font-weight:900;letter-spacing:-.03em;
+  text-shadow:0 0 34px color-mix(in srgb,var(--group-color) 70%,transparent);}
+html .canta-equipo{padding:5px 14px;border-radius:999px;font-weight:700;font-size:15px;
+  background:color-mix(in srgb,var(--group-color) 18%,transparent);color:color-mix(in srgb,var(--group-color) 55%,white);}
+html .canta-palabra{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:.04em;color:#0B0D17;background:#fff;border-radius:16px;
+  box-shadow:0 0 30px rgba(139,108,255,.55);}
+html .canta-capa .clock.reloj-grande{margin-bottom:14px;font-family:'Inter',sans-serif;background:var(--a-surface);border:1px solid var(--a-line);
+  backdrop-filter:blur(12px);color:var(--a-text);box-shadow:none;}
+html .canta-capa .clock.reloj-grande.warn{color:#FF8FA8;border-color:rgba(255,92,122,.6);}
+
+/* Botones: Correcta en verde, Incorrecta en rojo rosado; Volver y Buscar de vidrio */
+html .canta-botones .btn{border-radius:16px;font-weight:700;box-shadow:none;}
+html .canta-botones #yes{background:linear-gradient(100deg,#34D399,#10B981);color:#05291C;box-shadow:0 10px 28px rgba(52,211,153,.35);}
+html .canta-botones #no{background:color-mix(in srgb,#FF5C7A 22%,rgba(0,0,0,.3));border:1px solid color-mix(in srgb,#FF5C7A 60%,transparent);color:#FFD0DA;}
+html .canta-botones #yes svg{color:#05291C;}
+html .canta-extra .btn{border-radius:14px;font-weight:600;background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);
+  box-shadow:none;backdrop-filter:blur(12px);}
+html .canta-extra .btn svg{color:#B9A6FF;}
+
+/* ---------- Ventana «Buscar canción» ---------- */
+html .modal:has(.busqueda-campo){font-family:'Inter',sans-serif;color:var(--a-text);border-radius:24px;
+  background:linear-gradient(180deg,rgba(24,22,44,.95),rgba(11,13,23,.97));border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);}
+.modal-backdrop:has(.busqueda-campo){background:rgba(5,6,14,.55);backdrop-filter:blur(7px);}
+html .modal:has(.busqueda-campo) :is(h2,p,button,input,div,span,strong){font-family:'Inter',sans-serif;}
+html .modal:has(.busqueda-campo) h2{font-weight:800;letter-spacing:-.02em;}
+html .modal:has(.busqueda-campo) .panel-title{color:var(--a-dim);font-weight:600;}
+html .modal:has(.busqueda-campo) .panel-title strong{color:#0B0D17 !important;background:#fff;padding:2px 10px;border-radius:8px;letter-spacing:.04em;}
+html .modal:has(.busqueda-campo) input{background:rgba(0,0,0,.3);border:1px solid var(--a-line);border-radius:14px;color:var(--a-text);}
+html .modal:has(.busqueda-campo) input:focus{border-color:var(--a-violeta);box-shadow:0 0 0 3px rgba(139,108,255,.25);}
+html .modal:has(.busqueda-campo) .result-item{background:var(--a-surface);border:1px solid var(--a-line);border-radius:14px;}
+html .modal:has(.busqueda-campo) .result-item:hover{border-color:rgba(139,108,255,.6);}
+html .modal:has(.busqueda-campo) .r-title{font-weight:700;}
+html .modal:has(.busqueda-campo) .r-artist{color:var(--a-dim);}
+/* Lo que abre YouTube va en rojo (sin su logo, instrucción 29) */
+html .modal:has(.busqueda-campo) .btn-youtube{background:linear-gradient(100deg,#FF4D5E,#E1243F);color:#fff;border:none;border-radius:12px;box-shadow:0 6px 16px rgba(225,36,63,.35);}
+html .modal:has(.busqueda-campo) #youtube{background:linear-gradient(100deg,#FF4D5E,#E1243F);color:#fff;border:none;border-radius:14px;font-weight:700;box-shadow:0 8px 22px rgba(225,36,63,.4);}
+html .modal:has(.busqueda-campo) #close{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);border-radius:14px;}
+html .modal:has(.busqueda-campo) .tecla{background:rgba(255,255,255,.1);border-radius:6px;padding:1px 6px;}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  html .canta-mic{width:150px;height:150px;}
+  html .canta-mic svg{width:72px !important;height:72px !important;}
+  html .canta-capa .canta-nombre{font-size:clamp(56px,6vw,92px);}
+  html .canta-palabra{font-size:38px;padding:10px 30px;}
+  html .canta-botones,html .canta-extra{max-width:720px;}
+  html .canta-botones .btn{font-size:26px;padding:24px 16px;border-radius:20px;}
+  html .canta-botones .btn svg{width:28px !important;height:28px !important;}
+  html .canta-extra .btn{font-size:19px;padding:15px 24px;}
+  html .canta-capa .clock.reloj-grande{font-size:40px;}
+  html .modal:has(.busqueda-campo){max-width:680px;padding:32px;}
+  html .modal:has(.busqueda-campo) h2{font-size:28px;}
+  html .modal:has(.busqueda-campo) input{font-size:18px;padding:14px 16px;}
+  html .modal:has(.busqueda-campo) .r-title{font-size:16px;}
+  html .modal:has(.busqueda-campo) .btn-row .btn{font-size:17px;padding:14px 22px;}
+  html .modal:has(.busqueda-campo) .search-results{max-height:280px;}
+
+}
+
+/* ---------- «Compartir el podio», estilo "Escenario nocturno" (results.js, hoja con .compartir): la imagen con
+   flechitas (PC) o deslizando (celular) para cambiar sus colores, y «Personalizar colores» ---------- */
+.sheet:has(.compartir){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);--a-text:#F4F4F8;--a-dim:#9A9CB0;
+  --a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.94),rgba(11,13,23,.96));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(.compartir){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html .sheet:has(.compartir) .sheet-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html .sheet:has(.compartir) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+html .compartir-img{border-radius:20px;border:1px solid var(--a-line);box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 40px rgba(139,108,255,.25);}
+html .compartir .btn-primary{font-family:'Inter',sans-serif;background:var(--a-grad);color:#fff;font-weight:700;border-radius:14px;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+html .compartir .btn-primary svg{color:#fff;}
+@media (min-width:900px){
+  html .sheet:has(.compartir){border-radius:26px;}
+  html .sheet:has(.compartir) .sheet-title{font-size:30px;}
+  html .sheet:has(.compartir) .sheet-head{padding:24px 26px 12px;}
+  html .sheet:has(.compartir) .sheet-body{padding:4px 26px 26px;}
+  html .sheet:has(.compartir){max-height:94vh;}
+  html .compartir-img{max-width:min(420px,44vh);}
+  html .compartir .btn-primary{font-size:17px;padding:16px;max-width:420px;align-self:center;width:100%;}
+}
+
+/* Visor: la imagen con flechitas a los lados para cambiar el color; en el celular se desliza */
+.compartir-visor{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.compartir-visor .compartir-img{cursor:grab;user-select:none;touch-action:pan-y;}
+.compartir-flecha{position:absolute;top:calc(50% - 14px);transform:translateY(-50%);width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(11,13,23,.7);border:1px solid var(--a-line);color:#fff;font:400 30px/1 'Inter',sans-serif;cursor:pointer;backdrop-filter:blur(10px);
+  box-shadow:0 6px 18px rgba(0,0,0,.4);}
+.compartir-flecha:hover{border-color:var(--a-violeta);box-shadow:0 0 0 3px rgba(139,108,255,.25);}
+.compartir-flecha.izq{left:0;} .compartir-flecha.der{right:0;}
+.compartir-nombre-tema{margin:0;font:600 13px 'Inter',sans-serif;color:var(--a-dim);}
+.compartir-nombre-tema b{color:var(--a-text);font-weight:700;}
+.compartir-nombre-tema .solo-celular{display:none;}
+.compartir-personal{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:4px;}
+.compartir-personalizar{padding:9px 16px;border-radius:12px;background:var(--a-surface);border:1px solid var(--a-line);
+  color:var(--a-text);font:600 14px 'Inter',sans-serif;cursor:pointer;}
+.compartir-personalizar[aria-expanded="true"]{border-color:var(--a-violeta);}
+.compartir-propio{display:flex;gap:8px;}
+.compartir-propio[hidden]{display:none;}
+.compartir-propio label{display:flex;align-items:center;gap:8px;padding:6px 10px 6px 12px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid var(--a-line);
+  font:600 13px 'Inter',sans-serif;color:var(--a-text);}
+.compartir-propio input{width:36px;height:30px;border:0;padding:0;background:none;cursor:pointer;}
+@media (min-width:900px){
+  .compartir-visor{padding:0 64px;}
+}
+@media (max-width:899px){
+  html .compartir-img{max-width:min(320px,82%);}
+  .compartir-flecha{display:none;}
+  .compartir-nombre-tema .solo-celular{display:inline;}
+}
+
+/* ---------- Ventanas de «Vincular», estilo "Escenario nocturno" (vincular.js, hoja con .vincular). PC: «Vincular
+   celular» en dos columnas (opción B); el tiempo del código, un relojito circular sin números ---------- */
+.sheet:has(.vincular){
+  --a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);--a-text:#F4F4F8;--a-dim:#9A9CB0;
+  --a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-sube:#34D399;--a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);
+  background:linear-gradient(180deg,rgba(24,22,44,.94),rgba(11,13,23,.96));
+  border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+.sheet-back:has(.vincular){background:rgba(5,6,14,.55);backdrop-filter:blur(6px);}
+html .sheet:has(.vincular) :is(h2,h3,p,b,span,button,li,label,input){font-family:'Inter',sans-serif;}
+html .sheet:has(.vincular) .sheet-title{font-weight:800;letter-spacing:-.02em;font-size:24px;}
+html .sheet:has(.vincular) .sheet-close{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+
+html .vincular{gap:14px;}
+html .vincular .ayuda-linea{font-size:16.5px;font-weight:700;line-height:1.4;}
+/* Pasos: cada uno con su número en un círculo en degradado */
+html .vincular-pasos{list-style:none;padding:0;gap:8px;counter-reset:paso;}
+html .vincular-pasos li{counter-increment:paso;position:relative;padding:11px 12px 11px 48px;border-radius:14px;
+  background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-dim);font-weight:500;font-size:14.5px;}
+html .vincular-pasos li::before{content:counter(paso);position:absolute;left:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;
+  display:grid;place-items:center;background:var(--a-grad);color:#fff;font-weight:800;font-size:13px;}
+html .vincular-pasos b{color:var(--a-text);}
+/* QR en una tarjeta blanca con brillo violeta */
+html .vincular-qr{border-radius:20px;padding:12px;box-shadow:0 0 0 6px rgba(139,108,255,.18),0 0 40px rgba(139,108,255,.45);}
+/* Código grande en degradado */
+html .vincular-codigo-num{font-family:'Inter',sans-serif;font-weight:900;letter-spacing:.12em;font-variant-numeric:tabular-nums;
+  background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+html .vincular-codigo-nota{color:var(--a-dim);opacity:1;font-weight:500;}
+/* Estado: esperando (violeta claro, con un punto que late) o conectado (verde) */
+html .vincular-estado{color:#C9BCFF;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;}
+html .vincular-estado.is-ok{color:var(--a-sube);}
+html .vincular-error{background:color-mix(in srgb,#FF5C7A 16%,transparent);border:1px solid color-mix(in srgb,#FF5C7A 45%,transparent);color:#FFD0DA;font-weight:600;}
+/* Campo del código y botones */
+html .vincular .field label{color:var(--a-text);font-weight:700;}
+html .vincular-campo{background:rgba(0,0,0,.3);border:1px solid var(--a-line);border-radius:14px;color:var(--a-text);font-weight:800;}
+html .vincular-campo:focus{border-color:var(--a-violeta);box-shadow:0 0 0 3px rgba(139,108,255,.25);}
+html .vincular .btn{font-family:'Inter',sans-serif;border-radius:14px;font-weight:700;box-shadow:none;}
+html .vincular .btn-primary{background:var(--a-grad);color:#fff;box-shadow:0 10px 26px rgba(139,108,255,.4);}
+html .vincular .btn-secondary{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+html .vincular .btn-danger{background:color-mix(in srgb,#FF5C7A 16%,transparent);border:1px solid color-mix(in srgb,#FF5C7A 50%,transparent);color:#FFD0DA;}
+html .vincular .btn svg{color:currentColor;}
+html .vincular-camara{border-radius:20px;border:1px solid var(--a-line);}
+html .vincular-mira{border-color:#C9BCFF;}
+
+/* ---------- PC ---------- */
+@media (min-width:900px){
+  html .sheet:has(.vincular){border-radius:26px;}
+  html .sheet:has(.vincular) .sheet-head{padding:24px 26px 12px;}
+  html .sheet:has(.vincular) .sheet-title{font-size:30px;}
+  html .sheet:has(.vincular) .sheet-body{padding:4px 26px 26px;}
+  html .vincular .ayuda-linea{font-size:18px;}
+  html .vincular-pasos li{font-size:15.5px;}
+
+  /* En dos columnas (opción B); a la izquierda la explicación, a la derecha el QR y el código */
+  html .sheet:has(.vincular-qr){max-width:880px;}
+  html .vincular:has(.vincular-qr){display:grid;grid-template-columns:1fr 300px;column-gap:28px;align-items:center;}
+  html .vincular:has(.vincular-qr) > :is(.ayuda-linea,.vincular-pasos){grid-column:1;}
+  html .vincular:has(.vincular-qr) > .vincular-qr{grid-column:2;grid-row:1 / span 3;width:100%;}
+  html .vincular:has(.vincular-qr) > :is(.vincular-codigo,.vincular-estado,#desvincular){grid-column:1 / -1;}
+}
+
+/* Tiempo del código (opción 3, sin números): relojito circular al lado que se vacía */
+.vincular-codigo-fila{display:flex;align-items:center;gap:14px;}
+.vincular-reloj{width:40px;height:40px;transform:rotate(-90deg);flex:none;}
+.vincular-reloj circle{fill:none;stroke-width:5;}
+.vincular-reloj .fondo{stroke:rgba(255,255,255,.12);}
+.vincular-reloj .avance{stroke:url(#vincular-reloj-color);stroke-linecap:round;stroke-dasharray:100;} /* lo vacía pintarCodigo */
+@media (min-width:900px){ .vincular-reloj{width:46px;height:46px;} }
+
+/* ---------- El celular como control, estilo "Escenario nocturno" (control.js, .control-screen; fondo y variables del
+   bloque del inicio). Botones de los jugadores teñidos con el color de cada lado; Correcta verde, Incorrecta rojo rosado ---------- */
+html .control-screen,html .control-screen :is(h2,p,button,span,div){font-family:'Inter',sans-serif;}
+.control-screen{color:var(--a-text);}
+
+/* Barra de arriba: estado en una pastilla con punto verde (o rojo) y botones de vidrio */
+html .control-estado{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:var(--a-surface);border:1px solid var(--a-line);
+  font-size:13px;font-weight:700;opacity:1;backdrop-filter:blur(12px);}
+html .control-estado::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--a-sube);box-shadow:0 0 10px var(--a-sube);}
+html .control-estado.sin-conexion::before{background:#FF5C7A;box-shadow:0 0 10px #FF5C7A;}
+html .control-estado svg{display:none;}
+html .control-top .icon-btn{border-radius:14px;background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);backdrop-filter:blur(12px);}
+
+/* Ronda: los dos botones de vidrio teñidos con el color de cada lado (como en la ronda de la PC) */
+html .control-jugador{border:1px solid color-mix(in srgb,var(--group-color) 60%,transparent);border-radius:28px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--group-color) 32%,transparent),color-mix(in srgb,var(--group-color) 6%,rgba(11,13,23,.6)));
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 18px 40px rgba(0,0,0,.35),0 0 40px color-mix(in srgb,var(--group-color) 22%,transparent);
+  backdrop-filter:blur(14px);}
+html .control-jugador:active:not(:disabled){transform:scale(.98);box-shadow:0 0 50px color-mix(in srgb,var(--group-color) 45%,transparent);}
+html .control-screen .control-nombre{font-family:'Inter',sans-serif;font-weight:900;letter-spacing:-.02em;font-size:clamp(30px,9vw,46px);
+  text-shadow:0 0 24px color-mix(in srgb,var(--group-color) 60%,transparent);}
+html .control-jugador .sub{font-weight:600;color:color-mix(in srgb,var(--group-color) 55%,white);}
+html .control-jugador .attempt-badge{font-family:'Inter',sans-serif;background:rgba(0,0,0,.35);border:1px solid var(--a-line);color:var(--a-dim);font-weight:700;}
+
+/* Mientras alguien canta: resplandor del color, micrófono con ondas, Correcta verde e Incorrecta rojo rosado */
+html .control-canta{background:radial-gradient(60% 45% at 50% 30%,color-mix(in srgb,var(--group-color) 40%,transparent),transparent 70%);}
+html .control-canta .control-icono{position:relative;width:110px;height:110px;border-radius:50%;display:grid;place-items:center;font-size:0;
+  background:color-mix(in srgb,var(--group-color) 22%,rgba(0,0,0,.3));border:2px solid color-mix(in srgb,var(--group-color) 70%,transparent);
+  box-shadow:0 0 40px color-mix(in srgb,var(--group-color) 45%,transparent);}
+html .control-canta .control-icono svg{width:52px !important;height:52px !important;color:#fff;}
+html .control-canta .control-icono::before,html .control-canta .control-icono::after{content:"";position:absolute;inset:-2px;border-radius:50%;
+  border:2px solid var(--group-color);animation:canta-onda 2s ease-out infinite;opacity:0;}
+html .control-canta .control-icono::after{animation-delay:1s;}
+html .control-canta .btn{border-radius:16px;font-weight:700;box-shadow:none;}
+html .control-canta [data-accion="correcta"]{background:linear-gradient(100deg,#34D399,#10B981);color:#05291C;box-shadow:0 10px 28px rgba(52,211,153,.35);}
+html .control-canta [data-accion="incorrecta"]{background:color-mix(in srgb,#FF5C7A 22%,rgba(0,0,0,.3));border:1px solid color-mix(in srgb,#FF5C7A 60%,transparent);color:#FFD0DA;}
+html .control-canta :is(.btn-ghost,.btn-secondary){background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+html .control-canta .canta-botones .btn{font-size:19px;padding:20px 12px;}
+
+/* Avisos (esperando, pausa, resultado, sin conexión): ícono en un círculo de vidrio y botón en degradado */
+html .control-aviso .control-icono{width:104px;height:104px;border-radius:50%;display:grid;place-items:center;font-size:0;
+  background:linear-gradient(160deg,rgba(139,108,255,.28),rgba(255,95,162,.12));border:1px solid var(--a-line);box-shadow:0 0 40px rgba(139,108,255,.3);}
+html .control-aviso .control-icono svg{width:48px !important;height:48px !important;color:#fff;}
+html .control-screen .control-aviso h2{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:26px;}
+html .control-aviso p{color:var(--a-dim);font-weight:500;}
+html .control-aviso .btn{border-radius:16px;font-weight:700;box-shadow:none;}
+html .control-aviso .btn-primary{background:var(--a-grad);color:#fff;box-shadow:0 10px 28px rgba(139,108,255,.45);}
+html .control-aviso .btn-ghost{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+/* Cuenta antes de la ronda: número enorme en degradado */
+html .control-screen .control-cuenta{font-family:'Inter',sans-serif;font-weight:900;background:var(--a-grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(139,108,255,.5));}
+
+/* Barra de arriba compacta para que entre en celulares angostos */
+html .control-top{gap:8px;}
+html .control-top .top-bar-actions{gap:6px;}
+html .control-top [data-accion="pausa"]{white-space:nowrap;display:inline-flex;align-items:center;gap:5px;padding:0 12px;height:44px;font:700 13.5px 'Inter',sans-serif;}
+html .control-estado{padding:6px 10px;font-size:12.5px;}
+html .control-canta .canta-botones .btn,html .control-canta .canta-extra .btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+html .control-canta .canta-botones .btn{font-size:18px;padding:18px 10px;}
+
+/* ---------- La PC con un celular vinculado (round.js, verify.js) ---------- */
+/* «📱 Vinculado» en la barra de arriba: pastilla verde */
+html .round-screen .top-bar #vincular.vinculado{background:color-mix(in srgb,#34D399 16%,transparent);border-color:color-mix(in srgb,#34D399 55%,transparent);color:#BFF5DD;}
+/* Ronda: los nombres no se tocan en la PC (se tocan en el celular): sin efecto al pasar el mouse */
+html .round-screen .name-btn.solo-control{cursor:default;}
+/* Avisos chicos de que eso se hace en el celular */
+.canta-en-celular,.ronda-en-celular{margin:0 auto;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#C9BCFF;font:700 15px 'Inter',sans-serif;backdrop-filter:blur(12px);}
+.ronda-en-celular{display:flex;width:max-content;margin-top:18px;}
+@media (min-width:900px){ .canta-en-celular,.ronda-en-celular{font-size:21px;padding:14px 26px;} }
+
+/* ---------- Reloj de la ronda: anillo (opción 1, estilo B) ---------- */
+/* Los segundos dentro de un anillo en degradado que se vacía (--f, de 1 a 0) con un punto de luz en la punta.
+   En los últimos 5 segundos, en rojo y late. El dibujo cabe entero en el círculo (sin recortes). */
+html body .round-screen .center-stage .clock.reloj-grande.con-anillo{--c1:#8B6CFF;--c2:#FF5FA2;--tam:112px;
+  position:relative;width:var(--tam);height:var(--tam);padding:0;margin:0 auto 12px;border:0;border-radius:50%;flex:none;align-self:center;
+  display:grid;place-items:center;font-family:'Inter',sans-serif;font-size:calc(var(--tam) * .3);font-weight:900;line-height:1;
+  background:radial-gradient(circle,rgba(11,13,23,.75) 58%,rgba(11,13,23,.35) 70%);color:#fff;
+  box-shadow:0 0 34px color-mix(in srgb,var(--c1) 30%,transparent);backdrop-filter:none;-webkit-backdrop-filter:none;overflow:visible;}
+html body .round-screen .center-stage .clock.reloj-grande.con-anillo.warn{--c1:#FF5C7A;--c2:#FF8A5C;animation:reloj-late 1s ease-in-out infinite;}
+.clock.con-anillo .anillo{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:rotate(-90deg);pointer-events:none;}
+.clock.con-anillo .anillo circle{fill:none;}
+.clock.con-anillo .anillo .c1{stop-color:var(--c1);}
+.clock.con-anillo .anillo .c2{stop-color:var(--c2);}
+.clock.con-anillo .anillo .fondo{stroke:rgba(255,255,255,.08);stroke-width:10;}
+.clock.con-anillo .anillo .avance{stroke:url(#reloj-color);stroke-width:10;stroke-linecap:round;stroke-dasharray:100;
+  stroke-dashoffset:calc(100 - var(--f,1) * 100);transition:stroke-dashoffset .95s linear;filter:drop-shadow(0 0 5px var(--c1));}
+.clock.con-anillo .anillo .punta{fill:#fff;transform-box:view-box;transform-origin:50% 50%;transform:rotate(calc(var(--f,1) * 360deg));
+  transition:transform .95s linear;filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px var(--c2));}
+.clock.con-anillo > svg:not(.anillo){display:none;}
+.clock.con-anillo span{position:relative;}
+@keyframes reloj-late{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
+@media (min-width:900px){
+  html body .round-screen .center-stage .clock.reloj-grande.con-anillo{--tam:clamp(140px,19vh,190px);margin-bottom:16px;}
+}
+
+/* ---------- Ventanas chicas, estilo "Escenario nocturno" (modals.js: showConfirm «Sí / No», showWarning y la pausa;
+   clase .chica): ícono arriba en un círculo, botones uno debajo del otro con la respuesta principal arriba (opción B).
+   En el celular suben desde abajo ---------- */
+.modal-backdrop:has(> .modal.chica){background:rgba(5,6,14,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+html .modal.chica{--a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);--a-text:#F4F4F8;--a-dim:#9A9CB0;
+  --a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);max-width:420px;padding:28px 24px 22px;border-radius:26px;
+  background:linear-gradient(180deg,rgba(24,22,44,.95),rgba(11,13,23,.97));border:1px solid var(--a-line);
+  box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.03) inset;animation:chica-entra .22s cubic-bezier(.3,1.3,.5,1) both;}
+@keyframes chica-entra{from{transform:scale(.94);opacity:0;}to{transform:none;opacity:1;}}
+html .modal.chica :is(h2,p,button){font-family:'Inter',sans-serif;}
+html .modal.chica h2{font-weight:800;letter-spacing:-.02em;font-size:calc(22px*var(--e,1));margin:0 0 calc(8px*var(--e,1));color:var(--a-text);}
+html .modal.chica .small-note,html .modal.chica .warning-text{color:var(--a-dim);font-weight:500;font-size:calc(15px*var(--e,1));line-height:1.45;margin:0;}
+html .modal.chica .modal-close{border-radius:calc(14px*var(--e,1));background:var(--a-surface);border:1px solid var(--a-line);box-shadow:none;color:var(--a-text);}
+html .modal.chica .btn{border-radius:calc(14px*var(--e,1));font-weight:700;box-shadow:none;}
+html .modal.chica .btn-primary{background:var(--a-grad);color:#fff;box-shadow:0 10px 26px rgba(139,108,255,.4);}
+html .modal.chica .btn-secondary{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+html .modal.chica .btn-danger,html .modal.chica #yes.btn-danger{background:linear-gradient(100deg,#FF4D6D,#FF5FA2);color:#fff;box-shadow:0 10px 26px rgba(255,77,109,.35);}
+html .modal.chica .btn svg{color:currentColor;}
+/* Ícono del aviso en un círculo */
+html .modal.chica .warning-icon{width:calc(64px*var(--e,1));height:calc(64px*var(--e,1));margin:0 auto calc(12px*var(--e,1));border-radius:50%;display:grid;place-items:center;font-size:0;
+  background:color-mix(in srgb,#FFB020 18%,transparent);border:1px solid color-mix(in srgb,#FFB020 45%,transparent);}
+html .modal.chica .warning-icon svg{width:calc(32px*var(--e,1)) !important;height:calc(32px*var(--e,1)) !important;color:#FFC857;}
+
+html .modal.chica .chica-icono{width:calc(64px*var(--e,1));height:calc(64px*var(--e,1));margin:0 auto calc(14px*var(--e,1));border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(160deg,rgba(139,108,255,.28),rgba(255,95,162,.12));border:1px solid var(--a-line);box-shadow:0 0 30px rgba(139,108,255,.3);}
+html .modal.chica .chica-icono svg{width:calc(30px*var(--e,1)) !important;height:calc(30px*var(--e,1)) !important;color:#fff;}
+html .modal.chica:has(.btn-danger):not(:has(#continue)) .chica-icono{background:color-mix(in srgb,#FF4D6D 18%,transparent);border-color:color-mix(in srgb,#FF4D6D 45%,transparent);box-shadow:0 0 30px rgba(255,77,109,.3);}
+html .modal.chica .btn-row:not([style*="column"]){flex-direction:column-reverse;}
+html .modal.chica .btn-row{gap:calc(10px*var(--e,1));margin-top:calc(22px*var(--e,1)) !important;}
+html .modal.chica .btn-row .btn{width:100%;padding:calc(15px*var(--e,1));}
+
+/* Celular: como las demás ventanas, sube desde abajo (en las dos opciones) */
+@media (max-width:899px){
+  .modal-backdrop:has(> .modal.chica){align-items:flex-end;padding:0;}
+  html .modal.chica{max-width:none;width:100%;border-radius:calc(26px*var(--e,1)) calc(26px*var(--e,1)) 0 0;padding:26px 20px calc(22px + env(safe-area-inset-bottom));
+    animation:chica-sube .3s cubic-bezier(.3,1.2,.5,1) both;border-bottom:0;}
+  @keyframes chica-sube{from{transform:translateY(40%);}to{transform:none;}}
+}
+@media (min-width:900px){
+  html .modal.chica{max-width:calc(540px*var(--e,1));width:calc(540px*var(--e,1));padding:calc(40px*var(--e,1)) calc(38px*var(--e,1)) calc(32px*var(--e,1));border-radius:calc(30px*var(--e,1));}
+  html .modal.chica h2{font-size:calc(31px*var(--e,1));margin-bottom:calc(10px*var(--e,1));}
+  html .modal.chica .small-note,html .modal.chica .warning-text{font-size:calc(19px*var(--e,1));}
+  html .modal.chica .btn{font-size:calc(19px*var(--e,1));padding:calc(17px*var(--e,1)) calc(20px*var(--e,1));border-radius:calc(16px*var(--e,1));}
+  html .modal.chica .warning-icon,html .modal.chica .chica-icono{width:calc(80px*var(--e,1));height:calc(80px*var(--e,1));margin-bottom:calc(18px*var(--e,1));}
+  html .modal.chica .warning-icon svg,html .modal.chica .chica-icono svg{width:calc(38px*var(--e,1)) !important;height:calc(38px*var(--e,1)) !important;}
+  html .modal.chica .btn-row .btn{padding:calc(18px*var(--e,1));}
+  html .modal.chica .modal-close{width:calc(44px*var(--e,1));height:calc(44px*var(--e,1));}
+}
+
+/* ---------- Rueda para elegir números, estilo "Escenario nocturno" (valuePicker.js, .picker-modal): franja en
+   degradado, flechas ▲ ▼ arriba y abajo (opción B); en el celular sube desde abajo ---------- */
+.modal-backdrop:has(> .picker-modal){background:rgba(5,6,14,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+html .modal.picker-modal{--a-surface:rgba(255,255,255,.05);--a-line:rgba(255,255,255,.10);--a-text:#F4F4F8;--a-dim:#9A9CB0;
+  --a-violeta:#8B6CFF;--a-rosa:#FF5FA2;--a-grad:linear-gradient(100deg,var(--a-violeta),var(--a-rosa));
+  font-family:'Inter',sans-serif;color:var(--a-text);padding:28px 24px 22px;border-radius:26px;
+  background:linear-gradient(180deg,rgba(24,22,44,.95),rgba(11,13,23,.97));border:1px solid var(--a-line);box-shadow:0 24px 70px rgba(0,0,0,.6);}
+html .modal.picker-modal :is(h2,p,button,div){font-family:'Inter',sans-serif;}
+html .modal.picker-modal h2{font-weight:800;letter-spacing:-.02em;font-size:22px;margin:0 0 16px;}
+/* La rueda: vidrio oscuro; la fila elegida en una franja con borde en degradado y brillo */
+html .picker-modal .wheel{background:rgba(0,0,0,.28);border:1px solid var(--a-line);border-radius:20px;}
+html .picker-modal .wheel:focus{outline:none;box-shadow:0 0 0 3px rgba(139,108,255,.35);}
+html .picker-modal .wheel-band{left:10px;right:10px;border-radius:14px;border:1.5px solid transparent;
+  background:linear-gradient(rgba(139,108,255,.16),rgba(139,108,255,.16)) padding-box,var(--a-grad) border-box;box-shadow:0 0 24px rgba(139,108,255,.35);}
+html .picker-modal .wheel-item{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.02em;color:var(--a-dim);font-variant-numeric:tabular-nums;}
+html .picker-modal .wheel-item.selected{color:#fff;}
+html .picker-modal .wheel-unit{color:rgba(255,255,255,.85);font-weight:700;}
+html .picker-modal .wheel-caption{color:#C9BCFF;font-weight:700;font-size:15px;}
+html .picker-modal .picker-hint{color:var(--a-dim);font-weight:500;}
+html .picker-modal .btn{border-radius:14px;font-weight:700;box-shadow:none;}
+html .picker-modal .btn-primary{background:var(--a-grad);color:#fff;box-shadow:0 10px 26px rgba(139,108,255,.4);}
+html .picker-modal .btn-secondary{background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);}
+
+/* Flechas ▲ ▼ arriba y abajo de la rueda */
+html .picker-modal .rueda-flecha{display:grid;place-items:center;width:52px;height:30px;margin:4px auto;border-radius:12px;
+  background:var(--a-surface);border:1px solid var(--a-line);color:#D6CCFF;font-size:13px;cursor:pointer;}
+html .picker-modal .rueda-flecha:hover{border-color:var(--a-violeta);}
+
+/* Celular: sube desde abajo, como las demás ventanas */
+@media (max-width:899px){
+  .modal-backdrop:has(> .picker-modal){align-items:flex-end;padding:0;}
+  html .modal.picker-modal{max-width:none;width:100%;border-radius:26px 26px 0 0;border-bottom:0;padding:24px 20px calc(20px + env(safe-area-inset-bottom));
+    animation:rueda-sube .3s cubic-bezier(.3,1.2,.5,1) both;}
+  @keyframes rueda-sube{from{transform:translateY(40%);}to{transform:none;}}
+  html .picker-modal .wheel{width:min(280px,80vw);}
+}
+/* PC: más grande */
+@media (min-width:900px){
+  html .modal.picker-modal{max-width:460px;width:460px;padding:34px 32px 26px;border-radius:30px;}
+  html .modal.picker-modal h2{font-size:28px;}
+  html .picker-modal .wheel{width:300px;}
+  html .picker-modal .wheel-item{font-size:28px;}
+  html .picker-modal .wheel-caption{font-size:17px;}
+  html .picker-modal .picker-hint{font-size:13.5px;}
+  html .picker-modal .btn{font-size:17px;padding:15px 18px;}
+}
+
+/* Rueda, diseño «Líneas» (usuario, 29-10-2026): sin franja; dos líneas finas en degradado arriba y abajo del número
+   elegido, que va más grande y en degradado */
+html .picker-modal .wheel-band{background:none;box-shadow:none;border:0;border-radius:0;left:8px;right:8px;
+  border-top:2px solid;border-bottom:2px solid;border-image:linear-gradient(90deg,transparent,#8B6CFF,#FF5FA2,transparent) 1;}
+html .picker-modal .wheel-item.selected{font-size:32px;background:linear-gradient(100deg,#B9A6FF,#FF8FC4);-webkit-background-clip:text;background-clip:text;color:transparent;}
+/* Encima de la lista del valor (valuePicker.js, pegarAlCampo): mismo ancho y letra que la lista, 3 filas, sin título;
+   el resto apenas borroso. Tocar afuera o «Listo» confirman */
+.modal-backdrop.en-campo{display:block;padding:0;background:rgba(5,6,14,.35);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+html .en-campo .modal.picker-modal{position:fixed;margin:0;width:var(--ancho,240px);max-width:none;padding:3px 4px;border-radius:14px;
+  border:1px solid rgba(139,108,255,.55);border-bottom:1px solid rgba(139,108,255,.55);box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 4px rgba(139,108,255,.12);
+  animation:rueda-abre .18s ease-out both;}
+@keyframes rueda-abre{from{transform:scaleY(.6);opacity:0;}to{transform:none;opacity:1;}}
+html .en-campo .picker-modal :is(h2,.wheel-caption,.picker-hint,.picker-actions){display:none;}
+html .en-campo .picker-modal .wheel{width:100%;background:none;border:0;border-radius:10px;
+  -webkit-mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent);}
+html .en-campo .picker-modal .wheel-band{left:2px;right:2px;}
+html .en-campo .picker-modal .wheel-item{font-size:var(--letra,16px);}
+html .en-campo .picker-modal .wheel-item.selected{font-size:calc(var(--letra,16px) * 1.25);}
+html .en-campo .picker-modal .wheel-unit{right:10px;font-size:calc(var(--letra,16px) * .75);}
+html .en-campo .picker-modal .rueda-flecha{width:100%;height:20px;font-size:10px;margin:2px 0;border-radius:8px;}
+.listo-campo{display:block;width:100%;margin-top:3px;padding:6px;border:0;border-radius:10px;cursor:pointer;
+  background:linear-gradient(100deg,#8B6CFF,#FF5FA2);color:#fff;font:700 calc(var(--letra,16px) * .85) 'Inter',sans-serif;}
+
+/* ---------- Ventanas de relevos, estilo "Escenario nocturno" (relayModals.js, .relay-modal.chica). Toman el estilo de las ventanas chicas:
+   vidrio, ícono arriba, botones uno debajo del otro, más grandes en la PC y desde abajo en el celular. Compañeros en lista (opción B) ---------- */
+html .modal.relay-modal.chica .field-hint{color:var(--a-dim);font-weight:500;font-size:calc(14px*var(--e,1));margin:calc(6px*var(--e,1)) 0 0;}
+html .modal.relay-modal.chica .chica-icono svg{color:#fff;}
+
+html .relay-modal.chica .relay-mates{gap:calc(8px*var(--e,1));margin:calc(16px*var(--e,1)) 0 calc(8px*var(--e,1));}
+html .relay-modal.chica .chip{font-family:'Inter',sans-serif;background:var(--a-surface);border:1px solid var(--a-line);color:var(--a-text);font-weight:600;
+  border-radius:calc(14px*var(--e,1));padding:calc(11px*var(--e,1)) calc(16px*var(--e,1));box-shadow:none;}
+/* Elegir compañero: lista, cada compañero en una fila de vidrio con su inicial en un círculo; el elegido con borde violeta y ✓ */
+html .relay-modal.chica .relay-mates{flex-direction:column;align-items:stretch;}
+html .relay-modal.chica .chip{display:flex;align-items:center;gap:calc(12px*var(--e,1));text-align:left;padding:calc(12px*var(--e,1)) calc(14px*var(--e,1));font-size:calc(16px*var(--e,1));}
+html .relay-modal.chica .chip::before{content:attr(data-inicial);width:calc(34px*var(--e,1));height:calc(34px*var(--e,1));flex:none;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(160deg,rgba(139,108,255,.35),rgba(255,95,162,.2));font-weight:800;font-size:calc(14px*var(--e,1));color:#fff;}
+html .relay-modal.chica .chip.active:not(#_){background:color-mix(in srgb,#8B6CFF 22%,transparent);color:#fff;border-color:#8B6CFF;box-shadow:0 0 18px rgba(139,108,255,.35);}
+html .relay-modal.chica .chip.active::after{content:"✓";margin-left:auto;font-weight:800;color:#D6CCFF;}
+
+/* Ajustar relevos: número grande en degradado y botones − + redondos de vidrio */
+html .relay-modal.chica .relay-adjust-row{gap:calc(24px*var(--e,1));margin:calc(18px*var(--e,1)) 0 calc(10px*var(--e,1));}
+html .relay-modal.chica .relay-adjust-value{font-family:'Inter',sans-serif;font-weight:900;font-size:calc(52px*var(--e,1));min-width:calc(70px*var(--e,1));
+  background:linear-gradient(100deg,#8B6CFF,#FF5FA2);-webkit-background-clip:text;background-clip:text;color:transparent;}
+html .relay-modal.chica .step-btn{width:calc(54px*var(--e,1));height:calc(54px*var(--e,1));border-radius:50%;background:var(--a-surface);border:1px solid var(--a-line);color:#fff;font-size:calc(24px*var(--e,1));box-shadow:none;}
+html .relay-modal.chica .step-btn:not(:disabled):hover{border-color:#8B6CFF;}
+@media (min-width:900px){
+  html .relay-modal.chica .chip{font-size:calc(17px*var(--e,1));padding:calc(13px*var(--e,1)) calc(18px*var(--e,1));}
+  html .relay-modal.chica .field-hint{font-size:calc(15.5px*var(--e,1));}
+  html .relay-modal.chica .relay-adjust-value{font-size:calc(64px*var(--e,1));}
+  html .relay-modal.chica .step-btn{width:calc(62px*var(--e,1));height:calc(62px*var(--e,1));}
+}
+/* Botón ± con candado (sin Premium): abre la ventana de Premium */
+html .round-screen .relay-adjust.relay-adjust-premium{color:#FFC857;}
+html .round-screen .relay-adjust.relay-adjust-premium svg{width:18px !important;height:18px !important;}
+
+/* ---------- Ventana «Relevos por equipo» de Alternativo 2 (alt2Options.js, .relay-settings) con el estilo de las ventanas
+   chicas (.chica: vidrio, ícono arriba, botones uno debajo del otro, más grande en la PC, desde abajo en el celular) */
+html .relay-settings.chica .field-hint{color:var(--a-dim);font-weight:500;font-size:calc(13.5px*var(--e,1));margin:calc(4px*var(--e,1)) 0 calc(12px*var(--e,1));text-align:left;}
+
+/* Cada opción en una fila de vidrio con su − N + */
+html .relay-settings.chica .opt-row{background:var(--a-surface);border:1px solid var(--a-line);border-left:1px solid var(--a-line);border-radius:calc(16px*var(--e,1));
+  padding:calc(10px*var(--e,1)) calc(10px*var(--e,1)) calc(10px*var(--e,1)) calc(16px*var(--e,1));margin-bottom:calc(6px*var(--e,1));text-align:left;}
+html .relay-settings.chica .opt-row > span{font-family:'Inter',sans-serif;font-weight:600;font-size:calc(15px*var(--e,1));color:var(--a-text);}
+html .relay-settings.chica .stepper{background:rgba(0,0,0,.28);border:1px solid var(--a-line);}
+html .relay-settings.chica .stepper button{background:var(--a-surface);color:#fff;}
+html .relay-settings.chica .stepper output{font-family:'Inter',sans-serif;font-weight:800;font-size:calc(17px*var(--e,1));min-width:calc(44px*var(--e,1));white-space:nowrap;}
+
+/* Bloques (opción B, usuario 29-10-2026): cada opción con su número grande en degradado y − + redondos a los lados */
+html .relay-settings.chica .opt-row{flex-direction:column;align-items:center;gap:calc(10px*var(--e,1));padding:calc(16px*var(--e,1));text-align:center;}
+html .relay-settings.chica .opt-row > span{margin:0;color:var(--a-dim);font-size:calc(13px*var(--e,1));font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+html .relay-settings.chica .stepper{background:none;border:0;gap:calc(22px*var(--e,1));}
+html .relay-settings.chica .stepper button{width:calc(48px*var(--e,1));height:calc(48px*var(--e,1));border-radius:50%;border:1px solid var(--a-line);font-size:calc(22px*var(--e,1));}
+html .relay-settings.chica .stepper output{font-weight:900;font-size:calc(40px*var(--e,1));min-width:calc(70px*var(--e,1));background:linear-gradient(100deg,#8B6CFF,#FF5FA2);
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+html .relay-settings.chica .field-hint{text-align:center;margin-top:-calc(2px*var(--e,1));}
+
+@media (min-width:900px){
+  html .relay-settings.chica .opt-row > span{font-size:calc(14px*var(--e,1));}
+  html .relay-settings.chica .field-hint{font-size:calc(13.5px*var(--e,1));}
+  html .relay-settings.chica .stepper output{font-size:calc(38px*var(--e,1));}
+  html .relay-settings.chica .stepper button{width:calc(44px*var(--e,1));height:calc(44px*var(--e,1));font-size:calc(20px*var(--e,1));}
+  /* Un poco más chica que las demás ventanas chicas (usuario, 29-10-2026) */
+  html .modal.relay-settings.chica{width:calc(420px*var(--e,1));max-width:calc(420px*var(--e,1));padding:calc(28px*var(--e,1)) calc(28px*var(--e,1)) calc(22px*var(--e,1));border-radius:calc(26px*var(--e,1));}
+  html .modal.relay-settings.chica h2{font-size:calc(24px*var(--e,1));margin-bottom:calc(14px*var(--e,1));}
+  html .modal.relay-settings.chica .chica-icono{width:calc(60px*var(--e,1));height:calc(60px*var(--e,1));margin-bottom:calc(12px*var(--e,1));}
+  html .modal.relay-settings.chica .chica-icono svg{width:calc(28px*var(--e,1)) !important;height:calc(28px*var(--e,1)) !important;}
+  html .modal.relay-settings.chica .opt-row{padding:calc(12px*var(--e,1));gap:calc(6px*var(--e,1));}
+  html .modal.relay-settings.chica .btn-row{margin-top:calc(16px*var(--e,1)) !important;}
+  html .modal.relay-settings.chica .btn-row .btn{font-size:calc(16px*var(--e,1));padding:calc(13px*var(--e,1));}
+  html .modal.relay-settings.chica .modal-close{width:calc(38px*var(--e,1));height:calc(38px*var(--e,1));}
+}
+html .relay-settings.chica{text-align:center;}
+
+/* ---------- Editar una opción (alt2Options.js y valuePicker.js, resaltarFila): todo borroso menos la fila que se edita, que se ve nítida y marcada ---------- */
+.modal-backdrop:has(.fila-editando){background:rgba(5,6,14,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.fila-editando-capa{position:fixed !important;z-index:1;display:block !important;padding:0 !important;margin:0 !important;max-width:none !important;width:auto !important;
+  min-height:0 !important;height:auto !important;background:none !important;animation:none !important;pointer-events:none;}
+.fila-editando{position:relative;margin:0 !important;
+  border:1.5px solid rgba(139,108,255,.85) !important;box-shadow:0 0 0 4px rgba(139,108,255,.22),0 0 30px rgba(139,108,255,.45) !important;
+  background:rgba(24,22,44,.92) !important;border-radius:16px !important;}
+.fila-editando .ayuda-btn{visibility:hidden;}
+.fila-editando .editando-etiqueta{position:absolute;top:-11px;left:14px;padding:2px 9px;border-radius:999px;background:linear-gradient(100deg,#8B6CFF,#FF5FA2);
+  color:#fff;font:700 11px 'Inter',sans-serif;letter-spacing:.02em;white-space:nowrap;}
+.modal-backdrop:has(.fila-editando) > .modal{position:relative;z-index:2;}
+
+/* La ventana es un globo pegado arriba (o debajo) de la fila, con flechita, en la PC y en el celular (usuario, 29-10-2026).
+   `left`, `top` y `--flecha-x` los pone pegarAFila (alt2Options.js). */
+.modal-backdrop.globo-fila{display:block;padding:0;}
+.globo-fila > .modal.relay-settings.chica{position:fixed;margin:0;animation:none;overflow:visible;border:1px solid rgba(139,108,255,.55);}
+.globo-fila > .modal.relay-settings.chica::before{content:"";position:absolute;left:var(--flecha-x,50%);width:18px;height:18px;transform:translateX(-50%) rotate(45deg);
+  background:#1C1A33;border:1px solid rgba(139,108,255,.55);}
+.globo-fila.abajo > .modal::before{top:-10px;border-right:0;border-bottom:0;}
+.globo-fila.arriba > .modal::before{bottom:-10px;border-left:0;border-top:0;background:#0E1020;}
+
+/* Celular: a todo el ancho, sin ícono ni título y más compacto */
+@media (max-width:899px){
+  .globo-fila > .modal.relay-settings.chica{width:calc(100% - 24px);border-radius:calc(24px*var(--e,1));padding:calc(14px*var(--e,1)) calc(14px*var(--e,1)) calc(12px*var(--e,1));}
+  .globo-fila .relay-settings.chica .chica-icono,.globo-fila .relay-settings.chica h2{display:none;}
+  .globo-fila .relay-settings.chica .opt-row{padding:calc(8px*var(--e,1));gap:calc(4px*var(--e,1));margin-bottom:calc(4px*var(--e,1));}
+  .globo-fila .relay-settings.chica .opt-row > span{font-size:calc(12px*var(--e,1));}
+  .globo-fila .relay-settings.chica .field-hint{font-size:calc(12.5px*var(--e,1));margin:calc(2px*var(--e,1)) 0 calc(8px*var(--e,1));}
+  .globo-fila .relay-settings.chica .stepper output{font-size:calc(28px*var(--e,1));}
+  .globo-fila .relay-settings.chica .stepper button{width:calc(36px*var(--e,1));height:calc(36px*var(--e,1));font-size:calc(18px*var(--e,1));}
+  .globo-fila .relay-settings.chica .modal-close{width:calc(32px*var(--e,1));height:calc(32px*var(--e,1));}
+  .globo-fila .relay-settings.chica .btn-row{flex-direction:row !important;margin-top:calc(10px*var(--e,1)) !important;}
+  .globo-fila .relay-settings.chica .btn-row .btn{padding:calc(10px*var(--e,1));font-size:calc(15px*var(--e,1));}
+}
+
+
+/* ---------- Tamaño de las ventanas chicas según la pantalla (usuario, 29-10-2026): --e escala letras, botones, íconos y
+   márgenes de .chica (Sí / No, aviso, pausa, relevos y «Relevos por equipo»). Más chicas en laptops bajas y celulares chicos,
+   más grandes en monitores grandes ---------- */
+html .modal.chica{--e:1;}
+@media (max-width:899px) and (max-height:700px),(max-width:360px){ html .modal.chica{--e:.88;} }
+@media (max-width:899px) and (min-width:412px) and (min-height:880px){ html .modal.chica{--e:1.06;} }
+@media (min-width:900px) and (max-height:820px){ html .modal.chica{--e:.86;} }
+@media (min-width:900px) and (max-height:700px){ html .modal.chica{--e:.76;} }
+@media (min-width:1600px) and (min-height:1000px){ html .modal.chica{--e:1.12;} }
+@media (min-width:2200px) and (min-height:1300px){ html .modal.chica{--e:1.22;} }

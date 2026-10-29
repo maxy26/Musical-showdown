@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { esDemo, modoBloqueado, modoOculto, escuchaCanto, conAnuncios } from "../src/js/edicion.js";
+import { esDemo, modoBloqueado, modoOculto, escuchaCanto, conAnuncios, ajustaRelevos } from "../src/js/edicion.js";
 import { espacioAnuncio } from "../src/js/anuncios.js";
 import { tiendaActual } from "../src/js/tienda.js";
 
@@ -52,4 +52,11 @@ test("personal (copia del dueño): todo desbloqueado y sin anuncios", () => {
   }
   assert.equal(escuchaCanto("personal"), true);
   assert.equal(conAnuncios("personal", true), false);
+});
+
+test("devolver relevos (botón ±): de pago en la versión completa; abierto en la personal y en desarrollo; nunca en la demo", () => {
+  assert.equal(ajustaRelevos("demo"), false);
+  assert.equal(ajustaRelevos("completa"), false, "sin Premium, el ± lleva candado");
+  assert.equal(ajustaRelevos("personal"), true);
+  assert.equal(ajustaRelevos(""), true);
 });

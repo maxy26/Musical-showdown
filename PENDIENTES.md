@@ -46,6 +46,109 @@
    2, escuchar el canto, Premium, anuncios, Google Play, compras en la Store,
    vinculación de dispositivos, IA que reconoce la canción (versión 2.0).
 
+## 🎨 Rediseño "Escenario nocturno", pantalla por pantalla (usuario, 28-10-2026) 🟡
+
+El usuario eligió el estilo A de las propuestas: casi negro (`#0B0D17`), acento de
+violeta a rosa (`#8B6CFF` → `#FF5FA2`), botones y tarjetas de vidrio, letra Inter y
+fondo con colores que se mueven en lugar de las luces. Se hace **una pantalla a la vez**:
+se muestra en una vista previa (celular y PC juntos), el usuario elige o descarta cada
+cambio, se aplica a las tres apps y se pasa a la siguiente.
+
+- [ ] **Inicio:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo confirme.
+  En la PC, título grande arriba sin recuadro y una columna centrada con botones más
+  grandes (opción 1 «Centrado»); el celular conserva su acomodo, sin recuadro en el título.
+- [ ] **Configurar partida:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo
+  pruebe. En la PC, dos columnas (jugadores a la izquierda; géneros y opciones a la derecha),
+  letra más grande y todo entra en 1440 × 900 y 1366 × 768. En el celular, opción B
+  «Secciones»: sin la tarjeta grande, cada parte en su panel y «Confirmar» pegado abajo;
+  «Añadir» y «Borrar nombres» en una fila y «Relevos por equipo» ya no se parte en tres líneas.
+- [ ] **Ronda:** aplicada a las tres apps el 28-10-2026; falta que el usuario la pruebe. Cada
+  lado con su color (rosa y celeste; en Grupal, el de su grupo) en casillas de vidrio; reloj de
+  vidrio (rojo rosado en los últimos 5 s); palabra blanca con halo violeta que se achica sola
+  según sus letras para entrar en una línea. En la PC, acomodo «Escenario» (opción 1): lados
+  altos a los costados y la palabra en el medio, todo más grande y a todo el alto. El celular
+  conserva el «cara a cara».
+- [ ] **Resultado de la ronda** (acierto, fallo y sin ganador): aplicado a las tres apps el
+  28-10-2026; falta que el usuario lo pruebe. Ícono en un círculo de color (verde, rosado o
+  violeta), «+100» en degradado, filas verdes si suben y rosadas si bajan, botón en degradado.
+  En la PC, opción B «Pantalla completa»: sin tarjeta, todo enorme y los dos lados lado a lado.
+  En el celular, tarjeta de vidrio centrada.
+- [ ] **Podio:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo pruebe.
+  Pantalla completa sin tarjeta en celular y PC: «GANADOR» chico, nombre del ganador grande en
+  degradado, bloques de vidrio de oro, plata y bronce (el primero con brillo), MVP en pastilla
+  de degradado, «Jugar de nuevo» en degradado y los demás botones de vidrio.
+- [ ] **Organizar equipos:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo
+  pruebe. Sin la tarjeta grande: cantidad y nombre en un panel de vidrio y cada grupo en su
+  panel teñido con su color (el de la ronda) y un punto de color; jugador elegido en violeta;
+  «Confirmar» en degradado. En la PC, opción B: todos los grupos en una sola fila y todo más
+  grande. En el celular, también lado a lado (de a dos por fila) y los botones pegados abajo.
+- [ ] **Ajustes:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo pruebe.
+  Panel de vidrio oscuro a todo el alto que entra desde la izquierda, en el celular y también en
+  la PC (opción B); cada opción en su panel, «Sí / No» con la elegida en blanco, volumen
+  violeta, «Premium» en degradado, los demás botones de vidrio y «Salir» en rosado.
+- [ ] **Avisos (la campana):** aplicado a las tres apps el 28-10-2026; falta que el usuario lo
+  pruebe. Vidrio oscuro como Ajustes; cada aviso en su panel con el ícono en un cuadrito del
+  color de su tipo (rosa novedad, dorado promoción, violeta actualización); nuevos con borde
+  violeta y «● Nuevo» en rosa; botón en degradado; sin avisos, la campana en un círculo. En la
+  PC, opción B: panel a todo el alto desde la derecha. En el celular sube desde abajo.
+  Además (usuario, 28-10-2026): «Borrar notificaciones» fijo abajo de la ventana (pregunta
+  antes y la deja vacía) y la campana con un (!) rojo mientras quede al menos un aviso.
+- [ ] **Ventanas «Sí / No», aviso y pausa:** aplicado a las tres apps el 29-10-2026 (ícono arriba,
+  botones uno debajo del otro, más grandes en la PC; en el celular suben desde abajo); falta que
+  el usuario las pruebe.
+- [ ] **Rueda para elegir números:** aplicada el 29-10-2026: se abre encima de la lista del valor,
+  del mismo ancho, diseño «Líneas» y flechas ▲ ▼; tocar afuera confirma. Falta que el usuario la pruebe.
+- [ ] **Ventanas de relevos:** aplicadas el 29-10-2026 (estilo de las ventanas chicas, compañeros en
+  lista con su inicial, ajustar con número grande); falta que el usuario las pruebe.
+- [ ] **Devolver relevos es de Premium** (usuario, 29-10-2026): en la versión completa sin Premium el
+  botón ± de la ronda lleva 🔒 y abre Premium (`ajustaRelevos()` de `edicion.js`). Probar con una
+  compra de prueba cuando esté la consola de Google Play.
+- [ ] **Editar una opción en «Configurar partida»:** aplicado el 29-10-2026. Todo queda borroso
+  menos la fila que se edita, marcada con «Editando · <nombre>» (`resaltarFila` de `valuePicker.js`):
+  ventana «Relevos por equipo» (bloques con número grande, globo arriba de la fila, tocar afuera la cierra)
+  y la rueda de Puntaje objetivo y Tiempo por ronda. Falta que el usuario lo pruebe. La copia de la
+  fila no se mueve si se gira el celular con la ventana abierta.
+- [ ] **Ventanas chicas según la pantalla** (29-10-2026): escalan con `--e` (más chicas en laptops bajas
+  y celulares chicos, más grandes en monitores grandes). Falta que el usuario lo pruebe en sus pantallas.
+- [ ] **Pantalla de carga:** aplicada el 29-10-2026 (C3 «Ondas y enfoque»: micrófono con ondas, título que se
+  enfoca, ecualizador; dura al menos 1,5 s). Falta que el usuario la vea en PC y celular.
+- [ ] **Listas desplegables:** aplicadas el 29-10-2026 (opción B «Líneas», fondo borroso y la fila marcada).
+  Falta que el usuario las pruebe con mouse, teclado y dedo.
+- [ ] **Ventana de Premium:** aplicada el 29-10-2026 (opción D: estrella en círculo, beneficios en cuadritos,
+  planes en filas). Falta que el usuario la pruebe y verla con los precios reales de Google Play.
+- [ ] **Ayudas:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo pruebe.
+  «Cómo se juega» y la ayuda del modo en dos columnas (PC y celular); la ventanita de los (?)
+  como globo junto a su botón, con flechita, el (?) encendido y el fondo borroso.
+- [ ] El globo de los (?) no se reubica si se gira el celular o cambia el tamaño de la ventana
+  con él abierto (se arregla al cerrarlo y abrirlo).
+- [ ] **Modos de juego:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo
+  pruebe. Tarjetas de vidrio, el elegido en violeta. PC: los tres modos uno al lado del otro.
+  Celular: lista compacta (la historieta solo en el elegido o con «Ver más»). En la PC el tamaño
+  sigue el alto de la pantalla (entra sin desplazar de 1280 × 720 a 1920 × 1080) y «Ver más»
+  agranda solo su modo.
+- [ ] **Verificar canción** («¡X canta!» y «Buscar canción»): aplicado a las tres apps el
+  29-10-2026; falta que el usuario lo pruebe. Resplandor del color de quien canta, micrófono
+  con ondas, «Correcta» verde e «Incorrecta» rojo rosado; en la búsqueda, YouTube en rojo. PC:
+  centrado y más grande.
+- [ ] **Compartir el podio:** aplicado a las tres apps el 29-10-2026; falta que el usuario lo
+  pruebe (también compartir de verdad en Android). Imagen nueva (escenario oscuro, Inter, podio de
+  vidrio) con colores del fondo a elegir: flechitas en la PC, deslizar en el celular y
+  «Personalizar colores»; se recuerda el último.
+- [ ] **Vincular:** aplicado a las tres apps el 29-10-2026; falta que el usuario lo pruebe
+  vinculando de verdad. Pasos en paneles con número, QR con brillo, código en degradado con un
+  relojito circular (sin números) en lugar de la barra; en la PC, «Vincular celular» en dos columnas.
+- [ ] **Pregunta para el usuario (29-10-2026):** al vincular con el QR, hoy el celular queda de
+  control de la partida de la PC. El usuario lo describió como «continuar la partida del
+  escritorio en el móvil»; si quiere que la partida pase a jugarse en el celular, es una función
+  nueva (no solo diseño). Esperar su respuesta.
+- [ ] **Control del celular y PC vinculada:** aplicado a las tres apps el 29-10-2026; falta
+  probarlo vinculando de verdad. En la PC, avisos de que los nombres y Correcta / Incorrecta se
+  tocan en el celular y «📱 Vinculado» en verde.
+- [ ] **Reloj de la ronda:** anillo en degradado con punto de luz (aplicado el 29-10-2026); falta
+  que el usuario lo pruebe.
+- Mientras dure el rediseño, el inicio tiene el fondo nuevo y las demás pantallas las luces
+  de antes: el cambio se nota al pasar de una pantalla a otra. Se resuelve al terminar.
+
 ## 🔒 Privacidad y parte legal (usuario, 27-10-2026) 🟡
 
 > **En pausa desde el 28-10-2026 (decisión del usuario): se retoma cuando haga
@@ -195,7 +298,13 @@
 > Cambios terminados que se juntan para sacar una actualización notable
 > (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.27** (28-10-2026: Ajustes con «Términos de uso» y la política en el idioma del dispositivo; política y términos unidos y en inglés; ver AUDITORIA-CAMBIOS.md).
 
-(Nada por ahora.)
+- **Rediseño «Escenario nocturno» completo** (28 y 29-10-2026; subido a `main` el 29-10-2026, sin versión todavía):
+  Organizar equipos, Ajustes, avisos (con «Borrar notificaciones» y el (!) en la campana), ayudas (globo junto
+  al (?)), Modos de juego, verificar canción, compartir el podio (colores del fondo a elegir), vincular, control
+  del celular y PC vinculada, reloj de la ronda en anillo, ventanas «Sí / No» / aviso / pausa, rueda de números
+  encima del valor, ventanas de relevos, «Relevos por equipo» con la fila marcada, ventanas chicas según el
+  tamaño de la pantalla, Premium, listas desplegables y pantalla de carga con bienvenida.
+- **Devolver relevos es de Premium** (botón ± con 🔒 en la versión completa sin Premium).
 
 ## 🎵 Canciones y letras (antes de publicar)
 
@@ -213,6 +322,10 @@
   `brave.exe`, ya borrado). Reintentar tras reiniciar la PC o reinstalar
   Edge; si sigue, cambiar `channel: "msedge"` de `playwright.config.mjs` por
   la ruta de Brave. En GitHub Actions no afecta (usa el Chromium de Playwright).
+
+- [ ] 🟢 **«Buscar canción» falla en las pruebas de pantallas con Brave en tamaño PC** (29-10-2026): el texto
+  que completa el nombre (`.busqueda-fantasma .resto`) queda vacío. Falla igual en la versión publicada y en
+  GitHub Actions (Chromium) pasa, así que parece propio de Brave. Revisar cuando Edge vuelva a abrir.
 
 - [ ] 🟢 **Electron no se puede ejecutar en modo desarrollo**
   (`npx electron .` en `platforms/desktop`). npm 11 bloqueó su script de

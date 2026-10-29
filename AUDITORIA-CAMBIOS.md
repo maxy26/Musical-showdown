@@ -12,6 +12,654 @@
 
 ---
 
+## 2026-10-29 — Se sube a `main` el rediseño «Escenario nocturno» (sin versión nueva)
+
+**Qué se hizo («actualiza y publica», instrucción 34):** se subieron a `main` todos los cambios del rediseño
+y de «Devolver relevos» en Premium, con los documentos al día. No se sacó versión (`v*`): la lista
+«Listo para la próxima versión» de `PENDIENTES.md` junta lo que irá en la 1.28 (instrucción 28).
+- Pruebas de pantallas: «Lista de jugadores» esperaba el diseño anterior (alto fijo y ✕ roja). Ahora en el
+  celular comprueba el alto fijo y en la PC que no pase de 420 px; la ✕ ya no se compara por color
+  (`test/e2e/pantallas.spec.mjs`).
+
+**Archivos:** `test/e2e/pantallas.spec.mjs`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md` y todo lo listado en
+las entradas de abajo.
+
+**Verificación:** lint, 176 pruebas y las cuatro compilaciones. Pruebas de pantallas con Brave (Edge sigue sin
+abrir): 52 de 54 pasan con 2 a la vez; «Buscar canción» en PC falla también en la versión publicada (anotado
+en `PENDIENTES.md`). GitHub Actions las vuelve a correr al subir.
+
+**Abierto:** sacar la versión 1.28 cuando el usuario lo pida.
+
+---
+
+## 2026-10-29 — Pantalla de carga con el estilo «Escenario nocturno» y bienvenida
+
+**Qué se hizo (el usuario notó que faltaba; pidió combinar A y B con una animación de bienvenida y eligió C3
+«Ondas y enfoque»):**
+- `#loader` (`index.html`): el fondo y el título del inicio nuevo («Musical» en blanco y «Showdown» en
+  degradado, ahora en dos `span`); el micrófono en un círculo de color que aparece y suelta ondas de sonido;
+  el título pasa de borroso a nítido y cada tanto lo cruza un brillo; debajo, un ecualizador de siete barritas
+  en lugar de la barra que se llena. En la PC, más grande.
+- `main.js`: la pantalla de carga dura al menos 1,5 s (antes 0,9 s) para que la bienvenida se vea entera.
+- La barra que se llena (`.loader-bar`) sigue igual en la ronda, Premium y vincular; se conservó
+  `loader-bounce`, que usa el micrófono de la ronda.
+
+**Archivos:** `src/index.html`, `src/js/main.js`, `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vista previa en vivo en PC y celular (propuestas A y B, combinaciones C1 a C3 y la C3 con
+el código del juego). Lint, pruebas y las cuatro compilaciones; se abrió la personal.
+
+**Abierto:** que el usuario la vea al abrir el juego en PC y celular.
+
+---
+
+## 2026-10-29 — Listas desplegables con el estilo «Escenario nocturno»
+
+**Qué se hizo (el usuario notó que faltaban; eligió la opción B en una vista previa en vivo):**
+- La lista propia del juego (`teclado.js`, `.lista-teclado`: Puntaje objetivo, Tiempo por ronda y las dos de
+  «Organizar equipos») pasa a vidrio oscuro con Inter. La opción señalada va en letras de degradado con líneas
+  finas arriba y abajo (como la rueda); la elegida lleva una rayita rosa a la izquierda (`is-elegida`, nueva).
+- Al abrirla, todo queda borroso menos la fila de la lista, marcada con «Editando · <nombre>» (`.lista-fondo`;
+  se cierra con la lista). Para eso `resaltarFila` pasó de `valuePicker.js` a `utils.js` y toma la clase de la
+  pantalla (`config`, `organizar`…) para que la copia conserve su estilo.
+
+**Archivos:** `src/js/teclado.js`, `src/js/utils.js`, `src/js/screens/config/valuePicker.js`,
+`src/js/screens/config/alt2Options.js`, `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vista previa en vivo en PC y celular (Puntaje objetivo y «Se llaman» de Organizar equipos),
+primero como propuesta y después con el código del juego. Lint, pruebas y las cuatro compilaciones; se abrió
+la personal.
+
+**Abierto:** que el usuario lo pruebe con mouse, teclado y dedo.
+
+---
+
+## 2026-10-29 — Ventana de Premium con el estilo «Escenario nocturno»
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo; pidió combinar las dos primeras propuestas y eligió la D):**
+- La ventana de Premium (`premium.js`, hoja `.sheet:has(.premium)`) deja el dorado: vidrio oscuro, Inter y acento
+  de violeta a rosa. Estrella en un círculo de color con brillo; beneficios en cuadritos con el ícono en un
+  cuadrito de color (4 en fila en la PC, 2 × 2 en el celular); planes en filas, el de prueba gratis con borde
+  de color y la etiqueta arriba a la derecha; «Restaurar compras» como enlace. En la PC va centrada (620 px);
+  en el celular sube desde abajo. Con Premium, el mensaje y «Ver o cancelar la suscripción» van en columna.
+- Solo CSS: se reemplazó el bloque «Premium (premium.js, 13-10-2026)» de `styles.css`. No cambia qué hace
+  ningún botón.
+
+**Archivos:** `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vista previa en vivo con planes de ejemplo (Google Play simulado) y el estado «ya con
+Premium», en PC y celular, primero como propuesta y después con el CSS del juego. Lint, pruebas y las
+cuatro compilaciones; se abrió la personal.
+
+**Abierto:** ver la ventana con los precios reales de Google Play cuando esté la consola.
+
+---
+
+## 2026-10-29 — Ventanas chicas según el tamaño de la pantalla
+
+**Qué se hizo (pedido del usuario, elegido en una vista previa en vivo con 4 tamaños de PC y 3 de celular):**
+- Las ventanas chicas (`.chica`: «Sí / No», aviso, pausa, relevos y «Relevos por equipo») escalan letras,
+  botones, íconos y márgenes con la variable `--e` (bloque final de `styles.css`): PC con poca altura
+  (≤ 820 px) 0,86, (≤ 700 px) 0,76; monitores de 1600 × 1000 o más 1,12 y de 2200 × 1300 o más 1,22;
+  celular chico (≤ 700 px de alto o ≤ 360 de ancho) 0,88 y grande (≥ 412 × 880) 1,06. Los px de esos
+  bloques pasaron a `calc(Npx*var(--e,1))`.
+- `pegarAFila` (`alt2Options.js`): si la ventana no entra ni arriba ni abajo de la fila, va del lado con
+  más lugar.
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/config/alt2Options.js`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas con Brave en 1280 × 720, 1366 × 768, 1920 × 1080, 2560 × 1440, 360 × 640,
+390 × 844 y 430 × 932. En la primera, las condiciones `@media` también habían quedado con `calc` (el
+celular se veía como PC); se corrigieron. Lint, pruebas y las cuatro compilaciones; se abrió la personal.
+
+**Abierto:** la rueda, Ajustes, la campana, la ayuda y los modos no usan `--e`.
+
+---
+
+## 2026-10-29 — Editar opciones con la fila marcada (Alternativo 2 y rueda)
+
+**Qué se hizo (el usuario eligió en una vista previa en vivo):**
+- **Ventana «Relevos por equipo»** (`alt2Options.js`): estilo de ventana chica (`.chica`, ícono 🔁) con
+  la opción B: cada opción en un bloque con el número grande en degradado y − + redondos.
+- **Fila marcada al editar:** todo queda borroso menos la fila que se edita, que se ve nítida con borde
+  violeta y la etiqueta «Editando · <nombre>». `resaltarFila(overlay, fila, nombre)` en `valuePicker.js`
+  pone encima del fondo una copia de la fila (sin ids, `inert`) dentro de una capa `.config`.
+- **Dónde sale la ventana:** como globo pegado arriba de la fila (debajo si arriba no entra), con
+  flechita, en la PC y en el celular (`globo-fila`, `pegarAFila` en `alt2Options.js`). En el celular va a
+  todo el ancho, sin ícono ni título y con Cancelar / Listo lado a lado. Al principio iba al lado de la
+  fila en la PC; el usuario pidió ponerla arriba como en el celular.
+- **Más chica** que las demás ventanas chicas (420 px en la PC; más compacta en el celular) y **tocar
+  afuera la cierra** como la ✕, sin guardar (pedidos del usuario).
+- Las reglas del celular para la fila de relevos usan `:has(.relay-open)` en lugar del id, porque la
+  copia marcada no lleva ids.
+- La **rueda** de Puntaje objetivo y Tiempo por ronda también marca su fila.
+
+**Archivos:** `src/js/screens/config/alt2Options.js`, `src/js/screens/config/valuePicker.js`,
+`src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vista previa en vivo con el código del juego y capturas (PC y celular, relevos y
+rueda); con Playwright y Brave, tocar afuera cierra la ventana en los dos tamaños. Lint, 176 pruebas y
+las cuatro compilaciones; se abrió la personal.
+
+**Abierto:** que el usuario lo pruebe; la copia de la fila no se reubica si se gira la pantalla con la
+ventana abierta. Falta la ventana de Premium.
+
+---
+
+## 2026-10-29 — Ventanas de relevos y devolver relevos en Premium
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo):**
+- **Ventanas de relevos** (`relayModals.js`): toman el estilo de las ventanas chicas (`.chica`:
+  vidrio, ícono 🔁 arriba, botones uno debajo del otro, más grandes en la PC y desde abajo en el
+  celular). Elegir compañero: **lista** (opción B), cada uno en su fila con la inicial en un
+  círculo (`data-inicial`) y el elegido con borde violeta y ✓. Ajustar relevos: número grande en
+  degradado y − + redondos de vidrio. El aviso de «relevo de más» ya usaba la ventana «Sí / No».
+- **Devolver relevos es de Premium** (pedido del usuario): en la versión completa sin Premium, el
+  botón ± de la ronda lleva 🔒 y abre la ventana de Premium (el reloj espera mientras está abierta).
+  Se bloquea todo el botón (agregar y quitar). `ajustaRelevos()` en `edicion.js`, `"relevos"` en
+  `INCLUYE_PREMIUM` (`compras.js`) y en `DE_PAGO`; Premium lo lista entre sus beneficios
+  (`premium.js`, que ahora acepta `alCerrar`). La personal y el desarrollo lo tienen abierto; la
+  demo no tiene relevos.
+
+**Archivos:** `src/js/screens/relayModals.js`, `src/js/screens/round.js`, `src/js/screens/premium.js`,
+`src/js/edicion.js`, `src/js/compras.js`, `src/css/styles.css`, `test/edicion.test.js`,
+`test/compras.test.js`, `TIENDAS.md`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vistas previas en vivo; en el juego real, con Playwright y Brave: lista de
+compañeros, ajustar relevos y, simulando la versión completa sin Premium, el 🔒 abre Premium con
+«Devolver relevos». Lint y 176 pruebas pasaron (una nueva). Se compilaron las cuatro versiones y se
+abrió la personal.
+
+**Abierto:** probar la compra real de Premium en Android. La política de privacidad nombra las
+funciones de pago «por ejemplo», así que sigue siendo correcta. La ventana de Premium y las
+opciones de Alternativo 2 conservan el estilo anterior.
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": rueda para elegir números (encima del valor)
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo; primero una ventana con flechas,
+luego la cambió):** la rueda de `valuePicker.js` («Personalizado…» del puntaje objetivo y del
+tiempo por ronda):
+- **Se abre encima de la lista donde está el valor** (`campo`, que pasa `config/index.js`):
+  mismo ancho y letra que la lista, 3 filas, y el número elegido justo sobre el valor
+  (`pegarAlCampo`, mide con `offset*` por la animación de apertura). Sin título ni ayuda; el
+  resto apenas borroso. «Listo» o **tocar afuera confirman**; Esc cancela.
+- **Diseño «Líneas»:** sin franja; dos líneas finas en degradado arriba y abajo del número
+  elegido, que va más grande y en degradado.
+- **Flechas ▲ ▼** arriba y abajo: un valor por toque (`animateTo(goal ± 1)`).
+- Sin `campo`, sigue siendo una ventana (vidrio; en el celular sube desde abajo).
+
+**Archivos:** `src/js/screens/config/valuePicker.js`, `src/js/screens/config/index.js`,
+`src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vistas previas en vivo; en el juego real, con Playwright y Brave (PC con el
+puntaje y celular con el tiempo): la rueda se abre sobre la lista (unos 6 px de diferencia con
+el valor), ▼ sube un valor y al tocar afuera la lista queda con el nuevo (2100 pts; 31 seg).
+Lint y 175 pruebas pasaron. Se compilaron las cuatro versiones y se abrió la personal.
+
+**Abierto:** quedan con el estilo anterior las ventanas de relevos y las opciones de Alternativo 2.
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": ventanas «Sí / No», aviso y pausa
+
+**Qué se hizo (el usuario eligió en una vista previa en vivo):** las ventanas chicas de
+`modals.js` (`showConfirm`, `showWarning` y la pausa con su «¿Salir de la partida?») llevan la
+clase `.chica`:
+- Vidrio oscuro y letra Inter; ícono arriba en un círculo (❓ pregunta, 🚪 salir, ⏸ pausa; el aviso
+  conserva su ⚠️ en un círculo dorado); botones uno debajo del otro con la respuesta principal
+  arriba (opción B, en PC y celular); «Sí» en degradado, «Sí, salir» en rojo rosado (antes verde
+  por `.modal #yes`), «No» de vidrio. La pausa conserva su orden (Continuar, Ayuda, Salir).
+- PC: un poco más grande (540 px de ancho, título 31 px, texto 19 px). Celular: suben desde abajo.
+
+**Archivos:** `src/js/screens/modals.js`, `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vista previa en vivo y el juego real con Playwright y Brave (pausa y pregunta
+en PC, salir y aviso en el celular). Lint y 175 pruebas pasaron. Se compilaron las cuatro
+versiones y se abrió la personal.
+
+**Abierto:** con esto termina la lista de pantallas del rediseño. Quedan con el estilo anterior
+la rueda para elegir números (`valuePicker.js`), las ventanas de relevos (`relayModals.js`) y las
+opciones de Alternativo 2 (`alt2Options.js`) (anotado en `PENDIENTES.md`).
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": control del celular, PC vinculada y reloj de la ronda
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo):**
+- **Celular como control** (`control.js`, `.control-screen`, agregada a los `:is(...)` del fondo):
+  fondo con colores que se mueven, «Conectado» en una pastilla con punto verde (rojo y clase
+  `sin-conexion` sin conexión), botones de vidrio; en la ronda, los dos botones de vidrio teñidos
+  del color de cada lado con el nombre grande en Inter; mientras alguien canta, micrófono con
+  ondas, Correcta verde e Incorrecta rojo rosado; avisos con el ícono en un círculo de vidrio y
+  botón en degradado; la cuenta en degradado.
+- **PC con el celular vinculado:** en la ronda, «📱 Los nombres se tocan en el celular»; en
+  «¡Ana canta!», «📱 Correcta o Incorrecta se marca en el celular»; «📱 Vinculado» en verde. La
+  ronda se redibuja al cerrar la ventana de vincular (`vincular.js`) y al conectarse o
+  desconectarse el celular si no hay una ventana abierta (`vinculo.js`).
+- **Reloj de la ronda:** anillo (opción 1, estilo B): los segundos dentro de un anillo grueso en
+  degradado que se vacía, con un punto de luz en la punta; en los últimos 5 s, rojo y late.
+  112 px en el celular y `clamp(140px, 19vh, 190px)` en la PC; el dibujo cabe entero (sin el
+  recorte que se veía en la vista previa). `round.js` (`ANILLO_RELOJ`, `--f`) y `updateClockOnly()`
+  de `gameLogic.js` (actualiza `--f` cada segundo). «Sin tiempo» sigue como pastilla.
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/control.js`, `src/js/screens/round.js`,
+`src/js/screens/verify.js`, `src/js/screens/vincular.js`, `src/js/vinculo.js`, `src/js/gameLogic.js`,
+`PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** vistas previas en vivo (control con estados de prueba; PC con un celular de
+prueba) y el reloj en el juego real (celular 390 × 844, PC 1440 × 900 y 1366 × 768, también los
+últimos 5 s). Lint y 175 pruebas pasaron. Se compilaron las cuatro versiones y se abrió la personal.
+
+**Abierto:** probar vinculando un celular de verdad (control y avisos de la PC).
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": vincular
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo):** las cuatro ventanas de
+`vincular.js` («Vincular celular» de la PC, «Seguir partida del celular», «Escanear partida» y
+«Vincular con la PC» del celular) al estilo del inicio:
+- Vidrio oscuro y letra Inter; cada paso en su panel con el número en un círculo en degradado;
+  QR en tarjeta blanca con brillo violeta; código de 6 números grande en degradado; «Esperando…»
+  en violeta claro y «Conectado» en verde; botones en degradado, de vidrio o rojo rosado.
+- PC, «Vincular celular»: opción B, explicación a la izquierda y el QR a la derecha.
+- Tiempo que le queda al código: **relojito circular** al lado de los números que se vacía, sin
+  mostrar los segundos (opción 3 sin conteo). Reemplaza la barra amarilla (`CODIGO_HTML` y
+  `pintarCodigo`; se quitaron los estilos de `.vincular-codigo-barra`).
+- El usuario aclaró cómo se vincula (celular → PC con el código del celular; PC → celular con el
+  QR y su código debajo, el celular elige escanear o escribir): ya era así. Se le avisó que con el
+  QR el celular queda de **control** de la partida de la PC (no la juega en su pantalla); si quiere
+  otra cosa, sería una función aparte (anotado en `PENDIENTES.md`).
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/vincular.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (PC 1440 × 900 y celular 390 × 844, QR y
+código de ejemplo). En el juego real, con Playwright y Brave, el relojito se vacía a una vuelta
+por minuto. Lint y pruebas; se compilaron las cuatro versiones y se abrió la personal.
+
+**Abierto:** que el usuario lo pruebe vinculando de verdad el celular y la PC.
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": compartir el podio (imagen, ventana y colores)
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo):**
+- **Imagen del podio** (`compartir.js`, `imagenDelPodio`), opción A: fondo casi negro con tres
+  resplandores, letra Inter, «Showdown» y el nombre del ganador en degradado, bloques del podio de
+  vidrio teñidos de oro, plata y bronce (el 1.º con brillo) y la invitación en un panel de vidrio.
+- **Colores del fondo a elegir:** `TEMAS_IMAGEN` (Noche, Océano, Atardecer, Bosque, Fuego) y «Mis
+  colores» (dos colores propios). En la ventana: flechitas ‹ › a los lados de la imagen en la PC;
+  en el celular se desliza la imagen; debajo, el nombre del color; «✏️ Personalizar colores» abre
+  Color 1 y Color 2 (selector del sistema). Sin círculos de colores (el usuario los quitó). Se
+  comparte la imagen con el color elegido.
+- Se recuerda en el dispositivo el último color y «Mis colores» (`temaImagen` y `coloresImagen` en
+  `settings.js`).
+- **Ventana** (`results.js`, hoja con `.compartir`): vidrio oscuro, imagen con borde y brillo, el
+  botón en degradado; todo entra sin desplazar en PC y celular.
+
+**Archivos:** `src/js/compartir.js`, `src/js/screens/results.js`, `src/js/settings.js`,
+`src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** con Playwright y Brave sobre el juego real (PC 1440 × 900 y celular 390 × 844):
+flechita y deslizar cambian Noche → Océano, «Personalizar» pasa a «Mis colores», se guarda en los
+ajustes y la ventana no desborda. Lint y 175 pruebas pasaron. Se compilaron las cuatro versiones
+y se abrió la personal.
+
+**Abierto:** el selector de color es el del sistema (se ve distinto en Windows y Android). No se
+probó compartir de verdad en Android con la imagen nueva.
+
+---
+
+## 2026-10-29 — Rediseño "Escenario nocturno": verificar canción («¡X canta!» y «Buscar canción»)
+
+**Qué se hizo:** se llevó al estilo del inicio la pantalla «¡Ana canta!» (`verify.js`,
+`.canta-capa`) y su ventana «Buscar canción». Vista previa en vivo; el usuario eligió:
+- Fondo casi negro con el resplandor del color de quien canta (los mismos de la ronda: rosa
+  `#FF5FA2` y celeste `#38BDF8`; en Grupal, el del grupo); micrófono en un círculo con ondas
+  que salen; nombre grande en Inter con brillo; palabra en blanco con halo violeta; reloj de vidrio.
+- «Correcta» en verde, «Incorrecta» en rojo rosado; «Volver» y «Buscar canción» de vidrio.
+- «Buscar canción»: vidrio oscuro, la palabra en blanco, resultados en filas de vidrio; «Buscar
+  en YouTube» y los ▶ en **rojo** (pedido del usuario; sin el logo, instrucción 29).
+- PC: opción A, todo centrado en una columna y más grande. Celular: centrado, como antes.
+- Solo CSS. `.canta-lado-a` / `.canta-lado-b` cambian de color también en el control del celular.
+
+**Archivos:** `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (celular 390 × 844 y PC 1440 × 900,
+pantalla y búsqueda con resultados). Lint y pruebas; se compilaron las cuatro versiones y se
+abrió la personal.
+
+**Abierto:** que el usuario lo pruebe.
+
+---
+
+## 2026-10-28 — «Modos de juego»: tamaño según la pantalla y «Ver más» de a uno
+
+**Qué se hizo (pedido del usuario):** en la PC, la ventana y todo su contenido (letra, viñetas,
+botones, espacios) siguen el alto de la pantalla con `clamp(…, vh, …)`: entra sin desplazar de
+1280 × 720 a 1920 × 1080 y en las pantallas grandes se ve más grande (ancho hasta 1600 px). La
+grilla usa `align-items:start`: «Ver más» agranda solo su modo y los otros conservan su tamaño.
+
+**Archivos:** `src/css/styles.css`, `AUDITORIA-CAMBIOS.md`, `PENDIENTES.md`.
+
+**Verificación:** medido con Playwright y Brave (alto del contenido = alto visible, sin
+desborde) en 1920 × 1080 (796 px), 1440 × 900 (680), 1366 × 768 (581) y 1280 × 720 (548); el
+usuario lo vio en el juego real sin compilar. Lint y pruebas; se compilaron las cuatro versiones
+y se abrió la personal.
+
+**Abierto:** con «Ver más» abierto, el modo se alarga y hay que desplazar para leerlo entero.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": «Modos de juego»
+
+**Qué se hizo:** se llevó la ventana «Modos de juego» (`modesManual.js`, también la abre «Ver
+modos de juego» de la ayuda) al estilo del inicio. Vista previa en vivo; el usuario eligió:
+- Vidrio oscuro y letra Inter; cada modo en su tarjeta de vidrio con el nombre grande; el elegido
+  con borde violeta, brillo y «✓ Elegido» en degradado; historieta como en la ayuda; «Elegir…» en
+  degradado, «Ver más» de vidrio y los modos con candado más apagados.
+- **PC (opción B):** ventana ancha (1240 px) con los tres modos uno al lado del otro.
+- **Celular (opción 3, lista compacta):** la historieta solo se ve en el modo elegido o al tocar
+  «Ver más» (clase `abierto` que pone el botón).
+- `modesManual.js`: la lista lleva `.modos`; «Ver más» alterna `abierto` en la tarjeta.
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/modesManual.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (celular 390 × 844 y PC 1440 × 900). Lint y
+pruebas; se compilaron las cuatro versiones y se abrió la personal.
+
+**Abierto:** que el usuario lo pruebe.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": ayudas y botoncitos (?) junto a su botón
+
+**Qué se hizo (el usuario eligió en vistas previas en vivo):**
+- «Cómo se juega» y la ayuda de cada modo (`.manual.ayuda`, clase agregada en `modals.js` y
+  `ayudaModos.js`): vidrio oscuro, letra Inter, cada parte en su panel con el título chico en
+  violeta claro, viñetas encendidas en violeta con el número en degradado, puntos que suman en
+  verde y que restan en rosado. **Dos columnas** (opción B) en PC (ventana ancha de 1080 px) y en
+  el celular: la primera parte, la historieta y las tarjetas de puntos (en el celular) a todo el
+  ancho; las demás de a dos.
+- Ventanita de los (?) (`ayudaBotones.js`): **globo junto a su botón** (opción 3) con una flechita
+  que le apunta; debajo si cabe, si no arriba; si no cabe, centrada (grande en la PC). El fondo
+  queda **borroso** y encima va una copia del (?) encendida en violeta (`pegarAlBoton`).
+  `abrirAyuda(clave, { boton })`: lo pasan `conectarAyudas` y el ❓ de la ronda (`round.js`) y del
+  control del celular (`control.js`).
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/ayudaBotones.js`, `src/js/screens/modals.js`,
+`src/js/screens/ayudaModos.js`, `src/js/screens/round.js`, `src/js/screens/control.js`,
+`PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** el usuario lo vio en el juego real (sin compilar): ayudas en PC y celular y los
+(?) de Configurar partida (primero, del medio y último: el globo sale abajo o arriba). Lint y 175
+pruebas pasaron. Se compilaron las cuatro versiones y se abrió la personal.
+
+**Abierto:** el globo no se reubica si se gira el celular o cambia el tamaño de la ventana con
+él abierto. No se probaron en la vista los (?) de Organizar equipos, la ronda ni verificar canción.
+
+---
+
+## 2026-10-28 — Campana: borrar notificaciones y (!) mientras quede alguna
+
+**Qué se hizo (pedido del usuario, eligió entre opciones en una vista previa):**
+- Botón «Borrar notificaciones» (opción B) al final de la lista, **fijo abajo** de la ventana
+  (`position:sticky`): al desplazar, los avisos pasan por detrás. Pregunta con `showConfirm`
+  («¿Borrar las notificaciones?», «Sí, borrar» / «No») y la ventana queda vacía.
+- `avisos.js`: `borrarAvisos()` guarda los ids en `musical-showdown:avisos-borrados` y los marca
+  leídos; `avisosActuales()` ya no devuelve los borrados. Los que lleguen después aparecen.
+- La campana muestra un **(!) rojo** (opción 2) mientras quede al menos un aviso sin borrar, aunque
+  esté leído (antes: número de no leídos). `pintarGlobito()` de `menu.js`.
+- `test/e2e/pantallas.spec.mjs`: el globito espera "!" y se prueba borrar (ventana vacía y sin (!)).
+
+**Archivos:** `src/js/avisos.js`, `src/js/screens/menu.js`, `src/css/styles.css`,
+`test/e2e/pantallas.spec.mjs`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** el usuario lo vio en el juego real (sin compilar) con 7 avisos de ejemplo, en
+celular y PC. Con Playwright y Brave: borrar → pregunta → ventana vacía → (!) oculto. Lint y 175
+pruebas pasaron; las pruebas de pantallas no corren en esta PC (Edge). Se compilaron las cuatro
+versiones y se abrió la personal.
+
+**Abierto:** la ventana de confirmación general (`showConfirm`) conserva el estilo anterior; se
+rediseña con las demás ventanas.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": avisos de la campana
+
+**Qué se hizo:** se llevó a la ventana de la campana (Notificaciones) el estilo del inicio. Vista
+previa en vivo con avisos de ejemplo y dos acomodos para la PC (A ventana centrada, B panel a
+todo el alto desde la derecha); el usuario eligió la B y dejó el celular («con avisos» y «sin
+avisos») como se propuso. Quedó así:
+- Vidrio oscuro con letra Inter, igual que Ajustes (sus propias variables `--a-*` en
+  `.sheet:has(:is(.avisos,.home-empty))`).
+- Cada aviso en su panel de vidrio con el ícono en un cuadrito del color de su tipo (rosa
+  novedad, dorado promoción, violeta actualización) y la etiqueta del tipo en ese color; los
+  nuevos con borde violeta y «● Nuevo» en rosa; el botón del aviso en degradado.
+- Sin avisos: la campana en un círculo de degradado y el texto tenue.
+- PC: panel a todo el alto que entra desde la derecha (la campana está a la derecha). Celular:
+  sube desde abajo, como antes.
+- `menu.js`: cada aviso lleva la clase de su tipo (`aviso-version`, `aviso-novedad`, `aviso-promo`).
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/menu.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (celular 390 × 844 con y sin avisos; PC
+1440 × 900). Lint, pruebas y las cuatro compilaciones (personal, completa, demo y APK); se le
+abrió al usuario la personal.
+
+**Abierto:** que el usuario lo pruebe. El último ajuste del color de los íconos (heredan el color
+del tipo) no se vio en captura.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": Ajustes
+
+**Qué se hizo:** se llevó a la ventana de Ajustes el estilo del inicio. Vista previa en vivo con
+dos acomodos para la PC (A ventana centrada, B panel a todo el alto); el usuario eligió la B y
+dejó el celular como se propuso. Quedó así:
+- Panel de vidrio oscuro con letra Inter; en celular y PC entra desde la izquierda a todo el alto.
+- Cada opción en su panel de vidrio; rótulos de grupo chicos en violeta claro; «Sí / No» con la
+  elegida en blanco; barras de volumen violetas; cuenta antes de la ronda de vidrio.
+- «Premium» en degradado; «Política», «Términos» y «Desvincular» de vidrio; «Salir» en rosado.
+- Solo CSS: se aplica a la hoja que contiene `.home-settings` (`.sheet:has(.home-settings)`) y
+  lleva sus propias variables `--a-*`, porque también se abre desde la ronda y desde el control
+  del celular.
+
+**Archivos:** `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (celular 390 × 844; PC 1440 × 900 y
+1366 × 768). Lint, pruebas y las cuatro compilaciones (personal, completa, demo y APK); se le
+abrió al usuario la personal.
+
+**Abierto:** que el usuario lo pruebe. «Premium» y «Salir del juego» solo aparecen en la app
+compilada y no se vieron en la vista previa. En 1366 × 768 el panel se desplaza para ver el final.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": organizar equipos
+
+**Qué se hizo:** se llevó a «Organizar equipos» el estilo del inicio. Vista previa en vivo; el
+usuario eligió para la PC la opción B (todos los grupos en una sola fila) y pidió el celular
+igual, con los grupos lado a lado. Quedó así:
+- Sin la tarjeta grande: la cantidad y el nombre de los grupos en un panel de vidrio; cada grupo
+  en su propio panel teñido con su color (el mismo de la ronda, `--group-color`) y un punto de
+  color junto al nombre. El jugador elegido para intercambiar se marca en violeta con brillo.
+- «Confirmar» en degradado y «Volver a organizar» de vidrio, uno junto al otro.
+- PC: todo más grande, grupos en una sola fila y los botones centrados debajo.
+- Celular: grupos de a dos por fila y los botones pegados abajo (`position:sticky`).
+- `teamOrg.js`: la pantalla lleva `.organizar` (agregada a los `:is(...)` del fondo).
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/teamOrg.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas de la vista previa en vivo (celular 390 × 844 con 2 y 4 equipos; PC
+1440 × 900 y 1366 × 768). Lint y pruebas pasaron. Se compilaron la personal, la completa, la
+demo y el APK sin errores; se le abrió al usuario la personal.
+
+**Abierto:** que el usuario lo pruebe. Nombres muy largos se parten en dos líneas dentro de la
+tarjeta del celular (no probado con nombres largos).
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": podio
+
+**Qué se hizo:** se llevó al podio el estilo del inicio. Vista previa en vivo con dos acomodos
+para la PC (A tarjeta centrada, B pantalla completa); el usuario eligió la B y pidió el celular
+también a pantalla completa, igual que la B. Quedó así, en celular y PC:
+- Sin tarjeta, fondo con colores que se mueven, letra Inter y pantalla centrada en el alto.
+- «GANADOR» chico y espaciado; el nombre del ganador grande (52 px en el celular, 84 px en la
+  PC) en el degradado de «Showdown» y su puntaje en blanco.
+- Bloques del podio de vidrio teñidos de oro, plata y bronce (el primero con brillo dorado),
+  más altos; MVP en una pastilla de degradado; resto de los puestos en filas de vidrio.
+- «Jugar de nuevo» en degradado; «Volver al inicio», «Compartir el podio» y «Ver más» de vidrio.
+- `results.js`: la pantalla lleva `.podio` y se quitaron los estilos escritos a mano del nombre
+  (tamaño) y del puntaje (dorado).
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/results.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas del juego real con Playwright y Brave (celular 390 × 844, PC
+1440 × 900 y 1366 × 768, Individual con 5 jugadores y Grupal con 3 equipos y MVP). Lint y 175
+pruebas pasaron. Se compilaron la personal, la completa, la demo y el APK sin errores; se le
+abrió al usuario la personal.
+
+**Abierto:** que el usuario lo pruebe. La imagen para compartir (`compartir.js`) conserva su
+diseño anterior.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": resultado de la ronda
+
+**Qué se hizo:** se llevó al resultado de la ronda (acierto, fallo con intentos de sobra y ronda
+sin ganador) el estilo del inicio. Vista previa en vivo con dos acomodos para la PC (A tarjeta
+centrada, B pantalla completa); el usuario eligió la B y aprobó el celular. Quedó así:
+- Fondo con colores que se mueven, letra Inter y pantalla centrada en el alto.
+- Ícono del título en un círculo de color: verde al acertar, rosado al fallar o si nadie
+  acertó, violeta si la ronda terminó sin ganador (clases `es-correcto` / `es-incorrecto` /
+  `es-neutro` en `roundResult.js`).
+- «+100» grande en el degradado de «Showdown»; filas de cómo quedan de vidrio, verdes si suben
+  y rosadas si bajan (los puntos siguen contando hasta el valor nuevo); botón en degradado.
+- Celular: tarjeta de vidrio. PC: sin tarjeta, título de 64 px, puntos de 130 px y los dos
+  lados en cuadros grandes uno al lado del otro; entra en 1366 × 768.
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/roundResult.js`, `PENDIENTES.md`,
+`ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas del juego real con Playwright y Brave (celular 390 × 844, PC
+1440 × 900 y 1366 × 768, acierto y fallo). Lint y 175 pruebas pasaron. Se compilaron la
+personal, la completa, la demo y el APK sin errores; se le abrió al usuario la personal.
+
+**Abierto:** que el usuario lo pruebe y seguir con el podio.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": ronda
+
+**Qué se hizo:** se llevó a la ronda el estilo del inicio. Se mostró una vista previa en vivo
+con dos acomodos para la PC (1 «Escenario», 2 «Marcador abajo») y el celular. El usuario
+eligió el 1, con todo un poco más grande, y aprobó el celular. Quedó así:
+- Fondo con colores que se mueven, letra Inter y botones de arriba de vidrio.
+- Cada lado conserva su color: rosa y celeste en Individual y el de su grupo en Grupal
+  (`--lado`, con `color-mix`). Casillas de vidrio teñidas, barra de puntos fina con brillo,
+  «Relevo», «Ronda: N» y ± de vidrio.
+- Reloj de vidrio (en los últimos 5 s, rojo rosado); «Sin tiempo» más chico y en una línea.
+- Palabra blanca con halo violeta y multiplicador en una pastilla de degradado. Su tamaño se
+  ajusta según cuántas letras tiene (`--letras` en `round.js` + unidades `cqi`), así las
+  palabras largas (hasta 13 letras, como «desesperación») entran en una línea; antes se partían
+  en el celular.
+- PC: lados altos a los costados (hasta 520 px), puntaje de 66 px, palabra de hasta 124 px y
+  reloj de hasta 80 px, a todo el alto de la pantalla. El celular conserva el «cara a cara».
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/round.js`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas del juego real con Playwright y Brave (celular 390 × 844, PC
+1440 × 900 y 1366 × 768, Individual · Clásico y Grupal · Alternativo 2). Lint y 175 pruebas
+pasaron. Se compilaron la personal, la completa, la demo y el APK sin errores; se le abrió
+al usuario la personal.
+
+**Abierto:** que el usuario pruebe la ronda. El celular de control (`control.js`) y «¡X canta!»
+todavía tienen el estilo anterior.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": Configurar partida
+
+**Qué se hizo:** se llevó a «Configurar partida» el estilo del inicio: los mismos colores
+(`--a-*`), letra Inter, fondo con colores que se mueven, botones de arriba y tarjetas de vidrio,
+lo elegido en blanco (géneros, Sí / No), filas de opciones sin franjas de color y «Confirmar»
+en degradado como «Jugar». Se revisó en una vista previa en vivo (celular y PC) y el usuario
+pidió ajustar los tamaños de la PC y elegir el acomodo del celular entre tres (A ordenado,
+B secciones, C compacto). Quedó así:
+- PC: dos columnas (jugadores a la izquierda, con la lista del alto de la columna; géneros y
+  opciones a la derecha), «Confirmar» centrado abajo, letra más grande (títulos 18, filas 17)
+  y menos aire vertical para que Alternativo 2 entre en 1440 × 900; en pantallas de hasta
+  800 px de alto se compacta más (entra en 1366 × 768).
+- Celular, opción B «Secciones»: sin la tarjeta grande, jugadores, géneros y opciones cada uno
+  en su panel; «Confirmar» queda pegado abajo al desplazarse; «Añadir jugador» y «Borrar
+  nombres» en una fila; «Relevos por equipo» pasa el botón a la línea de abajo en lugar de
+  partir el nombre en tres líneas.
+
+La pantalla lleva la clase `config`; el bloque del fondo y las variables del inicio ahora
+usan `body:has(:is(.home,.config))`.
+
+**Archivos:** `src/css/styles.css`, `src/js/screens/config/index.js`, `PENDIENTES.md`,
+`ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas del juego real con Playwright y Brave (celular 390 × 844, PC
+1440 × 900 y 1366 × 768, Individual · Clásico y Grupal · Alternativo 2), iguales a la vista
+previa aprobada. Lint y 175 pruebas pasaron. Se compilaron la personal (`build:personal`),
+la completa (`build:desktop`), la demo (`build:demo-windows`) y el APK (`build:apk`), sin errores;
+se le abrió al usuario la personal.
+
+**Abierto:** que el usuario pruebe la pantalla y seguir con la siguiente (ver «Rediseño
+"Escenario nocturno"» en `PENDIENTES.md`). Las pruebas de pantallas (Playwright con Edge)
+siguen sin correr en esta PC.
+
+---
+
+## 2026-10-28 — Rediseño "Escenario nocturno": pantalla de inicio
+
+**Qué se hizo:** el usuario pidió un estilo más profesional y moderno. De 4 propuestas
+eligió la A «Escenario nocturno» y se empezó por el inicio, revisado en una vista previa
+con celular y PC juntos. Quedó así:
+- Fondo casi negro con manchas violeta, rosa y celeste que se mueven y cambian de tono;
+  en el inicio reemplaza a las luces.
+- Letra Inter y «Showdown» en degradado de violeta a rosa, sin el recuadro del título.
+- Botones de arriba, Individual / Grupal, tarjeta y «Modos de juego» de vidrio; la opción
+  elegida va en blanco y «Jugar» en degradado.
+- En la PC (desde 900 px): título grande arriba y una columna centrada de 600 px, con
+  la tarjeta acostada y botones más grandes. En pantallas de hasta 800 px de alto, el
+  título es más chico.
+
+Se pidió aplicarlo directo a las tres apps (demo, personal y completa). Solo cambia CSS:
+el bloque final de `styles.css`, que reemplaza el acomodo anterior de la PC (escenario a
+la izquierda y opciones a la derecha). Las demás pantallas siguen igual.
+
+**Archivos:** `src/css/styles.css`, `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** capturas del juego real con Playwright y Brave (celular 390 × 844,
+PC 1440 × 900 y 1366 × 768, Individual y Grupal), iguales a la vista previa aprobada.
+Lint y 175 pruebas pasaron. Se compilaron la completa (`build:desktop`), la demo
+(`build:demo-windows`), la personal (`build:personal`) y el APK (`build:apk`). Las pruebas
+de pantallas (Playwright con Edge) no se corrieron porque Edge no abre en esta PC (ver
+`PENDIENTES.md`).
+
+**Abierto:** que el usuario confirme el inicio y seguir con la siguiente pantalla (ver
+«Rediseño "Escenario nocturno"» en `PENDIENTES.md`).
+
+---
+
 ## 2026-10-28 — Política y privacidad en pausa
 
 **Qué se hizo:** por decisión del usuario se deja la política de privacidad en
@@ -234,7 +882,7 @@ sección 1. Se comparó con capturas de Brave (muestra y página real).
 
 **Publicado:** el usuario lo confirmó; se actualizaron `ESTADO.md`, `TIENDAS.md`
 (público objetivo), `README.md`, `INSTRUCCIONES-MUSICAL-SHOWDOWN.md`
-(instrucciones 33 y 34), `CLAUDE.md` y `PENDIENTES.md`, y se subió a `main`
+(instrucciones 33 y 34) y `PENDIENTES.md`, y se subió a `main`
 (GitHub Pages publica la política). Sin cambios en `src/`: no hay versión nueva
 del juego (sigue la 1.26).
 

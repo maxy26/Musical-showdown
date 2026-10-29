@@ -51,7 +51,7 @@ export function screenConfig() {
   fixRoundTimeForMode(); // Alternativo 1 no tiene "Sin tiempo"
   c.genres = fixGenresForMode(c.genres, c.mode); // varios géneros solo en Alternativo 2
 
-  const root = el(`<div class="screen">
+  const root = el(`<div class="screen config">
     <div class="top-bar"><div class="top-bar-izq"><button class="icon-btn icon-btn-round" id="back" aria-label="Inicio">${svgIcono("arrow_back")}</button><h2>Configurar partida</h2></div><div class="top-bar-actions"><button class="icon-btn icon-btn-round" id="help">❓</button>${muteButtonHTML()}</div></div>
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
@@ -133,6 +133,7 @@ export function screenConfig() {
           render();
         },
         onCancel: render, // la lista vuelve a mostrar el valor anterior
+        campo: e.target, // la rueda se abre encima de la lista
       });
       return;
     }
@@ -152,6 +153,7 @@ export function screenConfig() {
         min: 5, max: 120, step: 1, // de 1 en 1 (usuario 11-10-2026); máximo 2 minutos; 0:00 sería "Sin tiempo"
         formatItem: (t) => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`,
         describe: formatCustomTime,
+        campo: e.target,
         onAccept: (t) => {
           c.roundTime = t;
           c.roundTimeMode = isPresetTime(t) ? "preset" : "custom";

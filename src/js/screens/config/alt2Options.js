@@ -1,4 +1,4 @@
-import { el } from "../../utils.js";
+import { el, resaltarFila } from "../../utils.js";
 import { alt2Options, ALT2_LIMITS, ALL_MULTIPLIERS } from "./modes.js";
 import { maxRelaysPerRound } from "../../relay.js";
 import { botonAyuda } from "../ayudaBotones.js";
@@ -73,21 +73,40 @@ export function bindAlt2Options(root, c, rerender) {
     });
   }
   const relayBtn = root.querySelector("#relay-settings");
-  if (relayBtn) relayBtn.onclick = () => openRelaySettings(c, rerender);
+  if (relayBtn) relayBtn.onclick = () => openRelaySettings(c, rerender, relayBtn.closest(".opt-row"));
+}
+
+/**
+ * Pone la ventana como globo pegado arriba de la fila que se edita (debajo si arriba no entra), con flechita
+ * hacia la fila, en la PC y en el celular (usuario, 29-10-2026).
+ */
+function pegarAFila(overlay, fila) {
+  fila.scrollIntoView({ block: "nearest" });
+  const r = resaltarFila(overlay, fila, "Relevos por equipo"), m = overlay.querySelector(".modal");
+  overlay.classList.add("globo-fila");
+  // Arriba si entra; si no entra en ningún lado, del lado con más lugar
+  const g = 22, alto = m.offsetHeight, ancho = m.offsetWidth;
+  const arriba = r.top - g - alto >= g || (r.bottom + g + alto > window.innerHeight - g && r.top > window.innerHeight - r.bottom);
+  overlay.classList.add(arriba ? "arriba" : "abajo");
+  m.style.top = `${arriba ? Math.max(g, r.top - g - alto) : Math.min(r.bottom + g, window.innerHeight - alto - g)}px`;
+  const centro = r.left + r.width / 2, left = Math.min(Math.max(12, centro - ancho / 2), window.innerWidth - ancho - 12);
+  m.style.left = `${left}px`;
+  m.style.setProperty("--flecha-x", `${centro - left}px`);
 }
 
 /**
  * Ventanita de relevos: total de la partida (0 a 7; con 0, "Sin relevos"; cuenta las
  * rondas en que se usan) y máximo por ronda (de 1 hasta los intentos). "Listo" guarda.
  */
-function openRelaySettings(c, rerender) {
+function openRelaySettings(c, rerender, fila) {
   const o = alt2Options(c);
   const draft = { total: o.relaysTotal, perRound: o.relaysPerRound };
   const [minTotal, maxTotal] = ALT2_LIMITS.relaysTotal;
   const overlay = el(`<div class="modal-backdrop">
-    <div class="modal warning-modal relay-settings">
+    <div class="modal warning-modal relay-settings chica">
       <button type="button" class="modal-close" aria-label="Cerrar">✕</button>
-      <h2>🔁 Relevos por equipo</h2>
+      <div class="chica-icono">🔁</div>
+      <h2>Relevos por equipo</h2>
       <div class="opt-row"><span>En total (toda la partida)</span>${stepper("total", draft.total, "relevos en total")}</div>
       <p class="field-hint relay-settings-note">Se descuenta 1 del total en cada ronda en que se usen relevos.</p>
       <div class="opt-row"><span>Como máximo por ronda</span>${stepper("perRound", draft.perRound, "relevos por ronda")}</div>
@@ -120,6 +139,7 @@ function openRelaySettings(c, rerender) {
   const close = () => overlay.remove();
   overlay.querySelector(".modal-close").onclick = close;
   overlay.querySelector("#relay-settings-cancel").onclick = close;
+  overlay.addEventListener("pointerdown", (e) => { if (e.target === overlay) close(); }); // tocar afuera es como la ✕ (usuario, 29-10-2026)
   overlay.querySelector("#relay-settings-ok").onclick = () => {
     saveAlt2(c, { relaysTotal: draft.total, relaysPerRound: draft.perRound });
     close();
@@ -127,4 +147,5 @@ function openRelaySettings(c, rerender) {
   };
   document.getElementById("app").appendChild(overlay);
   paint();
+  if (fila) pegarAFila(overlay, fila);
 }

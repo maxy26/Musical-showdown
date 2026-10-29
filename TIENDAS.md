@@ -18,7 +18,7 @@
 | Categoría | Juegos → Música (Galaxy: "Juegos / Música"; Microsoft: "Juegos > Música") |
 | Clasificación por edad | La da el cuestionario (ver abajo): sin violencia ni chat; **con compras** (Premium) y, cuando AdMob esté activo, **con anuncios** en la versión gratis de Android |
 | Público objetivo | Adolescentes y adultos (no dirigido a menores de 13 años; usuario, 27-10-2026) |
-| Precio | Gratis. Android: suscripción opcional **Premium** (Alternativo 2, escuchar el canto y sin anuncios) y, cuando estén activos, anuncios no personalizados (AdMob) solo en la versión gratis. La demo de PC es gratis, sin compras ni anuncios |
+| Precio | Gratis. Android: suscripción opcional **Premium** (Alternativo 2, escuchar el canto, devolver relevos en los equipos y sin anuncios) y, cuando estén activos, anuncios no personalizados (AdMob) solo en la versión gratis. La demo de PC es gratis, sin compras ni anuncios |
 | Idioma | Español |
 | Ícono | `src/icons/icon-512.png` (512 × 512) |
 | Imágenes | `tiendas/imagenes/` (ver "Imágenes") |

@@ -5,6 +5,30 @@ export function el(html) {
   return t.content.firstElementChild;
 }
 
+/**
+ * Al editar una opción, todo queda borroso menos su fila (usuario, 29-10-2026): encima del fondo va una copia
+ * nítida, marcada y con «Editando · <nombre>». La copia va en una capa con la clase de la pantalla (`config`,
+ * `organizar`…) para conservar su estilo, e `inert` para que no reciba toques ni teclado. Devuelve dónde está la fila.
+ */
+export function resaltarFila(overlay, fila, nombre) {
+  const r = fila.getBoundingClientRect(), copia = fila.cloneNode(true);
+  copia.querySelectorAll("[id]").forEach((n) => n.removeAttribute("id"));
+  copia.classList.add("fila-editando");
+  Object.assign(copia.style, { width: `${r.width}px`, height: `${r.height}px` });
+  const etiqueta = document.createElement("span");
+  etiqueta.className = "editando-etiqueta";
+  etiqueta.textContent = `Editando · ${nombre}`;
+  copia.prepend(etiqueta);
+  const capa = document.createElement("div");
+  const pantalla = fila.closest(".screen");
+  capa.className = `${pantalla ? [...pantalla.classList].filter((c) => c !== "screen").join(" ") : ""} fila-editando-capa`;
+  capa.inert = true;
+  Object.assign(capa.style, { left: `${r.left}px`, top: `${r.top}px` });
+  capa.append(copia);
+  overlay.prepend(capa);
+  return r;
+}
+
 /** Baraja un arreglo en el mismo sitio (Fisher-Yates). */
 export function shuffleArray(a) {
   for (let i = a.length - 1; i > 0; i--) {

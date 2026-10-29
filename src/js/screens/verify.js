@@ -96,7 +96,7 @@ export function screenVerify() {
       ${equipo && equipo !== who ? `<p class="canta-equipo">${escapeHtml(equipo)}</p>` : ""}
       <p class="canta-palabra">${escapeHtml(r.word.toUpperCase())}</p>
     </div>
-    ${hayControl() ? "" : `
+    ${hayControl() ? `<p class="canta-en-celular">📱 Correcta o Incorrecta se marca en el celular</p>` : `
     <div class="canta-botones">
       <button class="btn btn-danger btn-block" id="no">❌ Incorrecta</button>
       <button class="btn btn-primary btn-block" id="yes">✅ Correcta</button>

@@ -14,7 +14,7 @@ import { nativo } from "./plataforma.js";
 
 export const PRODUCTO_PREMIUM = "premium";
 /** Lo que desbloquea Premium. */
-export const INCLUYE_PREMIUM = ["alternativo2", "voz", "sinAnuncios"];
+export const INCLUYE_PREMIUM = ["alternativo2", "voz", "sinAnuncios", "relevos"];
 const GUARDADO = "ms-premium";
 
 let premium = null; // null = todavía no se leyó lo guardado

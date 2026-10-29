@@ -19,6 +19,7 @@ export const URL_AVISOS = "https://raw.githubusercontent.com/maxy26/Musical-show
 const CLAVE_GUARDADOS = "musical-showdown:avisos";
 const CLAVE_LEIDOS = "musical-showdown:avisos-leidos";
 const CLAVE_RECIBIDOS = "musical-showdown:avisos-recibidos"; // [{ aviso, recibido }] (ver agregarAvisoRecibido)
+const CLAVE_BORRADOS = "musical-showdown:avisos-borrados"; // ids (ver borrarAvisos)
 
 export const TIPOS = {
   version: { icono: "⬆️", nombre: "Actualización" },
@@ -201,9 +202,19 @@ export function agregarAvisoRecibido(datos, versionInstalada) {
   estado = { ...actual, avisos: unirConRecibidos(actual.avisos, recibidos, versionInstalada, ahora) };
   return estado.avisos.some((a) => a.id === aviso.id) ? aviso : null;
 }
-/** Avisos ya cargados (o los guardados, si todavía no se cargaron). */
+/** Avisos ya cargados (o los guardados, si todavía no se cargaron), sin los que se borraron. */
 export function avisosActuales() {
-  return estado || { avisos: leer(CLAVE_GUARDADOS, []), sinRed: false };
+  const actual = estado || { avisos: leer(CLAVE_GUARDADOS, []), sinRed: false };
+  const borrados = leer(CLAVE_BORRADOS, []);
+  return { ...actual, avisos: actual.avisos.filter((a) => !borrados.includes(a.id)) };
+}
+/**
+ * "Borrar notificaciones" de la campana (usuario, 28-10-2026): dejan de verse;
+ * los que lleguen después aparecen. Quedan también leídos, así no cuentan como nuevos.
+ */
+export function borrarAvisos(avisos) {
+  guardar(CLAVE_BORRADOS, [...new Set([...leer(CLAVE_BORRADOS, []), ...avisos.map((a) => a.id)])]);
+  marcarLeidos(avisos);
 }
 export function idsSinLeer(avisos) {
   const leidos = leer(CLAVE_LEIDOS, []);

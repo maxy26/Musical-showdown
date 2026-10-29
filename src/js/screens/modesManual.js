@@ -91,7 +91,7 @@ export function animateStory(story) {
  */
 export function buildModesManual({ battleType, current, onChoose }) {
   const list = document.createElement("div");
-  list.className = "manual";
+  list.className = "manual modos";
   for (const id of ALL_MODES) {
     if (modoOculto(id)) continue; // la demo no muestra Alternativo 2
     const guide = MODE_GUIDES[id];
@@ -128,6 +128,7 @@ export function buildModesManual({ battleType, current, onChoose }) {
       more.hidden = !more.hidden;
       toggle.textContent = more.hidden ? "Ver más" : "Ver menos";
       toggle.setAttribute("aria-expanded", String(!more.hidden));
+      item.classList.toggle("abierto", !more.hidden); // en el celular también muestra la historieta (CSS)
     };
     if (onChoose && !chosen) {
       item.onclick = (e) => {

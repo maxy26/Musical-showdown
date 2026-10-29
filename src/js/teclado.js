@@ -13,6 +13,7 @@
  *     mouse y en el celular.
  * Nada se hace al cargar el módulo: se activa con iniciarTeclado().
  */
+import { resaltarFila } from "./utils.js";
 
 /** Controles que se pueden recorrer con las flechas. */
 const CONTROLES = [
@@ -115,7 +116,17 @@ function abrirLista(select) {
   const caja = document.createElement("div");
   caja.className = "lista-teclado";
   caja.setAttribute("role", "listbox");
-  caja.innerHTML = opciones.map((o) => `<button type="button" role="option" class="lista-opcion">${o.textContent}</button>`).join("");
+  caja.innerHTML = opciones.map((o) => `<button type="button" role="option" class="lista-opcion${o.selected ? " is-elegida" : ""}">${o.textContent}</button>`).join("");
+  // Fondo borroso con la fila de la lista marcada, como al editar las demás opciones (usuario, 29-10-2026)
+  const fila = select.closest(".opt-row, .field");
+  let fondo = null;
+  if (fila) {
+    fondo = document.createElement("div");
+    fondo.className = "lista-fondo";
+    const nombre = (fila.querySelector("label, span")?.textContent || "").replace(/^[^\p{L}]+/u, "").trim();
+    resaltarFila(fondo, fila, nombre);
+    document.body.appendChild(fondo);
+  }
   document.body.appendChild(caja);
   // Debajo de la lista original o, si no cabe, del lado con más espacio. Nunca
   // la tapa (así un segundo toque sobre ella la cierra); si es larga, se desplaza.
@@ -128,7 +139,7 @@ function abrirLista(select) {
   caja.style.maxHeight = Math.max(espacio, 120) + "px";
   caja.style.top = (haciaAbajo ? r.bottom + 6 : r.top - 6 - caja.offsetHeight) + "px";
   const botones = [...caja.children];
-  lista = { caja, select, opciones, botones, i: Math.max(0, opciones.findIndex((o) => o.selected)) };
+  lista = { caja, fondo, select, opciones, botones, i: Math.max(0, opciones.findIndex((o) => o.selected)) };
   botones.forEach((b, i) => {
     b.onclick = () => elegirDeLista(i);
     b.onmouseenter = () => { lista.i = i; pintarLista(); };
@@ -141,9 +152,10 @@ function pintarLista() {
 }
 function cerrarLista() {
   if (!lista) return;
-  const { caja, select } = lista;
+  const { caja, fondo, select } = lista;
   lista = null;
   caja.remove();
+  fondo?.remove();
   // Con el teclado la marca vuelve a la lista; con el mouse no queda marcada
   if (conTeclado()) select.focus({ preventScroll: true });
   else select.blur();

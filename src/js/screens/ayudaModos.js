@@ -113,7 +113,7 @@ const tarjeta = (p) => `<div class="ayuda-tarjeta"><span class="ayuda-tarjeta-ar
 /** Abre la ayuda del modo y tipo de batalla. `alCerrar` se llama al cerrarla (reanuda el reloj). */
 export function abrirAyudaModo(mode, battleType, alCerrar) {
   const a = AYUDAS_MODO[`${mode}-${battleType}`];
-  const body = el(`<div class="manual">
+  const body = el(`<div class="manual ayuda">
     <article class="manual-item">
       <p class="ayuda-linea">${a.resumen}</p>
       <div class="manual-facts">${a.fichas.map((f) => `<span class="manual-fact">${f}</span>`).join("")}</div>

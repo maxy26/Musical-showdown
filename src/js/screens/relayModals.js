@@ -72,10 +72,11 @@ function pickMate(side, extra, resume) {
   let chosen = null;
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal relay-modal" style="text-align:center;">
-    <h2>🔁 Relevo de ${escapeHtml(team.name)}</h2>
+  overlay.innerHTML = `<div class="modal relay-modal chica" style="text-align:center;">
+    <div class="chica-icono">🔁</div>
+    <h2>Relevo de ${escapeHtml(team.name)}</h2>
     <p class="small-note" style="margin-top:0;">${question}</p>
-    <div class="chip-group relay-mates">${mates.map((p) => `<button type="button" class="chip" data-mate="${escapeHtml(p)}">${escapeHtml(p)}</button>`).join("")}</div>
+    <div class="chip-group relay-mates">${mates.map((p) => `<button type="button" class="chip" data-mate="${escapeHtml(p)}" data-inicial="${escapeHtml(p.trim().charAt(0).toUpperCase())}">${escapeHtml(p)}</button>`).join("")}</div>
     <p class="field-hint">${hint}</p>
     <div class="btn-row" style="margin-top:16px;">
       <button class="btn btn-secondary btn-block" id="relay-cancel">Cancelar</button>
@@ -109,7 +110,8 @@ export function openRelayAdjust(side) {
   r.paused = true;
   const overlay = document.createElement("div");
   overlay.className = "modal-backdrop";
-  overlay.innerHTML = `<div class="modal relay-modal" style="text-align:center;">
+  overlay.innerHTML = `<div class="modal relay-modal chica" style="text-align:center;">
+    <div class="chica-icono">🔁</div>
     <h2>Relevos de ${escapeHtml(team.name)}</h2>
     <div class="relay-adjust-row">
       <button type="button" class="step-btn" id="relay-minus" aria-label="Quitar un relevo">−</button>

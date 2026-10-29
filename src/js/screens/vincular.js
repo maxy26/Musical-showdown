@@ -1,4 +1,6 @@
 import { el } from "../utils.js";
+import { state } from "../state.js";
+import { render } from "../router.js";
 import { openSheet } from "./sheet.js";
 import { pausarRondaMientras, showWarning } from "./modals.js";
 import qrcode from "../lib/qrcode.js";
@@ -30,23 +32,28 @@ const ERRORES = {
   "sin-respuesta": "No se encontró la PC. Revisa que los dos estén en la misma red Wi-Fi y que la PC muestre el código (botón \"📱 Vincular\" de la ronda).",
 };
 
-/** Código grande con la barra del tiempo que le queda antes de cambiar. */
+/** Código grande con un relojito circular al lado que se vacía hasta que cambie (sin números, usuario 29-10-2026). */
 const CODIGO_HTML = `<div class="vincular-codigo">
-    <span class="vincular-codigo-num"></span>
-    <span class="vincular-codigo-barra"><span></span></span>
+    <div class="vincular-codigo-fila">
+      <span class="vincular-codigo-num"></span>
+      <svg class="vincular-reloj" viewBox="0 0 46 46" aria-hidden="true">
+        <defs><linearGradient id="vincular-reloj-color" x1="0" x2="1"><stop offset="0" stop-color="#8B6CFF"/><stop offset="1" stop-color="#FF5FA2"/></linearGradient></defs>
+        <circle class="fondo" cx="23" cy="23" r="19"/><circle class="avance" cx="23" cy="23" r="19" pathLength="100"/>
+      </svg>
+    </div>
     <span class="vincular-codigo-nota">Cambia cada minuto</span>
   </div>`;
 
-/** Pinta el código y anima la barra hasta que cambie. */
+/** Pinta el código y vacía el relojito hasta que cambie. */
 function pintarCodigo(body, codigo, vence) {
   body.querySelector(".vincular-codigo-num").textContent = codigoLegible(codigo);
-  const barra = body.querySelector(".vincular-codigo-barra span");
+  const avance = body.querySelector(".vincular-reloj .avance");
   const queda = Math.max(0, vence - Date.now());
-  barra.style.transition = "none";
-  barra.style.width = `${(queda / VIGENCIA_CODIGO) * 100}%`;
-  void barra.offsetWidth;
-  barra.style.transition = `width ${queda}ms linear`;
-  barra.style.width = "0%";
+  avance.style.transition = "none";
+  avance.style.strokeDashoffset = String(100 - (queda / VIGENCIA_CODIGO) * 100);
+  void avance.getBoundingClientRect();
+  avance.style.transition = `stroke-dashoffset ${queda}ms linear`;
+  avance.style.strokeDashoffset = "100";
 }
 
 /** PC, en la ronda: QR y código para que el celular sea el control. */
@@ -71,7 +78,10 @@ export function abrirVincularPC() {
     estado.classList.toggle("is-ok", conectado);
     boton.hidden = !conectado;
     const etiqueta = document.querySelector("#app #vincular");
-    if (etiqueta) etiqueta.textContent = conectado ? "📱 Vinculado" : "📱 Vincular";
+    if (etiqueta) {
+      etiqueta.textContent = conectado ? "📱 Vinculado" : "📱 Vincular";
+      etiqueta.classList.toggle("vinculado", conectado);
+    }
     if (conectado && recien) setTimeout(() => cerrar(), 1200); // se cierra sola y la ronda sigue
   };
   const pintarQR = (datos) => {
@@ -107,7 +117,8 @@ export function abrirVincularPC() {
       estado.textContent = "⚠️ No se pudo abrir la conexión en esta PC.";
     }
   }
-  cerrar = openSheet({ title: "Vincular celular", body, alCerrar: reanudar });
+  // Al cerrar, la ronda se vuelve a dibujar: muestra (o quita) "Los nombres se tocan en el celular"
+  cerrar = openSheet({ title: "Vincular celular", body, alCerrar: () => { reanudar(); if (state.screen === "round") render(); } });
   abrir();
 }
 

@@ -6,7 +6,8 @@ import { startNextRound, resetMatchTracking } from "../gameLogic.js";
 import { formatPoints } from "../scoring.js";
 import { buildPodium, pickMvp } from "../podium.js";
 import { groupName } from "../groups.js";
-import { imagenDelPodio, compartirPodio, hayMenuCompartir } from "../compartir.js";
+import { imagenDelPodio, compartirPodio, hayMenuCompartir, TEMAS_IMAGEN } from "../compartir.js";
+import { loadSettings, saveSetting } from "../settings.js";
 import { openSheet } from "./sheet.js";
 import { showToast } from "./modals.js";
 import { esDemo } from "../edicion.js";
@@ -52,11 +53,11 @@ export function screenResults() {
     </div>`;
   };
 
-  const root = el(`<div class="screen">
+  const root = el(`<div class="screen podio">
     <div class="card result-banner">
       <div class="panel-title">GANADOR</div>
-      <div class="big" style="font-size:32px;">${escapeHtml(state.winner)}</div>
-      <div class="pts" style="color:var(--gold);">${formatPoints(state.scores[state.winner])} pts</div>
+      <div class="big">${escapeHtml(state.winner)}</div>
+      <div class="pts">${formatPoints(state.scores[state.winner])} pts</div>
       <div class="podium">${STEP_ORDER.map(stepHtml).join("")}</div>
       ${rest.length ? `
       <button class="btn btn-ghost" id="ver-mas" style="margin-top:6px;">Ver más</button>
@@ -88,12 +89,63 @@ export function screenResults() {
   // Compartir el juego: imagen del podio con vista previa (ver compartir.js)
   root.querySelector("#compartir").onclick = async () => {
     const mvpDe = (name) => (grupal ? pickMvp(playersOf(name), state.contrib, state.answerTimes) : []);
-    const imagen = await imagenDelPodio({ scores: state.scores, winner: state.winner, mvpDe });
+    // Colores del fondo (usuario, 29-10-2026): flechitas en la PC, deslizar en el celular y "Mis colores"; se recuerdan
+    const temas = [...Object.keys(TEMAS_IMAGEN), "propio"];
+    const ajustes = loadSettings();
+    let tema = temas.includes(ajustes.temaImagen) ? ajustes.temaImagen : "noche";
+    const propios = [...ajustes.coloresImagen];
+    const colores = () => (tema === "propio" ? { luces: [propios[0], propios[1], propios[0]], texto: propios } : tema);
+    let imagen = await imagenDelPodio({ scores: state.scores, winner: state.winner, mvpDe, tema: colores() });
     const menu = hayMenuCompartir();
     const body = el(`<div class="compartir">
-      <img class="compartir-img" src="${imagen.url}" alt="Imagen del podio">
+      <div class="compartir-visor">
+        <button type="button" class="compartir-flecha izq" aria-label="Color anterior">‹</button>
+        <img class="compartir-img" src="${imagen.url}" alt="Imagen del podio" draggable="false">
+        <button type="button" class="compartir-flecha der" aria-label="Color siguiente">›</button>
+        <p class="compartir-nombre-tema"><b></b><span class="solo-celular"> · desliza para cambiar</span></p>
+      </div>
+      <div class="compartir-personal">
+        <button type="button" class="compartir-personalizar" aria-expanded="false">✏️ Personalizar colores</button>
+        <div class="compartir-propio" hidden>
+          <label>Color 1 <input type="color" data-color="0" value="${propios[0]}"></label>
+          <label>Color 2 <input type="color" data-color="1" value="${propios[1]}"></label>
+        </div>
+      </div>
       <button type="button" class="btn btn-primary btn-block" id="compartir-ya">${menu ? "📤 Compartir (WhatsApp, Instagram…)" : "💾 Guardar imagen y copiar el texto"}</button>
     </div>`);
+    const img = body.querySelector(".compartir-img");
+    const nombre = () => { body.querySelector(".compartir-nombre-tema b").textContent = tema === "propio" ? "Mis colores" : TEMAS_IMAGEN[tema].nombre; };
+    let dibujo = 0; // si se cambia rápido de color, solo vale el último dibujo
+    const elegir = async (t) => {
+      tema = t;
+      nombre();
+      saveSetting({ temaImagen: tema, coloresImagen: propios });
+      const n = ++dibujo;
+      const nueva = await imagenDelPodio({ scores: state.scores, winner: state.winner, mvpDe, tema: colores() });
+      if (n !== dibujo) return;
+      window.URL.revokeObjectURL(imagen.url);
+      imagen = nueva;
+      img.src = imagen.url;
+    };
+    const mover = (paso) => elegir(temas[(temas.indexOf(tema) + paso + temas.length) % temas.length]);
+    body.querySelector(".izq").onclick = () => mover(-1);
+    body.querySelector(".der").onclick = () => mover(1);
+    // Deslizar la imagen con el dedo (o arrastrarla con el mouse)
+    let x0 = null;
+    img.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
+    img.addEventListener("pointerup", (e) => {
+      if (x0 !== null && Math.abs(e.clientX - x0) > 40) mover(e.clientX < x0 ? 1 : -1);
+      x0 = null;
+    });
+    const panel = body.querySelector(".compartir-propio");
+    const personalizar = body.querySelector(".compartir-personalizar");
+    personalizar.onclick = () => {
+      panel.hidden = !panel.hidden;
+      personalizar.setAttribute("aria-expanded", String(!panel.hidden));
+      if (!panel.hidden) elegir("propio");
+    };
+    panel.querySelectorAll("input").forEach((i) => (i.oninput = () => { propios[Number(i.dataset.color)] = i.value; elegir("propio"); }));
+    nombre();
     body.querySelector("#compartir-ya").onclick = async () => {
       try {
         const r = await compartirPodio(imagen);

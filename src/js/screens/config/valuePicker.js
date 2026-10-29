@@ -1,4 +1,5 @@
 import { ruleta } from "../../sound.js";
+import { resaltarFila } from "../../utils.js";
 
 /**
  * Selector de rueda para elegir un valor personalizado (puntaje objetivo o
@@ -42,6 +43,22 @@ export function snapIndex(offset, velocity, count) {
 const TAP_PX = 6; // un movimiento menor a esto se toma como toque
 
 /**
+ * Pone la rueda encima de la lista `campo`: mismo ancho, misma letra y la fila elegida justo sobre el valor.
+ * Mide con offset* (no getBoundingClientRect) porque la rueda se abre con una animación.
+ */
+function pegarAlCampo(overlay, campo) {
+  campo.scrollIntoView({ block: "nearest" });
+  const m = overlay.querySelector(".picker-modal");
+  const wheel = m.querySelector(".wheel"), band = m.querySelector(".wheel-band");
+  const c = campo.getBoundingClientRect(), g = 8;
+  m.style.setProperty("--ancho", `${c.width}px`);
+  m.style.setProperty("--letra", window.getComputedStyle(campo).fontSize);
+  const centro = wheel.offsetTop + band.offsetTop + band.offsetHeight / 2;
+  m.style.left = `${Math.min(Math.max(g, c.left + c.width / 2 - m.offsetWidth / 2), window.innerWidth - m.offsetWidth - g)}px`;
+  m.style.top = `${Math.min(Math.max(g, c.top + c.height / 2 - centro), window.innerHeight - m.offsetHeight - g)}px`;
+}
+
+/**
  * @param {object} opts
  * @param {string} opts.title
  * @param {number} opts.value - valor inicial
@@ -53,31 +70,43 @@ const TAP_PX = 6; // un movimiento menor a esto se toma como toque
  * @param {(v: number) => string} opts.describe - texto bajo la rueda (ej. "1 min 25 seg")
  * @param {(v: number) => void} opts.onAccept
  * @param {() => void} [opts.onCancel]
+ * @param {HTMLElement} [opts.campo] - la lista donde está el valor: la rueda se abre encima de ella, del mismo
+ *   ancho y con 3 filas, con el número elegido justo sobre el valor (usuario, 29-10-2026). Tocar afuera confirma.
  */
-export function openValuePicker({ title, value, min, max, step, formatItem, unit = "", describe, onAccept, onCancel }) {
+export function openValuePicker({ title, value, min, max, step, formatItem, unit = "", describe, onAccept, onCancel, campo }) {
+  const filas = campo ? 3 : VISIBLE;
+  const medio = (filas - 1) / 2; // fila del centro (la elegida)
   const values = wheelValues(min, max, step);
   const startIndex = values.indexOf(clampStep(value, min, max, step));
   let ultimoSonado = startIndex; // suena cada número que pasa por el centro
   let offset = startIndex; // posición de la rueda en filas (puede ser fraccionaria)
 
   const overlay = document.createElement("div");
-  overlay.className = "modal-backdrop";
+  overlay.className = `modal-backdrop${campo ? " en-campo" : ""}`;
   overlay.innerHTML = `<div class="modal picker-modal" role="dialog" aria-label="${title}">
     <h2>${title}</h2>
+    <button type="button" class="rueda-flecha" data-paso="-1" aria-label="Valor anterior">▲</button>
     <div class="wheel" tabindex="0" role="spinbutton" aria-valuemin="${min}" aria-valuemax="${max}"
-         style="height:${ITEM_H * VISIBLE}px;">
-      <div class="wheel-band" style="top:${ITEM_H * 2}px;height:${ITEM_H}px;"></div>
+         style="height:${ITEM_H * filas}px;">
+      <div class="wheel-band" style="top:${ITEM_H * medio}px;height:${ITEM_H}px;"></div>
       <div class="wheel-track">${values.map((v) => `<div class="wheel-item">${formatItem(v)}</div>`).join("")}</div>
-      ${unit ? `<div class="wheel-unit" style="top:${ITEM_H * 2}px;line-height:${ITEM_H}px;">${unit}</div>` : ""}
+      ${unit ? `<div class="wheel-unit" style="top:${ITEM_H * medio}px;line-height:${ITEM_H}px;">${unit}</div>` : ""}
     </div>
+    <button type="button" class="rueda-flecha" data-paso="1" aria-label="Valor siguiente">▼</button>
     <p class="wheel-caption"></p>
     <p class="picker-hint">Desliza la rueda o usa las flechas · Enter para confirmar</p>
     <div class="btn-row picker-actions">
       <button type="button" class="btn btn-secondary" id="picker-cancel">Cancelar</button>
       <button type="button" class="btn btn-primary" id="picker-ok">Listo</button>
     </div>
+    ${campo ? `<button type="button" class="listo-campo">Listo</button>` : ""}
   </div>`;
   document.getElementById("app").appendChild(overlay);
+  if (campo) {
+    pegarAlCampo(overlay, campo);
+    const fila = campo.closest(".opt-row");
+    if (fila) resaltarFila(overlay, fila, title);
+  }
 
   const wheel = overlay.querySelector(".wheel");
   const track = overlay.querySelector(".wheel-track");
@@ -88,7 +117,7 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
   const selectedValue = () => values[selectedIndex()];
 
   function paint() {
-    track.style.transform = `translateY(${(2 - offset) * ITEM_H}px)`;
+    track.style.transform = `translateY(${(medio - offset) * ITEM_H}px)`;
     items.forEach((item, i) => {
       const d = Math.abs(i - offset);
       item.classList.toggle("selected", d < 0.5);
@@ -165,7 +194,7 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
     if (d.moved < TAP_PX) {
       // Toque: lleva al centro el valor tocado.
       const rect = wheel.getBoundingClientRect();
-      const rowFromCenter = (e.clientY - rect.top - ITEM_H * 2.5) / ITEM_H;
+      const rowFromCenter = (e.clientY - rect.top - ITEM_H * (medio + 0.5)) / ITEM_H;
       animateTo(Math.round(offset + rowFromCenter));
       return;
     }
@@ -204,7 +233,13 @@ export function openValuePicker({ title, value, min, max, step, formatItem, unit
     else if (e.key === "Escape") { e.preventDefault(); cancel(); }
   }
   document.addEventListener("keydown", onKey);
+  // Flechas ▲ ▼ arriba y abajo de la rueda: un valor por toque (usuario, 29-10-2026)
+  overlay.querySelectorAll(".rueda-flecha").forEach((b) => (b.onclick = () => animateTo(goal + Number(b.dataset.paso), 150)));
   overlay.querySelector("#picker-ok").onclick = accept;
+  if (campo) {
+    overlay.querySelector(".listo-campo").onclick = accept;
+    overlay.addEventListener("pointerdown", (e) => { if (e.target === overlay) accept(); }); // tocar afuera confirma
+  }
   overlay.querySelector("#picker-cancel").onclick = cancel;
 
   paint();

@@ -33,7 +33,7 @@ function hideLoader() {
   setTimeout(() => loader.remove(), 500);
 }
 
-const minTime = new Promise((resolve) => setTimeout(resolve, 900));
+const minTime = new Promise((resolve) => setTimeout(resolve, 1500)); // que se vea entera la bienvenida (styles.css, «Pantalla de carga»)
 const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
 // En la app instalada, la pantalla de carga se va cuando ya suena la música
 // (como mucho 4 segundos; en la web la música espera el primer toque).

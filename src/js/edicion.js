@@ -20,7 +20,7 @@ import { tieneCompra, esPremium } from "./compras.js";
 export const MODOS_DEMO = ["clasico"];
 export const MODOS_OCULTOS_DEMO = ["alternativo2"];
 /** Lo que se cobra en la versión completa. */
-export const DE_PAGO = { modos: ["alternativo2"], voz: true };
+export const DE_PAGO = { modos: ["alternativo2"], voz: true, relevos: true };
 
 export function esDemo(edicion = EDICION) {
   return edicion === "demo";
@@ -42,6 +42,16 @@ export function modoBloqueado(modo, edicion = EDICION) {
 export function escuchaCanto(edicion = EDICION) {
   if (esDemo(edicion)) return false;
   if (edicion === "completa") return tieneCompra("voz");
+  return true;
+}
+
+/**
+ * ¿Se pueden devolver o quitar relevos a mano (botón ± de la ronda, Grupal)? De pago en la versión completa
+ * (usuario, 29-10-2026): sin Premium, el botón lleva 🔒 y abre la ventana de Premium. La demo no tiene relevos.
+ */
+export function ajustaRelevos(edicion = EDICION) {
+  if (esDemo(edicion)) return false;
+  if (edicion === "completa") return tieneCompra("relevos");
   return true;
 }
 

@@ -18,6 +18,8 @@ const DEFAULTS = {
   musicVol: 70, // volumen de la música (0 a 100; 0 es lo mismo que "No")
   effectsVol: 70, // volumen de los efectos (0 a 100)
   countdown: 3, // segundos de la cuenta antes de cada ronda (0 = No; si no, de 3 a 7)
+  temaImagen: "noche", // colores de la imagen del podio al compartir (TEMAS_IMAGEN de compartir.js, o "propio")
+  coloresImagen: ["#22D3EE", "#F472B6"], // "Mis colores" de esa imagen
 };
 
 /** Lee las preferencias guardadas; si no hay o el almacenamiento falla, usa las predeterminadas. */
