@@ -12,6 +12,25 @@
 
 ---
 
+## 2026-10-29 — Versión 1.29 publicada
+
+**Qué se hizo:** `npm run android:release` (versionCode 29 → 30, versionName 1.29, firma con la clave del proyecto,
+SHA-256 `e0e0a02f…d5d730`, la misma de siempre). Cambios para los jugadores desde la 1.28: «Escenario nocturno»
+parte 2 (pantalla completa en el `.exe` con F11 y todo agrandado según la pantalla, Android sin barras del sistema,
+géneros en mosaico, volumen más suave, una sola paleta, solo la letra Inter, 7 tamaños de letra, lo elegido en
+violeta-rosa, «0 de mín. 2» y la lista de jugadores sin cortar).
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 30 y versionName 1.29 (`dist/MusicalShowdown-v1.29.apk` y `.aab`). Se
+recompiló el `.exe` (`dist/windows`). GitHub Actions había pasado en `main` con el mismo código (`e20732d`). La Release
+la arma GitHub Actions al subir la etiqueta `v1.29`.
+
+**Abierto:** que el usuario pruebe la 1.29 en el celular.
+
+---
+
 ## 2026-10-29 — Parte 2 confirmada: a las tres apps y a `main` (sin versión nueva)
 
 **Qué se hizo («está bien, déjalo así. Actualiza y publica»):** el usuario confirmó la parte 2 (pantalla completa,

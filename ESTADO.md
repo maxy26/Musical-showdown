@@ -8,7 +8,7 @@
 
 Juego de fiesta: sale una palabra y gana quien cante primero una canción que
 la tenga. Se publica como `.exe` de Windows, APK de Android y `.AppImage` de
-Linux en GitHub. **Última versión publicada: 1.28** (29-10-2026: rediseño «Escenario nocturno» completo). Se está
+Linux en GitHub. **Última versión publicada: 1.29** (29-10-2026: «Escenario nocturno» parte 2: pantalla completa, géneros en mosaico, volumen más suave y estilo unificado). Se está
 preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 
 ## Qué está hecho
@@ -37,7 +37,7 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   - **La demo solo trae pop, rock y reggaetón (60 canciones);** la app propia y la oficial traen los 10 (`GENRES_DEMO` en `data/songs.js`).
   - Las canciones quitadas por no ser familiares se anotan en `PENDIENTES.md` y volverán en Premium.
 
-**Escenario nocturno, parte 2 (29-10-2026, confirmada y en las tres apps; sale en la próxima versión)**
+**Escenario nocturno, parte 2 (29-10-2026, versión 1.29)**
 - Pantalla completa en el `.exe` (F11) con todo agrandado según la pantalla, y Android sin barras del sistema.
 - Géneros en mosaico; volumen más suave; una sola paleta, solo la letra Inter, 7 tamaños de letra y lo elegido siempre en violeta-rosa.
 
@@ -183,4 +183,4 @@ usuario antes de publicar.
 
 ## Sin subir a GitHub
 
-Nada: todo está en GitHub (versión 1.28). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.
+Nada: todo está en GitHub (versión 1.29). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.

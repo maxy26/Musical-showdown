@@ -303,11 +303,9 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.28** (29-10-2026: rediseño «Escenario nocturno» completo y «Devolver relevos» en Premium; ver AUDITORIA-CAMBIOS.md).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.29** (29-10-2026: «Escenario nocturno» parte 2, con pantalla completa, géneros en mosaico, volumen más suave y estilo unificado; ver AUDITORIA-CAMBIOS.md).
 
-- «Escenario nocturno», parte 2 (29-10-2026): pantalla completa en el `.exe` (F11) con todo agrandado según la
-  pantalla y Android sin barras; géneros en mosaico; volumen más suave; una sola paleta, solo Inter, 7 tamaños de
-  letra, lo elegido en violeta-rosa, «0 de mín. 2» y la lista de jugadores sin cortar.
+(Nada por ahora.)
 
 ## 🎵 Canciones y letras (antes de publicar)
 
