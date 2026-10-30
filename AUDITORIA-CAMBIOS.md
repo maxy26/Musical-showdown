@@ -25,6 +25,9 @@ botón de Alternativo 2 dice «Elegir y pasar a Grupal» y entra en una línea.
 recompiló el `.exe` (`dist/windows`). GitHub Actions había pasado en `main` con el mismo código (`7fc86c2`). La Release
 la arma GitHub Actions al subir la etiqueta `v1.30`.
 
+**Resultado:** GitHub Actions «Compilar v1.30» terminó bien y la Release v1.30 quedó publicada con
+`Musical-Showdown.apk`, `Musical-Showdown.AppImage` y `Musical.Showdown.exe`. Se abrió el `.exe` final.
+
 **Abierto:** nada nuevo.
 
 ---
