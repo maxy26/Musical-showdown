@@ -12,6 +12,36 @@
 
 ---
 
+## 2026-10-30 — Botón de Alternativo 2 confirmado: a las tres apps y a `main` (sin versión nueva)
+
+**Qué se hizo («está bien, déjalo así. Actualiza y publica»):** se compilaron la completa y la demo con el arreglo y se
+subió a `main` con los documentos al día. No se sacó versión: queda en «Listo para la próxima versión» de
+`PENDIENTES.md` (instrucción 28).
+
+**Archivos:** `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md` y lo de la entrada de abajo.
+
+**Verificación:** `build:desktop` y `build:demo-windows`; GitHub Actions vuelve a correr las pruebas al subir.
+
+**Abierto:** nada nuevo.
+
+---
+
+## 2026-10-29 — Botón de Alternativo 2 en una línea (solo en la personal)
+
+**Qué se hizo (pedido del usuario):** en «Modos de juego» de la PC, el botón «Elegir Alternativo 2 (pasa a Grupal)»
+ocupaba dos líneas. Ahora dice «Elegir y pasar a Grupal» (el nombre del modo ya es el título de la tarjeta).
+
+**Archivos:** `src/js/screens/modesManual.js`, `test/e2e/pantallas.spec.mjs`, `PENDIENTES.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** lint, 177 pruebas y la prueba de pantallas de Alternativo 2 (celular y PC); medido en 1366 × 768,
+1280 × 720 y 360 × 760: una sola línea. `build:personal` y se abrió el `.exe` personal.
+
+**Además:** GitHub Actions terminó bien y la Release v1.29 quedó publicada con el APK, el AppImage y el `.exe`.
+
+**Abierto:** que el usuario lo confirme; después, a la demo y la completa.
+
+---
+
 ## 2026-10-29 — Versión 1.29 publicada
 
 **Qué se hizo:** `npm run android:release` (versionCode 29 → 30, versionName 1.29, firma con la clave del proyecto,

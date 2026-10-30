@@ -120,7 +120,7 @@ export function buildModesManual({ battleType, current, onChoose }) {
       <div class="manual-actions">
         <button type="button" class="manual-toggle pressable" aria-expanded="false">Ver más</button>
         ${onChoose ? `<button type="button" class="manual-choose pressable" ${chosen ? "disabled" : ""}>
-          ${chosen ? "✓ Modo elegido" : bloqueado ? (esDemo() ? "🔒 Versión completa" : "🔒 Desbloquear") : allowed ? `Elegir ${name}` : `Elegir ${name} (pasa a Grupal)`}</button>` : ""}
+          ${chosen ? "✓ Modo elegido" : bloqueado ? (esDemo() ? "🔒 Versión completa" : "🔒 Desbloquear") : allowed ? `Elegir ${name}` : "Elegir y pasar a Grupal"}</button>` : ""}
       </div>`;
     const more = item.querySelector(".manual-more");
     const toggle = item.querySelector(".manual-toggle");

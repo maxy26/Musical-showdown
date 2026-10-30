@@ -79,7 +79,7 @@ test("Géneros en Clásico: 'Todos' por defecto y 'Más' elige uno solo", async 
 
 test("Géneros en Alternativo 2: 'Más' elige varios", async ({ page }) => {
   await page.locator("#btn-modes").click();
-  await page.getByRole("button", { name: /Elegir Alternativo 2/ }).click();
+  await page.getByRole("button", { name: /Elegir y pasar a Grupal/ }).click();
   await page.locator("#btn-play").click();
   await page.locator("#genres-more").click();
   await expect(page.getByRole("heading", { name: "Elige uno o varios géneros" })).toBeVisible();

@@ -60,7 +60,8 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
   7 tamaños de letra, lo elegido en violeta-rosa, «0 de mín. 2», lista de jugadores sin cortar).
 - [ ] 🟢 La web (PWA) no entra en pantalla completa ni agranda el contenido: los navegadores solo lo permiten tras un
   toque. Ver si conviene un botón «Pantalla completa» en Ajustes de la web.
-- [ ] 🟢 En «Modos de juego» (PC) el botón «Elegir Alternativo 2 (pasa a Grupal)» ocupa dos líneas.
+- [x] 🟢 En «Modos de juego» (PC) el botón «Elegir Alternativo 2 (pasa a Grupal)» ocupaba dos líneas: ahora dice «Elegir y
+  pasar a Grupal» y entra en una (confirmado el 30-10-2026, en las tres apps).
 - [ ] **Inicio:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo confirme.
   En la PC, título grande arriba sin recuadro y una columna centrada con botones más
   grandes (opción 1 «Centrado»); el celular conserva su acomodo, sin recuadro en el título.
@@ -305,7 +306,7 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 > Cambios terminados que se juntan para sacar una actualización notable
 > (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.29** (29-10-2026: «Escenario nocturno» parte 2, con pantalla completa, géneros en mosaico, volumen más suave y estilo unificado; ver AUDITORIA-CAMBIOS.md).
 
-(Nada por ahora.)
+- «Modos de juego»: el botón de Alternativo 2 dice «Elegir y pasar a Grupal» y entra en una línea (30-10-2026).
 
 ## 🎵 Canciones y letras (antes de publicar)
 
