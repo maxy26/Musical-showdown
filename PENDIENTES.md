@@ -304,9 +304,9 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.29** (29-10-2026: «Escenario nocturno» parte 2, con pantalla completa, géneros en mosaico, volumen más suave y estilo unificado; ver AUDITORIA-CAMBIOS.md).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.30** (30-10-2026: botón de Alternativo 2 en una línea; ver AUDITORIA-CAMBIOS.md).
 
-- «Modos de juego»: el botón de Alternativo 2 dice «Elegir y pasar a Grupal» y entra en una línea (30-10-2026).
+(Nada por ahora.)
 
 ## 🎵 Canciones y letras (antes de publicar)
 

@@ -12,6 +12,23 @@
 
 ---
 
+## 2026-10-30 — Versión 1.30 publicada
+
+**Qué se hizo:** `npm run android:release` (versionCode 30 → 31, versionName 1.30, firma con la clave del proyecto,
+SHA-256 `e0e0a02f…d5d730`, la misma de siempre). Cambio para los jugadores desde la 1.29: en «Modos de juego» el
+botón de Alternativo 2 dice «Elegir y pasar a Grupal» y entra en una línea.
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 31 y versionName 1.30 (`dist/MusicalShowdown-v1.30.apk` y `.aab`). Se
+recompiló el `.exe` (`dist/windows`). GitHub Actions había pasado en `main` con el mismo código (`7fc86c2`). La Release
+la arma GitHub Actions al subir la etiqueta `v1.30`.
+
+**Abierto:** nada nuevo.
+
+---
+
 ## 2026-10-30 — Botón de Alternativo 2 confirmado: a las tres apps y a `main` (sin versión nueva)
 
 **Qué se hizo («está bien, déjalo así. Actualiza y publica»):** se compilaron la completa y la demo con el arreglo y se
