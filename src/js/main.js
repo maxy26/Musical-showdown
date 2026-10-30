@@ -1,8 +1,8 @@
 import { render } from "./router.js";
 import { initSound, esperarMusica } from "./sound.js";
-import { applySettings } from "./settings.js";
+import { applySettings, loadSettings } from "./settings.js";
 import { initTapFeedback } from "./tapFeedback.js";
-import { esAppInstalada, alCambiarPrimerPlano } from "./plataforma.js";
+import { esAppInstalada, alCambiarPrimerPlano, iniciarPantallaCompleta } from "./plataforma.js";
 import { revisarCompras, alCambiarPremium } from "./compras.js";
 import { revisarAvisosSeguido, agregarAvisoRecibido, idsSinLeer } from "./avisos.js";
 import { avisosLlegaron } from "./screens/menu.js";
@@ -19,6 +19,7 @@ render();
 initSound();
 initTapFeedback();
 iniciarTeclado(); // flechas, Enter, Backspace y la lista del juego (teclado.js)
+iniciarPantallaCompleta(() => loadSettings().pantallaCompleta); // solo en la web, al primer toque
 revisarAvisosSeguido(APP_VERSION, avisosLlegaron); // avisos nuevos con la app abierta
 // Premium (compras.js): se pregunta a Google Play al abrir y al volver al juego;
 // si cambia (compra o vencimiento), se redibuja fuera de la partida

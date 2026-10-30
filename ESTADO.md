@@ -38,7 +38,7 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
   - Las canciones quitadas por no ser familiares se anotan en `PENDIENTES.md` y volverán en Premium.
 
 **Escenario nocturno, parte 2 (29-10-2026, versión 1.29)**
-- Pantalla completa en el `.exe` (F11) con todo agrandado según la pantalla, y Android sin barras del sistema.
+- Pantalla completa en el `.exe` (F11) con todo agrandado según la pantalla, y Android sin barras del sistema. La web entra al primer toque y tiene «Pantalla completa» en Ajustes (30-10-2026; sale en la próxima versión).
 - Géneros en mosaico; volumen más suave; una sola paleta, solo la letra Inter, 7 tamaños de letra y lo elegido siempre en violeta-rosa.
 
 **Íconos (25-10-2026)**

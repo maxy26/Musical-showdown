@@ -10,7 +10,7 @@ import { loadSettings, saveSetting, ajustarCuenta, cuentaValida, CUENTA_MAX } fr
 import { refreshMusic, volumen } from "../sound.js";
 import { APP_VERSION, BUILD_INFO, EDICION } from "../version.js";
 import { abrirPremium } from "./premium.js";
-import { esAppInstalada, salirDeLaApp, abrirEnlace, paginaLegal } from "../plataforma.js";
+import { esAppInstalada, salirDeLaApp, abrirEnlace, paginaLegal, hayPantallaCompleta, ponerPantallaCompleta } from "../plataforma.js";
 import { puedeSerPantalla, puedeSerControl, controlConectado } from "../vinculo.js";
 import { espacioAnuncio } from "../anuncios.js";
 import { esDemo, modoBloqueado, modoOculto, premiumActivo } from "../edicion.js";
@@ -97,6 +97,7 @@ export function avisosLlegaron(nuevos) {
  * silenciando todo de una vez.
  */
 const SETTINGS = [
+  { key: "pantallaCompleta", title: "Pantalla completa", soloSi: hayPantallaCompleta }, // solo en la web
   { key: "animations", title: "Animaciones" },
   { key: "music", title: "Música de fondo" },
   { key: "effects", title: "Efectos de sonido" },
@@ -118,7 +119,7 @@ function botonVincularInicio() {
 export function settingsBody() {
   const body = el(`<div class="home-settings">
     <p class="home-settings-group">Pantalla</p>
-    ${SETTINGS.map((o) => `
+    ${SETTINGS.filter((o) => !o.soloSi || o.soloSi()).map((o) => `
       ${o.key === "music" ? `<p class="home-settings-group">Sonido</p>` : ""}
       <div class="home-setting">
         <h3>${o.title}</h3>
@@ -197,7 +198,16 @@ export function settingsBody() {
   body.querySelectorAll("[data-setting]").forEach((b) => (b.onclick = () => {
     // Cada toque cambia el valor, aunque se toque la opción ya elegida (usuario, 06-10-2026).
     // Si se enciende la música o los efectos con el volumen en 0, vuelve a 50.
-    const k = b.dataset.setting, on = !loadSettings()[k];
+    const k = b.dataset.setting;
+    // Pantalla completa: «Sí» entra y «No» sale (puede haberse salido con Esc sin cambiar el ajuste)
+    if (k === "pantallaCompleta") {
+      const si = b.dataset.value === "on";
+      saveSetting({ pantallaCompleta: si });
+      ponerPantallaCompleta(si);
+      paint();
+      return;
+    }
+    const on = !loadSettings()[k];
     saveSetting(on && (k === "music" || k === "effects") && volumen(k) === 0 ? { [k]: true, [k + "Vol"]: 50 } : { [k]: on });
     refreshMusic();
     paint();

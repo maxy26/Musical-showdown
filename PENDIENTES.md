@@ -58,8 +58,10 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
   pantalla completa 1B (el `.exe` en pantalla completa con F11 y todo agrandado según la pantalla; Android sin barras),
   géneros en mosaico 2A, volumen más suave (efectos 0,09, música 0,028) y «que todo concuerde» (una paleta, solo Inter,
   7 tamaños de letra, lo elegido en violeta-rosa, «0 de mín. 2», lista de jugadores sin cortar).
-- [ ] 🟢 La web (PWA) no entra en pantalla completa ni agranda el contenido: los navegadores solo lo permiten tras un
-  toque. Ver si conviene un botón «Pantalla completa» en Ajustes de la web.
+- [x] 🟢 La web (PWA) no entraba en pantalla completa. Hecho y confirmado el 30-10-2026: entra al
+  primer toque, «Pantalla completa: Sí / No» en Ajustes (solo en la web) y `manifest.json` con `"display": "fullscreen"`.
+  En el iPhone (Safari) no se puede, salvo agregándola a la pantalla de inicio. No agranda el contenido como el `.exe`
+  (en la web lo hace el zoom del navegador).
 - [x] 🟢 En «Modos de juego» (PC) el botón «Elegir Alternativo 2 (pasa a Grupal)» ocupaba dos líneas: ahora dice «Elegir y
   pasar a Grupal» y entra en una (confirmado el 30-10-2026, en las tres apps).
 - [ ] **Inicio:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo confirme.
@@ -306,7 +308,8 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 > Cambios terminados que se juntan para sacar una actualización notable
 > (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.30** (30-10-2026: botón de Alternativo 2 en una línea; ver AUDITORIA-CAMBIOS.md).
 
-(Nada por ahora.)
+- Pantalla completa en la web (30-10-2026): al primer toque, «Pantalla completa: Sí / No» en Ajustes y la web agregada a
+  la pantalla de inicio sin barras.
 
 ## 🎵 Canciones y letras (antes de publicar)
 

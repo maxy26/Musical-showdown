@@ -12,6 +12,7 @@
 const STORAGE_KEY = "musical-showdown:ajustes";
 const DEFAULTS = {
   animations: true,
+  pantallaCompleta: true, // solo en la web: pedir pantalla completa al primer toque (usuario, 30-10-2026)
   music: true, // música de fondo
   effects: true, // clic de los botones (y futuros efectos especiales)
   clock: true, // tic-tac del reloj de la ronda

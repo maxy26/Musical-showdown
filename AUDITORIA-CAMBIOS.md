@@ -12,6 +12,43 @@
 
 ---
 
+## 2026-10-30 — Pantalla completa en la web confirmada y subida a `main` (sin versión nueva)
+
+**Qué se hizo («está bien, déjalo así. Actualiza y publica»):** se compilaron la completa y la demo y se subió a `main`
+con los documentos al día (al subir, GitHub Pages publica la web con el cambio). No se sacó versión: queda en «Listo
+para la próxima versión» de `PENDIENTES.md` (instrucción 28).
+
+**Archivos:** `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md` y lo de la entrada de abajo.
+
+**Verificación:** `build:desktop`, `build:demo-windows` y `build:apk`; GitHub Actions vuelve a correr las pruebas al subir.
+
+**Abierto:** probarla en un celular real (Chrome de Android y la web agregada a la pantalla de inicio).
+
+---
+
+## 2026-10-30 — Pantalla completa en la web (falta que el usuario la pruebe)
+
+**Qué se hizo (el usuario eligió las 3 partes que se le explicaron):** el navegador solo deja entrar en pantalla
+completa después de un toque.
+1. Al primer toque o tecla, la web pide pantalla completa (`iniciarPantallaCompleta` de `plataforma.js`, llamada en
+   `main.js`). Una sola vez: si se sale con Esc o con volver, no se fuerza otra.
+2. «Pantalla completa: Sí / No» en Ajustes, solo en la web (`hayPantallaCompleta`): «Sí» entra y «No» sale, y se
+   recuerda (`pantallaCompleta` en `settings.js`; con «No» ya no se pide al primer toque).
+3. `manifest.json`: `"display": "fullscreen"` (la web agregada a la pantalla de inicio se abre sin barras).
+En el iPhone (Safari) solo funciona la parte 3. No agranda el contenido como el `.exe`.
+
+**Archivos:** `src/js/plataforma.js`, `src/js/main.js`, `src/js/settings.js`, `src/js/screens/menu.js`,
+`src/manifest.json`, `src/sw.js` (v34), `test/e2e/pantallas.spec.mjs`, `PENDIENTES.md`, `ESTADO.md`,
+`AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** lint, 177 pruebas, 56 de 56 pruebas de pantallas (nueva: Ajustes «Pantalla completa»). En Chromium:
+entra al primer toque, no vuelve a entrar sola tras salir, y «Sí» / «No» de Ajustes entran y salen. `build:personal`
+(en el `.exe` y el APK no cambia nada). Se abrió la web en Brave para que el usuario la pruebe.
+
+**Abierto:** que el usuario la pruebe en PC y celular; publicarla en `main` cuando lo confirme.
+
+---
+
 ## 2026-10-30 — Versión 1.30 publicada
 
 **Qué se hizo:** `npm run android:release` (versionCode 30 → 31, versionName 1.30, firma con la clave del proyecto,

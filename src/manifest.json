@@ -4,7 +4,7 @@
   "description": "El juego que reta a tu familia a cantar por una sola palabra.",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "any",
   "background_color": "#150F22",
   "theme_color": "#150F22",

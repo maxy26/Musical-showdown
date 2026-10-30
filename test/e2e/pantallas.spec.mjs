@@ -17,6 +17,16 @@ test("Ajustes: opciones sin descripciones", async ({ page }) => {
   await expect(page.getByText("Luces que se mueven")).toHaveCount(0);
 });
 
+test("Ajustes en la web: «Pantalla completa» Sí / No se recuerda", async ({ page }) => {
+  await page.locator("#btn-settings").click();
+  await expect(page.getByRole("heading", { name: "Pantalla completa" })).toBeVisible();
+  await page.locator('[data-setting="pantallaCompleta"][data-value="on"]').click();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("musical-showdown:ajustes")).pantallaCompleta)).toBe(true);
+  await page.locator('[data-setting="pantallaCompleta"][data-value="off"]').click();
+  await expect(page.locator('[data-setting="pantallaCompleta"][data-value="off"]')).toHaveClass(/active/);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("musical-showdown:ajustes")).pantallaCompleta)).toBe(false);
+});
+
 test("Lista de jugadores: con muchos jugadores se desplaza por dentro", async ({ page }) => {
   await page.locator("#btn-play").click();
   const lista = page.locator("#players-list");

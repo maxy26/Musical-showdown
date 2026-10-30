@@ -10,6 +10,38 @@ export function esAppInstalada() {
 }
 
 /**
+ * Pantalla completa en la web (usuario, 30-10-2026). La app instalada ya lo está;
+ * el iPhone no lo permite (ahí solo al agregarla a la pantalla de inicio, por el
+ * manifest.json).
+ */
+export function hayPantallaCompleta() {
+  return !esAppInstalada() && Boolean(document.documentElement.requestFullscreen) && document.fullscreenEnabled !== false;
+}
+
+/** Entra (`true`) o sale de la pantalla completa. Solo funciona justo después de un toque o una tecla. */
+export function ponerPantallaCompleta(si) {
+  if (!hayPantallaCompleta()) return;
+  if (si && !document.fullscreenElement) document.documentElement.requestFullscreen({ navigationUI: "hide" }).catch(() => {});
+  else if (!si && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+}
+
+/**
+ * El navegador no deja entrar solo: se pide en el primer toque o tecla, si Ajustes
+ * lo permite (`quiere()`). Una sola vez: si luego se sale con Esc, no se fuerza otra.
+ */
+export function iniciarPantallaCompleta(quiere) {
+  if (!hayPantallaCompleta()) return;
+  const primero = (e) => {
+    if (e.type === "keydown" && e.key === "Escape") return;
+    document.removeEventListener("pointerup", primero, true);
+    document.removeEventListener("keydown", primero, true);
+    if (quiere()) ponerPantallaCompleta(true);
+  };
+  document.addEventListener("pointerup", primero, true);
+  document.addEventListener("keydown", primero, true);
+}
+
+/**
  * Llama a un complemento nativo de Capacitor (Android) sin incluir sus librerías:
  * `Capacitor.nativePromise` viene en el puente nativo de la app. Ojo: en
  * Capacitor 6, `Capacitor.Plugins.X` solo existe si se incluye la librería del
