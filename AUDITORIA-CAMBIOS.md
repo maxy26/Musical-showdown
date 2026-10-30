@@ -26,6 +26,9 @@ barras. Además, desde ahora «publica» también saca una versión nueva (usuar
 recompiló el `.exe` (`dist/windows`). GitHub Actions había pasado en `main` con el mismo código (`3db41c8`). La Release
 la arma GitHub Actions al subir la etiqueta `v1.31`.
 
+**Resultado:** GitHub Actions «Compilar v1.31» terminó bien y la Release v1.31 quedó publicada con
+`Musical-Showdown.apk`, `Musical-Showdown.AppImage` y `Musical.Showdown.exe`. Se abrió el `.exe` final.
+
 **Abierto:** probar la pantalla completa de la web en un celular real.
 
 ---
