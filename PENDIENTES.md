@@ -54,6 +54,13 @@ fondo con colores que se mueven en lugar de las luces. Se hace **una pantalla a 
 se muestra en una vista previa (celular y PC juntos), el usuario elige o descarta cada
 cambio, se aplica a las tres apps y se pasa a la siguiente.
 
+- [x] **Parte 2 (usuario, 29-10-2026), confirmada el 29-10-2026 y aplicada a las tres apps:**
+  pantalla completa 1B (el `.exe` en pantalla completa con F11 y todo agrandado según la pantalla; Android sin barras),
+  géneros en mosaico 2A, volumen más suave (efectos 0,09, música 0,028) y «que todo concuerde» (una paleta, solo Inter,
+  7 tamaños de letra, lo elegido en violeta-rosa, «0 de mín. 2», lista de jugadores sin cortar).
+- [ ] 🟢 La web (PWA) no entra en pantalla completa ni agranda el contenido: los navegadores solo lo permiten tras un
+  toque. Ver si conviene un botón «Pantalla completa» en Ajustes de la web.
+- [ ] 🟢 En «Modos de juego» (PC) el botón «Elegir Alternativo 2 (pasa a Grupal)» ocupa dos líneas.
 - [ ] **Inicio:** aplicado a las tres apps el 28-10-2026; falta que el usuario lo confirme.
   En la PC, título grande arriba sin recuadro y una columna centrada con botones más
   grandes (opción 1 «Centrado»); el celular conserva su acomodo, sin recuadro en el título.
@@ -298,7 +305,9 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 > Cambios terminados que se juntan para sacar una actualización notable
 > (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.28** (29-10-2026: rediseño «Escenario nocturno» completo y «Devolver relevos» en Premium; ver AUDITORIA-CAMBIOS.md).
 
-(Nada por ahora.)
+- «Escenario nocturno», parte 2 (29-10-2026): pantalla completa en el `.exe` (F11) con todo agrandado según la
+  pantalla y Android sin barras; géneros en mosaico; volumen más suave; una sola paleta, solo Inter, 7 tamaños de
+  letra, lo elegido en violeta-rosa, «0 de mín. 2» y la lista de jugadores sin cortar.
 
 ## 🎵 Canciones y letras (antes de publicar)
 

@@ -15,8 +15,8 @@
 
 import { BUCLES, ENTRADA_SEGUNDOS } from "./catalogo.js";
 
-export const NIVEL = 0.13; // nivel común de los efectos
-export const NIVEL_MUSICA = 0.07; // nivel de la música al 100 %
+export const NIVEL = 0.09; // nivel común de los efectos (usuario, 29-10-2026: mezcla suave)
+export const NIVEL_MUSICA = 0.028; // nivel de la música al 100 %, bien de fondo (usuario, 29-10-2026)
 const CRUCE = 0.3; // segundos que se mezclan el final y el comienzo de un bucle
 
 // Volumen de 0 a 1 de cada tipo; sound.js lo toma de Ajustes.
@@ -205,7 +205,7 @@ function barrido(t0, seg) {
   bp.frequency.setValueAtTime(400, t0); bp.frequency.exponentialRampToValueAtTime(9000, t0 + seg);
   const g = c.createGain();
   g.gain.setValueAtTime(0.0001, t0);
-  g.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.15 * volMusica()), t0 + seg);
+  g.gain.exponentialRampToValueAtTime(Math.max(0.0002, 0.06 * volMusica()), t0 + seg); // en proporción a NIVEL_MUSICA
   g.gain.setValueAtTime(0, t0 + seg);
   src.connect(bp).connect(g).connect(c.destination);
   src.start(t0); src.stop(t0 + seg);

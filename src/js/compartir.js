@@ -39,14 +39,14 @@ function redondeado(ctx, x, y, w, h, r) {
   ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
 }
 /** Escribe un texto centrado, achicando la letra si no cabe en `ancho`. */
-function texto(ctx, t, x, y, { tam, peso = 700, fuente = "Fredoka", color = C.texto, ancho = 900 } = {}) {
+function texto(ctx, t, x, y, { tam, peso = 700, fuente = "Inter", color = C.texto, ancho = 900 } = {}) {
   let s = tam;
   do { ctx.font = `${peso} ${s}px ${fuente}`; s -= 2; } while (ctx.measureText(t).width > ancho && s > 14);
   ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic"; ctx.fillText(t, x, y);
 }
 /** Como `texto`, con un ícono de Material Design a la izquierda (iconosEmoji.js). */
 function textoConIcono(ctx, icono, colorIcono, t, x, y, op) {
-  const tam = op.tam, ancho = Math.min(op.ancho || 900, (() => { ctx.font = `${op.peso || 700} ${tam}px ${op.fuente || "Fredoka"}`; return ctx.measureText(t).width; })());
+  const tam = op.tam, ancho = Math.min(op.ancho || 900, (() => { ctx.font = `${op.peso || 700} ${tam}px ${op.fuente || "Inter"}`; return ctx.measureText(t).width; })());
   const total = tam + tam * 0.3 + ancho;
   dibujarIcono(ctx, icono, x - total / 2 + tam / 2, y - tam * 0.36, tam * 1.05, colorIcono);
   texto(ctx, t, x - total / 2 + tam * 1.3 + ancho / 2, y, op);

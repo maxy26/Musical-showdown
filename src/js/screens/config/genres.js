@@ -1,8 +1,8 @@
 /**
  * Géneros musicales de "Configurar partida" (usuario, 10-10-2026): dos botones.
  * - "Todos" marca todos los géneros disponibles; es lo predeterminado.
- * - "Más" abre una hoja (mismo estilo que "Modos de juego") con cada género y
- *   artistas de ejemplo. En Clásico y Alternativo 1 se elige un solo género;
+ * - "Más" abre una hoja con un mosaico de géneros (puntito de color, nombre y
+ *   dos artistas de ejemplo). En Clásico y Alternativo 1 se elige un solo género;
  *   en Alternativo 2, uno o varios.
  */
 import { availableGenres, genreName, genreArtists } from "../../data/songs.js";
@@ -55,16 +55,16 @@ function openGenresSheet(c, onChange) {
   let picked = hasAllGenres(c.genres) ? [] : [...c.genres];
 
   const body = document.createElement("div");
-  body.className = "manual genre-sheet";
-  body.innerHTML = availableGenres().map((g) => `
-    <article class="manual-item genre-item is-selectable" data-genre="${g}">
-      <div class="manual-top">
-        <h3 class="manual-name">${genreName(g)}</h3>
-        <span class="home-tag home-tag-chosen" hidden>✓ Elegido</span>
-      </div>
-      <div class="manual-facts">${genreArtists(g).map((a) => `<span class="manual-fact">🎤 ${escapeHtml(a)}</span>`).join("")}</div>
-    </article>`).join("") + (many ? `
-    <div class="manual-actions"><button type="button" class="manual-choose pressable" id="genres-done">Listo</button></div>` : "");
+  // Mosaico «Escenario nocturno» (usuario, 29-10-2026): cuadro de vidrio con puntito de color, nombre y dos artistas
+  body.className = "genre-sheet";
+  body.innerHTML = `<div class="genre-grid">${availableGenres().map((g) => `
+    <article class="genre-item is-selectable" data-genre="${g}">
+      <span class="home-tag genre-check" aria-label="Elegido" hidden>✓</span>
+      <i class="genre-dot"></i>
+      <h3 class="genre-name">${genreName(g)}</h3>
+      <p class="genre-artists">${genreArtists(g, 2).map(escapeHtml).join(" · ")}</p>
+    </article>`).join("")}</div>` + (many ? `
+    <div class="genre-actions"><button type="button" class="genre-done pressable" id="genres-done">Listo</button></div>` : "");
 
   const done = body.querySelector("#genres-done");
   const paint = () => {

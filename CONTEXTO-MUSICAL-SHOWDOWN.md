@@ -638,7 +638,8 @@ momento), `audio/catalogo.js` (archivos y notas de cada efecto) y
 - **Mismo volumen**: el motor mide cada efecto una vez y lo lleva al mismo
   nivel; los clics, que son golpes muy cortos, se suben más y un limitador
   suave evita que saturen. Cada canción se iguala a un nivel por debajo de los
-  efectos. Ningún sonido baja el volumen de otro.
+  efectos. Ningún sonido baja el volumen de otro. Niveles desde el 29-10-2026 (mezcla
+  suave elegida por el usuario): efectos 0,09 y música 0,028 (`audio/motor.js`).
 - **Ajustes → Sonido**: música, efectos y reloj se encienden o apagan por
   separado; la música y los efectos tienen barra de volumen (0 = "No"). Se
   recuerdan en el dispositivo (`settings.js`).

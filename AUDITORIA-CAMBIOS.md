@@ -12,6 +12,57 @@
 
 ---
 
+## 2026-10-29 — Parte 2 confirmada: a las tres apps y a `main` (sin versión nueva)
+
+**Qué se hizo («está bien, déjalo así. Actualiza y publica»):** el usuario confirmó la parte 2 (pantalla completa,
+géneros, volumen y que todo concuerde). Como el código es el mismo `src/`, se compilaron la completa (`.exe` y APK) y
+la demo; se subió todo a `main` con los documentos al día. No se sacó versión: queda en «Listo para la próxima
+versión» de `PENDIENTES.md` (instrucción 28).
+
+**Archivos:** `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md` y lo de la entrada de abajo.
+
+**Verificación:** `build:desktop`, `build:demo-windows` y `build:apk` terminaron bien; GitHub Actions vuelve a correr
+lint, pruebas y pruebas de pantallas al subir.
+
+**Abierto:** sacar la próxima versión cuando el usuario lo pida.
+
+---
+
+## 2026-10-29 — «Escenario nocturno», parte 2: pantalla completa, géneros, volumen y que todo concuerde (solo en la personal)
+
+**Qué se hizo (el usuario eligió en una vista previa con capturas y los sonidos reales: 1B, 2A, 4 todo y una mezcla
+suave de volumen):** modificación general (instrucción 31), probada solo en la personal.
+- **Pantalla completa (1B «Agrandar»):** el `.exe` abre en pantalla completa (F11 entra y sale) y agranda todo en
+  proporción a la pantalla con `setZoomFactor` (base 1366 × 768, de 1 a 2; `platforms/desktop/main.js`). En la PC el
+  contenido va centrado en el alto (`#app{margin-block:auto}`). Android oculta la barra de la hora y la de los botones
+  (salen un momento deslizando desde el borde; `ocultarBarras()` en `MainActivity.java`, también al volver al juego).
+- **Géneros (2A «Mosaico»):** la ventana «Más» es un mosaico de cuadros de vidrio con puntito de color, nombre y dos
+  artistas; el elegido en violeta con ✓. PC: 5 por fila (entran los 10); celular: de a dos (`config/genres.js`, CSS
+  `.genre-sheet`).
+- **Volumen:** efectos de 0,13 a 0,09 y música de 0,07 a 0,028 (`NIVEL`, `NIVEL_MUSICA` de `audio/motor.js`); el
+  barrido de la entrada baja en la misma proporción.
+- **Que todo concuerde:** una sola paleta (los colores viejos apuntan a los de «Escenario nocturno» y las variables
+  `--a-*` están una sola vez en `:root`); solo la letra Inter (se quitaron Fredoka, Nunito y Unbounded de `fonts/`,
+  `fuentes.css`, `sw.js` y `LICENCIAS.txt`; la imagen del podio ya usaba Inter); 7 tamaños de letra (12, 14, 16, 20,
+  24, 32 y 48 px; los más grandes, como la palabra de la ronda, quedan); lo elegido siempre en violeta-rosa (también
+  Individual / Grupal, Todos / Más y Sí / No, que iban en blanco); el numerito de Jugadores dice «0 de mín. 2» en gris
+  mientras falten (`textoCuenta` de `players.js`); la lista de jugadores ya no difumina la última casilla en el celular
+  (`fijarAlto` no contaba el margen de la fila). Las ayudas no nombran colores distintos a los que se ven.
+
+**Archivos:** `platforms/desktop/main.js`, `platforms/android/.../MainActivity.java`, `src/css/styles.css`,
+`src/css/fuentes.css`, `src/fonts/` (quitadas 3 letras), `src/sw.js` (v33), `src/js/audio/motor.js`,
+`src/js/compartir.js`, `src/js/screens/config/{genres,players,index}.js`, `test/gameLogic.test.js`,
+`test/e2e/pantallas.spec.mjs`, documentos.
+
+**Verificación:** lint, 177 pruebas, 54 de 54 pruebas de pantallas (Chromium de Playwright), capturas en 1366 × 768 y
+412 × 915 (inicio, configurar, géneros, ronda, ajustes, modos, pausa). `build:personal` (`.exe` y APK) y se abrió el
+`.exe` personal. No se probó en un celular real ni el zoom en un monitor grande.
+
+**Abierto:** que el usuario lo pruebe; al confirmar, pasarlo a la demo y la completa. La web (PWA) no entra sola en
+pantalla completa ni agranda (los navegadores no lo dejan sin un toque).
+
+---
+
 ## 2026-10-29 — Versión 1.28 publicada
 
 **Qué se hizo:** `npm run android:release` (versionCode 28 → 29, versionName 1.28, firma con la clave del

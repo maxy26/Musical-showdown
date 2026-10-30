@@ -186,10 +186,11 @@ function createWindow() {
     height: 800,
     minWidth: 480,
     minHeight: 640,
-    backgroundColor: "#150F22",
+    backgroundColor: "#0B0D17",
     title: "Musical Showdown",
     icon: path.join(__dirname, "build-icon.ico"),
     autoHideMenuBar: true,
+    fullscreen: true, // pantalla completa (usuario, 29-10-2026); F11 entra y sale
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -197,6 +198,17 @@ function createWindow() {
     },
   });
   ventana = win;
+  // Opción 1B «Agrandar» (usuario, 29-10-2026): todo crece en proporción a la pantalla, tomando como
+  // base una laptop de 1366 × 768 (en pantallas más chicas queda igual, como antes).
+  const ajustarZoom = () => {
+    const { width, height } = win.getContentBounds();
+    win.webContents.setZoomFactor(Math.min(2, Math.max(1, Math.min(width / 1366, height / 768))));
+  };
+  win.on("resize", ajustarZoom);
+  win.webContents.on("did-finish-load", ajustarZoom);
+  win.webContents.on("before-input-event", (e, input) => {
+    if (input.type === "keyDown" && input.key === "F11") { e.preventDefault(); win.setFullScreen(!win.isFullScreen()); }
+  });
   // Los enlaces externos (por ejemplo, "Descargar" de un aviso) se abren en el
   // navegador del sistema, no en una ventana del juego.
   win.webContents.setWindowOpenHandler(({ url }) => {

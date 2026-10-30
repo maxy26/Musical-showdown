@@ -31,6 +31,12 @@ export function countTypedPlayers(players) {
   return players.filter((p) => p.trim().length > 0).length;
 }
 
+/** Texto del numerito de "Jugadores": mientras falten, cuántos hay del mínimo (usuario, 29-10-2026). */
+export function textoCuenta(escritos, battleType) {
+  const min = minPlayerRows(battleType);
+  return escritos < min ? `${escritos} de mín. ${min}` : String(escritos);
+}
+
 /** Nombre limpio: sin espacios al inicio ni al final, ni espacios dobles. */
 export function cleanName(name) {
   return name.trim().replace(/\s+/g, " ");
@@ -61,7 +67,10 @@ export function initPlayersSection(root, c) {
   // jugadores, se avisa al confirmar (index.js), no en la pantalla.
   function refreshPlayerCount() {
     const cuenta = root.querySelector("#players-count");
-    if (cuenta) cuenta.textContent = countTypedPlayers(c.players);
+    if (!cuenta) return;
+    const escritos = countTypedPlayers(c.players);
+    cuenta.textContent = textoCuenta(escritos, c.battleType);
+    cuenta.classList.toggle("falta", escritos < minPlayerRows(c.battleType));
   }
 
   // Nombres repetidos: los campos se marcan en rojo y aparece un mensaje
@@ -135,7 +144,9 @@ export function initPlayersSection(root, c) {
     const ultima = list.children[minPlayerRows(c.battleType) - 1];
     if (!ultima) return;
     const estilo = window.getComputedStyle(list);
+    // Con el margen de la fila: sin él la lista se desplazaba unos píxeles y difuminaba la última casilla
     const alto = ultima.getBoundingClientRect().bottom - list.getBoundingClientRect().top + list.scrollTop
+      + parseFloat(window.getComputedStyle(ultima).marginBottom)
       + parseFloat(estilo.paddingBottom) + parseFloat(estilo.borderBottomWidth);
     list.style.height = `${Math.round(alto)}px`;
   }

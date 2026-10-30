@@ -13,7 +13,7 @@ import {
 } from "./presets.js";
 import { modesFor, modeName, usesRoundTime, allowsNoTime, DEFAULT_ROUND_TIME } from "./modes.js";
 import { alt2RowsHTML, bindAlt2Options } from "./alt2Options.js";
-import { countTypedPlayers, initPlayersSection, cleanName, padPlayers, fitPlayers } from "./players.js";
+import { countTypedPlayers, initPlayersSection, cleanName, padPlayers, fitPlayers, minPlayerRows, textoCuenta } from "./players.js";
 import { openValuePicker } from "./valuePicker.js";
 import { genresFieldHTML, bindGenres, fixGenresForMode } from "./genres.js";
 import { botonAyuda, conectarAyudas } from "../ayudaBotones.js";
@@ -56,7 +56,7 @@ export function screenConfig() {
     <div class="card">
       <p class="config-summary">${isGroup ? "👥 Grupal" : "👤 Individual"} · ${modeName(c.mode)}</p>
       <div class="field">
-        <label class="fila-ayuda"><span>Jugadores <span class="players-count" id="players-count">${typedCount}</span></span>${botonAyuda("jugadores")}</label>
+        <label class="fila-ayuda"><span>Jugadores <span class="players-count${typedCount < minPlayerRows(c.battleType) ? " falta" : ""}" id="players-count">${textoCuenta(typedCount, c.battleType)}</span></span>${botonAyuda("jugadores")}</label>
         <div id="players-list"></div>
         <p class="field-error" id="players-error" hidden></p>
         <button class="btn btn-secondary add-player-btn" id="add-player">${svgIcono("person_add")} Añadir jugador</button>

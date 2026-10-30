@@ -2,9 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { weightedPick } from "../src/js/utils.js";
-import { countTypedPlayers, duplicateNameIndexes, cleanName, minPlayerRows, padPlayers, fitPlayers } from "../src/js/screens/config/players.js";
+import { countTypedPlayers, textoCuenta, duplicateNameIndexes, cleanName, minPlayerRows, padPlayers, fitPlayers } from "../src/js/screens/config/players.js";
 import { formatCustomTime, isPresetTarget, isPresetTime } from "../src/js/screens/config/presets.js";
 import { clampStep, wheelValues, snapIndex } from "../src/js/screens/config/valuePicker.js";
+
+test("textoCuenta muestra el mínimo mientras falten jugadores", () => {
+  assert.equal(textoCuenta(0, "individual"), "0 de mín. 2");
+  assert.equal(textoCuenta(2, "individual"), "2");
+  assert.equal(textoCuenta(3, "grupal"), "3 de mín. 4");
+  assert.equal(textoCuenta(5, "grupal"), "5");
+});
 
 test("countTypedPlayers ignora espacios en blanco y campos vacíos", () => {
   assert.equal(countTypedPlayers(["", "  ", "Ana", "Beto", ""]), 2);

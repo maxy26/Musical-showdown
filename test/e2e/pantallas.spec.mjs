@@ -36,13 +36,13 @@ test("Lista de jugadores: con muchos jugadores se desplaza por dentro", async ({
   await expect(ultimo).toBeFocused();
   await expect(ultimo).toBeInViewport();
   await ultimo.fill("Luis");
-  await expect(page.locator("#players-count")).toHaveText("1");
+  await expect(page.locator("#players-count")).toHaveText("1 de mín. 2");
 
   // La ✕ (gris, estilo «Escenario nocturno») borra la fila
   const equis = page.locator("#players-list .remove-btn").last();
   await equis.click();
   await expect(page.locator("#players-list .player-row")).toHaveCount(11);
-  await expect(page.locator("#players-count")).toHaveText("0");
+  await expect(page.locator("#players-count")).toHaveText("0 de mín. 2");
 });
 
 test("Nombres repetidos: no deja confirmar", async ({ page }) => {
