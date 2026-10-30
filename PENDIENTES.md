@@ -306,10 +306,9 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.30** (30-10-2026: botón de Alternativo 2 en una línea; ver AUDITORIA-CAMBIOS.md).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.31** (30-10-2026: pantalla completa en la web; ver AUDITORIA-CAMBIOS.md).
 
-- Pantalla completa en la web (30-10-2026): al primer toque, «Pantalla completa: Sí / No» en Ajustes y la web agregada a
-  la pantalla de inicio sin barras.
+(Nada por ahora.)
 
 ## 🎵 Canciones y letras (antes de publicar)
 

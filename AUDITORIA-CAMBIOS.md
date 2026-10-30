@@ -12,6 +12,24 @@
 
 ---
 
+## 2026-10-30 — Versión 1.31 publicada
+
+**Qué se hizo:** `npm run android:release` (versionCode 31 → 32, versionName 1.31, firma con la clave del proyecto,
+SHA-256 `e0e0a02f…d5d730`, la misma de siempre). Cambio para los jugadores desde la 1.30: la web entra en pantalla
+completa al primer toque, tiene «Pantalla completa: Sí / No» en Ajustes y, agregada a la pantalla de inicio, se abre sin
+barras. Además, desde ahora «publica» también saca una versión nueva (usuario, 30-10-2026; instrucción 34).
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md`,
+`INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (instrucciones 28 y 34), `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 32 y versionName 1.31 (`dist/MusicalShowdown-v1.31.apk` y `.aab`). Se
+recompiló el `.exe` (`dist/windows`). GitHub Actions había pasado en `main` con el mismo código (`3db41c8`). La Release
+la arma GitHub Actions al subir la etiqueta `v1.31`.
+
+**Abierto:** probar la pantalla completa de la web en un celular real.
+
+---
+
 ## 2026-10-30 — Pantalla completa en la web confirmada y subida a `main` (sin versión nueva)
 
 **Qué se hizo («está bien, déjalo así. Actualiza y publica»):** se compilaron la completa y la demo y se subió a `main`

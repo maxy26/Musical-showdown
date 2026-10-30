@@ -150,7 +150,8 @@
     para la próxima versión" en `PENDIENTES.md`) mientras se sigue con los
     pendientes, y se publica cuando hay una actualización buena y notable.
     Ayudar al usuario a detectarlo: avisar si algo es chico para publicarlo
-    solo, y proponer publicar cuando lo acumulado valga la pena.
+    solo, y proponer publicar cuando lo acumulado valga la pena. Si el usuario dice
+    «publica», se saca la versión igual (instrucción 34).
 
 ## Música de terceros y YouTube (12-10-2026)
 
@@ -201,7 +202,12 @@
 
 34. **"Actualiza y publica"** (27-10-2026) significa: actualizar **todos** los `.md`
     que correspondan y subir el proyecto completo a GitHub (`main`) en su última
-    versión. Una versión nueva del juego (etiqueta `v*`) sigue la instrucción 28.
+    versión. Desde el 30-10-2026 (usuario: «de ahora en adelante cuando te diga que
+    publiques, harás esto»), **publicar** también saca una versión nueva: `npm run
+    android:release` (APK y `.aab` firmados), `.exe` recompilado, `.md` con la versión,
+    commit, etiqueta `v*` (solo después de comprobar el commit) y esperar la Release de
+    GitHub Actions; al final, abrir el `.exe` final. La instrucción 28 sigue valiendo para
+    *proponer* cuándo publicar, pero si el usuario dice «publica», se saca la versión.
 
 ## Cuando falte información
 
