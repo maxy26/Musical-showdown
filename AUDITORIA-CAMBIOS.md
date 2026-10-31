@@ -12,6 +12,89 @@
 
 ---
 
+## 2026-10-31 — Versión 1.32 publicada
+
+**Qué se hizo («actualiza y publica»):** `npm run android:release` (versionCode 32 → 33, versionName 1.32, firma con la
+clave del proyecto, SHA-256 `e0e0a02f…d5d730`, la misma de siempre) y `.exe` recompilado. Cambios para los jugadores
+desde la 1.31: logo nuevo (nota con ecualizador y dos micrófonos que cantan, neón con el degradado de «Showdown», a
+sangre y sin aro, con capa para los íconos temáticos de Android) y la pantalla de carga con los micrófonos y la nota del
+logo animados.
+
+**Archivos:** `platforms/android/android/app/build.gradle` (versión), `ESTADO.md`, `PENDIENTES.md` (se vació «Listo para
+la próxima versión»), `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** `aapt` confirma versionCode 33 y versionName 1.32 (`dist/MusicalShowdown-v1.32.apk` y `.aab`). Se
+recompiló el `.exe` (`dist/windows`). La Release la arma GitHub Actions al subir la etiqueta `v1.32`.
+
+**Abierto:** comprobar que la Release v1.32 quede publicada con sus 3 archivos.
+
+---
+
+## 2026-10-31 — Logo nuevo y pantalla de carga confirmados, en las tres apps (sin versión nueva)
+
+**Qué se hizo («está bien, déjalo así»):** el usuario confirmó el logo nuevo y la pantalla de carga que se probaban en
+la personal. Como son modificación general (instrucción 31), ya se aplican a las tres apps (comparten los mismos archivos)
+y se compilaron la completa, la demo y el APK normales. Quedan en «Listo para la próxima versión» de `PENDIENTES.md`
+(instrucción 28): no se subió a GitHub ni se sacó versión.
+
+**Archivos:** `PENDIENTES.md`, `ESTADO.md`, `CONTEXTO-MUSICAL-SHOWDOWN.md`, `AUDITORIA-CAMBIOS.md` (más lo de las dos
+entradas de abajo).
+
+**Verificación:** `build:desktop`, `build:demo-windows` y `build:apk` terminaron bien (`dist/windows`,
+`dist/windows-demo`, `dist/android`). Se abrió el `.exe` de la completa.
+
+**Abierto:** subirlo a `main` y publicarlo cuando el usuario lo pida.
+
+---
+
+## 2026-10-31 — Pantalla de carga con los micrófonos y la nota del logo (en prueba solo en la personal)
+
+**Qué se hizo:** el usuario pidió que parte del logo (los micrófonos y la nota) salga animada en la pantalla de carga. Se
+le mostraron 6 animaciones en una página local (Brave) y eligió la **C · La nota flota**: los micrófonos aparecen y
+sueltan ondas, la nota sube desde abajo y se queda flotando y meciéndose, y los brillitos titilan. Reemplaza al
+micrófono dentro del círculo; el título y el ecualizador no cambian. Modificación general: solo la personal.
+
+**Archivos:** `src/index.html` (el `.loader-mic` pasa a ser un SVG `.loader-logo` con las piezas del logo, clases
+`lg-*`, filtro y degradados propios), `src/css/styles.css` (bloque de la pantalla de carga: reglas `.loader-logo` /
+`.lg-*` y animaciones `carga-crece`, `carga-sube`, `carga-flota`, `carga-onda`, `carga-titila`; se quitó la regla vieja
+`.loader-mic`), `PENDIENTES.md`, `ESTADO.md`, `AUDITORIA-CAMBIOS.md`.
+
+**Verificación:** captura sin ventana en tamaño celular y PC; `npm test` (177 de 177) y `npm run lint` sin errores;
+`npm run build:personal` bien (hubo que cerrar el `.exe` personal que estaba abierto). Se abrió el `.exe` personal.
+No se corrieron las pruebas de pantallas (el Edge de esta PC no abre, ver `PENDIENTES.md`).
+
+**Abierto:** que el usuario lo pruebe y lo confirme junto con el logo nuevo.
+
+---
+
+## 2026-10-31 — Logo nuevo, a sangre (en prueba solo en la personal)
+
+**Qué se hizo:** el usuario pidió un logo nuevo acorde al estilo «Escenario nocturno». Se le mostraron 16 tandas de
+propuestas en páginas locales (fuera del juego) y eligió: la nota con ecualizador del logo anterior con dos micrófonos
+que cantan, en neón con vidrio, **un solo degradado violeta → rosa** como la palabra «Showdown» del inicio (Inter 800,
+−0,04 em, sombra violeta), **brillo suave** y «MS» chiquito abajo. Para arreglar el relleno blanco que algunos celulares
+ponían alrededor del ícono redondo (esquinas transparentes), eligió la versión **a sangre, sin aro**: el fondo llena
+todo y el dibujo queda en la zona segura, así cualquier forma recorta solo fondo. Modificación general (instrucción 31):
+se compiló solo la personal.
+
+**Archivos:** Android `res/mipmap-*/ic_launcher{,_round,_foreground}.png`, nuevos `ic_launcher_background.png` e
+`ic_launcher_monochrome.png` (íconos temáticos de Android 13+), `mipmap-anydpi-v26/ic_launcher{,_round}.xml` (fondo de
+imagen y capa monocromática), las 11 `splash.png`; `platforms/android/capacitor.config.ts` (fondo `#141833` →
+`#0B0D17`, el de la pantalla de carga); `src/icons/icon-192.png` e `icon-512.png`; `docs/icono.png`;
+`platforms/desktop/build-icon.ico` (16 a 256 px) y `platforms/desktop/build/appx/*.png`; `platforms/desktop/package.json`
+(`appx.backgroundColor` → `#0B0D17`); `src/js/compartir.js` (el logo del podio se recorta con esquinas redondeadas);
+nuevo `tiendas/logo/` (originales SVG); `INSTRUCCIONES-MUSICAL-SHOWDOWN.md` (instrucción 16), `CONTEXTO-MUSICAL-SHOWDOWN.md`,
+`ESTADO.md`, `PENDIENTES.md`, `TIENDAS.md`.
+
+**Verificación:** las imágenes se dibujaron desde el vector con Brave sin ventana y se revisaron en una hoja de control.
+`npm test` (177 de 177) y `npm run lint` sin errores. `npm run build:personal` terminó bien; `aapt2` confirma en el APK
+`mipmap/ic_launcher_background` y `mipmap/ic_launcher_monochrome`. Se abrió el `.exe` personal.
+
+**Abierto:** que el usuario lo pruebe (APK personal en el celular con distintas formas de ícono, `.exe` en la barra de
+tareas); al confirmar, compilar las normales y pasarlo a «Listo para la próxima versión» (`PENDIENTES.md`).
+
+---
+
 ## 2026-10-30 — Versión 1.31 publicada
 
 **Qué se hizo:** `npm run android:release` (versionCode 31 → 32, versionName 1.31, firma con la clave del proyecto,

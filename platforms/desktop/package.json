@@ -30,7 +30,7 @@
     "appx": {
       "applicationId": "MusicalShowdown",
       "displayName": "Musical Showdown",
-      "backgroundColor": "#141833",
+      "backgroundColor": "#0B0D17",
       "languages": ["es-ES", "es-MX", "es-419"],
       "capabilities": ["runFullTrust", "internetClient", "privateNetworkClientServer", "microphone"],
       "artifactName": "Musical Showdown.appx"

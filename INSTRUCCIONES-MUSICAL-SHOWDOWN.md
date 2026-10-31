@@ -84,9 +84,15 @@
     el título web, la pantalla de carga, el menú, la ventana de
     Windows y el nombre de la app en Android — en las tres
     plataformas por igual.
-16. El ícono es el de la nota musical con ecualizador, **recortado en
-    forma circular** (sin el texto del logo original) — así se usa en
-    todos los tamaños/plataformas.
+16. El ícono (usuario, 31-10-2026; reemplaza al círculo del 04-10-2026) es la
+    nota musical con ecualizador y **dos micrófonos que cantan**, en neón con
+    vidrio y brillo suave; los micrófonos y la nota llevan **un solo degradado
+    violeta → rosa como la palabra «Showdown»** del inicio, y abajo va «MS»
+    chiquito con la misma letra. Va **a sangre, sin aro**: el fondo (luces y
+    ecualizador) llena todo el ícono y el dibujo queda en la zona segura del
+    centro, para que cualquier forma del celular (círculo, squircle, gota…)
+    recorte solo fondo y nunca aparezca relleno blanco. No volver a un ícono
+    redondo con esquinas transparentes. Originales en `tiendas/logo/`.
 17. El botón de ayuda (❓) va redondo, a la derecha del botón de
     volver/pausa correspondiente (ver contexto, sección 3 → "Pausa / Ayuda /
     Salir"). A su derecha va el botón 🔊/🔇 (configuración, grupos y ronda),

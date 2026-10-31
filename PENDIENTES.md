@@ -158,6 +158,21 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
   que el usuario lo pruebe.
 - Mientras dure el rediseño, el inicio tiene el fondo nuevo y las demás pantallas las luces
   de antes: el cambio se nota al pasar de una pantalla a otra. Se resuelve al terminar.
+- [x] **Logo nuevo (usuario, 31-10-2026), modificación general: confirmado el 31-10-2026 («está bien, déjalo así») y
+  compilado en las tres apps; publicado en la versión 1.32.**
+  Nota con ecualizador y dos micrófonos que cantan, neón con vidrio y brillo suave, un solo
+  degradado violeta → rosa como «Showdown» y «MS» chiquito; **a sangre, sin aro** (arregla el
+  relleno blanco que ponían algunos celulares alrededor del ícono redondo). Elegido entre 16
+  tandas de propuestas. Cambiados: íconos de Android (capas de fondo y dibujo + capa
+  monocromática nueva para los íconos temáticos de Android 13+), `ic_launcher` viejos, las 11
+  `splash.png`, `src/icons/icon-192/512.png`, `docs/icono.png`, `build-icon.ico` y los 6 de la
+  Microsoft Store (`platforms/desktop/build/appx/`).
+- [x] **Pantalla de carga con el logo (usuario, 31-10-2026, opción C de 6): confirmada el 31-10-2026 junto con el logo.**
+  Los micrófonos y la nota del logo nuevo reemplazan al micrófono del círculo: los micrófonos
+  aparecen y sueltan ondas, la nota sube desde abajo y se queda flotando y meciéndose, los
+  brillitos titilan. El título y el ecualizador siguen igual.
+- [ ] 🟢 Si se vuelve a tocar el logo: los originales están en `tiendas/logo/` (`logo.svg` y las
+  tres capas de Android). La «MS» usa la fuente Inter por nombre: abrirlos con Inter instalada.
 
 ## 🔒 Privacidad y parte legal (usuario, 27-10-2026) 🟡
 
@@ -306,7 +321,7 @@ cambio, se aplica a las tres apps y se pasa a la siguiente.
 ## 📦 Listo para la próxima versión (sin publicar)
 
 > Cambios terminados que se juntan para sacar una actualización notable
-> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.31** (30-10-2026: pantalla completa en la web; ver AUDITORIA-CAMBIOS.md).
+> (instrucción 28). Al publicar, vaciar esta lista. Última versión: **1.32** (31-10-2026: logo nuevo y pantalla de carga con el logo; ver AUDITORIA-CAMBIOS.md).
 
 (Nada por ahora.)
 

@@ -77,7 +77,10 @@ export async function imagenDelPodio({ scores, winner, mvpDe = () => [], tema = 
   ctx.fillStyle = "#0B0D17"; ctx.fillRect(0, 0, W, H);
   brillo(230, 260, 620, T.luces[0] + "8C"); brillo(880, 330, 560, T.luces[1] + "6B"); brillo(620, 1180, 620, T.luces[2] + "52");
   const fino = N.tenue;
+  // el ícono es cuadrado a sangre: se recorta con esquinas redondeadas, como en el celular
+  ctx.save(); ctx.beginPath(); ctx.roundRect(W / 2 - 60, 56, 120, 120, 27); ctx.clip();
   try { ctx.drawImage(await cargarImagen("icons/icon-192.png"), W / 2 - 60, 56, 120, 120); } catch { /* sin logo */ }
+  ctx.restore();
   // "Musical" en blanco y "Showdown" en degradado
   ctx.font = "900 62px Inter"; ctx.textBaseline = "alphabetic";
   const a = ctx.measureText("Musical ").width, b = ctx.measureText("Showdown").width, x0 = W / 2 - (a + b) / 2;

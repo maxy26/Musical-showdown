@@ -8,7 +8,7 @@
 
 Juego de fiesta: sale una palabra y gana quien cante primero una canción que
 la tenga. Se publica como `.exe` de Windows, APK de Android y `.AppImage` de
-Linux en GitHub. **Última versión publicada: 1.31** (30-10-2026: pantalla completa en la web; la 1.30 puso en una línea el botón de Alternativo 2; la 1.29 trajo la parte 2 de «Escenario nocturno»: pantalla completa, géneros en mosaico, volumen más suave y estilo unificado). Se está
+Linux en GitHub. **Última versión publicada: 1.32** (31-10-2026: logo nuevo a sangre y pantalla de carga con el logo animado; la 1.31, pantalla completa en la web; la 1.30 puso en una línea el botón de Alternativo 2; la 1.29 trajo la parte 2 de «Escenario nocturno»: pantalla completa, géneros en mosaico, volumen más suave y estilo unificado). Se está
 preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 
 ## Qué está hecho
@@ -40,6 +40,10 @@ preparando su llegada a las tiendas con un modelo **gratis + Premium**.
 **Escenario nocturno, parte 2 (29-10-2026, versión 1.29)**
 - Pantalla completa en el `.exe` (F11) con todo agrandado según la pantalla, y Android sin barras del sistema. La web entra al primer toque y tiene «Pantalla completa» en Ajustes (30-10-2026, versión 1.31).
 - Géneros en mosaico; volumen más suave; una sola paleta, solo la letra Inter, 7 tamaños de letra y lo elegido siempre en violeta-rosa.
+
+**Logo nuevo (31-10-2026, versión 1.32)**
+- Nota con ecualizador y dos micrófonos que cantan, en neón con vidrio y brillo suave, con el degradado de «Showdown» y «MS» chiquito. A sangre, sin aro: ya no sale el relleno blanco alrededor del ícono en ningún celular. Incluye capa monocromática para los íconos temáticos de Android. Originales en `tiendas/logo/`.
+- La pantalla de carga muestra los micrófonos y la nota del logo: aparecen, sueltan ondas y la nota sube y se queda flotando (en lugar del micrófono en un círculo).
 
 **Íconos (25-10-2026)**
 - Íconos de Material Design (Google, Apache 2.0) en lugar de los emojis, en las tres apps: `iconosEmoji.js` los cambia al dibujar; la imagen del podio los dibuja con `dibujarIcono`.
@@ -183,4 +187,4 @@ usuario antes de publicar.
 
 ## Sin subir a GitHub
 
-Nada: todo está en GitHub (versión 1.31). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.
+Nada: todo está en GitHub (versión 1.32). La demo, Premium y los anuncios están en el código, pero todavía no en las tiendas.

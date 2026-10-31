@@ -127,7 +127,7 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
 .segmented button.active{background:var(--a-grad);color:#fff;}
 
 /* ---------- Pantalla de carga, estilo "Escenario nocturno" (opción C3 «Ondas y enfoque», usuario 29-10-2026): el fondo y el
-   título del inicio, el micrófono en un círculo de color que suelta ondas, el título pasa de borroso a nítido y lo cruza un
+   título del inicio, los micrófonos y la nota del logo (desde el 31-10-2026; antes, un micrófono en un círculo), el título pasa de borroso a nítido y lo cruza un
    brillo, y un ecualizador debajo. La bienvenida dura ~1,4 s (main.js espera al menos 1,5 s) ---------- */
 #loader{position:fixed;inset:0;z-index:9999;background:#0B0D17;overflow:hidden;
   display:flex;align-items:center;justify-content:center;transition:opacity .5s ease;}
@@ -140,16 +140,22 @@ input:focus,select:focus{outline:2px solid var(--pink);outline-offset:1px;}
     radial-gradient(24% 28% at 18% 80%,rgba(255,95,162,.26),transparent 70%);
   filter:blur(24px);animation:fondo-flota 12s ease-in-out infinite alternate, fondo-tono 16s linear infinite;}
 .loader-inner{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;}
-/* Micrófono en un círculo de color que aparece y suelta ondas de sonido */
-html #loader .loader-mic{position:relative;width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:0;color:#fff;
-  background:linear-gradient(135deg,#8B6CFF,#FF5FA2);box-shadow:0 0 0 8px rgba(139,108,255,.14),0 0 50px rgba(255,95,162,.5);
-  animation:carga-aparece .6s cubic-bezier(.3,1.5,.5,1) both;}
-html #loader .loader-mic svg{width:48px;height:48px;}
-#loader .loader-mic::before,#loader .loader-mic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #FF5FA2;
-  opacity:0;animation:carga-onda 1.8s ease-out .3s infinite;}
-#loader .loader-mic::after{border-color:#8B6CFF;animation-delay:1.2s;}
-@keyframes carga-aparece{from{transform:scale(0);}to{transform:none;}}
-@keyframes carga-onda{0%{transform:scale(1);opacity:.8;}100%{transform:scale(2.6);opacity:0;}}
+/* Los micrófonos y la nota del logo, en neón (usuario, 31-10-2026, opción C): los micrófonos aparecen, sueltan ondas,
+   y la nota sube desde abajo y se queda flotando y meciéndose */
+html #loader .loader-logo{width:236px;height:auto;overflow:visible;}
+#loader .lg-p{transform-box:fill-box;transform-origin:center;}
+#loader .lg-micL,#loader .lg-micR{transform-origin:center bottom;animation:carga-crece .5s ease-out both;}
+#loader .lg-micR{animation-delay:.1s;}
+#loader .lg-nota{animation:carga-sube .8s cubic-bezier(.2,1.2,.4,1) .3s both,carga-flota 2.4s ease-in-out 1.1s infinite alternate;}
+#loader .lg-ondaL,#loader .lg-ondaR{animation:carga-onda 1.6s ease-out .6s infinite both;}
+#loader .lg-ondaL{transform-origin:right center;}
+#loader .lg-ondaR{transform-origin:left center;animation-delay:1.4s;}
+#loader .lg-est{animation:carga-titila 1.8s ease-in-out 1.2s infinite;}
+@keyframes carga-crece{from{transform:scale(.6);opacity:0;}to{transform:none;opacity:1;}}
+@keyframes carga-sube{from{transform:translateY(90px);opacity:0;}to{transform:none;opacity:1;}}
+@keyframes carga-flota{0%{transform:translateY(0) rotate(0);}50%{transform:translateY(-10px) rotate(-4deg);}100%{transform:translateY(-2px) rotate(4deg);}}
+@keyframes carga-onda{0%{opacity:0;transform:scale(.7);}30%{opacity:1;}100%{opacity:0;transform:scale(1.3);}}
+@keyframes carga-titila{0%,100%{opacity:1;}50%{opacity:.35;}}
 /* Título como el del inicio: «Musical» en blanco y «Showdown» en degradado; pasa de borroso a nítido y lo cruza un brillo */
 html #loader .loader-title{font-family:'Inter',sans-serif;font-weight:800;letter-spacing:-.04em;line-height:.95;margin-top:22px;color:#F4F4F8;
   display:flex;flex-direction:column;align-items:center;animation:carga-enfoca .9s ease-out .35s both;}
@@ -178,8 +184,7 @@ html #loader .loader-title{font-family:'Inter',sans-serif;font-weight:800;letter
   100%{background-size:9px 30%,9px 70%,9px 45%,9px 90%,9px 40%,9px 60%,9px 95%;}}
 /* PC: más grande, como el título del inicio */
 @media (min-width:900px){
-  html #loader .loader-mic{width:120px;height:120px;}
-  html #loader .loader-mic svg{width:60px;height:60px;}
+  html #loader .loader-logo{width:300px;}
   #loader .loader-title span:first-child{font-size:72px;}
   #loader .loader-title span:last-child{font-size:88px;}
   #loader .loader-bar{transform:scale(1.35);margin-top:44px;}
@@ -1168,7 +1173,6 @@ html .premium .premium-legal{margin:0;text-align:center;}
 .mi-plata{color:#C9D1E6;}
 .mi-bronce{color:#E39A5B;}
 .btn .mi,.icon-btn .mi,.chip .mi,.toast .mi{color:inherit;}
-.loader-mic{color:var(--gold);}
 
 /* ---------- Diseño más profesional (usuario, 26-10-2026; las tres apps) ----------
    Propuestas aceptadas:

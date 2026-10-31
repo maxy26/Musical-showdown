@@ -4,14 +4,14 @@ const config: CapacitorConfig = {
   appId: 'com.musicalshowdown.app',
   appName: 'Musical Showdown',
   webDir: 'www',
-  backgroundColor: '#141833',
+  backgroundColor: '#0B0D17',
   // Origen propio (en vez de "localhost"): la app no hereda el service worker
   // ni la caché de versiones anteriores, aunque Android las restaure (04-10-2026).
   server: {
     hostname: 'musicalshowdown.app',
   },
   android: {
-    backgroundColor: '#141833',
+    backgroundColor: '#0B0D17',
     // Usar como control (12-10-2026): la app (https://musicalshowdown.app) se conecta
     // a la PC por ws:// dentro de la red Wi-Fi; sin esto Android lo bloquea.
     allowMixedContent: true,

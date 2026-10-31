@@ -299,7 +299,21 @@
 - El número de cada jugador es su orden dentro de la tarjeta de su grupo;
   el de cada grupo, el orden de las tarjetas.
 
-### Logo (04-10-2026)
+### Logo nuevo (31-10-2026, confirmado por el usuario)
+- Reemplaza al "3D premium". Después de 16 tandas de propuestas (fuera del juego) el
+  usuario eligió: la nota con ecualizador del logo anterior, con **dos micrófonos que
+  cantan** a los lados (ondas en la cabeza), en **neón con vidrio** sobre luces de
+  colores y **brillo suave**. Los micrófonos y la nota llevan **un solo degradado
+  violeta → rosa** que cruza el logo como cruza la palabra «Showdown» del inicio
+  (Inter 800, −0,04 em, sombra violeta), y «MS» va chiquito abajo con esa misma letra.
+- **A sangre, sin aro:** el fondo llena todo el ícono y el dibujo queda en la zona
+  segura del centro, así cualquier forma del celular recorta solo fondo (antes el
+  ícono redondo con esquinas transparentes quedaba con relleno blanco en algunos
+  celulares). Android: capas `ic_launcher_background` / `ic_launcher_foreground` /
+  `ic_launcher_monochrome` (íconos temáticos) en `mipmap-*`; pantallas de carga y
+  fondo de Capacitor en `#0B0D17`. Originales en `tiendas/logo/`.
+
+### Logo (04-10-2026, reemplazado el 31-10-2026)
 - El usuario eligió **"3D premium"**: el logo de siempre (círculo con degradado
   azul-violeta → rosa, ecualizador de cuadritos rosa y turquesa, nota doble rosa
   con rayas turquesa) mejorado con volumen, reflejo, destellos y borde

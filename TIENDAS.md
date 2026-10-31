@@ -20,7 +20,7 @@
 | Público objetivo | Adolescentes y adultos (no dirigido a menores de 13 años; usuario, 27-10-2026) |
 | Precio | Gratis. Android: suscripción opcional **Premium** (Alternativo 2, escuchar el canto, devolver relevos en los equipos y sin anuncios) y, cuando estén activos, anuncios no personalizados (AdMob) solo en la versión gratis. La demo de PC es gratis, sin compras ni anuncios |
 | Idioma | Español |
-| Ícono | `src/icons/icon-512.png` (512 × 512) |
+| Ícono | `src/icons/icon-512.png` (512 × 512, a sangre y sin transparencia: la tienda le aplica su forma; original en `tiendas/logo/logo.svg`) |
 | Imágenes | `tiendas/imagenes/` (ver "Imágenes") |
 
 ## Descripción corta (hasta 80 caracteres)
