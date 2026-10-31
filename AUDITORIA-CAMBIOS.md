@@ -26,7 +26,10 @@ la próxima versión»), `AUDITORIA-CAMBIOS.md`.
 **Verificación:** `aapt` confirma versionCode 33 y versionName 1.32 (`dist/MusicalShowdown-v1.32.apk` y `.aab`). Se
 recompiló el `.exe` (`dist/windows`). La Release la arma GitHub Actions al subir la etiqueta `v1.32`.
 
-**Abierto:** comprobar que la Release v1.32 quede publicada con sus 3 archivos.
+**Resultado:** GitHub Actions «Compilar v1.32» terminó bien y la Release v1.32 quedó publicada con
+`Musical-Showdown.apk`, `Musical-Showdown.AppImage` y `Musical.Showdown.exe`. Se abrió el `.exe` final.
+
+**Abierto:** nada de esta versión.
 
 ---
 
